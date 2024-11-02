@@ -1,0 +1,36 @@
+name: CI Workflow
+
+# Configuración para que el workflow se ejecute en cada pull request hacia cualquier rama
+on:
+  pull_request:     # Se ejecuta para cualquier pull request en cualquier rama
+
+jobs:
+  build:
+    name: Compile, Format Check, and Code Analysis
+    runs-on: ubuntu-latest  # Usamos una máquina virtual con Ubuntu
+
+    steps:
+    # 1. Clonar el repositorio
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    # 2. Instalar dependencias necesarias para clang-format, cppcheck, make y el compilador cruzado (gcc-arm-none-eabi)
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format cppcheck make gcc-arm-none-eabi
+
+    # 3. Verificar el formato del código con clang-format
+    - name: Run clang-format
+      run: |
+        find . -name '*.c' -o -name '*.h' | xargs clang-format --dry-run --Werror
+
+    # 4. Ejecutar análisis estático del código con cppcheck
+    - name: Run cppcheck
+      run: |
+        cppcheck --enable=all --inconclusive --error-exitcode=1 .
+
+    # 5. Compilar el proyecto utilizando Makefile
+    - name: Build the project
+      run: |
+        make all
