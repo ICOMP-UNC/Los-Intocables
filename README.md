@@ -33,6 +33,7 @@ Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la 
 |                               | Implementación de función de configuración de timer                                         | Santi-Madrid        | 1 día      | 05/11/2024      | 06/11/2024    |
 |                               | Implementación de función de Systick y función de interrupción del timer                    | Santi-Madrid        | 1 día      | 06/11/2024      | 07/11/2024    |
 |                               | Implementación de función de configuración de DMA                                           | CGR-X               | 1 día      | 05/11/2024      | 06/11/2024    |
+|                               | Implementación de función de configuración de PWM                                           | CGR-X               | 1 día      | 06/11/2024      | 07/11/2024    |
 |                               | Implementación de función de interrupción del Systick                                        | CGR-X               | 1 día      | 06/11/2024      | 07/11/2024    |
 | **Fase 4: Integración y pruebas** | Pruebas unitarias y de integración de todos los módulos                                   | Equipo completo     | 3 días     | 09/11/2024      | 12/11/2024    |
 | **Fase 5: Entrega**          | Documentación final del proyecto y presentación                                              | Equipo completo     | 1 día      | 13/11/2024      | 13/11/2024    |
@@ -41,4 +42,4 @@ Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la 
 - **Integrante 2 (Marian1911):** Diseño de diagrama de flujo, implementación de función de configuración del DAC y función de configuración de GPIO.
 - **Integrante 3 (LisandroTesta1):** Implementación de función de configuración del módulo ADC y función de configuración de UART.
 - **Integrante 4 (Santi-Madrid):** Implementación de función de configuración de timer, Systick y función de interrupción del timer.
-- **Integrante 1 (CGR-X):** Implementación de función de configuración de DMA y función de interrupción del Systick.
+- **Integrante 1 (CGR-X):** Implementación de función de configuración de DMA, función de interrupción del Systick y funcion de configuracion de PWM.
