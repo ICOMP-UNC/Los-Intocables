@@ -31,7 +31,7 @@
 #define VALOR_PRESCALER     100                     // Valor de prescaler - 100 uS
 #define MATCH0_TIM0         10000                   // Valor del match0 - 10000 - 1S
 #define VAL_SYSTICK         100                     // Valor del systick - 100 mS
-#define VAL_TIEMPO_DAC      10                      // Valor del tiempo de salida del DAC - 10mS
+#define VAL_TIEMPO_DAC      250000                  // Valor del tiempo de salida del DAC - 10mS
 
 // Estados posibles:
 #define ON                  1
