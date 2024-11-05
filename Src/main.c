@@ -26,6 +26,7 @@
 #define PIN_LED_UART        ((uint32_t)(1<<6))      // P0.06 Pin led UART
 #define PIN_BOTON_PUERTA    ((uint32_t)(1<<13))     // P2.13 Pin puerta
 #define PIN_SALIDA_UART     ((uint32_t)(1<<2))      // P0.02 Pin salida UART
+#define PIN_DIR_MPAP        ((uint32_t)(1<<7))      // P0.07 Pin control de direccion motor paso a paso
 
 // Definiciones de tiempos:
 #define VALOR_PRESCALER     100                     // Valor de prescaler - 100 uS
