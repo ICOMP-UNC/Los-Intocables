@@ -37,6 +37,8 @@
 // Estados posibles:
 #define ON                  1
 #define OFF                 0
+#define ABRIR               1
+#define CERRAR              0
 
 // Definiciones de frecuencia:
 #define FREQ_ADC            100000                  // Frecuencia ADC - 100 kHz
@@ -47,8 +49,7 @@ uint8_t Datos[4];                                   // Buffer de datos - Estado 
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
-void OpenDoor(void);
-void CloseDoor(void);
+void DriverDoor(uint8_t opcion);
 void LedRed(uint8_t estado);
 void LedGreen(uint8_t estado);
 void BlinkLed(void);
