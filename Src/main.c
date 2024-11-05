@@ -37,9 +37,22 @@
 // Estados posibles:
 #define ON                  1
 #define OFF                 0
+#define ENABLE              1
+#define DISABLE             0
+#define OPEN                1
+#define CLOSE               0
+
+// Tipos de flanco
+#define FALLING_EDGE        1   
+#define RISING_EDGE         0
+
+// Tipos de salida          
+#define OUTPUT              1
+#define INPUT               0
 
 // Definiciones de frecuencia:
 #define FREQ_ADC            100000                  // Frecuencia ADC - 100 kHz
+#define FREQ_DAC            25000000                // Frecuencia por defecto del DAC 25MHz
 #define UART_BAUDIOS        9600                    // Baudios UART - 9600 bps
 
 // Variables globales:
@@ -47,8 +60,7 @@ uint8_t Datos[4];                                   // Buffer de datos - Estado 
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
-void OpenDoor(void);
-void CloseDoor(void);
+void DriverDoor(uint8_t estado);
 void LedRed(uint8_t estado);
 void LedGreen(uint8_t estado);
 void BlinkLed(void);
@@ -63,6 +75,142 @@ void Config_DAC(void);
 void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
+void Config_NVIC(void);
+
+
+
+void ToggleStatusDoor(){    // Alternamos el estado de la puerta
+
+    if(Data[0]==OPEN){
+        Data[0]=CLOSE;
+    }
+    else{
+        Data[0]=OPEN;
+    }
+}
+
+void DriverDoor(uint8_t estado){
+//implementar el pwm
+
+}
+
+void LedRed(uint8_t estado){
+    // Maneja el estado del led rojo
+    GPIO_SetValue(PINSEL_PORT_0,PINSEL_PIN_5, estado);
+}
+
+void LedGreen(uint8_t estado){
+    // Maneja el estado del led verde
+    GPIO_SetValue(PINSEL_PORT_0,PINSEL_PIN_4, estado);
+}
+
+void Config_GPIO(){
+
+    PINSEL_CFG_Type cfg_pin;
+
+    //Configuracion led verde
+    cfg_pin.Portnum=PINSEL_PORT_0;
+    cfg_pin.Pinnum=PINSEL_PIN_4;
+    cfg_pin.Funcnum=PINSEL_FUNC_0;
+    cfg_pin.Pinmode=PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain=PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    //Configuracion led rojo
+    cfg_pin.Portnum=PINSEL_PORT_0;
+    cfg_pin.Pinnum=PINSEL_PIN_5;
+    cfg_pin.Funcnum=PINSEL_FUNC_0;
+    cfg_pin.Pinmode=PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain=PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    //Configuracion led transmision UART0
+    cfg_pin.Portnum=PINSEL_PORT_0;
+    cfg_pin.Pinnum=PINSEL_PIN_6;
+    cfg_pin.Funcnum=PINSEL_FUNC_0;
+    cfg_pin.Pinmode=PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain=PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    //Configuracion pin de direccion del motor paso a paso abrir/cerrar
+    cfg_pin.Portnum=PINSEL_PORT_0;
+    cfg_pin.Pinnum=PINSEL_PIN_7;
+    cfg_pin.Funcnum=PINSEL_FUNC_0;
+    cfg_pin.Pinmode=PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain=PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Seteamos los pines como salida
+    GPIO_SetDir(PINSEL_PORT_O,PIN_LED_VERDE | PIN_LED_ROJO | PIN_LED_UART | PIN_DIR_MPAP, OUTPUT);
+
+    //Configuracion del boton para la puerta
+    cfg_pin.Portnum=PINSEL_PORT_2;
+    cfg_pin.Pinnum=PINSEL_PIN_13;
+    cfg_pin.Funcnum=PINSEL_FUNC_0;
+    cfg_pin.Pinmode=PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain=PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    //Seteamos el pin como entarda
+    GPIO_SetDir(PINSEL_PORT_O,PIN_BOTON_PUERTA,INPUT);
+
+    //Habilitamos la interrupcion por flanco ascendente
+    GPIO_IntCmd(PINSEL_PORT_0,PIN_BOTON_PUERTA,RISING_EDGE);
+}
+
+void Config_DAC(){
+
+    PINSEL_CFG_Type cfg_pin;
+    DAC_CONVERTER_CFG_Type cfg_dac;
+
+    uint32_t timeout;
+
+    //Configuracion del pin como salida  DAC al ventilador
+    cfg_pin.Portnum=PINSEL_PORT_0;
+    cfg_pin.Pinnum=PINSEL_PIN_26;
+    cfg_pin.Funcnum=PINSEL_FUNC_2;
+    cfg_pin.Pinmode=PINSEL_PINMODE_TRISTATE; //no pull-up no pull-down
+    cfg_pin.OpenDrain=PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    //Configuracion general del DAC
+    cfg_dac.DBLBUFF_ENA=DISABLE;
+    cfg_dac.CNT_ENA=ENABLE;
+    cfg_dac.DMA_ENA=ENABLE;
+    DAC_ConfigDAConverterControl(LPC_DAC, &cfg_dac);
+
+    //Configuramos la salida del DAC en 700uA
+    DAC_SetBias(LPC_ADC,DAC_MAX_CURRENT_700uA);
+
+    //Configuramos el tiempo de actualizacion del DAC en 10ms
+    timeout=(uint32_t)((1/FREQ_DAC)*VAL_TIEMPO_DAC);
+    DAC_SetDMATimeOut(LPC_DAC,timeout);
+
+    //Inicializamos el DAC
+    DAC_Init(LPC_DAC);
+}
+
+
+void EINT3_IRQHandler(){
+
+    if(GPIO_GetIntStatus(PINSEL_PORT_2,PINSEL_PIN_13,RISING_EDGE)){ //Verificamos la bandera para el boton de la puerta
+
+        GPIO_ClearInt(PINSEL_PORT_2,PINSEL_PIN_13); // Bajamos la bandera
+        ToggleStatusDoor(); // Alternamos el valor del estado de la puerta
+
+        if(data[0]==OPEN){    // Si el estado esta en alto, abrimos la puerta
+
+            DriverDoor(OPEN);
+            LedRed(OFF);
+            LedGreen(ON);
+        }
+        else{                 // Si el estado esta en bajo, cerramos la puerta
+            DriverDoor(CLOSE);
+            LedRed(ON);
+            LedGreen(OFF);
+        }
+    }
+}
 
 int main(void){
 
