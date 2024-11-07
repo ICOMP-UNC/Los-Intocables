@@ -271,7 +271,7 @@
         <mxCell id="8eB8P4JYL27zoDjW_qmx-108" value="&lt;div&gt;times:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Timer0 Match0 1s&lt;div&gt;Timer1 Match0 20ms&lt;/div&gt;&lt;div&gt;&lt;div&gt;Systick 100ms&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="346.5" y="210" width="133.5" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="8eB8P4JYL27zoDjW_qmx-109" value="freq:&lt;div&gt;&lt;br&gt;&lt;div&gt;LPC 100MHz&lt;/div&gt;&lt;div&gt;ADC 100KHz&lt;/div&gt;&lt;div&gt;UART 9600bps&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="8eB8P4JYL27zoDjW_qmx-109" value="freq:&lt;div&gt;&lt;br&gt;&lt;div&gt;LPC 100MHz&lt;/div&gt;&lt;div&gt;ADC 100KHz&lt;/div&gt;&lt;div&gt;DAC 25MHz&lt;/div&gt;&lt;div&gt;UART 9600bps&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="346.5" y="315" width="133.5" height="85" as="geometry" />
         </mxCell>
         <mxCell id="8eB8P4JYL27zoDjW_qmx-110" value="&lt;span style=&quot;font-size: 21px;&quot;&gt;Trabajo final electrónica digital III: Monitor de puerta&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=21;" vertex="1" parent="1">
