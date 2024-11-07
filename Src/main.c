@@ -52,7 +52,7 @@
 uint8_t Datos[4];         // Buffer de datos - Estado
                           // puerta/Temperatura/luz/concentracion de gas
 uint16_t Conversiones[3]; // Buffer de datos recien convertidos
-uint16_t Valor_DAC;
+uint16_t Valor_DAC;       // Variable del valor del DAC
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
@@ -94,13 +94,14 @@ int main(void) {
 
 void Config_GPDMA(void) {
 
-  GPDMA_Channel_CFG_Type ChannelCfg0;
-  GPDMA_Channel_CFG_Type ChannelCfg1;
+  GPDMA_Channel_CFG_Type ChannelCfg0; // Estructura para canal 0
+  GPDMA_Channel_CFG_Type ChannelCfg1; // Estructura para canal 1
 
-  GPDMA_LLI_Type ListADC;
+  GPDMA_LLI_Type ListADC; // Estructura para lista del ADC
 
-  /* Configuración de la Lista de Transferencias */
-  ListADC.DstAddr = (uint16_t)&Conversiones[0];
+  // Configuración de la Lista de Transferencias:
+  ListADC.DstAddr =
+      (uint16_t)&Conversiones[0];   // Direccion de memoria de destino
   ListADC.SrcAddr = GPDMA_CONN_ADC; // Fuente: conexión al ADC
   ListADC.NextLLI = 0; // No hay próxima transferencia en la lista (por ahora)
   ListADC.Control =
@@ -109,10 +110,10 @@ void Config_GPDMA(void) {
       | (1 << 21)  // Transferencia de palabra de destino de 16 bits (half-word)
       | (1 << 27); // Incrementar dirección de memoria (buffer)
 
-  /* Inicialización del GPDMA */
+  // Inicialización del GPDMA:
   GPDMA_Init();
 
-  /* Configuración del Canal de GPDMA */
+  // Configuración de Canales de GPDMA:
   ChannelCfg0.ChannelNum = 0; // Canal 0 del GPDMA
   ChannelCfg0.TransferType =
       GPDMA_TRANSFERTYPE_P2M;   // Tipo de transferencia: Periférico a Memoria
@@ -131,4 +132,12 @@ void Config_GPDMA(void) {
       (uint16_t)&Valor_DAC;             // Direccion de memoria de fuente
   ChannelCfg1.DstConn = GPDMA_CONN_DAC; // Destino: conexion al DAC
   ChannelCfg1.DMALLI = 0;               // Direccion de la lista - Null
+
+  // Carga de canales de GPDMA:
+  GPDMA_Setup(&ChannelCfg0);
+  GPDMA_Setup(&ChannelCfg1);
+
+  // Hablititacion de canales de GPDMA:
+  GPDMA_ChannelCmd(0, ENABLE);
+  GPDMA_ChannelCmd(1, ENABLE);
 }
