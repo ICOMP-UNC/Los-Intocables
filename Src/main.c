@@ -16,12 +16,9 @@
 #include "stdio.h"
 #include "system_LPC17xx.h" /* Handler del sistema de LPC1769 */
 
-#define PIN_ADC0_CH0                                                           \
-  ((uint32_t)(1 << 23)) // P0.23 Pin ADC canal 0 - Sensor temperatura
-#define PIN_ADC0_CH1                                                           \
-  ((uint32_t)(1 << 24)) // P0.24 Pin ADC canal 1 - Sensor de luz
-#define PIN_ADC0_CH2                                                           \
-  ((uint32_t)(1 << 25)) // P2.10 Pin ADC canal 2 - Sensor monoxido de carbono
+#define PIN_ADC0_CH0 ((uint32_t)(1 << 23))     // P0.23 Pin ADC canal 0
+#define PIN_ADC0_CH1 ((uint32_t)(1 << 24))     // P0.24 Pin ADC canal 1
+#define PIN_ADC0_CH2 ((uint32_t)(1 << 25))     // P2.10 Pin ADC canal 2
 #define PIN_PWM1 ((uint32_t)(1 << 18))         // P1.18 Pin PWM
 #define PIN_DAC ((uint32_t)(1 << 26))          // P0.26 Pin DAC
 #define PIN_LED_VERDE ((uint32_t)(1 << 4))     // P0.04 Pin led verde
@@ -29,30 +26,35 @@
 #define PIN_LED_UART ((uint32_t)(1 << 6))      // P0.06 Pin led UART
 #define PIN_BOTON_PUERTA ((uint32_t)(1 << 13)) // P2.13 Pin puerta
 #define PIN_SALIDA_UART ((uint32_t)(1 << 2))   // P0.02 Pin salida UART
-#define PIN_DIR_MPAP                                                           \
-  ((uint32_t)(1 << 7)) // P0.07 Pin control de direccion motor paso a paso
+#define PIN_DIR_MPAP ((uint32_t)(1 << 7))      // P0.07 Pin dir motor
 
 // Definiciones de tiempos:
-#define VALOR_PRESCALER 100   // Valor de prescaler - 100 uS
-#define MATCH0_TIM0 10000     // Valor del match0 - 10000 - 1S
-#define VAL_SYSTICK 100       // Valor del systick - 100 mS
-#define VAL_TIEMPO_DAC 250000 // Valor del tiempo de salida del DAC - 10mS
+#define VALOR_PRESCALER 100     // Valor de prescaler - 100 uS
+#define MATCH0_TIM0 10000       // Valor del match0 - 10000 - 1S
+#define VAL_SYSTICK 100         // Valor del systick - 100 mS
+#define VAL_TIEMPO_DAC 250000   // Valor del tiempo de salida del DAC - 10mS
+#define VAL_PRESCALER_PWM 1     // Valor de prescales del PWM - 1us
+#define VAL_PERIODO_PWM 50000   // Valor del periodo 50 ms
+#define VAL_DUTYCICLE_PWM 25000 // Valor del duty cicle 25 ms
 
 // Estados posibles:
 #define ON 1
 #define OFF 0
 #define ABRIR 1
 #define CERRAR 0
+#define PWM1_MR0 0
+#define PWM1_MR1 1
 
 // Definiciones de frecuencia:
 #define FREQ_ADC 100000   // Frecuencia ADC - 100 kHz
 #define UART_BAUDIOS 9600 // Baudios UART - 9600 bps
 
 // Variables globales:
-uint8_t Datos[4];         // Buffer de datos - Estado
-                          // puerta/Temperatura/luz/concentracion de gas
-uint16_t Conversiones[3]; // Buffer de datos recien convertidos
-uint16_t Valor_DAC;       // Variable del valor del DAC
+volatile uint8_t Datos[4]; // Buffer de datos - Estado
+                           // puerta/Temperatura/luz/concentracion de gas
+volatile uint16_t Conversiones[3]; // Buffer de datos recien convertidos
+volatile uint16_t Valor_DAC = 0;   // Variable del valor del DAC
+volatile uint8_t Count_PWM = 0;    // Contador de pulsos
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
@@ -100,38 +102,28 @@ void Config_GPDMA(void) {
   GPDMA_LLI_Type ListADC; // Estructura para lista del ADC
 
   // Configuración de la Lista de Transferencias:
-  ListADC.DstAddr =
-      (uint16_t)&Conversiones[0];   // Direccion de memoria de destino
-  ListADC.SrcAddr = GPDMA_CONN_ADC; // Fuente: conexión al ADC
-  ListADC.NextLLI = 0; // No hay próxima transferencia en la lista (por ahora)
-  ListADC.Control =
-      (3 << 0)     // Transferir 3 unidades de datos (3 conversiones)
-      | (1 << 18)  // Transferencia de palabra de fuente de 16 bits (half-word)
-      | (1 << 21)  // Transferencia de palabra de destino de 16 bits (half-word)
-      | (1 << 27); // Incrementar dirección de memoria (buffer)
+  ListADC.DstAddr = (uint16_t)&Conversiones[0];
+  ListADC.SrcAddr = GPDMA_CONN_ADC;
+  ListADC.NextLLI = 0;
+  ListADC.Control = (3 << 0) | (1 << 18) | (1 << 21) | (1 << 27);
 
   // Inicialización del GPDMA:
   GPDMA_Init();
 
   // Configuración de Canales de GPDMA:
-  ChannelCfg0.ChannelNum = 0; // Canal 0 del GPDMA
-  ChannelCfg0.TransferType =
-      GPDMA_TRANSFERTYPE_P2M;   // Tipo de transferencia: Periférico a Memoria
-  ChannelCfg0.TransferSize = 0; // Tamaño de la transferencia
-  ChannelCfg0.SrcConn = GPDMA_CONN_ADC; // Fuente: conexión al ADC
-  ChannelCfg0.DstMemAddr =
-      (uint16_t)&Conversiones[0]; // Dirección de memoria de destino
-  ChannelCfg0.DMALLI =
-      (uint32_t)&ListADC; // Dirección de la estructura LLI (lista)
+  ChannelCfg0.ChannelNum = 0;
+  ChannelCfg0.TransferType = GPDMA_TRANSFERTYPE_P2M;
+  ChannelCfg0.TransferSize = 0;
+  ChannelCfg0.SrcConn = GPDMA_CONN_ADC;
+  ChannelCfg0.DstMemAddr = (uint16_t)&Conversiones[0];
+  ChannelCfg0.DMALLI = (uint32_t)&ListADC;
 
-  ChannelCfg1.ChannelNum = 1; // Canal 1 del GPDMA
-  ChannelCfg1.TransferType =
-      GPDMA_TRANSFERTYPE_M2P;   // Tipo de transferencia: memoria a periferico
-  ChannelCfg1.TransferSize = 1; // Tamaño de la transferencia
-  ChannelCfg1.SrcMemAddr =
-      (uint16_t)&Valor_DAC;             // Direccion de memoria de fuente
-  ChannelCfg1.DstConn = GPDMA_CONN_DAC; // Destino: conexion al DAC
-  ChannelCfg1.DMALLI = 0;               // Direccion de la lista - Null
+  ChannelCfg1.ChannelNum = 1;
+  ChannelCfg1.TransferType = GPDMA_TRANSFERTYPE_M2P;
+  ChannelCfg1.TransferSize = 1;
+  ChannelCfg1.SrcMemAddr = (uint16_t)&Valor_DAC;
+  ChannelCfg1.DstConn = GPDMA_CONN_DAC;
+  ChannelCfg1.DMALLI = 0;
 
   // Carga de canales de GPDMA:
   GPDMA_Setup(&ChannelCfg0);
@@ -140,4 +132,57 @@ void Config_GPDMA(void) {
   // Hablititacion de canales de GPDMA:
   GPDMA_ChannelCmd(0, ENABLE);
   GPDMA_ChannelCmd(1, ENABLE);
+}
+
+void Config_PWM(void) {
+  PWM_TIMERCFG_Type PWMCfg;
+  PWM_MATCHCFG_Type match0;
+  PINSEL_CFG_Type PinCgf;
+
+  // Cofiguracion pin PWM:
+  PinCgf.Portnum = PINSEL_PORT_1;
+  PinCgf.Pinnum = PINSEL_PIN_18;
+  PinCgf.Funcnum = PINSEL_FUNC_2;
+  PinCgf.Pinmode = PINSEL_PINMODE_PULLDOWN;
+  PinCgf.OpenDrain = PINSEL_PINMODE_NORMAL;
+
+  PINSEL_ConfigPin(&PinCgf);
+
+  // Configuracion PWM:
+  PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
+  PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
+
+  PWM_Init(LPC_PWM1, PWM_MODE_TIMER, &PWMCfg);
+
+  PWM_MatchUpdate(LPC_PWM1, PWM1_MR0, VAL_PERIODO_PWM, PWM_MATCH_UPDATE_NOW);
+  PWM_MatchUpdate(LPC_PWM1, PWM1_MR1, VAL_DUTYCICLE_PWM, PWM_MATCH_UPDATE_NOW);
+
+  match0.MatchChannel = 0;
+  match0.IntOnMatch = ENABLE;
+  match0.ResetOnMatch = ENABLE;
+
+  PWM_ConfigMatch(LPC_PWM1, &match0);
+
+  PWM_ChannelConfig(LPC_PWM1, 1, PWM_CHANNEL_SINGLE_EDGE);
+
+  PWM_ChannelCmd(LPC_PWM1, 1, ENABLE);
+}
+
+void PWM1_IRQHandler(void) {
+
+  Count_PWM++;
+
+  if (Count_PWM == 100) {
+    PWM_Cmd(LPC_PWM1, DISABLE);
+    Count_PWM = 0;
+  }
+
+  PWM_ClearIntPending(LPC_PWM1, PWM_INTSTAT_MR0);
+}
+
+void Systick_Handler(void) {
+
+  UART_Send(LPC_UART0, &Datos, 4, NONE_BLOCKING);
+
+  SYSTICK_ClearCounterFlag();
 }
