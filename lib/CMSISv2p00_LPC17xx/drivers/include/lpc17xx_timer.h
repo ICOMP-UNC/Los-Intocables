@@ -30,7 +30,8 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group ----------------------------------------------------------- */
+/* Peripheral group -----------------------------------------------------------
+ */
 /** @defgroup TIM TIM (Timer)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -39,21 +40,23 @@
 #ifndef __LPC17XX_TIMER_H_
 #define __LPC17XX_TIMER_H_
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-/* Private Macros ------------------------------------------------------------- */
+/* Private Macros -------------------------------------------------------------
+ */
 /** @defgroup TIM_Private_Macros TIM Private Macros
  * @{
  */
 
-/* --------------------- BIT DEFINITIONS -------------------------------------- */
+/* --------------------- BIT DEFINITIONS --------------------------------------
+ */
 /**********************************************************************
 ** Interrupt information
 **********************************************************************/
@@ -142,200 +145,207 @@ extern "C"
 
 /* ---------------- CHECK PARAMETER DEFINITIONS ---------------------------- */
 /** Macro to determine if it is valid TIMER peripheral */
-#define PARAM_TIMx(n)                                                                                                  \
-    ((((uint32_t*)n) == ((uint32_t*)LPC_TIM0)) || (((uint32_t*)n) == ((uint32_t*)LPC_TIM1)) ||                         \
-     (((uint32_t*)n) == ((uint32_t*)LPC_TIM2)) || (((uint32_t*)n) == ((uint32_t*)LPC_TIM3)))
+#define PARAM_TIMx(n)                                                          \
+  ((((uint32_t *)n) == ((uint32_t *)LPC_TIM0)) ||                              \
+   (((uint32_t *)n) == ((uint32_t *)LPC_TIM1)) ||                              \
+   (((uint32_t *)n) == ((uint32_t *)LPC_TIM2)) ||                              \
+   (((uint32_t *)n) == ((uint32_t *)LPC_TIM3)))
 
 /* Macro check interrupt type */
-#define PARAM_TIM_INT_TYPE(TYPE)                                                                                       \
-    ((TYPE == TIM_MR0_INT) || (TYPE == TIM_MR1_INT) || (TYPE == TIM_MR2_INT) || (TYPE == TIM_MR3_INT) ||               \
-     (TYPE == TIM_CR0_INT) || (TYPE == TIM_CR1_INT))
+#define PARAM_TIM_INT_TYPE(TYPE)                                               \
+  ((TYPE == TIM_MR0_INT) || (TYPE == TIM_MR1_INT) || (TYPE == TIM_MR2_INT) ||  \
+   (TYPE == TIM_MR3_INT) || (TYPE == TIM_CR0_INT) || (TYPE == TIM_CR1_INT))
 
 /* Macro check TIMER mode */
-#define PARAM_TIM_MODE_OPT(MODE)                                                                                       \
-    ((MODE == TIM_TIMER_MODE) || (MODE == TIM_COUNTER_RISING_MODE) || (MODE == TIM_COUNTER_RISING_MODE) ||             \
-     (MODE == TIM_COUNTER_RISING_MODE))
+#define PARAM_TIM_MODE_OPT(MODE)                                               \
+  ((MODE == TIM_TIMER_MODE) || (MODE == TIM_COUNTER_RISING_MODE) ||            \
+   (MODE == TIM_COUNTER_RISING_MODE) || (MODE == TIM_COUNTER_RISING_MODE))
 
 /* Macro check TIMER prescale value */
-#define PARAM_TIM_PRESCALE_OPT(OPT) ((OPT == TIM_PRESCALE_TICKVAL) || (OPT == TIM_PRESCALE_USVAL))
+#define PARAM_TIM_PRESCALE_OPT(OPT)                                            \
+  ((OPT == TIM_PRESCALE_TICKVAL) || (OPT == TIM_PRESCALE_USVAL))
 
 /* Macro check TIMER counter intput mode */
-#define PARAM_TIM_COUNTER_INPUT_OPT(OPT) ((OPT == TIM_COUNTER_INCAP0) || (OPT == TIM_COUNTER_INCAP1))
+#define PARAM_TIM_COUNTER_INPUT_OPT(OPT)                                       \
+  ((OPT == TIM_COUNTER_INCAP0) || (OPT == TIM_COUNTER_INCAP1))
 
 /* Macro check TIMER external match mode */
-#define PARAM_TIM_EXTMATCH_OPT(OPT)                                                                                    \
-    ((OPT == TIM_EXTMATCH_NOTHING) || (OPT == TIM_EXTMATCH_LOW) || (OPT == TIM_EXTMATCH_HIGH) ||                       \
-     (OPT == TIM_EXTMATCH_TOGGLE))
+#define PARAM_TIM_EXTMATCH_OPT(OPT)                                            \
+  ((OPT == TIM_EXTMATCH_NOTHING) || (OPT == TIM_EXTMATCH_LOW) ||               \
+   (OPT == TIM_EXTMATCH_HIGH) || (OPT == TIM_EXTMATCH_TOGGLE))
 
 /* Macro check TIMER external match mode */
-#define PARAM_TIM_CAP_MODE_OPT(OPT)                                                                                    \
-    ((OPT == TIM_CAPTURE_NONE) || (OPT == TIM_CAPTURE_RISING) || (OPT == TIM_CAPTURE_FALLING) ||                       \
-     (OPT == TIM_CAPTURE_ANY))
+#define PARAM_TIM_CAP_MODE_OPT(OPT)                                            \
+  ((OPT == TIM_CAPTURE_NONE) || (OPT == TIM_CAPTURE_RISING) ||                 \
+   (OPT == TIM_CAPTURE_FALLING) || (OPT == TIM_CAPTURE_ANY))
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Types --------------------------------------------------------------- */
-    /** @defgroup TIM_Public_Types TIM Public Types
-     * @{
-     */
+/* Public Types ---------------------------------------------------------------
+ */
+/** @defgroup TIM_Public_Types TIM Public Types
+ * @{
+ */
 
-    /***********************************************************************
-     * Timer device enumeration
-     **********************************************************************/
-    /** @brief interrupt type */
-    typedef enum
-    {
-        TIM_MR0_INT = 0, /*!< interrupt for Match channel 0*/
-        TIM_MR1_INT = 1, /*!< interrupt for Match channel 1*/
-        TIM_MR2_INT = 2, /*!< interrupt for Match channel 2*/
-        TIM_MR3_INT = 3, /*!< interrupt for Match channel 3*/
-        TIM_CR0_INT = 4, /*!< interrupt for Capture channel 0*/
-        TIM_CR1_INT = 5  /*!< interrupt for Capture channel 1*/
-    } TIM_INT_TYPE;
+/***********************************************************************
+ * Timer device enumeration
+ **********************************************************************/
+/** @brief interrupt type */
+typedef enum {
+  TIM_MR0_INT = 0, /*!< interrupt for Match channel 0*/
+  TIM_MR1_INT = 1, /*!< interrupt for Match channel 1*/
+  TIM_MR2_INT = 2, /*!< interrupt for Match channel 2*/
+  TIM_MR3_INT = 3, /*!< interrupt for Match channel 3*/
+  TIM_CR0_INT = 4, /*!< interrupt for Capture channel 0*/
+  TIM_CR1_INT = 5  /*!< interrupt for Capture channel 1*/
+} TIM_INT_TYPE;
 
-    /** @brief Timer/counter operating mode */
-    typedef enum
-    {
-        TIM_TIMER_MODE = 0,       /*!< Timer mode */
-        TIM_COUNTER_RISING_MODE,  /*!< Counter rising mode */
-        TIM_COUNTER_FALLING_MODE, /*!< Counter falling mode */
-        TIM_COUNTER_ANY_MODE      /*!< Counter on both edges */
-    } TIM_MODE_OPT;
+/** @brief Timer/counter operating mode */
+typedef enum {
+  TIM_TIMER_MODE = 0,       /*!< Timer mode */
+  TIM_COUNTER_RISING_MODE,  /*!< Counter rising mode */
+  TIM_COUNTER_FALLING_MODE, /*!< Counter falling mode */
+  TIM_COUNTER_ANY_MODE      /*!< Counter on both edges */
+} TIM_MODE_OPT;
 
-    /** @brief Timer/Counter prescale option */
-    typedef enum
-    {
-        TIM_PRESCALE_TICKVAL = 0, /*!< Prescale in absolute value */
-        TIM_PRESCALE_USVAL        /*!< Prescale in microsecond value */
-    } TIM_PRESCALE_OPT;
+/** @brief Timer/Counter prescale option */
+typedef enum {
+  TIM_PRESCALE_TICKVAL = 0, /*!< Prescale in absolute value */
+  TIM_PRESCALE_USVAL        /*!< Prescale in microsecond value */
+} TIM_PRESCALE_OPT;
 
-    /** @brief Counter input option */
-    typedef enum
-    {
-        TIM_COUNTER_INCAP0 = 0, /*!< CAPn.0 input pin for TIMERn */
-        TIM_COUNTER_INCAP1,     /*!< CAPn.1 input pin for TIMERn */
-    } TIM_COUNTER_INPUT_OPT;
+/** @brief Counter input option */
+typedef enum {
+  TIM_COUNTER_INCAP0 = 0, /*!< CAPn.0 input pin for TIMERn */
+  TIM_COUNTER_INCAP1,     /*!< CAPn.1 input pin for TIMERn */
+} TIM_COUNTER_INPUT_OPT;
 
-    /** @brief Timer/Counter external match option */
-    typedef enum
-    {
-        TIM_EXTMATCH_NOTHING = 0, /*!< Do nothing for external output pin if match */
-        TIM_EXTMATCH_LOW,         /*!< Force external output pin to low if match */
-        TIM_EXTMATCH_HIGH,        /*!< Force external output pin to high if match */
-        TIM_EXTMATCH_TOGGLE       /*!< Toggle external output pin if match */
-    } TIM_EXTMATCH_OPT;
+/** @brief Timer/Counter external match option */
+typedef enum {
+  TIM_EXTMATCH_NOTHING = 0, /*!< Do nothing for external output pin if match */
+  TIM_EXTMATCH_LOW,         /*!< Force external output pin to low if match */
+  TIM_EXTMATCH_HIGH,        /*!< Force external output pin to high if match */
+  TIM_EXTMATCH_TOGGLE       /*!< Toggle external output pin if match */
+} TIM_EXTMATCH_OPT;
 
-    /** @brief Timer/counter capture mode options */
-    typedef enum
-    {
-        TIM_CAPTURE_NONE = 0, /*!< No Capture */
-        TIM_CAPTURE_RISING,   /*!< Rising capture mode */
-        TIM_CAPTURE_FALLING,  /*!< Falling capture mode */
-        TIM_CAPTURE_ANY       /*!< On both edges */
-    } TIM_CAP_MODE_OPT;
+/** @brief Timer/counter capture mode options */
+typedef enum {
+  TIM_CAPTURE_NONE = 0, /*!< No Capture */
+  TIM_CAPTURE_RISING,   /*!< Rising capture mode */
+  TIM_CAPTURE_FALLING,  /*!< Falling capture mode */
+  TIM_CAPTURE_ANY       /*!< On both edges */
+} TIM_CAP_MODE_OPT;
 
-    /** @brief Configuration structure in TIMER mode */
-    typedef struct
-    {
+/** @brief Configuration structure in TIMER mode */
+typedef struct {
 
-        uint8_t PrescaleOption; /**< Timer Prescale option, should be:
-                                    - TIM_PRESCALE_TICKVAL: Prescale in absolute value
-                                    - TIM_PRESCALE_USVAL: Prescale in microsecond value
-                                    */
-        uint8_t Reserved[3];    /**< Reserved */
-        uint32_t PrescaleValue; /**< Prescale value */
-    } TIM_TIMERCFG_Type;
-
-    /** @brief Configuration structure in COUNTER mode */
-    typedef struct
-    {
-
-        uint8_t CounterOption; /**< Counter Option, should be:
-                               - TIM_COUNTER_INCAP0: CAPn.0 input pin for TIMERn
-                               - TIM_COUNTER_INCAP1: CAPn.1 input pin for TIMERn
-                               */
-        uint8_t CountInputSelect;
-        uint8_t Reserved[2];
-    } TIM_COUNTERCFG_Type;
-
-    /** @brief Match channel configuration structure */
-    typedef struct
-    {
-        uint8_t MatchChannel; /**< Match channel, should be in range
-                              from 0..3 */
-        uint8_t IntOnMatch;   /**< Interrupt On match, should be:
-                              - ENABLE: Enable this function.
-                              - DISABLE: Disable this function.
+  uint8_t
+      PrescaleOption;     /**< Timer Prescale option, should be:
+                              - TIM_PRESCALE_TICKVAL: Prescale in absolute value
+                              - TIM_PRESCALE_USVAL: Prescale in microsecond value
                               */
-        uint8_t StopOnMatch;  /**< Stop On match, should be:
-                              - ENABLE: Enable this function.
-                              - DISABLE: Disable this function.
-                              */
-        uint8_t ResetOnMatch; /**< Reset On match, should be:
-                              - ENABLE: Enable this function.
-                              - DISABLE: Disable this function.
-                              */
+  uint8_t Reserved[3];    /**< Reserved */
+  uint32_t PrescaleValue; /**< Prescale value */
+} TIM_TIMERCFG_Type;
 
-        uint8_t ExtMatchOutputType; /**< External Match Output type, should be:
-                                 -	 TIM_EXTMATCH_NOTHING:	Do nothing for external output pin if match
-                                 -   TIM_EXTMATCH_LOW:	Force external output pin to low if match
-                                 - 	 TIM_EXTMATCH_HIGH: Force external output pin to high if match
-                                 -   TIM_EXTMATCH_TOGGLE: Toggle external output pin if match.
-                                */
-        uint8_t Reserved[3];        /** Reserved */
-        uint32_t MatchValue;        /** Match value */
-    } TIM_MATCHCFG_Type;
+/** @brief Configuration structure in COUNTER mode */
+typedef struct {
 
-    /** @brief Capture Input configuration structure */
-    typedef struct
-    {
-        uint8_t CaptureChannel; /**< Capture channel, should be in range
-                                from 0..1 */
-        uint8_t RisingEdge;     /**< caption rising edge, should be:
-                                - ENABLE: Enable rising edge.
-                                - DISABLE: Disable this function.
-                                */
-        uint8_t FallingEdge;    /**< caption falling edge, should be:
-                            - ENABLE: Enable falling edge.
-                            - DISABLE: Disable this function.
-                                */
-        uint8_t IntOnCaption;   /**< Interrupt On caption, should be:
-                                - ENABLE: Enable interrupt function.
-                                - DISABLE: Disable this function.
-                                */
+  uint8_t CounterOption; /**< Counter Option, should be:
+                         - TIM_COUNTER_INCAP0: CAPn.0 input pin for TIMERn
+                         - TIM_COUNTER_INCAP1: CAPn.1 input pin for TIMERn
+                         */
+  uint8_t CountInputSelect;
+  uint8_t Reserved[2];
+} TIM_COUNTERCFG_Type;
 
-    } TIM_CAPTURECFG_Type;
+/** @brief Match channel configuration structure */
+typedef struct {
+  uint8_t MatchChannel; /**< Match channel, should be in range
+                        from 0..3 */
+  uint8_t IntOnMatch;   /**< Interrupt On match, should be:
+                        - ENABLE: Enable this function.
+                        - DISABLE: Disable this function.
+                        */
+  uint8_t StopOnMatch;  /**< Stop On match, should be:
+                        - ENABLE: Enable this function.
+                        - DISABLE: Disable this function.
+                        */
+  uint8_t ResetOnMatch; /**< Reset On match, should be:
+                        - ENABLE: Enable this function.
+                        - DISABLE: Disable this function.
+                        */
 
-    /**
-     * @}
-     */
+  uint8_t ExtMatchOutputType; /**< External Match Output type, should be:
+                           -	 TIM_EXTMATCH_NOTHING:	Do nothing for external
+                           output pin if match
+                           -   TIM_EXTMATCH_LOW:	Force external output pin
+                           to low if match
+                           - 	 TIM_EXTMATCH_HIGH: Force external output pin to
+                           high if match
+                           -   TIM_EXTMATCH_TOGGLE: Toggle external output pin
+                           if match.
+                          */
+  uint8_t Reserved[3];        /** Reserved */
+  uint32_t MatchValue;        /** Match value */
+} TIM_MATCHCFG_Type;
 
-    /* Public Functions ----------------------------------------------------------- */
-    /** @defgroup TIM_Public_Functions TIM Public Functions
-     * @{
-     */
-    /* Init/DeInit TIM functions -----------*/
-    void TIM_Init(LPC_TIM_TypeDef* TIMx, TIM_MODE_OPT TimerCounterMode, void* TIM_ConfigStruct);
-    void TIM_DeInit(LPC_TIM_TypeDef* TIMx);
+/** @brief Capture Input configuration structure */
+typedef struct {
+  uint8_t CaptureChannel; /**< Capture channel, should be in range
+                          from 0..1 */
+  uint8_t RisingEdge;     /**< caption rising edge, should be:
+                          - ENABLE: Enable rising edge.
+                          - DISABLE: Disable this function.
+                          */
+  uint8_t FallingEdge;    /**< caption falling edge, should be:
+                      - ENABLE: Enable falling edge.
+                      - DISABLE: Disable this function.
+                          */
+  uint8_t IntOnCaption;   /**< Interrupt On caption, should be:
+                          - ENABLE: Enable interrupt function.
+                          - DISABLE: Disable this function.
+                          */
 
-    /* TIM interrupt functions -------------*/
-    void TIM_ClearIntPending(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag);
-    void TIM_ClearIntCapturePending(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag);
-    FlagStatus TIM_GetIntStatus(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag);
-    FlagStatus TIM_GetIntCaptureStatus(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag);
+} TIM_CAPTURECFG_Type;
 
-    /* TIM configuration functions --------*/
-    void TIM_ConfigStructInit(TIM_MODE_OPT TimerCounterMode, void* TIM_ConfigStruct);
-    void TIM_ConfigMatch(LPC_TIM_TypeDef* TIMx, TIM_MATCHCFG_Type* TIM_MatchConfigStruct);
-    void TIM_UpdateMatchValue(LPC_TIM_TypeDef* TIMx, uint8_t MatchChannel, uint32_t MatchValue);
-    void TIM_SetMatchExt(LPC_TIM_TypeDef* TIMx, TIM_EXTMATCH_OPT ext_match);
-    void TIM_ConfigCapture(LPC_TIM_TypeDef* TIMx, TIM_CAPTURECFG_Type* TIM_CaptureConfigStruct);
-    void TIM_Cmd(LPC_TIM_TypeDef* TIMx, FunctionalState NewState);
+/**
+ * @}
+ */
 
-    uint32_t TIM_GetCaptureValue(LPC_TIM_TypeDef* TIMx, TIM_COUNTER_INPUT_OPT CaptureChannel);
-    void TIM_ResetCounter(LPC_TIM_TypeDef* TIMx);
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup TIM_Public_Functions TIM Public Functions
+ * @{
+ */
+/* Init/DeInit TIM functions -----------*/
+void TIM_Init(LPC_TIM_TypeDef *TIMx, TIM_MODE_OPT TimerCounterMode,
+              void *TIM_ConfigStruct);
+void TIM_DeInit(LPC_TIM_TypeDef *TIMx);
+
+/* TIM interrupt functions -------------*/
+void TIM_ClearIntPending(LPC_TIM_TypeDef *TIMx, TIM_INT_TYPE IntFlag);
+void TIM_ClearIntCapturePending(LPC_TIM_TypeDef *TIMx, TIM_INT_TYPE IntFlag);
+FlagStatus TIM_GetIntStatus(LPC_TIM_TypeDef *TIMx, TIM_INT_TYPE IntFlag);
+FlagStatus TIM_GetIntCaptureStatus(LPC_TIM_TypeDef *TIMx, TIM_INT_TYPE IntFlag);
+
+/* TIM configuration functions --------*/
+void TIM_ConfigStructInit(TIM_MODE_OPT TimerCounterMode,
+                          void *TIM_ConfigStruct);
+void TIM_ConfigMatch(LPC_TIM_TypeDef *TIMx,
+                     TIM_MATCHCFG_Type *TIM_MatchConfigStruct);
+void TIM_UpdateMatchValue(LPC_TIM_TypeDef *TIMx, uint8_t MatchChannel,
+                          uint32_t MatchValue);
+void TIM_SetMatchExt(LPC_TIM_TypeDef *TIMx, TIM_EXTMATCH_OPT ext_match);
+void TIM_ConfigCapture(LPC_TIM_TypeDef *TIMx,
+                       TIM_CAPTURECFG_Type *TIM_CaptureConfigStruct);
+void TIM_Cmd(LPC_TIM_TypeDef *TIMx, FunctionalState NewState);
+
+uint32_t TIM_GetCaptureValue(LPC_TIM_TypeDef *TIMx,
+                             TIM_COUNTER_INPUT_OPT CaptureChannel);
+void TIM_ResetCounter(LPC_TIM_TypeDef *TIMx);
 
 /**
  * @}
@@ -350,4 +360,5 @@ extern "C"
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */

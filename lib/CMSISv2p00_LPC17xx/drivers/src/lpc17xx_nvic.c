@@ -31,15 +31,18 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group ----------------------------------------------------------- */
+/* Peripheral group -----------------------------------------------------------
+ */
 /** @addtogroup NVIC
  * @{
  */
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "lpc17xx_nvic.h"
 
-/* Private Macros ------------------------------------------------------------- */
+/* Private Macros -------------------------------------------------------------
+ */
 /** @addtogroup NVIC_Private_Macros
  * @{
  */
@@ -51,7 +54,8 @@
  * @}
  */
 
-/* Public Functions ----------------------------------------------------------- */
+/* Public Functions -----------------------------------------------------------
+ */
 /** @addtogroup NVIC_Public_Functions
  * @{
  */
@@ -74,22 +78,20 @@
                                                                                  *IRQ interrupt source that matched with
                                                                                  *LPC17xx)
                                                                                  *******************************************************************************/
-void NVIC_DeInit(void)
-{
-    uint8_t tmp;
+void NVIC_DeInit(void) {
+  uint8_t tmp;
 
-    /* Disable all interrupts */
-    NVIC->ICER[0] = 0xFFFFFFFF;
-    NVIC->ICER[1] = 0x00000001;
-    /* Clear all pending interrupts */
-    NVIC->ICPR[0] = 0xFFFFFFFF;
-    NVIC->ICPR[1] = 0x00000001;
+  /* Disable all interrupts */
+  NVIC->ICER[0] = 0xFFFFFFFF;
+  NVIC->ICER[1] = 0x00000001;
+  /* Clear all pending interrupts */
+  NVIC->ICPR[0] = 0xFFFFFFFF;
+  NVIC->ICPR[1] = 0x00000001;
 
-    /* Clear all interrupt priority */
-    for (tmp = 0; tmp < 32; tmp++)
-    {
-        NVIC->IP[tmp] = 0x00;
-    }
+  /* Clear all interrupt priority */
+  for (tmp = 0; tmp < 32; tmp++) {
+    NVIC->IP[tmp] = 0x00;
+  }
 }
 
 /*****************************************************************************/ /**
@@ -115,25 +117,23 @@ void NVIC_DeInit(void)
                                                                                  * - Hard Fault Status Register
                                                                                  * - Debug Fault Status Register
                                                                                  *******************************************************************************/
-void NVIC_SCBDeInit(void)
-{
-    uint8_t tmp;
+void NVIC_SCBDeInit(void) {
+  uint8_t tmp;
 
-    SCB->ICSR = 0x0A000000;
-    SCB->VTOR = 0x00000000;
-    SCB->AIRCR = 0x05FA0000;
-    SCB->SCR = 0x00000000;
-    SCB->CCR = 0x00000000;
+  SCB->ICSR = 0x0A000000;
+  SCB->VTOR = 0x00000000;
+  SCB->AIRCR = 0x05FA0000;
+  SCB->SCR = 0x00000000;
+  SCB->CCR = 0x00000000;
 
-    for (tmp = 0; tmp < 32; tmp++)
-    {
-        SCB->SHP[tmp] = 0x00;
-    }
+  for (tmp = 0; tmp < 32; tmp++) {
+    SCB->SHP[tmp] = 0x00;
+  }
 
-    SCB->SHCSR = 0x00000000;
-    SCB->CFSR = 0xFFFFFFFF;
-    SCB->HFSR = 0xFFFFFFFF;
-    SCB->DFSR = 0xFFFFFFFF;
+  SCB->SHCSR = 0x00000000;
+  SCB->CFSR = 0xFFFFFFFF;
+  SCB->HFSR = 0xFFFFFFFF;
+  SCB->DFSR = 0xFFFFFFFF;
 }
 
 /*****************************************************************************/ /**
@@ -142,10 +142,9 @@ void NVIC_SCBDeInit(void)
                                                                                  * @param		offset Offset value
                                                                                  * @return      None
                                                                                  *******************************************************************************/
-void NVIC_SetVTOR(uint32_t offset)
-{
-    //	SCB->VTOR  = (offset & NVIC_VTOR_MASK);
-    SCB->VTOR = offset;
+void NVIC_SetVTOR(uint32_t offset) {
+  //	SCB->VTOR  = (offset & NVIC_VTOR_MASK);
+  SCB->VTOR = offset;
 }
 
 /**
@@ -156,4 +155,5 @@ void NVIC_SetVTOR(uint32_t offset)
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */

@@ -31,7 +31,8 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group ----------------------------------------------------------- */
+/* Peripheral group -----------------------------------------------------------
+ */
 /** @defgroup NVIC NVIC (Nested Vectored Interrupt Controller)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -40,27 +41,28 @@
 #ifndef LPC17XX_NVIC_H_
 #define LPC17XX_NVIC_H_
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    /* Public Functions ----------------------------------------------------------- */
-    /** @defgroup NVIC_Public_Functions NVIC Public Functions
-     * @{
-     */
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup NVIC_Public_Functions NVIC Public Functions
+ * @{
+ */
 
-    void NVIC_DeInit(void);
-    void NVIC_SCBDeInit(void);
-    void NVIC_SetVTOR(uint32_t offset);
+void NVIC_DeInit(void);
+void NVIC_SCBDeInit(void);
+void NVIC_SetVTOR(uint32_t offset);
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }
@@ -72,4 +74,5 @@ extern "C"
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */

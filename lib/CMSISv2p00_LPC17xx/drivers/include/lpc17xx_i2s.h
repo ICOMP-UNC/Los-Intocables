@@ -30,7 +30,8 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group ----------------------------------------------------------- */
+/* Peripheral group -----------------------------------------------------------
+ */
 /** @defgroup I2S I2S (Inter-IC Sound bus)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -39,53 +40,57 @@
 #ifndef LPC17XX_I2S_H_
 #define LPC17XX_I2S_H_
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-/* Public Macros -------------------------------------------------------------- */
+/* Public Macros --------------------------------------------------------------
+ */
 /** @defgroup I2S_Public_Macros I2S Public Macros
  * @{
  */
 
 /*********************************************************************/ /**
-                                                                         * I2S configuration parameter defines
+                                                                         * I2S
+                                                                         *configuration
+                                                                         *parameter
+                                                                         *defines
                                                                          **********************************************************************/
 /** I2S Wordwidth bit */
-#define I2S_WORDWIDTH_8  ((uint32_t)(0))
+#define I2S_WORDWIDTH_8 ((uint32_t)(0))
 #define I2S_WORDWIDTH_16 ((uint32_t)(1))
 #define I2S_WORDWIDTH_32 ((uint32_t)(3))
 /** I2S Channel bit */
 #define I2S_STEREO ((uint32_t)(0))
-#define I2S_MONO   ((uint32_t)(1))
+#define I2S_MONO ((uint32_t)(1))
 /** I2S Master/Slave mode bit */
 #define I2S_MASTER_MODE ((uint8_t)(0))
-#define I2S_SLAVE_MODE  ((uint8_t)(1))
+#define I2S_SLAVE_MODE ((uint8_t)(1))
 /** I2S Stop bit */
-#define I2S_STOP_ENABLE  ((uint8_t)(1))
+#define I2S_STOP_ENABLE ((uint8_t)(1))
 #define I2S_STOP_DISABLE ((uint8_t)(0))
 /** I2S Reset bit */
-#define I2S_RESET_ENABLE  ((uint8_t)(1))
+#define I2S_RESET_ENABLE ((uint8_t)(1))
 #define I2S_RESET_DISABLE ((uint8_t)(0))
 /** I2S Mute bit */
-#define I2S_MUTE_ENABLE  ((uint8_t)(1))
+#define I2S_MUTE_ENABLE ((uint8_t)(1))
 #define I2S_MUTE_DISABLE ((uint8_t)(0))
 /** I2S Transmit/Receive bit */
 #define I2S_TX_MODE ((uint8_t)(0))
 #define I2S_RX_MODE ((uint8_t)(1))
 /** I2S Clock Select bit */
 #define I2S_CLKSEL_FRDCLK ((uint8_t)(0))
-#define I2S_CLKSEL_MCLK   ((uint8_t)(2))
+#define I2S_CLKSEL_MCLK ((uint8_t)(2))
 /** I2S 4-pin Mode bit */
-#define I2S_4PIN_ENABLE  ((uint8_t)(1))
+#define I2S_4PIN_ENABLE ((uint8_t)(1))
 #define I2S_4PIN_DISABLE ((uint8_t)(0))
 /** I2S MCLK Enable bit */
-#define I2S_MCLK_ENABLE  ((uint8_t)(1))
+#define I2S_MCLK_ENABLE ((uint8_t)(1))
 #define I2S_MCLK_DISABLE ((uint8_t)(0))
 /** I2S select DMA bit */
 #define I2S_DMA_1 ((uint8_t)(0))
@@ -95,17 +100,23 @@ extern "C"
  * @}
  */
 
-/* Private Macros ------------------------------------------------------------- */
+/* Private Macros -------------------------------------------------------------
+ */
 /** @defgroup I2S_Private_Macros I2S Private Macros
  * @{
  */
 
 /*********************************************************************/ /**
-                                                                         * Macro defines for DAO-Digital Audio Output
+                                                                         * Macro
+                                                                         *defines
+                                                                         *for
+                                                                         *DAO-Digital
+                                                                         *Audio
+                                                                         *Output
                                                                          *register
                                                                          **********************************************************************/
 /** I2S wordwide - the number of bytes in data*/
-#define I2S_DAO_WORDWIDTH_8  ((uint32_t)(0)) /** 8 bit	*/
+#define I2S_DAO_WORDWIDTH_8 ((uint32_t)(0)) /** 8 bit	*/
 #define I2S_DAO_WORDWIDTH_16 ((uint32_t)(1)) /** 16 bit	*/
 #define I2S_DAO_WORDWIDTH_32 ((uint32_t)(3)) /** 32 bit	*/
 /** I2S control mono or stereo format */
@@ -122,11 +133,16 @@ extern "C"
 #define I2S_DAO_MUTE ((uint32_t)(1 << 15))
 
 /*********************************************************************/ /**
-                                                                         * Macro defines for DAI-Digital Audio Input
+                                                                         * Macro
+                                                                         *defines
+                                                                         *for
+                                                                         *DAI-Digital
+                                                                         *Audio
+                                                                         *Input
                                                                          *register
                                                                          **********************************************************************/
 /** I2S wordwide - the number of bytes in data*/
-#define I2S_DAI_WORDWIDTH_8  ((uint32_t)(0)) /** 8 bit	*/
+#define I2S_DAI_WORDWIDTH_8 ((uint32_t)(0)) /** 8 bit	*/
 #define I2S_DAI_WORDWIDTH_16 ((uint32_t)(1)) /** 16 bit	*/
 #define I2S_DAI_WORDWIDTH_32 ((uint32_t)(3)) /** 32 bit	*/
 /** I2S control mono or stereo format */
@@ -143,8 +159,14 @@ extern "C"
 #define I2S_DAI_MUTE ((uint32_t)(1 << 15))
 
 /*********************************************************************/ /**
-                                                                         * Macro defines for STAT register (Status
-                                                                         *Feedback register)
+                                                                         * Macro
+                                                                         *defines
+                                                                         *for
+                                                                         *STAT
+                                                                         *register
+                                                                         *(Status
+                                                                         *Feedback
+                                                                         *register)
                                                                          **********************************************************************/
 /** I2S Status Receive or Transmit Interrupt */
 #define I2S_STATE_IRQ ((uint32_t)(1))
@@ -158,8 +180,14 @@ extern "C"
 #define I2S_STATE_TX_LEVEL(n) ((uint32_t)((n & 1F) << 16))
 
 /*********************************************************************/ /**
-                                                                         * Macro defines for DMA1 register (DMA1
-                                                                         *Configuration register)
+                                                                         * Macro
+                                                                         *defines
+                                                                         *for
+                                                                         *DMA1
+                                                                         *register
+                                                                         *(DMA1
+                                                                         *Configuration
+                                                                         *register)
                                                                          **********************************************************************/
 /** I2S control DMA1 for I2S receive */
 #define I2S_DMA1_RX_ENABLE ((uint32_t)(1))
@@ -171,8 +199,14 @@ extern "C"
 #define I2S_DMA1_TX_DEPTH(n) ((uint32_t)((n & 0x1F) << 16))
 
 /*********************************************************************/ /**
-                                                                         * Macro defines for DMA2 register (DMA2
-                                                                         *Configuration register)
+                                                                         * Macro
+                                                                         *defines
+                                                                         *for
+                                                                         *DMA2
+                                                                         *register
+                                                                         *(DMA2
+                                                                         *Configuration
+                                                                         *register)
                                                                          **********************************************************************/
 /** I2S control DMA2 for I2S receive */
 #define I2S_DMA2_RX_ENABLE ((uint32_t)(1))
@@ -184,8 +218,15 @@ extern "C"
 #define I2S_DMA2_TX_DEPTH(n) ((uint32_t)((n & 0x1F) << 16))
 
 /*********************************************************************/ /**
-                                                                         * Macro defines for IRQ register (Interrupt
-                                                                         *Request Control register)
+                                                                         * Macro
+                                                                         *defines
+                                                                         *for
+                                                                         *IRQ
+                                                                         *register
+                                                                         *(Interrupt
+                                                                         *Request
+                                                                         *Control
+                                                                         *register)
                                                                          **********************************************************************/
 /** I2S control I2S receive interrupt */
 #define I2S_IRQ_RX_ENABLE ((uint32_t)(1))
@@ -239,11 +280,12 @@ extern "C"
 
 /* ---------------- CHECK PARAMETER DEFINITIONS ---------------------------- */
 /** Macro to determine if it is valid I2S peripheral */
-#define PARAM_I2Sx(n) (((uint32_t*)n) == ((uint32_t*)LPC_I2S))
+#define PARAM_I2Sx(n) (((uint32_t *)n) == ((uint32_t *)LPC_I2S))
 /** Macro to check Data to send valid */
 #define PRAM_I2S_FREQ(freq) ((freq >= 16000) && (freq <= 96000))
 /* Macro check I2S word width type */
-#define PARAM_I2S_WORDWIDTH(n) ((n == I2S_WORDWIDTH_8) || (n == I2S_WORDWIDTH_16) || (n == I2S_WORDWIDTH_32))
+#define PARAM_I2S_WORDWIDTH(n)                                                 \
+  ((n == I2S_WORDWIDTH_8) || (n == I2S_WORDWIDTH_16) || (n == I2S_WORDWIDTH_32))
 /* Macro check I2S channel type */
 #define PARAM_I2S_CHANNEL(n) ((n == I2S_STEREO) || (n == I2S_MONO))
 /* Macro check I2S master/slave mode */
@@ -272,111 +314,119 @@ extern "C"
 #define PARAM_I2S_HALFPERIOD(n) (n < 512)
 /* Macro check I2S bit-rate value */
 #define PARAM_I2S_BITRATE(n) (n <= 63)
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Types --------------------------------------------------------------- */
-    /** @defgroup I2S_Public_Types I2S Public Types
-     * @{
-     */
+/* Public Types ---------------------------------------------------------------
+ */
+/** @defgroup I2S_Public_Types I2S Public Types
+ * @{
+ */
 
-    /**
-     * @brief I2S configuration structure definition
-     */
-    typedef struct
-    {
-        uint8_t wordwidth; /** the number of bytes in data as follow:
-                           -I2S_WORDWIDTH_8: 8 bit data
-                           -I2S_WORDWIDTH_16: 16 bit data
-                           -I2S_WORDWIDTH_32: 32 bit data */
-        uint8_t mono;      /** Set mono/stereo mode, should be:
-                           - I2S_STEREO: stereo mode
-                           - I2S_MONO: mono mode */
-        uint8_t stop;      /** Disables accesses on FIFOs, should be:
-                           - I2S_STOP_ENABLE: enable stop mode
-                           - I2S_STOP_DISABLE: disable stop mode */
-        uint8_t reset;     /** Asynchronously reset tje transmit channel and FIFO, should be:
-                           - I2S_RESET_ENABLE: enable reset mode
-                           - I2S_RESET_DISABLE: disable reset mode */
-        uint8_t ws_sel;    /** Set Master/Slave mode, should be:
-                           - I2S_MASTER_MODE: I2S master mode
-                           - I2S_SLAVE_MODE: I2S slave mode */
-        uint8_t mute;      /** MUTE mode: when true, the transmit channel sends only zeroes, shoule be:
-                           - I2S_MUTE_ENABLE: enable mute mode
-                           - I2S_MUTE_DISABLE: disable mute mode */
-        uint8_t Reserved0[2];
-    } I2S_CFG_Type;
+/**
+ * @brief I2S configuration structure definition
+ */
+typedef struct {
+  uint8_t wordwidth; /** the number of bytes in data as follow:
+                     -I2S_WORDWIDTH_8: 8 bit data
+                     -I2S_WORDWIDTH_16: 16 bit data
+                     -I2S_WORDWIDTH_32: 32 bit data */
+  uint8_t mono;      /** Set mono/stereo mode, should be:
+                     - I2S_STEREO: stereo mode
+                     - I2S_MONO: mono mode */
+  uint8_t stop;      /** Disables accesses on FIFOs, should be:
+                     - I2S_STOP_ENABLE: enable stop mode
+                     - I2S_STOP_DISABLE: disable stop mode */
+  uint8_t
+      reset; /** Asynchronously reset tje transmit channel and FIFO, should be:
+             - I2S_RESET_ENABLE: enable reset mode
+             - I2S_RESET_DISABLE: disable reset mode */
+  uint8_t ws_sel; /** Set Master/Slave mode, should be:
+                  - I2S_MASTER_MODE: I2S master mode
+                  - I2S_SLAVE_MODE: I2S slave mode */
+  uint8_t mute;   /** MUTE mode: when true, the transmit channel sends only
+                  zeroes, shoule be:
+                  - I2S_MUTE_ENABLE: enable mute mode
+                  - I2S_MUTE_DISABLE: disable mute mode */
+  uint8_t Reserved0[2];
+} I2S_CFG_Type;
 
-    /**
-     * @brief I2S DMA configuration structure definition
-     */
-    typedef struct
-    {
-        uint8_t DMAIndex; /** Select DMA1 or DMA2, should be:
-                          - I2S_DMA_1: DMA1
-                          - I2S_DMA_2: DMA2 */
-        uint8_t depth;    /** FIFO level that triggers a DMA request */
-        uint8_t Reserved0[2];
-    } I2S_DMAConf_Type;
+/**
+ * @brief I2S DMA configuration structure definition
+ */
+typedef struct {
+  uint8_t DMAIndex; /** Select DMA1 or DMA2, should be:
+                    - I2S_DMA_1: DMA1
+                    - I2S_DMA_2: DMA2 */
+  uint8_t depth;    /** FIFO level that triggers a DMA request */
+  uint8_t Reserved0[2];
+} I2S_DMAConf_Type;
 
-    /**
-     * @brief I2S mode configuration structure definition
-     */
-    typedef struct
-    {
-        uint8_t clksel; /** Clock source selection, should be:
-                        - I2S_CLKSEL_FRDCLK: Select the fractional rate divider clock output
-                        - I2S_CLKSEL_MCLK: Select the MCLK signal as the clock source */
-        uint8_t fpin;   /** Select four pin mode, should be:
-                        - I2S_4PIN_ENABLE: 4-pin enable
-                        - I2S_4PIN_DISABLE: 4-pin disable */
-        uint8_t mcena;  /** Select MCLK mode, should be:
-                        - I2S_MCLK_ENABLE: MCLK enable for output
-                        - I2S_MCLK_DISABLE: MCLK disable for output */
-        uint8_t Reserved;
-    } I2S_MODEConf_Type;
+/**
+ * @brief I2S mode configuration structure definition
+ */
+typedef struct {
+  uint8_t
+      clksel;    /** Clock source selection, should be:
+                 - I2S_CLKSEL_FRDCLK: Select the fractional rate divider clock
+                 output
+                 - I2S_CLKSEL_MCLK: Select the MCLK signal as the clock source */
+  uint8_t fpin;  /** Select four pin mode, should be:
+                 - I2S_4PIN_ENABLE: 4-pin enable
+                 - I2S_4PIN_DISABLE: 4-pin disable */
+  uint8_t mcena; /** Select MCLK mode, should be:
+                 - I2S_MCLK_ENABLE: MCLK enable for output
+                 - I2S_MCLK_DISABLE: MCLK disable for output */
+  uint8_t Reserved;
+} I2S_MODEConf_Type;
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Functions ----------------------------------------------------------- */
-    /** @defgroup I2S_Public_Functions I2S Public Functions
-     * @{
-     */
-    /* I2S Init/DeInit functions ---------*/
-    void I2S_Init(LPC_I2S_TypeDef* I2Sx);
-    void I2S_DeInit(LPC_I2S_TypeDef* I2Sx);
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup I2S_Public_Functions I2S Public Functions
+ * @{
+ */
+/* I2S Init/DeInit functions ---------*/
+void I2S_Init(LPC_I2S_TypeDef *I2Sx);
+void I2S_DeInit(LPC_I2S_TypeDef *I2Sx);
 
-    /* I2S configuration functions --------*/
-    void I2S_Config(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, I2S_CFG_Type* ConfigStruct);
-    Status I2S_FreqConfig(LPC_I2S_TypeDef* I2Sx, uint32_t Freq, uint8_t TRMode);
-    void I2S_SetBitRate(LPC_I2S_TypeDef* I2Sx, uint8_t bitrate, uint8_t TRMode);
-    void I2S_ModeConfig(LPC_I2S_TypeDef* I2Sx, I2S_MODEConf_Type* ModeConfig, uint8_t TRMode);
-    uint8_t I2S_GetLevel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
+/* I2S configuration functions --------*/
+void I2S_Config(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode,
+                I2S_CFG_Type *ConfigStruct);
+Status I2S_FreqConfig(LPC_I2S_TypeDef *I2Sx, uint32_t Freq, uint8_t TRMode);
+void I2S_SetBitRate(LPC_I2S_TypeDef *I2Sx, uint8_t bitrate, uint8_t TRMode);
+void I2S_ModeConfig(LPC_I2S_TypeDef *I2Sx, I2S_MODEConf_Type *ModeConfig,
+                    uint8_t TRMode);
+uint8_t I2S_GetLevel(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
 
-    /* I2S operate functions -------------*/
-    void I2S_Send(LPC_I2S_TypeDef* I2Sx, uint32_t BufferData);
-    uint32_t I2S_Receive(LPC_I2S_TypeDef* I2Sx);
-    void I2S_Start(LPC_I2S_TypeDef* I2Sx);
-    void I2S_Pause(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
-    void I2S_Mute(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
-    void I2S_Stop(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
+/* I2S operate functions -------------*/
+void I2S_Send(LPC_I2S_TypeDef *I2Sx, uint32_t BufferData);
+uint32_t I2S_Receive(LPC_I2S_TypeDef *I2Sx);
+void I2S_Start(LPC_I2S_TypeDef *I2Sx);
+void I2S_Pause(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
+void I2S_Mute(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
+void I2S_Stop(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
 
-    /* I2S DMA functions ----------------*/
-    void I2S_DMAConfig(LPC_I2S_TypeDef* I2Sx, I2S_DMAConf_Type* DMAConfig, uint8_t TRMode);
-    void I2S_DMACmd(LPC_I2S_TypeDef* I2Sx, uint8_t DMAIndex, uint8_t TRMode, FunctionalState NewState);
+/* I2S DMA functions ----------------*/
+void I2S_DMAConfig(LPC_I2S_TypeDef *I2Sx, I2S_DMAConf_Type *DMAConfig,
+                   uint8_t TRMode);
+void I2S_DMACmd(LPC_I2S_TypeDef *I2Sx, uint8_t DMAIndex, uint8_t TRMode,
+                FunctionalState NewState);
 
-    /* I2S IRQ functions ----------------*/
-    void I2S_IRQCmd(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, FunctionalState NewState);
-    void I2S_IRQConfig(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, uint8_t level);
-    FunctionalState I2S_GetIRQStatus(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
-    uint8_t I2S_GetIRQDepth(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
+/* I2S IRQ functions ----------------*/
+void I2S_IRQCmd(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode,
+                FunctionalState NewState);
+void I2S_IRQConfig(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode, uint8_t level);
+FunctionalState I2S_GetIRQStatus(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
+uint8_t I2S_GetIRQDepth(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }
@@ -388,4 +438,5 @@ extern "C"
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */

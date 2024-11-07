@@ -30,7 +30,8 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group ----------------------------------------------------------- */
+/* Peripheral group -----------------------------------------------------------
+ */
 /** @defgroup RTC RTC (Real Time Clock)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -39,21 +40,23 @@
 #ifndef LPC17XX_RTC_H_
 #define LPC17XX_RTC_H_
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-/* Private Macros ------------------------------------------------------------- */
+/* Private Macros -------------------------------------------------------------
+ */
 /** @defgroup RTC_Private_Macros RTC Private Macros
  * @{
  */
 
-/* ----------------------- BIT DEFINITIONS ----------------------------------- */
+/* ----------------------- BIT DEFINITIONS -----------------------------------
+ */
 /* Miscellaneous register group --------------------------------------------- */
 /**********************************************************************
  * ILR register definitions
@@ -139,15 +142,15 @@ extern "C"
  **********************************************************************/
 #define RTC_CTIME0_SECONDS_MASK ((0x3F))
 #define RTC_CTIME0_MINUTES_MASK ((0x3F00))
-#define RTC_CTIME0_HOURS_MASK   ((0x1F0000))
-#define RTC_CTIME0_DOW_MASK     ((0x7000000))
+#define RTC_CTIME0_HOURS_MASK ((0x1F0000))
+#define RTC_CTIME0_DOW_MASK ((0x7000000))
 
 /**********************************************************************
  * Consolidated Time Register 1 definitions
  **********************************************************************/
-#define RTC_CTIME1_DOM_MASK   ((0x1F))
+#define RTC_CTIME1_DOM_MASK ((0x1F))
 #define RTC_CTIME1_MONTH_MASK ((0xF00))
-#define RTC_CTIME1_YEAR_MASK  ((0xFFF0000))
+#define RTC_CTIME1_YEAR_MASK ((0xFFF0000))
 
 /**********************************************************************
  * Consolidated Time Register 2 definitions
@@ -174,17 +177,17 @@ extern "C"
 /** YEAR register mask */
 #define RTC_YEAR_MASK (0x00000FFF)
 
-#define RTC_SECOND_MAX     59   /*!< Maximum value of second */
-#define RTC_MINUTE_MAX     59   /*!< Maximum value of minute*/
-#define RTC_HOUR_MAX       23   /*!< Maximum value of hour*/
-#define RTC_MONTH_MIN      1    /*!< Minimum value of month*/
-#define RTC_MONTH_MAX      12   /*!< Maximum value of month*/
-#define RTC_DAYOFMONTH_MIN 1    /*!< Minimum value of day of month*/
-#define RTC_DAYOFMONTH_MAX 31   /*!< Maximum value of day of month*/
-#define RTC_DAYOFWEEK_MAX  6    /*!< Maximum value of day of week*/
-#define RTC_DAYOFYEAR_MIN  1    /*!< Minimum value of day of year*/
-#define RTC_DAYOFYEAR_MAX  366  /*!< Maximum value of day of year*/
-#define RTC_YEAR_MAX       4095 /*!< Maximum value of year*/
+#define RTC_SECOND_MAX 59 /*!< Maximum value of second */
+#define RTC_MINUTE_MAX 59 /*!< Maximum value of minute*/
+#define RTC_HOUR_MAX 23 /*!< Maximum value of hour*/
+#define RTC_MONTH_MIN 1 /*!< Minimum value of month*/
+#define RTC_MONTH_MAX 12 /*!< Maximum value of month*/
+#define RTC_DAYOFMONTH_MIN 1 /*!< Minimum value of day of month*/
+#define RTC_DAYOFMONTH_MAX 31 /*!< Maximum value of day of month*/
+#define RTC_DAYOFWEEK_MAX 6 /*!< Maximum value of day of week*/
+#define RTC_DAYOFYEAR_MIN 1 /*!< Minimum value of day of year*/
+#define RTC_DAYOFYEAR_MAX 366 /*!< Maximum value of day of year*/
+#define RTC_YEAR_MAX 4095 /*!< Maximum value of year*/
 
 /**********************************************************************
  * Calibration register
@@ -197,103 +200,110 @@ extern "C"
 /** Calibration max value */
 #define RTC_CALIBRATION_MAX ((0x20000))
 /** Calibration definitions */
-#define RTC_CALIB_DIR_FORWARD  ((uint8_t)(0))
+#define RTC_CALIB_DIR_FORWARD ((uint8_t)(0))
 #define RTC_CALIB_DIR_BACKWARD ((uint8_t)(1))
 
 /* ---------------- CHECK PARAMETER DEFINITIONS ---------------------------- */
 /** Macro to determine if it is valid RTC peripheral */
-#define PARAM_RTCx(x) (((uint32_t*)x) == ((uint32_t*)LPC_RTC))
+#define PARAM_RTCx(x) (((uint32_t *)x) == ((uint32_t *)LPC_RTC))
 
 /* Macro check RTC interrupt type */
-#define PARAM_RTC_INT(n) ((n == RTC_INT_COUNTER_INCREASE) || (n == RTC_INT_ALARM))
+#define PARAM_RTC_INT(n)                                                       \
+  ((n == RTC_INT_COUNTER_INCREASE) || (n == RTC_INT_ALARM))
 
 /* Macro check RTC time type */
-#define PARAM_RTC_TIMETYPE(n)                                                                                          \
-    ((n == RTC_TIMETYPE_SECOND) || (n == RTC_TIMETYPE_MINUTE) || (n == RTC_TIMETYPE_HOUR) ||                           \
-     (n == RTC_TIMETYPE_DAYOFWEEK) || (n == RTC_TIMETYPE_DAYOFMONTH) || (n == RTC_TIMETYPE_DAYOFYEAR) ||               \
-     (n == RTC_TIMETYPE_MONTH) || (n == RTC_TIMETYPE_YEAR))
+#define PARAM_RTC_TIMETYPE(n)                                                  \
+  ((n == RTC_TIMETYPE_SECOND) || (n == RTC_TIMETYPE_MINUTE) ||                 \
+   (n == RTC_TIMETYPE_HOUR) || (n == RTC_TIMETYPE_DAYOFWEEK) ||                \
+   (n == RTC_TIMETYPE_DAYOFMONTH) || (n == RTC_TIMETYPE_DAYOFYEAR) ||          \
+   (n == RTC_TIMETYPE_MONTH) || (n == RTC_TIMETYPE_YEAR))
 
 /* Macro check RTC calibration type */
-#define PARAM_RTC_CALIB_DIR(n) ((n == RTC_CALIB_DIR_FORWARD) || (n == RTC_CALIB_DIR_BACKWARD))
+#define PARAM_RTC_CALIB_DIR(n)                                                 \
+  ((n == RTC_CALIB_DIR_FORWARD) || (n == RTC_CALIB_DIR_BACKWARD))
 
 /* Macro check RTC GPREG type */
 #define PARAM_RTC_GPREG_CH(n) (n <= 4)
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Types --------------------------------------------------------------- */
-    /** @defgroup RTC_Public_Types RTC Public Types
-     * @{
-     */
+/* Public Types ---------------------------------------------------------------
+ */
+/** @defgroup RTC_Public_Types RTC Public Types
+ * @{
+ */
 
-    /** @brief Time structure definitions for easy manipulate the data */
-    typedef struct
-    {
-        uint32_t SEC;   /*!< Seconds Register */
-        uint32_t MIN;   /*!< Minutes Register */
-        uint32_t HOUR;  /*!< Hours Register */
-        uint32_t DOM;   /*!< Day of Month Register */
-        uint32_t DOW;   /*!< Day of Week Register */
-        uint32_t DOY;   /*!< Day of Year Register */
-        uint32_t MONTH; /*!< Months Register */
-        uint32_t YEAR;  /*!< Years Register */
-    } RTC_TIME_Type;
+/** @brief Time structure definitions for easy manipulate the data */
+typedef struct {
+  uint32_t SEC;   /*!< Seconds Register */
+  uint32_t MIN;   /*!< Minutes Register */
+  uint32_t HOUR;  /*!< Hours Register */
+  uint32_t DOM;   /*!< Day of Month Register */
+  uint32_t DOW;   /*!< Day of Week Register */
+  uint32_t DOY;   /*!< Day of Year Register */
+  uint32_t MONTH; /*!< Months Register */
+  uint32_t YEAR;  /*!< Years Register */
+} RTC_TIME_Type;
 
-    /** @brief RTC interrupt source */
-    typedef enum
-    {
-        RTC_INT_COUNTER_INCREASE = RTC_IRL_RTCCIF, /*!<  Counter Increment Interrupt */
-        RTC_INT_ALARM = RTC_IRL_RTCALF             /*!< The alarm interrupt */
-    } RTC_INT_OPT;
+/** @brief RTC interrupt source */
+typedef enum {
+  RTC_INT_COUNTER_INCREASE =
+      RTC_IRL_RTCCIF,            /*!<  Counter Increment Interrupt */
+  RTC_INT_ALARM = RTC_IRL_RTCALF /*!< The alarm interrupt */
+} RTC_INT_OPT;
 
-    /** @brief RTC time type option */
-    typedef enum
-    {
-        RTC_TIMETYPE_SECOND = 0,     /*!< Second */
-        RTC_TIMETYPE_MINUTE = 1,     /*!< Month */
-        RTC_TIMETYPE_HOUR = 2,       /*!< Hour */
-        RTC_TIMETYPE_DAYOFWEEK = 3,  /*!< Day of week */
-        RTC_TIMETYPE_DAYOFMONTH = 4, /*!< Day of month */
-        RTC_TIMETYPE_DAYOFYEAR = 5,  /*!< Day of year */
-        RTC_TIMETYPE_MONTH = 6,      /*!< Month */
-        RTC_TIMETYPE_YEAR = 7        /*!< Year */
-    } RTC_TIMETYPE_Num;
+/** @brief RTC time type option */
+typedef enum {
+  RTC_TIMETYPE_SECOND = 0,     /*!< Second */
+  RTC_TIMETYPE_MINUTE = 1,     /*!< Month */
+  RTC_TIMETYPE_HOUR = 2,       /*!< Hour */
+  RTC_TIMETYPE_DAYOFWEEK = 3,  /*!< Day of week */
+  RTC_TIMETYPE_DAYOFMONTH = 4, /*!< Day of month */
+  RTC_TIMETYPE_DAYOFYEAR = 5,  /*!< Day of year */
+  RTC_TIMETYPE_MONTH = 6,      /*!< Month */
+  RTC_TIMETYPE_YEAR = 7        /*!< Year */
+} RTC_TIMETYPE_Num;
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Functions ----------------------------------------------------------- */
-    /** @defgroup RTC_Public_Functions RTC Public Functions
-     * @{
-     */
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup RTC_Public_Functions RTC Public Functions
+ * @{
+ */
 
-    void RTC_Init(LPC_RTC_TypeDef* RTCx);
-    void RTC_DeInit(LPC_RTC_TypeDef* RTCx);
-    void RTC_ResetClockTickCounter(LPC_RTC_TypeDef* RTCx);
-    void RTC_Cmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState);
-    void RTC_CntIncrIntConfig(LPC_RTC_TypeDef* RTCx, uint32_t CntIncrIntType, FunctionalState NewState);
-    void RTC_AlarmIntConfig(LPC_RTC_TypeDef* RTCx, uint32_t AlarmTimeType, FunctionalState NewState);
-    void RTC_SetTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype, uint32_t TimeValue);
-    uint32_t RTC_GetTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype);
-    void RTC_SetFullTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime);
-    void RTC_GetFullTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime);
-    void RTC_SetAlarmTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype, uint32_t ALValue);
-    uint32_t RTC_GetAlarmTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype);
-    void RTC_SetFullAlarmTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime);
-    void RTC_GetFullAlarmTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime);
-    IntStatus RTC_GetIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType);
-    void RTC_ClearIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType);
-    void RTC_CalibCounterCmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState);
-    void RTC_CalibConfig(LPC_RTC_TypeDef* RTCx, uint32_t CalibValue, uint8_t CalibDir);
-    void RTC_WriteGPREG(LPC_RTC_TypeDef* RTCx, uint8_t Channel, uint32_t Value);
-    uint32_t RTC_ReadGPREG(LPC_RTC_TypeDef* RTCx, uint8_t Channel);
+void RTC_Init(LPC_RTC_TypeDef *RTCx);
+void RTC_DeInit(LPC_RTC_TypeDef *RTCx);
+void RTC_ResetClockTickCounter(LPC_RTC_TypeDef *RTCx);
+void RTC_Cmd(LPC_RTC_TypeDef *RTCx, FunctionalState NewState);
+void RTC_CntIncrIntConfig(LPC_RTC_TypeDef *RTCx, uint32_t CntIncrIntType,
+                          FunctionalState NewState);
+void RTC_AlarmIntConfig(LPC_RTC_TypeDef *RTCx, uint32_t AlarmTimeType,
+                        FunctionalState NewState);
+void RTC_SetTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype, uint32_t TimeValue);
+uint32_t RTC_GetTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype);
+void RTC_SetFullTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime);
+void RTC_GetFullTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime);
+void RTC_SetAlarmTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype,
+                      uint32_t ALValue);
+uint32_t RTC_GetAlarmTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype);
+void RTC_SetFullAlarmTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime);
+void RTC_GetFullAlarmTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime);
+IntStatus RTC_GetIntPending(LPC_RTC_TypeDef *RTCx, uint32_t IntType);
+void RTC_ClearIntPending(LPC_RTC_TypeDef *RTCx, uint32_t IntType);
+void RTC_CalibCounterCmd(LPC_RTC_TypeDef *RTCx, FunctionalState NewState);
+void RTC_CalibConfig(LPC_RTC_TypeDef *RTCx, uint32_t CalibValue,
+                     uint8_t CalibDir);
+void RTC_WriteGPREG(LPC_RTC_TypeDef *RTCx, uint8_t Channel, uint32_t Value);
+uint32_t RTC_ReadGPREG(LPC_RTC_TypeDef *RTCx, uint8_t Channel);
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }
@@ -305,4 +315,5 @@ extern "C"
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */

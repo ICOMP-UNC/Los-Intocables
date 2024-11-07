@@ -1,5 +1,5 @@
 /**********************************************************************
- * $Id$		lpc17xx_libcfg_default.c				2010-05-21
+ * $Id$		lpc17xx_libcfg_default.c 2010-05-21
  *//**
 * @file		lpc17xx_libcfg_default.c
 * @brief	Library configuration source file (default), used to build
@@ -35,10 +35,12 @@
  * @{
  */
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "lpc17xx_libcfg_default.h"
 
-/* Public Functions ----------------------------------------------------------- */
+/* Public Functions -----------------------------------------------------------
+ */
 /** @addtogroup LIBCFG_DEFAULT_Public_Functions
  * @{
  */
@@ -47,20 +49,20 @@
 
 #ifdef DEBUG
 /*******************************************************************************
- * @brief		Reports the name of the source file and the source line number
- * 				where the CHECK_PARAM error has occurred.
+ * @brief		Reports the name of the source file and the source line
+ *number where the CHECK_PARAM error has occurred.
  * @param[in]	file Pointer to the source file name
  * @param[in]    line assert_param error line source number
  * @return		None
  *******************************************************************************/
-void check_failed(uint8_t* file, uint32_t line)
-{
-    /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void check_failed(uint8_t *file, uint32_t line) {
+  /* User can add his own implementation to report the file name and line
+   number, ex: printf("Wrong parameters value: file %s on line %d\r\n", file,
+   line) */
 
-    /* Infinite loop */
-    while (1)
-        ;
+  /* Infinite loop */
+  while (1)
+    ;
 }
 #endif /* DEBUG */
 
@@ -74,4 +76,5 @@ void check_failed(uint8_t* file, uint32_t line)
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */
