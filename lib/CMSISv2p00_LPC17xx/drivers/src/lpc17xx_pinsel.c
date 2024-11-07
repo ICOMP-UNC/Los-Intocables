@@ -226,8 +226,8 @@ void set_ResistorMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum) {
 
   * @param[in]	modenum  Open drain mode number,
   * 				should be one of the following:
-  * 				- PINSEL_PINMODE_NORMAL : Pin is in the normal (not
-  open drain) mode
+  * 				- PINSEL_PINMODE_NORMAL : Pin is in the normal
+  (not open drain) mode
   * 				- PINSEL_PINMODE_OPENDRAIN : Pin is in the open
   drain mode
   *

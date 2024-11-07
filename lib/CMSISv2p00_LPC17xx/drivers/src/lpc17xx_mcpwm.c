@@ -798,18 +798,18 @@ void MCPWM_ACMode(LPC_MCPWM_TypeDef *MCPWMx, uint32_t acMode) {
   * 								- DISABLE.
   * @param[in]	outputInvered	Polarity of the MCOB outputs for all 3 channels,
   * 								should be:
-  * 								- ENABLE: The MCOB outputs
-  have opposite polarity
-  * 									from the MCOA
-  outputs.
-  * 								- DISABLE: The MCOB outputs
-  have the same basic
-  * 									polarity as the MCOA
-  outputs.
+  * 								- ENABLE: The MCOB
+  outputs have opposite polarity
+  * 									from the
+  MCOA outputs.
+  * 								- DISABLE: The MCOB
+  outputs have the same basic
+  * 									polarity as the
+  MCOA outputs.
   * @param[in]	outputPattern	A value contains bits that enables/disables the
   specified
-  * 								output pins route to the
-  internal MCOA0 signal, should be:
+  * 								output pins route to
+  the internal MCOA0 signal, should be:
                                  - MCPWM_PATENT_A0: 	 MCOA0 tracks internal
   MCOA0
                                  - MCPWM_PATENT_B0: 	 MCOB0 tracks internal
