@@ -46,6 +46,7 @@
 
 // Variables globales:
 uint8_t Datos[4];                                   // Buffer de datos - Estado puerta/Temperatura/luz/concentracion de gas
+uint16_t Conversiones[3];                           // Buffer de datos recien convertidos
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
@@ -87,6 +88,35 @@ int main(void){
 
 }
 
+void Config_GPDMA(void){
 
+    GPDMA_Channel_CFG_Type ChannelCfg0;
+    GPDMA_Channel_CFG_Type ChannelCfg1;
+
+    GPDMA_LLI_Type ListADC;
+
+    /* Configuración de la Lista de Transferencias */
+    ListADC.DstAddr = (uint16_t) &Conversiones[0]; // Dirección de destino: buffer de datos
+    ListADC.SrcAddr = GPDMA_CONN_ADC;              // Fuente: conexión al ADC
+    ListADC.NextLLI = 0;                           // No hay próxima transferencia en la lista (por ahora)
+    ListADC.Control = (3 << 0)                     // Transferir 3 unidades de datos (3 conversiones)
+                    | (1 << 18)                    // Transferencia de palabra de 16 bits (half-word)
+                    | (1 << 21)                    // Fuente: conexión periférica (ADC)
+                    | (1 << 27);                   // Incrementar dirección de memoria (buffer)
+
+    /* Inicialización del GPDMA */
+    GPDMA_Init();
+
+    /* Configuración del Canal de GPDMA */
+    ChannelCfg0.ChannelNum = 0;                         // Usamos el canal 0 del GPDMA
+    ChannelCfg0.TransferType = GPDMA_TRANSFERTYPE_P2M;  // Tipo de transferencia: Periférico a Memoria
+    ChannelCfg0.TransferSize = 3;                       // Tamaño de la transferencia: 3 conversiones
+    ChannelCfg0.SrcConn = GPDMA_CONN_ADC;               // Fuente: conexión al ADC
+    ChannelCfg0.DstMemAddr = (uint16_t) &Conversiones[0]; // Dirección de destino: buffer de conversiones
+    ChannelCfg0.DMALLI = (uint32_t) &ListADC;           // Dirección de la estructura LLI (lista)
+
+    ChannelCfg1
+
+}
 
 
