@@ -113,13 +113,13 @@ typedef struct {
                                EINT 2, EINT3) */
 
   EXTI_MODE_ENUM
-      EXTI_Mode; /*!< Choose between Level-sensitivity or Edge sensitivity */
+  EXTI_Mode; /*!< Choose between Level-sensitivity or Edge sensitivity */
 
   EXTI_POLARITY_ENUM
-      EXTI_polarity; /*!< 	If EXTI mode is level-sensitive: this element use to
-                        select low or high active level if EXTI mode is
-                        polarity-sensitive: this element use to select falling
-                        or rising edge */
+  EXTI_polarity; /*!< 	If EXTI mode is level-sensitive: this element use to
+                    select low or high active level if EXTI mode is
+                    polarity-sensitive: this element use to select falling
+                    or rising edge */
 
 } EXTI_InitTypeDef;
 

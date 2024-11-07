@@ -79,10 +79,12 @@ extern "C" {
   ((uint32_t)(1)) /**< Capture mode: BOTH PhA and PhB edges are counted (4X)*/
 
 /* QEI Invert Index Signal Option */
-#define QEI_INVINX_NONE ((uint32_t)(0)) /**< Invert Index signal option: None  \
-                                         */
-#define QEI_INVINX_EN ((uint32_t)(1)) /**< Invert Index signal option: Enable  \
-                                       */
+#define QEI_INVINX_NONE                                                        \
+  ((uint32_t)(0)) /**< Invert Index signal option: None                        \
+                   */
+#define QEI_INVINX_EN                                                          \
+  ((uint32_t)(1)) /**< Invert Index signal option: Enable                      \
+                   */
 
 /* QEI timer reload option */
 #define QEI_TIMERRELOAD_TICKVAL                                                \
@@ -160,8 +162,9 @@ extern "C" {
   ((uint32_t)(1 << 1)) /**< Reset Posistion Counter on Index */
 #define QEI_CON_RESV ((uint32_t)(1 << 2)) /**< Reset Velocity */
 #define QEI_CON_RESI ((uint32_t)(1 << 3)) /**< Reset Index Counter */
-#define QEI_CON_BITMASK ((uint32_t)(0x0F)) /**< QEI Control register bit-mask  \
-                                            */
+#define QEI_CON_BITMASK                                                        \
+  ((uint32_t)(0x0F)) /**< QEI Control register bit-mask                        \
+                      */
 
 /*********************************************************************/ /**
                                                                          * Macro
