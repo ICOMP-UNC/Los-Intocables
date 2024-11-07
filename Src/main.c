@@ -29,13 +29,13 @@
 #define PIN_DIR_MPAP ((uint32_t)(1 << 7))      // P0.07 Pin dir motor
 
 // Definiciones de tiempos:
-#define VALOR_PRESCALER 100     // Valor de prescaler - 100 uS
-#define MATCH0_TIM0 10000       // Valor del match0 - 10000 - 1S
-#define VAL_SYSTICK 100         // Valor del systick - 100 mS
-#define VAL_TIEMPO_DAC 250000   // Valor del tiempo de salida del DAC - 10mS
-#define VAL_PRESCALER_PWM 1     // Valor de prescales del PWM - 1us
-#define VAL_PERIODO_PWM 50000   // Valor del periodo 50 ms
-#define VAL_DUTYCICLE_PWM 25000 // Valor del duty cicle 25 ms
+#define VALOR_PRESCALER 100    // Valor de prescaler - 100 uS
+#define MATCH0_TIM0 10000      // Valor del match0 - 10000 - 1S
+#define VAL_SYSTICK 100        // Valor del systick - 100 mS
+#define VAL_TIEMPO_DAC 250000  // Valor del tiempo de salida del DAC - 10mS
+#define VAL_PRESCALER_PWM 1    // Valor de prescales del PWM - 1us
+#define VAL_PERIODO_PWM 2000   // Valor del periodo 2 ms
+#define VAL_DUTYCICLE_PWM 1000 // Valor del duty cicle 1 ms
 
 // Estados posibles:
 #define ON 1
