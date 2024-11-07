@@ -22,7 +22,7 @@ jobs:
     # 3. Verificar el formato del archivo main.c con clang-format
     - name: Run clang-format on Src/main.c
       run: |
-        clang-format --dry-run --Werror main.c
+        clang-format --dry-run --Werror Src/main.c
 
     # 4. Ejecutar análisis estático del código con cppcheck
     - name: Run cppcheck
