@@ -31,6 +31,8 @@
 // Definiciones de tiempos:
 #define VALOR_PRESCALER     100                     // Valor de prescaler - 100 uS
 #define MATCH0_TIM0         10000                   // Valor del match0 - 10000 - 1S
+#define MATCH0_TIM1         200                   // Valor del match0 - 200 - 20mS
+#define MATCH0_TIM2         100                   // Valor del match0 - 100 - 10mS
 #define VAL_SYSTICK         100                     // Valor del systick - 100 mS
 #define VAL_TIEMPO_DAC      250000                  // Valor del tiempo de salida del DAC - 10mS
 
@@ -87,6 +89,77 @@ int main(void){
 
 }
 
+void Config_SYSTICK(){
+    SYSTICK_InternalInit(VAL_SYSTICK); 
+    SYSTICK_IntCmd(ENABLE);                     
+    SYSTICK_Cmd(ENABLE);
+}
 
+void Config_TIMER0(){
+    TIM_TIMERCFG_Type timerConfig;
 
+    timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
+    timerConfig.PrecaleValue = VALOR_PRESCALER;
+    TIM_Init(LPC_TIM0, TIM_TIMER_MODE, &timerConfig);
 
+    timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
+    timerConfig.PrecaleValue = VALOR_PRESCALER;
+    TIM_Init(LPC_TIM1, TIM_TIMER_MODE, &timerConfig);
+
+    timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
+    timerConfig.PrecaleValue = VALOR_PRESCALER;
+    TIM_Init(LPC_TIM2, TIM_TIMER_MODE, &timerConfig);
+
+    TIM_MATCHCFG_Type matchConfig;                         
+    matchConfig.MatchChannel = 0;                          
+    matchConfig.IntOnMatch = ENABLE;                       
+    matchConfig.ResetOnMatch = ENABLE;                     
+    matchConfig.StopOnMatch = DISABLE;                     
+    matchConfig.ExtMatchOutputType = TIM_EXTMATCH_NOTHING; 
+    matchConfig.MatchValue = MATCH0_TIM0;    
+
+    TIM_ConfigMatch(LPC_TIM0, &matchConfig);
+    TIM_Cmd(LPC_TIM0, ENABLE);
+
+    TIM_MATCHCFG_Type matchConfig;                         
+    matchConfig.MatchChannel = 0;                          
+    matchConfig.IntOnMatch = ENABLE;                       
+    matchConfig.ResetOnMatch = ENABLE;                     
+    matchConfig.StopOnMatch = DISABLE;                     
+    matchConfig.ExtMatchOutputType = TIM_EXTMATCH_NOTHING; 
+    matchConfig.MatchValue = MATCH0_TIM1;    
+
+    TIM_ConfigMatch(LPC_TIM1, &matchConfig);
+    TIM_Cmd(LPC_TIM1, ENABLE);
+
+    TIM_MATCHCFG_Type matchConfig;                         
+    matchConfig.MatchChannel = 0;                          
+    matchConfig.IntOnMatch = ENABLE;                       
+    matchConfig.ResetOnMatch = ENABLE;                     
+    matchConfig.StopOnMatch = DISABLE;                     
+    matchConfig.ExtMatchOutputType = TIM_EXTMATCH_NOTHING; 
+    matchConfig.MatchValue = MATCH0_TIM2;    
+
+    TIM_ConfigMatch(LPC_TIM2, &matchConfig);
+    TIM_Cmd(LPC_TIM2, ENABLE);
+}
+
+void SysTick_Handler(void){
+    SYSTICK_ClearCounterFlag();
+    //start_uart
+}
+
+void TIMER0_IRQHandler(void){
+    TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
+    //start adc 
+}
+
+void TIMER1_IRQHandler(void){
+    TIM_ClearIntPending(LPC_TIM1, TIM_MR0_INT);
+    //contledTX++
+}
+
+void TIMER2_IRQHandler(void){
+    TIM_ClearIntPending(LPC_TIM2, TIM_MR0_INT);
+    //cont_step++
+}
