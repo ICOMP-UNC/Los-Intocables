@@ -115,13 +115,13 @@ void Config_GPDMA(void) {
   ChannelCfg0.TransferType = GPDMA_TRANSFERTYPE_P2M;
   ChannelCfg0.TransferSize = 0;
   ChannelCfg0.SrcConn = GPDMA_CONN_ADC;
-  ChannelCfg0.DstMemAddr = (uint16_t)&Conversiones[0];
+  ChannelCfg0.DstMemAddr = (uint32_t)&Conversiones[0];
   ChannelCfg0.DMALLI = (uint32_t)&ListADC;
 
   ChannelCfg1.ChannelNum = 1;
   ChannelCfg1.TransferType = GPDMA_TRANSFERTYPE_M2P;
   ChannelCfg1.TransferSize = 1;
-  ChannelCfg1.SrcMemAddr = (uint16_t)&Valor_DAC;
+  ChannelCfg1.SrcMemAddr = (uint32_t)&Valor_DAC;
   ChannelCfg1.DstConn = GPDMA_CONN_DAC;
   ChannelCfg1.DMALLI = 0;
 
