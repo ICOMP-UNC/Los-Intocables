@@ -65,6 +65,17 @@ void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
 
+void configure_adc(void){
+    ADC_Init (LPC_ADC, FREQ_ADC);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_0, ENABLE);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_1, ENABLE);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_2, ENABLE);
+}
+
+void configure_uart(void){
+    
+
+}
 int main(void){
 
     SystemInit();
