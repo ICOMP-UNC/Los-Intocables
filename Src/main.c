@@ -25,7 +25,7 @@
 #define PIN_LED_ROJO        ((uint32_t)(1<<5))      // P0.05 Pin led rojo
 #define PIN_LED_UART        ((uint32_t)(1<<6))      // P0.06 Pin led UART
 #define PIN_BOTON_PUERTA    ((uint32_t)(1<<13))     // P2.13 Pin puerta
-#define PIN_SALIDA_UART     ((uint32_t)(1<<2))      // P0.02 Pin salida UART
+#define PIN_SALIDA_UART     ((uint32_t)(1<<10))      // P0.02 Pin salida UART
 #define PIN_DIR_MPAP        ((uint32_t)(1<<7))      // P0.07 Pin control de direccion motor paso a paso
 
 // Definiciones de tiempos:
@@ -65,17 +65,42 @@ void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
 
-void configure_adc(void){
+void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
+
     ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_0, ENABLE);
     ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_1, ENABLE);
     ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_2, ENABLE);
+
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_0, ENABLE);
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_1, ENABLE);
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_2, ENABLE);
 }
 
-void configure_uart(void){
-    
+void Config_UART(void){
+    UART_CFG_Type uart;
+
+    uart.Baud_rate = UART_BAUDIOS;
+    uart.Databits = UART_DATABIT_8;
+    uart.Parity = UART_PARITY_NONE;
+    uart.Stopbits = UART_STOPBIT_1;
+
+    UART_Init(LPC_UART2, &uart);
+
+    UART_FIFO_CFG_Type fifo;
+
+    fifo.FIFO_DMAMode = ENABLE;
+    fifo.FIFO_Level = UART_FIFO_TRGLEV2;
+    fifo.FIFO_ResetTxBuf = ENABLE;
+
+    UART_FIFOConfig(LPC_UART2, &fifo);
+
+    UART_TxCmd(LPC_UART2, ENABLE);
+
+    UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
 
 }
+
 int main(void){
 
     SystemInit();
