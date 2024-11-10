@@ -48,6 +48,9 @@
 
 // Variables globales:
 uint8_t Datos[4];                                   // Buffer de datos - Estado puerta/Temperatura/luz/concentracion de gas
+int cont_ledTX = 0;
+int cont_step = 0;
+
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
@@ -99,15 +102,15 @@ void Config_TIMER0(){
     TIM_TIMERCFG_Type timerConfig;
 
     timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
-    timerConfig.PrecaleValue = VALOR_PRESCALER;
+    timerConfig.PrescaleValue = VALOR_PRESCALER;
     TIM_Init(LPC_TIM0, TIM_TIMER_MODE, &timerConfig);
 
     timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
-    timerConfig.PrecaleValue = VALOR_PRESCALER;
+    timerConfig.PrescaleValue = VALOR_PRESCALER;
     TIM_Init(LPC_TIM1, TIM_TIMER_MODE, &timerConfig);
 
     timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
-    timerConfig.PrecaleValue = VALOR_PRESCALER;
+    timerConfig.PrescaleValue = VALOR_PRESCALER;
     TIM_Init(LPC_TIM2, TIM_TIMER_MODE, &timerConfig);
 
     TIM_MATCHCFG_Type matchConfig;                         
@@ -146,20 +149,22 @@ void Config_TIMER0(){
 
 void SysTick_Handler(void){
     SYSTICK_ClearCounterFlag();
-    //start_uart
+    for (uint8_t i = 0; i < sizeof(Datos); i++) {
+        UART_SendByte(LPC_UART2, Datos[i]);
+    }
 }
 
 void TIMER0_IRQHandler(void){
     TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
-    //start adc 
+    ADC_StartCmd(LPC_ADC, ADC_START_NOW); 
 }
 
 void TIMER1_IRQHandler(void){
     TIM_ClearIntPending(LPC_TIM1, TIM_MR0_INT);
-    //contledTX++
+    cont_ledTX++;
 }
 
 void TIMER2_IRQHandler(void){
     TIM_ClearIntPending(LPC_TIM2, TIM_MR0_INT);
-    //cont_step++
+    cont_step++;
 }
