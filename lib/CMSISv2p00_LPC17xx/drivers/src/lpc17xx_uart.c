@@ -1622,8 +1622,8 @@ void UART_IrDAPulseDivConfig(LPC_UART_TypeDef *UARTx,
 #ifdef _UART1
 
 /*********************************************************************/ /**
-  * @brief		Force pin DTR/RTS corresponding to given state (Full modem
-  mode)
+  * @brief		Force pin DTR/RTS corresponding to given state (Full
+  modem mode)
   * @param[in]	UARTx	LPC_UART1 (only)
   * @param[in]	Pin	Pin that NewState will be applied to, should be:
   * 				- UART1_MODEM_PIN_DTR: DTR pin.
