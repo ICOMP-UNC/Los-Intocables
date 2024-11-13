@@ -189,8 +189,8 @@ extern "C" {
 #define SSP_DMA_TX SSP_DMA_TXDMA_EN
 
 /* SSP Status Implementation definitions */
-#define SSP_STAT_DONE (1UL << 8) /**< Done */
-#define SSP_STAT_ERROR (1UL << 9) /**< Error */
+#define SSP_STAT_DONE (1UL << 8) /** Done */
+#define SSP_STAT_ERROR (1UL << 9) /** Error */
 
 /**
  * @}
