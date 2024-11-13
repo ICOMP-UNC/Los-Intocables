@@ -281,8 +281,8 @@ typedef struct {
   uint8_t ExtMatchOutputType; /**< External Match Output type, should be:
                            -	 TIM_EXTMATCH_NOTHING:	Do nothing for external
                            output pin if match
-                           -   TIM_EXTMATCH_LOW:	Force external output pin
-                           to low if match
+                           -   TIM_EXTMATCH_LOW:	Force external output
+                           pin to low if match
                            - 	 TIM_EXTMATCH_HIGH: Force external output pin to
                            high if match
                            -   TIM_EXTMATCH_TOGGLE: Toggle external output pin
