@@ -14,7 +14,8 @@ SRCS =	system_LPC17xx.c \
 		lpc17xx_adc.c \
 		lpc17xx_dac.c \
 		lpc17xx_gpdma.c \
-		lpc17xx_uart.c
+		lpc17xx_uart.c \
+		lpc17xx_nvic.c 
  
 	 
 # Define the name of the project

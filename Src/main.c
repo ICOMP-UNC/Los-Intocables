@@ -60,14 +60,14 @@
 #define UART_BAUDIOS 9600 // Baudios UART - 9600 bps
 
 // Variables globales:
-uint8_t Datos[4]; // Buffer de datos - Estado
+uint8_t Data[4]; // Buffer de datos - Estado
                   // puerta/Temperatura/luz/concentracion de gas
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
 void DriverDoor(uint8_t estado);
-void LedRed(uint8_t estado);
-void LedGreen(uint8_t estado);
+void LedRed();
+void LedGreen();
 void BlinkLed(void);
 void CleanData(void);
 void EnableFan(void);
@@ -95,14 +95,14 @@ void DriverDoor(uint8_t estado) {
   // implementar el pwm
 }
 
-void LedRed(uint8_t estado) {
+void LedRed(void) {
   // Maneja el estado del led rojo
-  GPIO_SetValue(PINSEL_PORT_0, PINSEL_PIN_5, estado);
+  GPIO_SetValue(PINSEL_PORT_0, PINSEL_PIN_5);
 }
 
-void LedGreen(uint8_t estado) {
+void LedGreen(void) {
   // Maneja el estado del led verde
-  GPIO_SetValue(PINSEL_PORT_0, PINSEL_PIN_4, estado);
+  GPIO_SetValue(PINSEL_PORT_0, PINSEL_PIN_4);
 }
 
 void Config_GPIO() {
@@ -142,7 +142,7 @@ void Config_GPIO() {
   PINSEL_ConfigPin(&cfg_pin);
 
   // Seteamos los pines como salida
-  GPIO_SetDir(PINSEL_PORT_O,
+  GPIO_SetDir(PINSEL_PORT_0,
               PIN_LED_VERDE | PIN_LED_ROJO | PIN_LED_UART | PIN_DIR_MPAP,
               OUTPUT);
 
@@ -155,7 +155,7 @@ void Config_GPIO() {
   PINSEL_ConfigPin(&cfg_pin);
 
   // Seteamos el pin como entarda
-  GPIO_SetDir(PINSEL_PORT_O, PIN_BOTON_PUERTA, INPUT);
+  GPIO_SetDir(PINSEL_PORT_0, PIN_BOTON_PUERTA, INPUT);
 
   // Habilitamos la interrupcion por flanco ascendente
   GPIO_IntCmd(PINSEL_PORT_0, PIN_BOTON_PUERTA, RISING_EDGE);
@@ -177,7 +177,7 @@ void Config_DAC() {
   PINSEL_ConfigPin(&cfg_pin);
 
   // Configuracion general del DAC
-  cfg_dac.DBLBUFF_ENA = DISABLE;
+  cfg_dac.DBLBUF_ENA = DISABLE;
   cfg_dac.CNT_ENA = ENABLE;
   cfg_dac.DMA_ENA = ENABLE;
   DAC_ConfigDAConverterControl(LPC_DAC, &cfg_dac);
@@ -202,15 +202,15 @@ void EINT3_IRQHandler() {
     GPIO_ClearInt(PINSEL_PORT_2, PINSEL_PIN_13); // Bajamos la bandera
     ToggleStatusDoor(); // Alternamos el valor del estado de la puerta
 
-    if (data[0] == OPEN) { // Si el estado esta en alto, abrimos la puerta
+    if (Data[0] == OPEN) { // Si el estado esta en alto, abrimos la puerta
 
       DriverDoor(OPEN);
-      LedRed(OFF);
-      LedGreen(ON);
+      LedRed();
+      LedGreen();
     } else { // Si el estado esta en bajo, cerramos la puerta
       DriverDoor(CLOSE);
-      LedRed(ON);
-      LedGreen(OFF);
+      LedRed();
+      LedGreen();
     }
   }
 }
