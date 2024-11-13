@@ -61,7 +61,7 @@
 
 // Variables globales:
 uint8_t Data[4]; // Buffer de datos - Estado
-                  // puerta/Temperatura/luz/concentracion de gas
+                 // puerta/Temperatura/luz/concentracion de gas
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
