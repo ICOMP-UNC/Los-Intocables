@@ -206,9 +206,8 @@ void Config_TIMER0() {
 }
 
 void SysTick_Handler(void) {
-
   // Mandamos datos por UART:
-  UART_Send(LPC_UART2, Datos, 4, NONE_BLOCKING);
+  UART_Send(LPC_UART2, &Datos, 4, NONE_BLOCKING);
 
   // Limpiamos la bandera del Systick:
   SYSTICK_ClearCounterFlag();
@@ -221,3 +220,4 @@ void TIMER0_IRQHandler(void) {
   // Limpiamos bandera del timer:
   TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
 }
+
