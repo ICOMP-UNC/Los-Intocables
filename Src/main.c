@@ -220,4 +220,3 @@ void TIMER0_IRQHandler(void) {
   // Limpiamos bandera del timer:
   TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
 }
-
