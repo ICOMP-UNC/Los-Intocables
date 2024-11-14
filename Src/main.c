@@ -180,9 +180,44 @@ void PWM1_IRQHandler(void) {
   PWM_ClearIntPending(LPC_PWM1, PWM_INTSTAT_MR0);
 }
 
-void Systick_Handler(void) {
+void Config_SYSTICK() {
+  SYSTICK_InternalInit(VAL_SYSTICK);
+  SYSTICK_IntCmd(ENABLE);
+  SYSTICK_Cmd(ENABLE);
+}
 
-  UART_Send(LPC_UART0, &Datos, 4, NONE_BLOCKING);
+void Config_TIMER0() {
+  TIM_TIMERCFG_Type timerConfig;
 
+  timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
+  timerConfig.PrescaleValue = VALOR_PRESCALER;
+  TIM_Init(LPC_TIM0, TIM_TIMER_MODE, &timerConfig);
+
+  TIM_MATCHCFG_Type matchConfig;
+  matchConfig.MatchChannel = 0;
+  matchConfig.IntOnMatch = ENABLE;
+  matchConfig.ResetOnMatch = ENABLE;
+  matchConfig.StopOnMatch = DISABLE;
+  matchConfig.ExtMatchOutputType = TIM_EXTMATCH_NOTHING;
+  matchConfig.MatchValue = MATCH0_TIM0;
+
+  TIM_ConfigMatch(LPC_TIM0, &matchConfig);
+  TIM_Cmd(LPC_TIM0, ENABLE);
+}
+
+void SysTick_Handler(void) {
+
+  // Mandamos datos por UART:
+  UART_Send(LPC_UART2, Datos, 4, NONE_BLOCKING);
+
+  // Limpiamos la bandera del Systick:
   SYSTICK_ClearCounterFlag();
+}
+
+void TIMER0_IRQHandler(void) {
+  // Iniciamos las conversiones dec ADC:
+  ADC_StartCmd(LPC_ADC, ADC_START_NOW);
+
+  // Limpiamos bandera del timer:
+  TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
 }
