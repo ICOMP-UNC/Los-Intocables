@@ -96,42 +96,6 @@ int main(void){
 
 }
 
-void Config_ADC(void){
-    ADC_Init (LPC_ADC, FREQ_ADC);
-
-    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_0, ENABLE);
-    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_1, ENABLE);
-    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_2, ENABLE);
-
-    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_0, ENABLE);
-    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_1, ENABLE);
-    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_2, ENABLE);
-}
-
-void Config_UART(void){
-    UART_CFG_Type uart;
-
-    uart.Baud_rate = UART_BAUDIOS;
-    uart.Databits = UART_DATABIT_8;
-    uart.Parity = UART_PARITY_NONE;
-    uart.Stopbits = UART_STOPBIT_1;
-
-    UART_Init(LPC_UART2, &uart);
-
-    UART_FIFO_CFG_Type fifo;
-
-    fifo.FIFO_DMAMode = ENABLE;
-    fifo.FIFO_Level = UART_FIFO_TRGLEV2;
-    fifo.FIFO_ResetTxBuf = ENABLE;
-
-    UART_FIFOConfig(LPC_UART2, &fifo);
-
-    UART_TxCmd(LPC_UART2, ENABLE);
-
-    UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
-
-}
-
 void Config_PWM(void) {
   PWM_TIMERCFG_Type PWMCfg;
   PWM_MATCHCFG_Type match0;
@@ -183,4 +147,39 @@ void Systick_Handler(void) {
   UART_Send(LPC_UART0, &Datos, 4, NONE_BLOCKING);
 
   SYSTICK_ClearCounterFlag();
+}
+
+void Config_ADC(void){
+    ADC_Init (LPC_ADC, FREQ_ADC);
+
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_0, ENABLE);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_1, ENABLE);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_2, ENABLE);
+
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_0, ENABLE);
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_1, ENABLE);
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_2, ENABLE);
+}
+
+void Config_UART(void){
+    UART_CFG_Type uart;
+
+    uart.Baud_rate = UART_BAUDIOS;
+    uart.Databits = UART_DATABIT_8;
+    uart.Parity = UART_PARITY_NONE;
+    uart.Stopbits = UART_STOPBIT_1;
+
+    UART_Init(LPC_UART2, &uart);
+
+    UART_FIFO_CFG_Type fifo;
+
+    fifo.FIFO_DMAMode = ENABLE;
+    fifo.FIFO_Level = UART_FIFO_TRGLEV2;
+    fifo.FIFO_ResetTxBuf = ENABLE;
+
+    UART_FIFOConfig(LPC_UART2, &fifo);
+
+    UART_TxCmd(LPC_UART2, ENABLE);
+
+    UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
 }
