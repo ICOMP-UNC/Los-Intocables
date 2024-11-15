@@ -30,8 +30,7 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group -----------------------------------------------------------
- */
+/* Peripheral group ----------------------------------------------------------- */
 /** @defgroup CLKPWR CLKPWR (Clock Power)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -40,17 +39,16 @@
 #ifndef LPC17XX_CLKPWR_H_
 #define LPC17XX_CLKPWR_H_
 
-/* Includes -------------------------------------------------------------------
- */
+/* Includes ------------------------------------------------------------------- */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/* Public Macros --------------------------------------------------------------
- */
+/* Public Macros -------------------------------------------------------------- */
 /** @defgroup CLKPWR_Public_Macros CLKPWR Public Macros
  * @{
  */
@@ -114,9 +112,9 @@ extern "C" {
 #define CLKPWR_PCLKSEL_MC ((uint32_t)(62))
 
 /** Macro for Peripheral Clock Selection register bit values
- * Note: When CCLK_DIV_8, Peripheralï¿½s clock is selected to
+ * Note: When CCLK_DIV_8, Peripheral’s clock is selected to
  * PCLK_xyz = CCLK/8 except for CAN1, CAN2, and CAN filtering
- * when ï¿½11ï¿½selects PCLK_xyz = CCLK/6 */
+ * when ’11’selects PCLK_xyz = CCLK/6 */
 /* Peripheral clock divider is set to 4 from CCLK */
 #define CLKPWR_PCLKSEL_CCLK_DIV_4 ((uint32_t)(0))
 /** Peripheral clock divider is the same with CCLK */
@@ -185,21 +183,14 @@ extern "C" {
 /**
  * @}
  */
-/* Private Macros -------------------------------------------------------------
- */
+/* Private Macros ------------------------------------------------------------- */
 /** @defgroup CLKPWR_Private_Macros CLKPWR Private Macros
  * @{
  */
 
-/* --------------------- BIT DEFINITIONS --------------------------------------
- */
+/* --------------------- BIT DEFINITIONS -------------------------------------- */
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *Clock
-                                                                         *Source
-                                                                         *Select
+                                                                         * Macro defines for Clock Source Select
                                                                          *Register
                                                                          **********************************************************************/
 /** Internal RC oscillator */
@@ -212,12 +203,7 @@ extern "C" {
 #define CLKPWR_CLKSRCSEL_BITMASK ((uint32_t)(0x03))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *Clock
-                                                                         *Output
-                                                                         *Configuration
+                                                                         * Macro defines for Clock Output Configuration
                                                                          *Register
                                                                          **********************************************************************/
 /* Clock Output Configuration register definition */
@@ -241,12 +227,7 @@ extern "C" {
 #define CLKPWR_CLKOUTCFG_BITMASK ((uint32_t)(0x3FF))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PPL0
-                                                                         *Control
-                                                                         *Register
+                                                                         * Macro defines for PPL0 Control Register
                                                                          **********************************************************************/
 /** PLL 0 control enable */
 #define CLKPWR_PLL0CON_ENABLE ((uint32_t)(0x01))
@@ -256,12 +237,7 @@ extern "C" {
 #define CLKPWR_PLL0CON_BITMASK ((uint32_t)(0x03))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PPL0
-                                                                         *Configuration
-                                                                         *Register
+                                                                         * Macro defines for PPL0 Configuration Register
                                                                          **********************************************************************/
 /** PLL 0 Configuration MSEL field */
 #define CLKPWR_PLL0CFG_MSEL(n) ((uint32_t)(n & 0x7FFF))
@@ -271,12 +247,7 @@ extern "C" {
 #define CLKPWR_PLL0CFG_BITMASK ((uint32_t)(0xFF7FFF))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PPL0
-                                                                         *Status
-                                                                         *Register
+                                                                         * Macro defines for PPL0 Status Register
                                                                          **********************************************************************/
 /** PLL 0 MSEL value */
 #define CLKPWR_PLL0STAT_MSEL(n) ((uint32_t)(n & 0x7FFF))
@@ -290,23 +261,13 @@ extern "C" {
 #define CLKPWR_PLL0STAT_PLOCK ((uint32_t)(1 << 26))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PPL0
-                                                                         *Feed
-                                                                         *Register
+                                                                         * Macro defines for PPL0 Feed Register
                                                                          **********************************************************************/
 /** PLL0 Feed bit mask */
 #define CLKPWR_PLL0FEED_BITMASK ((uint32_t)0xFF)
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PLL1
-                                                                         *Control
-                                                                         *Register
+                                                                         * Macro defines for PLL1 Control Register
                                                                          **********************************************************************/
 /** USB PLL control enable */
 #define CLKPWR_PLL1CON_ENABLE ((uint32_t)(0x01))
@@ -316,12 +277,7 @@ extern "C" {
 #define CLKPWR_PLL1CON_BITMASK ((uint32_t)(0x03))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PLL1
-                                                                         *Configuration
-                                                                         *Register
+                                                                         * Macro defines for PLL1 Configuration Register
                                                                          **********************************************************************/
 /** USB PLL MSEL set value */
 #define CLKPWR_PLL1CFG_MSEL(n) ((uint32_t)(n & 0x1F))
@@ -331,12 +287,7 @@ extern "C" {
 #define CLKPWR_PLL1CFG_BITMASK ((uint32_t)(0x7F))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PLL1
-                                                                         *Status
-                                                                         *Register
+                                                                         * Macro defines for PLL1 Status Register
                                                                          **********************************************************************/
 /** USB PLL MSEL get value  */
 #define CLKPWR_PLL1STAT_MSEL(n) ((uint32_t)(n & 0x1F))
@@ -350,61 +301,34 @@ extern "C" {
 #define CLKPWR_PLL1STAT_PLOCK ((uint32_t)(1 << 10))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *PLL1
-                                                                         *Feed
-                                                                         *Register
+                                                                         * Macro defines for PLL1 Feed Register
                                                                          **********************************************************************/
 /** PLL1 Feed bit mask */
 #define CLKPWR_PLL1FEED_BITMASK ((uint32_t)0xFF)
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *CPU
-                                                                         *Clock
-                                                                         *Configuration
+                                                                         * Macro defines for CPU Clock Configuration
                                                                          *Register
                                                                          **********************************************************************/
 /** CPU Clock configuration bit mask */
 #define CLKPWR_CCLKCFG_BITMASK ((uint32_t)(0xFF))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *USB
-                                                                         *Clock
-                                                                         *Configuration
+                                                                         * Macro defines for USB Clock Configuration
                                                                          *Register
                                                                          **********************************************************************/
 /** USB Clock Configuration bit mask */
 #define CLKPWR_USBCLKCFG_BITMASK ((uint32_t)(0x0F))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *IRC
-                                                                         *Trim
-                                                                         *Register
+                                                                         * Macro defines for IRC Trim Register
                                                                          **********************************************************************/
 /** IRC Trim bit mask */
 #define CLKPWR_IRCTRIM_BITMASK ((uint32_t)(0x0F))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *Peripheral
-                                                                         *Clock
-                                                                         *Selection
-                                                                         *Register
-                                                                         *0 and
-                                                                         *1
+                                                                         * Macro defines for Peripheral Clock Selection
+                                                                         *Register 0 and 1
                                                                          **********************************************************************/
 /** Peripheral Clock Selection 0 mask bit */
 #define CLKPWR_PCLKSEL0_BITMASK ((uint32_t)(0xFFF3F3FF))
@@ -420,13 +344,7 @@ extern "C" {
 #define CLKPWR_PCLKSEL_GET(p, n) ((uint32_t)((n >> p) & 0x03))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *Power
-                                                                         *Mode
-                                                                         *Control
-                                                                         *Register
+                                                                         * Macro defines for Power Mode Control Register
                                                                          **********************************************************************/
 /** Power mode control bit 0 */
 #define CLKPWR_PCON_PM0 ((uint32_t)(1 << 0))
@@ -448,40 +366,33 @@ extern "C" {
 #define CLKPWR_PCON_DPDFLAG ((uint32_t)(1 << 11))
 
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *Power
-                                                                         *Control
-                                                                         *for
-                                                                         *Peripheral
-                                                                         *Register
+                                                                         * Macro defines for Power Control for
+                                                                         *Peripheral Register
                                                                          **********************************************************************/
 /** Power Control for Peripherals bit mask */
 #define CLKPWR_PCONP_BITMASK 0xEFEFF7DE
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
-/* Public Functions -----------------------------------------------------------
- */
-/** @defgroup CLKPWR_Public_Functions CLKPWR Public Functions
- * @{
- */
+    /* Public Functions ----------------------------------------------------------- */
+    /** @defgroup CLKPWR_Public_Functions CLKPWR Public Functions
+     * @{
+     */
 
-void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal);
-uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType);
-uint32_t CLKPWR_GetPCLK(uint32_t ClkType);
-void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState);
-void CLKPWR_Sleep(void);
-void CLKPWR_DeepSleep(void);
-void CLKPWR_PowerDown(void);
-void CLKPWR_DeepPowerDown(void);
+    void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal);
+    uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType);
+    uint32_t CLKPWR_GetPCLK(uint32_t ClkType);
+    void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState);
+    void CLKPWR_Sleep(void);
+    void CLKPWR_DeepSleep(void);
+    void CLKPWR_PowerDown(void);
+    void CLKPWR_DeepPowerDown(void);
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
 #ifdef __cplusplus
 }
@@ -493,5 +404,4 @@ void CLKPWR_DeepPowerDown(void);
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------
- */
+/* --------------------------------- End Of File ------------------------------ */

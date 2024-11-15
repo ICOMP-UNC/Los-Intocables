@@ -30,8 +30,7 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group -----------------------------------------------------------
- */
+/* Peripheral group ----------------------------------------------------------- */
 /** @defgroup WDT WDT (Watch-Dog Timer)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -40,23 +39,21 @@
 #ifndef LPC17XX_WDT_H_
 #define LPC17XX_WDT_H_
 
-/* Includes -------------------------------------------------------------------
- */
+/* Includes ------------------------------------------------------------------- */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/* Private Macros -------------------------------------------------------------
- */
+/* Private Macros ------------------------------------------------------------- */
 /** @defgroup WDT_Private_Macros WDT Private Macros
  * @{
  */
 
-/* --------------------- BIT DEFINITIONS --------------------------------------
- */
+/* --------------------- BIT DEFINITIONS -------------------------------------- */
 /** WDT interrupt enable bit */
 #define WDT_WDMOD_WDEN ((uint32_t)(1 << 0))
 /** WDT interrupt enable bit */
@@ -92,57 +89,55 @@ extern "C" {
 
 /* ---------------- CHECK PARAMETER DEFINITIONS ---------------------------- */
 /* Macro check clock source selection  */
-#define PARAM_WDT_CLK_OPT(OPTION)                                              \
-  ((OPTION == WDT_CLKSRC_IRC) || (OPTION == WDT_CLKSRC_PCLK) ||                \
-   (OPTION == WDT_CLKSRC_RTC))
+#define PARAM_WDT_CLK_OPT(OPTION)                                                                                      \
+    ((OPTION == WDT_CLKSRC_IRC) || (OPTION == WDT_CLKSRC_PCLK) || (OPTION == WDT_CLKSRC_RTC))
 
 /* Macro check WDT mode */
-#define PARAM_WDT_MODE_OPT(OPTION)                                             \
-  ((OPTION == WDT_MODE_INT_ONLY) || (OPTION == WDT_MODE_RESET))
-/**
- * @}
- */
+#define PARAM_WDT_MODE_OPT(OPTION) ((OPTION == WDT_MODE_INT_ONLY) || (OPTION == WDT_MODE_RESET))
+    /**
+     * @}
+     */
 
-/* Public Types ---------------------------------------------------------------
- */
-/** @defgroup WDT_Public_Types WDT Public Types
- * @{
- */
+    /* Public Types --------------------------------------------------------------- */
+    /** @defgroup WDT_Public_Types WDT Public Types
+     * @{
+     */
 
-/** @brief Clock source option for WDT */
-typedef enum {
-  WDT_CLKSRC_IRC = 0,  /*!< Clock source from Internal RC oscillator */
-  WDT_CLKSRC_PCLK = 1, /*!< Selects the APB peripheral clock (PCLK) */
-  WDT_CLKSRC_RTC = 2   /*!< Selects the RTC oscillator */
-} WDT_CLK_OPT;
+    /** @brief Clock source option for WDT */
+    typedef enum
+    {
+        WDT_CLKSRC_IRC = 0,  /*!< Clock source from Internal RC oscillator */
+        WDT_CLKSRC_PCLK = 1, /*!< Selects the APB peripheral clock (PCLK) */
+        WDT_CLKSRC_RTC = 2   /*!< Selects the RTC oscillator */
+    } WDT_CLK_OPT;
 
-/** @brief WDT operation mode */
-typedef enum {
-  WDT_MODE_INT_ONLY = 0, /*!< Use WDT to generate interrupt only */
-  WDT_MODE_RESET = 1     /*!< Use WDT to generate interrupt and reset MCU */
-} WDT_MODE_OPT;
+    /** @brief WDT operation mode */
+    typedef enum
+    {
+        WDT_MODE_INT_ONLY = 0, /*!< Use WDT to generate interrupt only */
+        WDT_MODE_RESET = 1     /*!< Use WDT to generate interrupt and reset MCU */
+    } WDT_MODE_OPT;
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
-/* Public Functions -----------------------------------------------------------
- */
-/** @defgroup WDT_Public_Functions WDT Public Functions
- * @{
- */
+    /* Public Functions ----------------------------------------------------------- */
+    /** @defgroup WDT_Public_Functions WDT Public Functions
+     * @{
+     */
 
-void WDT_Init(WDT_CLK_OPT ClkSrc, WDT_MODE_OPT WDTMode);
-void WDT_Start(uint32_t TimeOut);
-void WDT_Feed(void);
-void WDT_UpdateTimeOut(uint32_t TimeOut);
-FlagStatus WDT_ReadTimeOutFlag(void);
-void WDT_ClrTimeOutFlag(void);
-uint32_t WDT_GetCurrentCount(void);
+    void WDT_Init(WDT_CLK_OPT ClkSrc, WDT_MODE_OPT WDTMode);
+    void WDT_Start(uint32_t TimeOut);
+    void WDT_Feed(void);
+    void WDT_UpdateTimeOut(uint32_t TimeOut);
+    FlagStatus WDT_ReadTimeOutFlag(void);
+    void WDT_ClrTimeOutFlag(void);
+    uint32_t WDT_GetCurrentCount(void);
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
 #ifdef __cplusplus
 }
@@ -154,5 +149,4 @@ uint32_t WDT_GetCurrentCount(void);
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------
- */
+/* --------------------------------- End Of File ------------------------------ */

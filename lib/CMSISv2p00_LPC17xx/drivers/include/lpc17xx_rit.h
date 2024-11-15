@@ -30,8 +30,7 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group -----------------------------------------------------------
- */
+/* Peripheral group ----------------------------------------------------------- */
 /** @defgroup RIT RIT (Repetitive Interrupt Timer)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -40,36 +39,27 @@
 #ifndef LPC17XX_RIT_H_
 #define LPC17XX_RIT_H_
 
-/* Includes -------------------------------------------------------------------
- */
+/* Includes ------------------------------------------------------------------- */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/* Private Macros -------------------------------------------------------------
- */
+/* Private Macros ------------------------------------------------------------- */
 /** @defgroup RIT_Private_Macros RIT Private Macros
  * @{
  */
 
-/* --------------------- BIT DEFINITIONS --------------------------------------
- */
+/* --------------------- BIT DEFINITIONS -------------------------------------- */
 /*********************************************************************/ /**
-                                                                         * Macro
-                                                                         *defines
-                                                                         *for
-                                                                         *RIT
-                                                                         *control
-                                                                         *register
+                                                                         * Macro defines for RIT control register
                                                                          **********************************************************************/
-/**	Set interrupt flag when the counter value equals the masked compare
- * value */
+/**	Set interrupt flag when the counter value equals the masked compare value */
 #define RIT_CTRL_INTEN ((uint32_t)(1))
-/** Set timer enable clear to 0 when the counter value equals the masked compare
- * value  */
+/** Set timer enable clear to 0 when the counter value equals the masked compare value  */
 #define RIT_CTRL_ENCLR ((uint32_t)_BIT(1))
 /** Set timer enable on debug */
 #define RIT_CTRL_ENBR ((uint32_t)_BIT(2))
@@ -77,34 +67,33 @@ extern "C" {
 #define RIT_CTRL_TEN ((uint32_t)_BIT(3))
 
 /** Macro to determine if it is valid RIT peripheral */
-#define PARAM_RITx(n) (((uint32_t *)n) == ((uint32_t *)LPC_RIT))
-/**
- * @}
- */
+#define PARAM_RITx(n) (((uint32_t*)n) == ((uint32_t*)LPC_RIT))
+    /**
+     * @}
+     */
 
-/* Public Functions -----------------------------------------------------------
- */
-/** @defgroup RIT_Public_Functions RIT Public Functions
- * @{
- */
-/* RIT Init/DeInit functions */
-void RIT_Init(LPC_RIT_TypeDef *RITx);
-void RIT_DeInit(LPC_RIT_TypeDef *RITx);
+    /* Public Functions ----------------------------------------------------------- */
+    /** @defgroup RIT_Public_Functions RIT Public Functions
+     * @{
+     */
+    /* RIT Init/DeInit functions */
+    void RIT_Init(LPC_RIT_TypeDef* RITx);
+    void RIT_DeInit(LPC_RIT_TypeDef* RITx);
 
-/* RIT config timer functions */
-void RIT_TimerConfig(LPC_RIT_TypeDef *RITx, uint32_t time_interval);
+    /* RIT config timer functions */
+    void RIT_TimerConfig(LPC_RIT_TypeDef* RITx, uint32_t time_interval);
 
-/* Enable/Disable RIT functions */
-void RIT_TimerClearCmd(LPC_RIT_TypeDef *RITx, FunctionalState NewState);
-void RIT_Cmd(LPC_RIT_TypeDef *RITx, FunctionalState NewState);
-void RIT_TimerDebugCmd(LPC_RIT_TypeDef *RITx, FunctionalState NewState);
+    /* Enable/Disable RIT functions */
+    void RIT_TimerClearCmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState);
+    void RIT_Cmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState);
+    void RIT_TimerDebugCmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState);
 
-/* RIT Interrupt functions */
-IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef *RITx);
+    /* RIT Interrupt functions */
+    IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef* RITx);
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
 #ifdef __cplusplus
 }
@@ -116,5 +105,4 @@ IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef *RITx);
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------
- */
+/* --------------------------------- End Of File ------------------------------ */

@@ -30,8 +30,7 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group -----------------------------------------------------------
- */
+/* Peripheral group ----------------------------------------------------------- */
 /** @defgroup PINSEL PINSEL (Pin Selection)
  * @ingroup LPC1700CMSIS_FwLib_Drivers
  * @{
@@ -40,34 +39,28 @@
 #ifndef LPC17XX_PINSEL_H_
 #define LPC17XX_PINSEL_H_
 
-/* Includes -------------------------------------------------------------------
- */
+/* Includes ------------------------------------------------------------------- */
 #include "LPC17xx.h"
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/* Public Macros --------------------------------------------------------------
- */
+/* Public Macros -------------------------------------------------------------- */
 /** @defgroup PINSEL_Public_Macros PINSEL Public Macros
  * @{
  */
 
 /*********************************************************************/ /**
-                                                                         *!<
-                                                                         *Macros
-                                                                         *define
-                                                                         *for
-                                                                         *PORT
-                                                                         *Selection
+                                                                         *!< Macros define for PORT Selection
                                                                          ***********************************************************************/
-#define PINSEL_PORT_0 ((0)) /**< PORT 0*/
-#define PINSEL_PORT_1 ((1)) /**< PORT 1*/
-#define PINSEL_PORT_2 ((2)) /**< PORT 2*/
-#define PINSEL_PORT_3 ((3)) /**< PORT 3*/
-#define PINSEL_PORT_4 ((4)) /**< PORT 4*/
+#define PINSEL_PORT_0 ((0))                                             /**< PORT 0*/
+#define PINSEL_PORT_1 ((1))                                             /**< PORT 1*/
+#define PINSEL_PORT_2 ((2))                                             /**< PORT 2*/
+#define PINSEL_PORT_3 ((3))                                             /**< PORT 3*/
+#define PINSEL_PORT_4 ((4))                                             /**< PORT 4*/
 
 /***********************************************************************
  * Macros define for Pin Function selection
@@ -80,16 +73,16 @@ extern "C" {
 /***********************************************************************
  * Macros define for Pin Number of Port
  **********************************************************************/
-#define PINSEL_PIN_0 ((0))   /**< Pin 0 */
-#define PINSEL_PIN_1 ((1))   /**< Pin 1 */
-#define PINSEL_PIN_2 ((2))   /**< Pin 2 */
-#define PINSEL_PIN_3 ((3))   /**< Pin 3 */
-#define PINSEL_PIN_4 ((4))   /**< Pin 4 */
-#define PINSEL_PIN_5 ((5))   /**< Pin 5 */
-#define PINSEL_PIN_6 ((6))   /**< Pin 6 */
-#define PINSEL_PIN_7 ((7))   /**< Pin 7 */
-#define PINSEL_PIN_8 ((8))   /**< Pin 8 */
-#define PINSEL_PIN_9 ((9))   /**< Pin 9 */
+#define PINSEL_PIN_0  ((0))  /**< Pin 0 */
+#define PINSEL_PIN_1  ((1))  /**< Pin 1 */
+#define PINSEL_PIN_2  ((2))  /**< Pin 2 */
+#define PINSEL_PIN_3  ((3))  /**< Pin 3 */
+#define PINSEL_PIN_4  ((4))  /**< Pin 4 */
+#define PINSEL_PIN_5  ((5))  /**< Pin 5 */
+#define PINSEL_PIN_6  ((6))  /**< Pin 6 */
+#define PINSEL_PIN_7  ((7))  /**< Pin 7 */
+#define PINSEL_PIN_8  ((8))  /**< Pin 8 */
+#define PINSEL_PIN_9  ((9))  /**< Pin 9 */
 #define PINSEL_PIN_10 ((10)) /**< Pin 10 */
 #define PINSEL_PIN_11 ((11)) /**< Pin 11 */
 #define PINSEL_PIN_12 ((12)) /**< Pin 12 */
@@ -116,91 +109,81 @@ extern "C" {
 /***********************************************************************
  * Macros define for Pin mode
  **********************************************************************/
-#define PINSEL_PINMODE_PULLUP ((0))   /**< Internal pull-up resistor*/
+#define PINSEL_PINMODE_PULLUP   ((0)) /**< Internal pull-up resistor*/
 #define PINSEL_PINMODE_TRISTATE ((2)) /**< Tri-state */
 #define PINSEL_PINMODE_PULLDOWN ((3)) /**< Internal pull-down resistor */
 
 /***********************************************************************
  * Macros define for Pin mode (normal/open drain)
  **********************************************************************/
-#define PINSEL_PINMODE_NORMAL                                                  \
-  ((0)) /**< Pin is in the normal (not open drain) mode.*/
+#define PINSEL_PINMODE_NORMAL    ((0)) /**< Pin is in the normal (not open drain) mode.*/
 #define PINSEL_PINMODE_OPENDRAIN ((1)) /**< Pin is in the open drain mode */
 
 /***********************************************************************
  * Macros define for I2C mode
  ***********************************************************************/
 #define PINSEL_I2C_Normal_Mode ((0)) /**< The standard drive mode */
-#define PINSEL_I2C_Fast_Mode ((1))   /**<  Fast Mode Plus drive mode */
+#define PINSEL_I2C_Fast_Mode   ((1)) /**<  Fast Mode Plus drive mode */
 
 /**
  * @}
  */
 
-/* Private Macros -------------------------------------------------------------
- */
+/* Private Macros ------------------------------------------------------------- */
 /** @defgroup PINSEL_Private_Macros PINSEL Private Macros
  * @{
  */
 
 /* Pin selection define */
 /* I2C Pin Configuration register bit description */
-#define PINSEL_I2CPADCFG_SDADRV0                                               \
-  _BIT(0) /**< Drive mode control for the SDA0 pin, P0.27 */
-#define PINSEL_I2CPADCFG_SDAI2C0                                               \
-  _BIT(1) /**< I2C mode control for the SDA0 pin, P0.27 */
-#define PINSEL_I2CPADCFG_SCLDRV0                                               \
-  _BIT(2) /**< Drive mode control for the SCL0 pin, P0.28 */
-#define PINSEL_I2CPADCFG_SCLI2C0                                               \
-  _BIT(3) /**< I2C mode control for the SCL0 pin, P0.28 */
+#define PINSEL_I2CPADCFG_SDADRV0 _BIT(0) /**< Drive mode control for the SDA0 pin, P0.27 */
+#define PINSEL_I2CPADCFG_SDAI2C0 _BIT(1) /**< I2C mode control for the SDA0 pin, P0.27 */
+#define PINSEL_I2CPADCFG_SCLDRV0 _BIT(2) /**< Drive mode control for the SCL0 pin, P0.28 */
+#define PINSEL_I2CPADCFG_SCLI2C0 _BIT(3) /**< I2C mode control for the SCL0 pin, P0.28 */
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
-/* Public Types ---------------------------------------------------------------
- */
-/** @defgroup PINSEL_Public_Types PINSEL Public Types
- * @{
- */
+    /* Public Types --------------------------------------------------------------- */
+    /** @defgroup PINSEL_Public_Types PINSEL Public Types
+     * @{
+     */
 
-/** @brief Pin configuration structure */
-typedef struct {
-  uint8_t Portnum; /**< Port Number, should be PINSEL_PORT_x,
-                   where x should be in range from 0 to 4 */
-  uint8_t Pinnum;  /**< Pin Number, should be PINSEL_PIN_x,
-                   where x should be in range from 0 to 31 */
-  uint8_t Funcnum; /**< Function Number, should be PINSEL_FUNC_x,
-                   where x should be in range from 0 to 3 */
-  uint8_t Pinmode; /**< Pin Mode, should be:
-                   - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
-                   - PINSEL_PINMODE_TRISTATE: Tri-state
-                   - PINSEL_PINMODE_PULLDOWN: Internal pull-down resistor */
-  uint8_t
-      OpenDrain; /**< OpenDrain mode, should be:
-                 - PINSEL_PINMODE_NORMAL: Pin is in the normal (not open drain)
-                 mode
-                 - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode */
-} PINSEL_CFG_Type;
+    /** @brief Pin configuration structure */
+    typedef struct
+    {
+        uint8_t Portnum;   /**< Port Number, should be PINSEL_PORT_x,
+                           where x should be in range from 0 to 4 */
+        uint8_t Pinnum;    /**< Pin Number, should be PINSEL_PIN_x,
+                           where x should be in range from 0 to 31 */
+        uint8_t Funcnum;   /**< Function Number, should be PINSEL_FUNC_x,
+                           where x should be in range from 0 to 3 */
+        uint8_t Pinmode;   /**< Pin Mode, should be:
+                           - PINSEL_PINMODE_PULLUP: Internal pull-up resistor
+                           - PINSEL_PINMODE_TRISTATE: Tri-state
+                           - PINSEL_PINMODE_PULLDOWN: Internal pull-down resistor */
+        uint8_t OpenDrain; /**< OpenDrain mode, should be:
+                           - PINSEL_PINMODE_NORMAL: Pin is in the normal (not open drain) mode
+                           - PINSEL_PINMODE_OPENDRAIN: Pin is in the open drain mode */
+    } PINSEL_CFG_Type;
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
-/* Public Functions -----------------------------------------------------------
- */
-/** @defgroup PINSEL_Public_Functions PINSEL Public Functions
- * @{
- */
+    /* Public Functions ----------------------------------------------------------- */
+    /** @defgroup PINSEL_Public_Functions PINSEL Public Functions
+     * @{
+     */
 
-void PINSEL_ConfigPin(PINSEL_CFG_Type *PinCfg);
-void PINSEL_ConfigTraceFunc(FunctionalState NewState);
-void PINSEL_SetI2C0Pins(uint8_t i2cPinMode,
-                        FunctionalState filterSlewRateEnable);
+    void PINSEL_ConfigPin(PINSEL_CFG_Type* PinCfg);
+    void PINSEL_ConfigTraceFunc(FunctionalState NewState);
+    void PINSEL_SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnable);
 
-/**
- * @}
- */
+    /**
+     * @}
+     */
 
 #ifdef __cplusplus
 }
@@ -212,5 +195,4 @@ void PINSEL_SetI2C0Pins(uint8_t i2cPinMode,
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------
- */
+/* --------------------------------- End Of File ------------------------------ */

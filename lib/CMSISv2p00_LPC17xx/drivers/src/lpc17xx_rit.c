@@ -29,14 +29,12 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group -----------------------------------------------------------
- */
+/* Peripheral group ----------------------------------------------------------- */
 /** @addtogroup RIT
  * @{
  */
 
-/* Includes -------------------------------------------------------------------
- */
+/* Includes ------------------------------------------------------------------- */
 #include "lpc17xx_rit.h"
 #include "lpc17xx_clkpwr.h"
 
@@ -52,52 +50,53 @@
 
 #ifdef _RIT
 
-/* Public Functions -----------------------------------------------------------
- */
+/* Public Functions ----------------------------------------------------------- */
 /** @addtogroup RIT_Public_Functions
  * @{
  */
 
 /******************************************************************************/ /*
                                                                                   * @brief 		Initial for RIT
-                                                                                  * 					- Turn on power
-                                                                                  *and clock
-                                                                                  * 					- Setup default
-                                                                                  *register values
+                                                                                  * 					- Turn on power and
+                                                                                  *clock
+                                                                                  * 					- Setup default register
+                                                                                  *values
                                                                                   * @param[in]	RITx is RIT peripheral
                                                                                   *selected, should be: LPC_RIT
                                                                                   * @return 		None
                                                                                   *******************************************************************************/
-void RIT_Init(LPC_RIT_TypeDef *RITx) {
-  CHECK_PARAM(PARAM_RITx(RITx));
-  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRIT, ENABLE);
-  // Set up default register values
-  RITx->RICOMPVAL = 0xFFFFFFFF;
-  RITx->RIMASK = 0x00000000;
-  RITx->RICTRL = 0x0C;
-  RITx->RICOUNTER = 0x00000000;
-  // Turn on power and clock
+void RIT_Init(LPC_RIT_TypeDef* RITx)
+{
+    CHECK_PARAM(PARAM_RITx(RITx));
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRIT, ENABLE);
+    // Set up default register values
+    RITx->RICOMPVAL = 0xFFFFFFFF;
+    RITx->RIMASK = 0x00000000;
+    RITx->RICTRL = 0x0C;
+    RITx->RICOUNTER = 0x00000000;
+    // Turn on power and clock
 }
 /******************************************************************************/ /*
                                                                                   * @brief 		DeInitial for RIT
-                                                                                  * 					- Turn off power
-                                                                                  *and clock
-                                                                                  * 					- ReSetup
-                                                                                  *default register values
+                                                                                  * 					- Turn off power and
+                                                                                  *clock
+                                                                                  * 					- ReSetup default register
+                                                                                  *values
                                                                                   * @param[in]	RITx is RIT peripheral
                                                                                   *selected, should be: LPC_RIT
                                                                                   * @return 		None
                                                                                   *******************************************************************************/
-void RIT_DeInit(LPC_RIT_TypeDef *RITx) {
-  CHECK_PARAM(PARAM_RITx(RITx));
+void RIT_DeInit(LPC_RIT_TypeDef* RITx)
+{
+    CHECK_PARAM(PARAM_RITx(RITx));
 
-  // Turn off power and clock
-  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRIT, DISABLE);
-  // ReSetup default register values
-  RITx->RICOMPVAL = 0xFFFFFFFF;
-  RITx->RIMASK = 0x00000000;
-  RITx->RICTRL = 0x0C;
-  RITx->RICOUNTER = 0x00000000;
+    // Turn off power and clock
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRIT, DISABLE);
+    // ReSetup default register values
+    RITx->RICOMPVAL = 0xFFFFFFFF;
+    RITx->RIMASK = 0x00000000;
+    RITx->RICTRL = 0x0C;
+    RITx->RICOUNTER = 0x00000000;
 }
 
 /******************************************************************************/ /*
@@ -109,25 +108,26 @@ void RIT_DeInit(LPC_RIT_TypeDef *RITx) {
                                                                                   *interval value (ms)
                                                                                   * @return 		None
                                                                                   *******************************************************************************/
-void RIT_TimerConfig(LPC_RIT_TypeDef *RITx, uint32_t time_interval) {
-  uint32_t clock_rate, cmp_value;
-  CHECK_PARAM(PARAM_RITx(RITx));
+void RIT_TimerConfig(LPC_RIT_TypeDef* RITx, uint32_t time_interval)
+{
+    uint32_t clock_rate, cmp_value;
+    CHECK_PARAM(PARAM_RITx(RITx));
 
-  // Get PCLK value of RIT
-  clock_rate = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_RIT);
+    // Get PCLK value of RIT
+    clock_rate = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_RIT);
 
-  /* calculate compare value for RIT to generate interrupt at
-   * specified time interval
-   * COMPVAL = (RIT_PCLK * time_interval)/1000
-   * (with time_interval unit is millisecond)
-   */
-  cmp_value = (clock_rate / 1000) * time_interval;
-  RITx->RICOMPVAL = cmp_value;
+    /* calculate compare value for RIT to generate interrupt at
+     * specified time interval
+     * COMPVAL = (RIT_PCLK * time_interval)/1000
+     * (with time_interval unit is millisecond)
+     */
+    cmp_value = (clock_rate / 1000) * time_interval;
+    RITx->RICOMPVAL = cmp_value;
 
-  /* Set timer enable clear bit to clear timer to 0 whenever
-   * counter value equals the contents of RICOMPVAL
-   */
-  RITx->RICTRL |= (1 << 1);
+    /* Set timer enable clear bit to clear timer to 0 whenever
+     * counter value equals the contents of RICOMPVAL
+     */
+    RITx->RICTRL |= (1 << 1);
 }
 
 /******************************************************************************/ /*
@@ -136,20 +136,24 @@ void RIT_TimerConfig(LPC_RIT_TypeDef *RITx, uint32_t time_interval) {
                                                                                   *selected, should be: LPC_RIT
                                                                                   * @param[in]	NewState 	New State of
                                                                                   *this function -ENABLE: Enable Timer
-                                                                                  * 					-DISABLE:
-                                                                                  *Disable Timer
+                                                                                  * 					-DISABLE: Disable
+                                                                                  *Timer
                                                                                   * @return 		None
                                                                                   *******************************************************************************/
-void RIT_Cmd(LPC_RIT_TypeDef *RITx, FunctionalState NewState) {
-  CHECK_PARAM(PARAM_RITx(RITx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void RIT_Cmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_RITx(RITx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-  // Enable or Disable Timer
-  if (NewState == ENABLE) {
-    RITx->RICTRL |= RIT_CTRL_TEN;
-  } else {
-    RITx->RICTRL &= ~RIT_CTRL_TEN;
-  }
+    // Enable or Disable Timer
+    if (NewState == ENABLE)
+    {
+        RITx->RICTRL |= RIT_CTRL_TEN;
+    }
+    else
+    {
+        RITx->RICTRL &= ~RIT_CTRL_TEN;
+    }
 }
 
 /******************************************************************************/ /*
@@ -165,35 +169,40 @@ void RIT_Cmd(LPC_RIT_TypeDef *RITx, FunctionalState NewState) {
                                                                                   *operation
                                                                                   * @return 		None
                                                                                   *******************************************************************************/
-void RIT_TimerDebugCmd(LPC_RIT_TypeDef *RITx, FunctionalState NewState) {
-  CHECK_PARAM(PARAM_RITx(RITx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void RIT_TimerDebugCmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_RITx(RITx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-  // Timer Enable/Disable on break
-  if (NewState == ENABLE) {
-    RITx->RICTRL |= RIT_CTRL_ENBR;
-  } else {
-    RITx->RICTRL &= ~RIT_CTRL_ENBR;
-  }
+    // Timer Enable/Disable on break
+    if (NewState == ENABLE)
+    {
+        RITx->RICTRL |= RIT_CTRL_ENBR;
+    }
+    else
+    {
+        RITx->RICTRL &= ~RIT_CTRL_ENBR;
+    }
 }
 /******************************************************************************/ /*
                                                                                   * @brief 		Check whether interrupt
                                                                                   *flag is set or not
                                                                                   * @param[in]	RITx is RIT peripheral
                                                                                   *selected, should be: LPC_RIT
-                                                                                  * @return 		Current interrupt
-                                                                                  *status, could be: SET/RESET
+                                                                                  * @return 		Current interrupt status,
+                                                                                  *could be: SET/RESET
                                                                                   *******************************************************************************/
-IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef *RITx) {
-  IntStatus result;
-  CHECK_PARAM(PARAM_RITx(RITx));
-  if ((RITx->RICTRL & RIT_CTRL_INTEN) == 1)
-    result = SET;
-  else
-    return RESET;
-  // clear interrupt flag
-  RITx->RICTRL |= RIT_CTRL_INTEN;
-  return result;
+IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef* RITx)
+{
+    IntStatus result;
+    CHECK_PARAM(PARAM_RITx(RITx));
+    if ((RITx->RICTRL & RIT_CTRL_INTEN) == 1)
+        result = SET;
+    else
+        return RESET;
+    // clear interrupt flag
+    RITx->RICTRL |= RIT_CTRL_INTEN;
+    return result;
 }
 
 /**
@@ -206,5 +215,4 @@ IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef *RITx) {
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------
- */
+/* --------------------------------- End Of File ------------------------------ */
