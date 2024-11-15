@@ -84,12 +84,13 @@
                                                                          * @return
                                                                          *None
                                                                          ***********************************************************************/
-void DAC_Init(LPC_DAC_TypeDef *DACx) {
-  CHECK_PARAM(PARAM_DACx(DACx));
-  /* Set default clock divider for DAC */
-  // CLKPWR_SetPCLKDiv (CLKPWR_PCLKSEL_DAC, CLKPWR_PCLKSEL_CCLK_DIV_4);
-  // Set maximum current output
-  DAC_SetBias(LPC_DAC, DAC_MAX_CURRENT_700uA);
+void DAC_Init(LPC_DAC_TypeDef* DACx)
+{
+    CHECK_PARAM(PARAM_DACx(DACx));
+    /* Set default clock divider for DAC */
+    // CLKPWR_SetPCLKDiv (CLKPWR_PCLKSEL_DAC, CLKPWR_PCLKSEL_CCLK_DIV_4);
+    // Set maximum current output
+    DAC_SetBias(LPC_DAC, DAC_MAX_CURRENT_700uA);
 }
 
 /*********************************************************************/ /**
@@ -117,13 +118,14 @@ void DAC_Init(LPC_DAC_TypeDef *DACx) {
                                                                          * @return
                                                                          *None
                                                                          ***********************************************************************/
-void DAC_UpdateValue(LPC_DAC_TypeDef *DACx, uint32_t dac_value) {
-  uint32_t tmp;
-  CHECK_PARAM(PARAM_DACx(DACx));
-  tmp = DACx->DACR & DAC_BIAS_EN;
-  tmp |= DAC_VALUE(dac_value);
-  // Update value
-  DACx->DACR = tmp;
+void DAC_UpdateValue(LPC_DAC_TypeDef* DACx, uint32_t dac_value)
+{
+    uint32_t tmp;
+    CHECK_PARAM(PARAM_DACx(DACx));
+    tmp = DACx->DACR & DAC_BIAS_EN;
+    tmp |= DAC_VALUE(dac_value);
+    // Update value
+    DACx->DACR = tmp;
 }
 
 /*********************************************************************/ /**
@@ -150,12 +152,14 @@ void DAC_UpdateValue(LPC_DAC_TypeDef *DACx, uint32_t dac_value) {
                                                                          * @return
                                                                          *None
                                                                          ***********************************************************************/
-void DAC_SetBias(LPC_DAC_TypeDef *DACx, uint32_t bias) {
-  CHECK_PARAM(PARAM_DAC_CURRENT_OPT(bias));
-  DACx->DACR &= ~DAC_BIAS_EN;
-  if (bias == DAC_MAX_CURRENT_350uA) {
-    DACx->DACR |= DAC_BIAS_EN;
-  }
+void DAC_SetBias(LPC_DAC_TypeDef* DACx, uint32_t bias)
+{
+    CHECK_PARAM(PARAM_DAC_CURRENT_OPT(bias));
+    DACx->DACR &= ~DAC_BIAS_EN;
+    if (bias == DAC_MAX_CURRENT_350uA)
+    {
+        DACx->DACR |= DAC_BIAS_EN;
+    }
 }
 
 /*********************************************************************/ /**
@@ -206,16 +210,16 @@ void DAC_SetBias(LPC_DAC_TypeDef *DACx, uint32_t bias) {
                                                                          * @return
                                                                          *None
                                                                          ***********************************************************************/
-void DAC_ConfigDAConverterControl(
-    LPC_DAC_TypeDef *DACx, DAC_CONVERTER_CFG_Type *DAC_ConverterConfigStruct) {
-  CHECK_PARAM(PARAM_DACx(DACx));
-  DACx->DACCTRL &= ~DAC_DACCTRL_MASK;
-  if (DAC_ConverterConfigStruct->DBLBUF_ENA)
-    DACx->DACCTRL |= DAC_DBLBUF_ENA;
-  if (DAC_ConverterConfigStruct->CNT_ENA)
-    DACx->DACCTRL |= DAC_CNT_ENA;
-  if (DAC_ConverterConfigStruct->DMA_ENA)
-    DACx->DACCTRL |= DAC_DMA_ENA;
+void DAC_ConfigDAConverterControl(LPC_DAC_TypeDef* DACx, DAC_CONVERTER_CFG_Type* DAC_ConverterConfigStruct)
+{
+    CHECK_PARAM(PARAM_DACx(DACx));
+    DACx->DACCTRL &= ~DAC_DACCTRL_MASK;
+    if (DAC_ConverterConfigStruct->DBLBUF_ENA)
+        DACx->DACCTRL |= DAC_DBLBUF_ENA;
+    if (DAC_ConverterConfigStruct->CNT_ENA)
+        DACx->DACCTRL |= DAC_CNT_ENA;
+    if (DAC_ConverterConfigStruct->DMA_ENA)
+        DACx->DACCTRL |= DAC_DMA_ENA;
 }
 
 /*********************************************************************/ /**
@@ -245,9 +249,10 @@ void DAC_ConfigDAConverterControl(
                                                                          * @return
                                                                          *None
                                                                          ***********************************************************************/
-void DAC_SetDMATimeOut(LPC_DAC_TypeDef *DACx, uint32_t time_out) {
-  CHECK_PARAM(PARAM_DACx(DACx));
-  DACx->DACCNTVAL = DAC_CCNT_VALUE(time_out);
+void DAC_SetDMATimeOut(LPC_DAC_TypeDef* DACx, uint32_t time_out)
+{
+    CHECK_PARAM(PARAM_DACx(DACx));
+    DACx->DACCNTVAL = DAC_CCNT_VALUE(time_out);
 }
 
 /**

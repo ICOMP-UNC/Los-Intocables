@@ -55,9 +55,9 @@
 /* Private Functions ----------------------------------------------------------
  */
 
-static LPC_GPIO_TypeDef *GPIO_GetPointer(uint8_t portNum);
-static GPIO_HalfWord_TypeDef *FIO_HalfWordGetPointer(uint8_t portNum);
-static GPIO_Byte_TypeDef *FIO_ByteGetPointer(uint8_t portNum);
+static LPC_GPIO_TypeDef* GPIO_GetPointer(uint8_t portNum);
+static GPIO_HalfWord_TypeDef* FIO_HalfWordGetPointer(uint8_t portNum);
+static GPIO_Byte_TypeDef* FIO_ByteGetPointer(uint8_t portNum);
 
 /*********************************************************************/ /**
                                                                          * @brief
@@ -85,30 +85,21 @@ static GPIO_Byte_TypeDef *FIO_ByteGetPointer(uint8_t portNum);
                                                                          *GPIO
                                                                          *peripheral
                                                                          **********************************************************************/
-static LPC_GPIO_TypeDef *GPIO_GetPointer(uint8_t portNum) {
-  LPC_GPIO_TypeDef *pGPIO = NULL;
+static LPC_GPIO_TypeDef* GPIO_GetPointer(uint8_t portNum)
+{
+    LPC_GPIO_TypeDef* pGPIO = NULL;
 
-  switch (portNum) {
-  case 0:
-    pGPIO = LPC_GPIO0;
-    break;
-  case 1:
-    pGPIO = LPC_GPIO1;
-    break;
-  case 2:
-    pGPIO = LPC_GPIO2;
-    break;
-  case 3:
-    pGPIO = LPC_GPIO3;
-    break;
-  case 4:
-    pGPIO = LPC_GPIO4;
-    break;
-  default:
-    break;
-  }
+    switch (portNum)
+    {
+        case 0: pGPIO = LPC_GPIO0; break;
+        case 1: pGPIO = LPC_GPIO1; break;
+        case 2: pGPIO = LPC_GPIO2; break;
+        case 3: pGPIO = LPC_GPIO3; break;
+        case 4: pGPIO = LPC_GPIO4; break;
+        default: break;
+    }
 
-  return pGPIO;
+    return pGPIO;
 }
 
 /*********************************************************************/ /**
@@ -139,30 +130,21 @@ static LPC_GPIO_TypeDef *GPIO_GetPointer(uint8_t portNum) {
                                                                          *to FIO
                                                                          *peripheral
                                                                          **********************************************************************/
-static GPIO_HalfWord_TypeDef *FIO_HalfWordGetPointer(uint8_t portNum) {
-  GPIO_HalfWord_TypeDef *pFIO = NULL;
+static GPIO_HalfWord_TypeDef* FIO_HalfWordGetPointer(uint8_t portNum)
+{
+    GPIO_HalfWord_TypeDef* pFIO = NULL;
 
-  switch (portNum) {
-  case 0:
-    pFIO = GPIO0_HalfWord;
-    break;
-  case 1:
-    pFIO = GPIO1_HalfWord;
-    break;
-  case 2:
-    pFIO = GPIO2_HalfWord;
-    break;
-  case 3:
-    pFIO = GPIO3_HalfWord;
-    break;
-  case 4:
-    pFIO = GPIO4_HalfWord;
-    break;
-  default:
-    break;
-  }
+    switch (portNum)
+    {
+        case 0: pFIO = GPIO0_HalfWord; break;
+        case 1: pFIO = GPIO1_HalfWord; break;
+        case 2: pFIO = GPIO2_HalfWord; break;
+        case 3: pFIO = GPIO3_HalfWord; break;
+        case 4: pFIO = GPIO4_HalfWord; break;
+        default: break;
+    }
 
-  return pFIO;
+    return pFIO;
 }
 
 /*********************************************************************/ /**
@@ -193,30 +175,21 @@ static GPIO_HalfWord_TypeDef *FIO_HalfWordGetPointer(uint8_t portNum) {
                                                                          *to FIO
                                                                          *peripheral
                                                                          **********************************************************************/
-static GPIO_Byte_TypeDef *FIO_ByteGetPointer(uint8_t portNum) {
-  GPIO_Byte_TypeDef *pFIO = NULL;
+static GPIO_Byte_TypeDef* FIO_ByteGetPointer(uint8_t portNum)
+{
+    GPIO_Byte_TypeDef* pFIO = NULL;
 
-  switch (portNum) {
-  case 0:
-    pFIO = GPIO0_Byte;
-    break;
-  case 1:
-    pFIO = GPIO1_Byte;
-    break;
-  case 2:
-    pFIO = GPIO2_Byte;
-    break;
-  case 3:
-    pFIO = GPIO3_Byte;
-    break;
-  case 4:
-    pFIO = GPIO4_Byte;
-    break;
-  default:
-    break;
-  }
+    switch (portNum)
+    {
+        case 0: pFIO = GPIO0_Byte; break;
+        case 1: pFIO = GPIO1_Byte; break;
+        case 2: pFIO = GPIO2_Byte; break;
+        case 3: pFIO = GPIO3_Byte; break;
+        case 4: pFIO = GPIO4_Byte; break;
+        default: break;
+    }
 
-  return pFIO;
+    return pFIO;
 }
 
 /* End of Private Functions ---------------------------------------------------
@@ -306,19 +279,23 @@ static GPIO_Byte_TypeDef *FIO_ByteGetPointer(uint8_t portNum) {
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void GPIO_SetDir(uint8_t portNum, uint32_t bitValue, uint8_t dir) {
-  LPC_GPIO_TypeDef *pGPIO = GPIO_GetPointer(portNum);
+void GPIO_SetDir(uint8_t portNum, uint32_t bitValue, uint8_t dir)
+{
+    LPC_GPIO_TypeDef* pGPIO = GPIO_GetPointer(portNum);
 
-  if (pGPIO != NULL) {
-    // Enable Output
-    if (dir) {
-      pGPIO->FIODIR |= bitValue;
+    if (pGPIO != NULL)
+    {
+        // Enable Output
+        if (dir)
+        {
+            pGPIO->FIODIR |= bitValue;
+        }
+        // Enable Input
+        else
+        {
+            pGPIO->FIODIR &= ~bitValue;
+        }
     }
-    // Enable Input
-    else {
-      pGPIO->FIODIR &= ~bitValue;
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -404,12 +381,14 @@ void GPIO_SetDir(uint8_t portNum, uint32_t bitValue, uint8_t dir) {
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void GPIO_SetValue(uint8_t portNum, uint32_t bitValue) {
-  LPC_GPIO_TypeDef *pGPIO = GPIO_GetPointer(portNum);
+void GPIO_SetValue(uint8_t portNum, uint32_t bitValue)
+{
+    LPC_GPIO_TypeDef* pGPIO = GPIO_GetPointer(portNum);
 
-  if (pGPIO != NULL) {
-    pGPIO->FIOSET = bitValue;
-  }
+    if (pGPIO != NULL)
+    {
+        pGPIO->FIOSET = bitValue;
+    }
 }
 
 /*********************************************************************/ /**
@@ -495,12 +474,14 @@ void GPIO_SetValue(uint8_t portNum, uint32_t bitValue) {
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void GPIO_ClearValue(uint8_t portNum, uint32_t bitValue) {
-  LPC_GPIO_TypeDef *pGPIO = GPIO_GetPointer(portNum);
+void GPIO_ClearValue(uint8_t portNum, uint32_t bitValue)
+{
+    LPC_GPIO_TypeDef* pGPIO = GPIO_GetPointer(portNum);
 
-  if (pGPIO != NULL) {
-    pGPIO->FIOCLR = bitValue;
-  }
+    if (pGPIO != NULL)
+    {
+        pGPIO->FIOCLR = bitValue;
+    }
 }
 
 /*********************************************************************/ /**
@@ -556,14 +537,16 @@ void GPIO_ClearValue(uint8_t portNum, uint32_t bitValue) {
                                                                          *or
                                                                          *output.
                                                                          **********************************************************************/
-uint32_t GPIO_ReadValue(uint8_t portNum) {
-  LPC_GPIO_TypeDef *pGPIO = GPIO_GetPointer(portNum);
+uint32_t GPIO_ReadValue(uint8_t portNum)
+{
+    LPC_GPIO_TypeDef* pGPIO = GPIO_GetPointer(portNum);
 
-  if (pGPIO != NULL) {
-    return pGPIO->FIOPIN;
-  }
+    if (pGPIO != NULL)
+    {
+        return pGPIO->FIOPIN;
+    }
 
-  return (0);
+    return (0);
 }
 
 /*********************************************************************/ /**
@@ -620,19 +603,19 @@ uint32_t GPIO_ReadValue(uint8_t portNum) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void GPIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState) {
-  if ((portNum == 0) && (edgeState == 0))
-    LPC_GPIOINT->IO0IntEnR = bitValue;
-  else if ((portNum == 2) && (edgeState == 0))
-    LPC_GPIOINT->IO2IntEnR = bitValue;
-  else if ((portNum == 0) && (edgeState == 1))
-    LPC_GPIOINT->IO0IntEnF = bitValue;
-  else if ((portNum == 2) && (edgeState == 1))
-    LPC_GPIOINT->IO2IntEnF = bitValue;
-  else
-    // Error
-    while (1)
-      ;
+void GPIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState)
+{
+    if ((portNum == 0) && (edgeState == 0))
+        LPC_GPIOINT->IO0IntEnR = bitValue;
+    else if ((portNum == 2) && (edgeState == 0))
+        LPC_GPIOINT->IO2IntEnR = bitValue;
+    else if ((portNum == 0) && (edgeState == 1))
+        LPC_GPIOINT->IO0IntEnF = bitValue;
+    else if ((portNum == 2) && (edgeState == 1))
+        LPC_GPIOINT->IO2IntEnF = bitValue;
+    else
+        // Error
+        while (1);
 }
 
 /*********************************************************************/ /**
@@ -712,20 +695,19 @@ void GPIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState) {
                                                                          *on
                                                                          *P0.0
                                                                          **********************************************************************/
-FunctionalState GPIO_GetIntStatus(uint8_t portNum, uint32_t pinNum,
-                                  uint8_t edgeState) {
-  if ((portNum == 0) && (edgeState == 0)) // Rising Edge
-    return ((FunctionalState)(((LPC_GPIOINT->IO0IntStatR) >> pinNum) & 0x1));
-  else if ((portNum == 2) && (edgeState == 0))
-    return ((FunctionalState)(((LPC_GPIOINT->IO2IntStatR) >> pinNum) & 0x1));
-  else if ((portNum == 0) && (edgeState == 1)) // Falling Edge
-    return ((FunctionalState)(((LPC_GPIOINT->IO0IntStatF) >> pinNum) & 0x1));
-  else if ((portNum == 2) && (edgeState == 1))
-    return ((FunctionalState)(((LPC_GPIOINT->IO2IntStatF) >> pinNum) & 0x1));
-  else
-    // Error
-    while (1)
-      ;
+FunctionalState GPIO_GetIntStatus(uint8_t portNum, uint32_t pinNum, uint8_t edgeState)
+{
+    if ((portNum == 0) && (edgeState == 0)) // Rising Edge
+        return ((FunctionalState)(((LPC_GPIOINT->IO0IntStatR) >> pinNum) & 0x1));
+    else if ((portNum == 2) && (edgeState == 0))
+        return ((FunctionalState)(((LPC_GPIOINT->IO2IntStatR) >> pinNum) & 0x1));
+    else if ((portNum == 0) && (edgeState == 1)) // Falling Edge
+        return ((FunctionalState)(((LPC_GPIOINT->IO0IntStatF) >> pinNum) & 0x1));
+    else if ((portNum == 2) && (edgeState == 1))
+        return ((FunctionalState)(((LPC_GPIOINT->IO2IntStatF) >> pinNum) & 0x1));
+    else
+        // Error
+        while (1);
 }
 /*********************************************************************/ /**
                                                                          * @brief
@@ -766,15 +748,15 @@ FunctionalState GPIO_GetIntStatus(uint8_t portNum, uint32_t pinNum,
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void GPIO_ClearInt(uint8_t portNum, uint32_t bitValue) {
-  if (portNum == 0)
-    LPC_GPIOINT->IO0IntClr = bitValue;
-  else if (portNum == 2)
-    LPC_GPIOINT->IO2IntClr = bitValue;
-  else
-    // Invalid portNum
-    while (1)
-      ;
+void GPIO_ClearInt(uint8_t portNum, uint32_t bitValue)
+{
+    if (portNum == 0)
+        LPC_GPIOINT->IO0IntClr = bitValue;
+    else if (portNum == 2)
+        LPC_GPIOINT->IO2IntClr = bitValue;
+    else
+        // Invalid portNum
+        while (1);
 }
 
 /* FIO word accessible
@@ -784,49 +766,57 @@ void GPIO_ClearInt(uint8_t portNum, uint32_t bitValue) {
 /**
  * @brief The same with GPIO_SetDir()
  */
-void FIO_SetDir(uint8_t portNum, uint32_t bitValue, uint8_t dir) {
-  GPIO_SetDir(portNum, bitValue, dir);
+void FIO_SetDir(uint8_t portNum, uint32_t bitValue, uint8_t dir)
+{
+    GPIO_SetDir(portNum, bitValue, dir);
 }
 
 /**
  * @brief The same with GPIO_SetValue()
  */
-void FIO_SetValue(uint8_t portNum, uint32_t bitValue) {
-  GPIO_SetValue(portNum, bitValue);
+void FIO_SetValue(uint8_t portNum, uint32_t bitValue)
+{
+    GPIO_SetValue(portNum, bitValue);
 }
 
 /**
  * @brief The same with GPIO_ClearValue()
  */
-void FIO_ClearValue(uint8_t portNum, uint32_t bitValue) {
-  GPIO_ClearValue(portNum, bitValue);
+void FIO_ClearValue(uint8_t portNum, uint32_t bitValue)
+{
+    GPIO_ClearValue(portNum, bitValue);
 }
 
 /**
  * @brief The same with GPIO_ReadValue()
  */
-uint32_t FIO_ReadValue(uint8_t portNum) { return (GPIO_ReadValue(portNum)); }
+uint32_t FIO_ReadValue(uint8_t portNum)
+{
+    return (GPIO_ReadValue(portNum));
+}
 
 /**
  * @brief The same with GPIO_IntCmd()
  */
-void FIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState) {
-  GPIO_IntCmd(portNum, bitValue, edgeState);
+void FIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState)
+{
+    GPIO_IntCmd(portNum, bitValue, edgeState);
 }
 
 /**
  * @brief The same with GPIO_GetIntStatus()
  */
-FunctionalState FIO_GetIntStatus(uint8_t portNum, uint32_t pinNum,
-                                 uint8_t edgeState) {
-  return (GPIO_GetIntStatus(portNum, pinNum, edgeState));
+FunctionalState FIO_GetIntStatus(uint8_t portNum, uint32_t pinNum, uint8_t edgeState)
+{
+    return (GPIO_GetIntStatus(portNum, pinNum, edgeState));
 }
 
 /**
  * @brief The same with GPIO_ClearInt()
  */
-void FIO_ClearInt(uint8_t portNum, uint32_t bitValue) {
-  GPIO_ClearInt(portNum, bitValue);
+void FIO_ClearInt(uint8_t portNum, uint32_t bitValue)
+{
+    GPIO_ClearInt(portNum, bitValue);
 }
 /*********************************************************************/ /**
                                                                          * @brief
@@ -943,18 +933,22 @@ void FIO_ClearInt(uint8_t portNum, uint32_t bitValue) {
                                                                          *updated
                                                                          *pin.
                                                                          **********************************************************************/
-void FIO_SetMask(uint8_t portNum, uint32_t bitValue, uint8_t maskValue) {
-  LPC_GPIO_TypeDef *pFIO = GPIO_GetPointer(portNum);
-  if (pFIO != NULL) {
-    // Mask
-    if (maskValue) {
-      pFIO->FIOMASK |= bitValue;
+void FIO_SetMask(uint8_t portNum, uint32_t bitValue, uint8_t maskValue)
+{
+    LPC_GPIO_TypeDef* pFIO = GPIO_GetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Mask
+        if (maskValue)
+        {
+            pFIO->FIOMASK |= bitValue;
+        }
+        // Un-mask
+        else
+        {
+            pFIO->FIOMASK &= ~bitValue;
+        }
     }
-    // Un-mask
-    else {
-      pFIO->FIOMASK &= ~bitValue;
-    }
-  }
 }
 
 /* FIO halfword accessible
@@ -1038,33 +1032,40 @@ void FIO_SetMask(uint8_t portNum, uint32_t bitValue, uint8_t maskValue) {
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void FIO_HalfWordSetDir(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue,
-                        uint8_t dir) {
-  GPIO_HalfWord_TypeDef *pFIO = FIO_HalfWordGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Output direction
-    if (dir) {
-      // Upper
-      if (halfwordNum) {
-        pFIO->FIODIRU |= bitValue;
-      }
-      // lower
-      else {
-        pFIO->FIODIRL |= bitValue;
-      }
+void FIO_HalfWordSetDir(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue, uint8_t dir)
+{
+    GPIO_HalfWord_TypeDef* pFIO = FIO_HalfWordGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Output direction
+        if (dir)
+        {
+            // Upper
+            if (halfwordNum)
+            {
+                pFIO->FIODIRU |= bitValue;
+            }
+            // lower
+            else
+            {
+                pFIO->FIODIRL |= bitValue;
+            }
+        }
+        // Input direction
+        else
+        {
+            // Upper
+            if (halfwordNum)
+            {
+                pFIO->FIODIRU &= ~bitValue;
+            }
+            // lower
+            else
+            {
+                pFIO->FIODIRL &= ~bitValue;
+            }
+        }
     }
-    // Input direction
-    else {
-      // Upper
-      if (halfwordNum) {
-        pFIO->FIODIRU &= ~bitValue;
-      }
-      // lower
-      else {
-        pFIO->FIODIRL &= ~bitValue;
-      }
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1196,33 +1197,40 @@ void FIO_HalfWordSetDir(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue,
                                                                          *updated
                                                                          *pin.
                                                                          **********************************************************************/
-void FIO_HalfWordSetMask(uint8_t portNum, uint8_t halfwordNum,
-                         uint16_t bitValue, uint8_t maskValue) {
-  GPIO_HalfWord_TypeDef *pFIO = FIO_HalfWordGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Mask
-    if (maskValue) {
-      // Upper
-      if (halfwordNum) {
-        pFIO->FIOMASKU |= bitValue;
-      }
-      // lower
-      else {
-        pFIO->FIOMASKL |= bitValue;
-      }
+void FIO_HalfWordSetMask(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue, uint8_t maskValue)
+{
+    GPIO_HalfWord_TypeDef* pFIO = FIO_HalfWordGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Mask
+        if (maskValue)
+        {
+            // Upper
+            if (halfwordNum)
+            {
+                pFIO->FIOMASKU |= bitValue;
+            }
+            // lower
+            else
+            {
+                pFIO->FIOMASKL |= bitValue;
+            }
+        }
+        // Un-mask
+        else
+        {
+            // Upper
+            if (halfwordNum)
+            {
+                pFIO->FIOMASKU &= ~bitValue;
+            }
+            // lower
+            else
+            {
+                pFIO->FIOMASKL &= ~bitValue;
+            }
+        }
     }
-    // Un-mask
-    else {
-      // Upper
-      if (halfwordNum) {
-        pFIO->FIOMASKU &= ~bitValue;
-      }
-      // lower
-      else {
-        pFIO->FIOMASKL &= ~bitValue;
-      }
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1305,19 +1313,22 @@ void FIO_HalfWordSetMask(uint8_t portNum, uint8_t halfwordNum,
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void FIO_HalfWordSetValue(uint8_t portNum, uint8_t halfwordNum,
-                          uint16_t bitValue) {
-  GPIO_HalfWord_TypeDef *pFIO = FIO_HalfWordGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Upper
-    if (halfwordNum) {
-      pFIO->FIOSETU = bitValue;
+void FIO_HalfWordSetValue(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue)
+{
+    GPIO_HalfWord_TypeDef* pFIO = FIO_HalfWordGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Upper
+        if (halfwordNum)
+        {
+            pFIO->FIOSETU = bitValue;
+        }
+        // lower
+        else
+        {
+            pFIO->FIOSETL = bitValue;
+        }
     }
-    // lower
-    else {
-      pFIO->FIOSETL = bitValue;
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1400,19 +1411,22 @@ void FIO_HalfWordSetValue(uint8_t portNum, uint8_t halfwordNum,
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void FIO_HalfWordClearValue(uint8_t portNum, uint8_t halfwordNum,
-                            uint16_t bitValue) {
-  GPIO_HalfWord_TypeDef *pFIO = FIO_HalfWordGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Upper
-    if (halfwordNum) {
-      pFIO->FIOCLRU = bitValue;
+void FIO_HalfWordClearValue(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue)
+{
+    GPIO_HalfWord_TypeDef* pFIO = FIO_HalfWordGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Upper
+        if (halfwordNum)
+        {
+            pFIO->FIOCLRU = bitValue;
+        }
+        // lower
+        else
+        {
+            pFIO->FIOCLRL = bitValue;
+        }
     }
-    // lower
-    else {
-      pFIO->FIOCLRL = bitValue;
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1480,19 +1494,23 @@ void FIO_HalfWordClearValue(uint8_t portNum, uint8_t halfwordNum,
                                                                          *or
                                                                          *output.
                                                                          **********************************************************************/
-uint16_t FIO_HalfWordReadValue(uint8_t portNum, uint8_t halfwordNum) {
-  GPIO_HalfWord_TypeDef *pFIO = FIO_HalfWordGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Upper
-    if (halfwordNum) {
-      return (pFIO->FIOPINU);
+uint16_t FIO_HalfWordReadValue(uint8_t portNum, uint8_t halfwordNum)
+{
+    GPIO_HalfWord_TypeDef* pFIO = FIO_HalfWordGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Upper
+        if (halfwordNum)
+        {
+            return (pFIO->FIOPINU);
+        }
+        // lower
+        else
+        {
+            return (pFIO->FIOPINL);
+        }
     }
-    // lower
-    else {
-      return (pFIO->FIOPINL);
-    }
-  }
-  return (0);
+    return (0);
 }
 
 /* FIO Byte accessible
@@ -1576,23 +1594,28 @@ uint16_t FIO_HalfWordReadValue(uint8_t portNum, uint8_t halfwordNum) {
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void FIO_ByteSetDir(uint8_t portNum, uint8_t byteNum, uint8_t bitValue,
-                    uint8_t dir) {
-  GPIO_Byte_TypeDef *pFIO = FIO_ByteGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Output direction
-    if (dir) {
-      if (byteNum <= 3) {
-        pFIO->FIODIR[byteNum] |= bitValue;
-      }
+void FIO_ByteSetDir(uint8_t portNum, uint8_t byteNum, uint8_t bitValue, uint8_t dir)
+{
+    GPIO_Byte_TypeDef* pFIO = FIO_ByteGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Output direction
+        if (dir)
+        {
+            if (byteNum <= 3)
+            {
+                pFIO->FIODIR[byteNum] |= bitValue;
+            }
+        }
+        // Input direction
+        else
+        {
+            if (byteNum <= 3)
+            {
+                pFIO->FIODIR[byteNum] &= ~bitValue;
+            }
+        }
     }
-    // Input direction
-    else {
-      if (byteNum <= 3) {
-        pFIO->FIODIR[byteNum] &= ~bitValue;
-      }
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1725,23 +1748,28 @@ void FIO_ByteSetDir(uint8_t portNum, uint8_t byteNum, uint8_t bitValue,
                                                                          *updated
                                                                          *pin.
                                                                          **********************************************************************/
-void FIO_ByteSetMask(uint8_t portNum, uint8_t byteNum, uint8_t bitValue,
-                     uint8_t maskValue) {
-  GPIO_Byte_TypeDef *pFIO = FIO_ByteGetPointer(portNum);
-  if (pFIO != NULL) {
-    // Mask
-    if (maskValue) {
-      if (byteNum <= 3) {
-        pFIO->FIOMASK[byteNum] |= bitValue;
-      }
+void FIO_ByteSetMask(uint8_t portNum, uint8_t byteNum, uint8_t bitValue, uint8_t maskValue)
+{
+    GPIO_Byte_TypeDef* pFIO = FIO_ByteGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        // Mask
+        if (maskValue)
+        {
+            if (byteNum <= 3)
+            {
+                pFIO->FIOMASK[byteNum] |= bitValue;
+            }
+        }
+        // Un-mask
+        else
+        {
+            if (byteNum <= 3)
+            {
+                pFIO->FIOMASK[byteNum] &= ~bitValue;
+            }
+        }
     }
-    // Un-mask
-    else {
-      if (byteNum <= 3) {
-        pFIO->FIOMASK[byteNum] &= ~bitValue;
-      }
-    }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1824,13 +1852,16 @@ void FIO_ByteSetMask(uint8_t portNum, uint8_t byteNum, uint8_t bitValue,
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void FIO_ByteSetValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue) {
-  GPIO_Byte_TypeDef *pFIO = FIO_ByteGetPointer(portNum);
-  if (pFIO != NULL) {
-    if (byteNum <= 3) {
-      pFIO->FIOSET[byteNum] = bitValue;
+void FIO_ByteSetValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue)
+{
+    GPIO_Byte_TypeDef* pFIO = FIO_ByteGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        if (byteNum <= 3)
+        {
+            pFIO->FIOSET[byteNum] = bitValue;
+        }
     }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1913,13 +1944,16 @@ void FIO_ByteSetValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue) {
                                                                          *this
                                                                          *function.
                                                                          **********************************************************************/
-void FIO_ByteClearValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue) {
-  GPIO_Byte_TypeDef *pFIO = FIO_ByteGetPointer(portNum);
-  if (pFIO != NULL) {
-    if (byteNum <= 3) {
-      pFIO->FIOCLR[byteNum] = bitValue;
+void FIO_ByteClearValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue)
+{
+    GPIO_Byte_TypeDef* pFIO = FIO_ByteGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        if (byteNum <= 3)
+        {
+            pFIO->FIOCLR[byteNum] = bitValue;
+        }
     }
-  }
 }
 
 /*********************************************************************/ /**
@@ -1988,14 +2022,17 @@ void FIO_ByteClearValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue) {
                                                                          *or
                                                                          *output.
                                                                          **********************************************************************/
-uint8_t FIO_ByteReadValue(uint8_t portNum, uint8_t byteNum) {
-  GPIO_Byte_TypeDef *pFIO = FIO_ByteGetPointer(portNum);
-  if (pFIO != NULL) {
-    if (byteNum <= 3) {
-      return (pFIO->FIOPIN[byteNum]);
+uint8_t FIO_ByteReadValue(uint8_t portNum, uint8_t byteNum)
+{
+    GPIO_Byte_TypeDef* pFIO = FIO_ByteGetPointer(portNum);
+    if (pFIO != NULL)
+    {
+        if (byteNum <= 3)
+        {
+            return (pFIO->FIOPIN[byteNum]);
+        }
     }
-  }
-  return (0);
+    return (0);
 }
 
 /**

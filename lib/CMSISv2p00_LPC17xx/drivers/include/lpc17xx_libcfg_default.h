@@ -150,8 +150,7 @@
  *                    - If expr is true, it returns no value.
  * @return		None
  *******************************************************************************/
-#define CHECK_PARAM(expr)                                                      \
-  ((expr) ? (void)0 : check_failed((uint8_t *)__FILE__, __LINE__))
+#define CHECK_PARAM(expr) ((expr) ? (void)0 : check_failed((uint8_t*)__FILE__, __LINE__))
 #else
 #define CHECK_PARAM(expr)
 #endif /* DEBUG */
@@ -167,7 +166,7 @@
  */
 
 #ifdef DEBUG
-void check_failed(uint8_t *file, uint32_t line);
+void check_failed(uint8_t* file, uint32_t line);
 #endif
 
 /**

@@ -83,33 +83,40 @@
                                                                          * @return
                                                                          *None
                                                                          ***********************************************************************/
-void SPI_SetClock(LPC_SPI_TypeDef *SPIx, uint32_t target_clock) {
-  uint32_t spi_pclk;
-  uint32_t prescale, temp;
+void SPI_SetClock(LPC_SPI_TypeDef* SPIx, uint32_t target_clock)
+{
+    uint32_t spi_pclk;
+    uint32_t prescale, temp;
 
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  if (SPIx == LPC_SPI) {
-    spi_pclk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_SPI);
-  } else {
-    return;
-  }
-
-  prescale = 8;
-  // Find closest clock to target clock
-  while (1) {
-    temp = target_clock * prescale;
-    if (temp >= spi_pclk) {
-      break;
+    if (SPIx == LPC_SPI)
+    {
+        spi_pclk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_SPI);
     }
-    prescale += 2;
-    if (prescale >= 254) {
-      break;
+    else
+    {
+        return;
     }
-  }
 
-  // Write to register
-  SPIx->SPCCR = SPI_SPCCR_COUNTER(prescale);
+    prescale = 8;
+    // Find closest clock to target clock
+    while (1)
+    {
+        temp = target_clock * prescale;
+        if (temp >= spi_pclk)
+        {
+            break;
+        }
+        prescale += 2;
+        if (prescale >= 254)
+        {
+            break;
+        }
+    }
+
+    // Write to register
+    SPIx->SPCCR = SPI_SPCCR_COUNTER(prescale);
 }
 
 /*********************************************************************/ /**
@@ -135,13 +142,15 @@ void SPI_SetClock(LPC_SPI_TypeDef *SPIx, uint32_t target_clock) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void SPI_DeInit(LPC_SPI_TypeDef *SPIx) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+void SPI_DeInit(LPC_SPI_TypeDef* SPIx)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  if (SPIx == LPC_SPI) {
-    /* Set up clock and power for SPI module */
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCSPI, DISABLE);
-  }
+    if (SPIx == LPC_SPI)
+    {
+        /* Set up clock and power for SPI module */
+        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCSPI, DISABLE);
+    }
 }
 
 /*********************************************************************/ /**
@@ -169,9 +178,10 @@ void SPI_DeInit(LPC_SPI_TypeDef *SPIx) {
                                                                          *be
                                                                          *8-16
                                                                          **********************************************************************/
-uint8_t SPI_GetDataSize(LPC_SPI_TypeDef *SPIx) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
-  return ((SPIx->SPCR) >> 8 & 0xF);
+uint8_t SPI_GetDataSize(LPC_SPI_TypeDef* SPIx)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
+    return ((SPIx->SPCR) >> 8 & 0xF);
 }
 
 /********************************************************************/ /**
@@ -212,38 +222,43 @@ uint8_t SPI_GetDataSize(LPC_SPI_TypeDef *SPIx) {
                                                                         * @return
                                                                         *None
                                                                         *********************************************************************/
-void SPI_Init(LPC_SPI_TypeDef *SPIx, SPI_CFG_Type *SPI_ConfigStruct) {
-  uint32_t tmp;
+void SPI_Init(LPC_SPI_TypeDef* SPIx, SPI_CFG_Type* SPI_ConfigStruct)
+{
+    uint32_t tmp;
 
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  if (SPIx == LPC_SPI) {
-    /* Set up clock and power for UART module */
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCSPI, ENABLE);
-  } else {
-    return;
-  }
+    if (SPIx == LPC_SPI)
+    {
+        /* Set up clock and power for UART module */
+        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCSPI, ENABLE);
+    }
+    else
+    {
+        return;
+    }
 
-  // Configure SPI, interrupt is disable as default
-  tmp = ((SPI_ConfigStruct->CPHA) | (SPI_ConfigStruct->CPOL) |
-         (SPI_ConfigStruct->DataOrder) | (SPI_ConfigStruct->Databit) |
-         (SPI_ConfigStruct->Mode) | SPI_SPCR_BIT_EN) &
-        SPI_SPCR_BITMASK;
-  // write back to SPI control register
-  SPIx->SPCR = tmp;
+    // Configure SPI, interrupt is disable as default
+    tmp = ((SPI_ConfigStruct->CPHA) | (SPI_ConfigStruct->CPOL) | (SPI_ConfigStruct->DataOrder) |
+           (SPI_ConfigStruct->Databit) | (SPI_ConfigStruct->Mode) | SPI_SPCR_BIT_EN) &
+          SPI_SPCR_BITMASK;
+    // write back to SPI control register
+    SPIx->SPCR = tmp;
 
-  // Set clock rate for SPI peripheral
-  SPI_SetClock(SPIx, SPI_ConfigStruct->ClockRate);
+    // Set clock rate for SPI peripheral
+    SPI_SetClock(SPIx, SPI_ConfigStruct->ClockRate);
 
-  // If interrupt flag is set, Write '1' to Clear interrupt flag
-  if (SPIx->SPINT & SPI_SPINT_INTFLAG) {
-    SPIx->SPINT = SPI_SPINT_INTFLAG;
-  }
+    // If interrupt flag is set, Write '1' to Clear interrupt flag
+    if (SPIx->SPINT & SPI_SPINT_INTFLAG)
+    {
+        SPIx->SPINT = SPI_SPINT_INTFLAG;
+    }
 }
 
 /*****************************************************************************/ /**
-                                                                                 * @brief		Fills each SPI_InitStruct
-                                                                                 *member with its default value:
+                                                                                 * @brief		Fills each
+                                                                                 *SPI_InitStruct member with its default
+                                                                                 *value:
                                                                                  * 				- CPHA = SPI_CPHA_FIRST
                                                                                  * 				- CPOL = SPI_CPOL_HI
                                                                                  * 				- ClockRate = 1000000
@@ -252,18 +267,19 @@ void SPI_Init(LPC_SPI_TypeDef *SPIx, SPI_CFG_Type *SPI_ConfigStruct) {
                                                                                  * 				- Databit =
                                                                                  *SPI_DATABIT_8
                                                                                  * 				- Mode = SPI_MASTER_MODE
-                                                                                 * @param[in]	SPI_InitStruct Pointer to
-                                                                                 *a SPI_CFG_Type structure which will be
-                                                                                 *initialized.
+                                                                                 * @param[in]	SPI_InitStruct Pointer
+                                                                                 *to a SPI_CFG_Type structure which will
+                                                                                 *be initialized.
                                                                                  * @return		None
                                                                                  *******************************************************************************/
-void SPI_ConfigStructInit(SPI_CFG_Type *SPI_InitStruct) {
-  SPI_InitStruct->CPHA = SPI_CPHA_FIRST;
-  SPI_InitStruct->CPOL = SPI_CPOL_HI;
-  SPI_InitStruct->ClockRate = 1000000;
-  SPI_InitStruct->DataOrder = SPI_DATA_MSB_FIRST;
-  SPI_InitStruct->Databit = SPI_DATABIT_8;
-  SPI_InitStruct->Mode = SPI_MASTER_MODE;
+void SPI_ConfigStructInit(SPI_CFG_Type* SPI_InitStruct)
+{
+    SPI_InitStruct->CPHA = SPI_CPHA_FIRST;
+    SPI_InitStruct->CPOL = SPI_CPOL_HI;
+    SPI_InitStruct->ClockRate = 1000000;
+    SPI_InitStruct->DataOrder = SPI_DATA_MSB_FIRST;
+    SPI_InitStruct->Databit = SPI_DATABIT_8;
+    SPI_InitStruct->Mode = SPI_MASTER_MODE;
 }
 
 /*********************************************************************/ /**
@@ -303,10 +319,11 @@ void SPI_ConfigStructInit(SPI_CFG_Type *SPI_InitStruct) {
                                                                          * @return
                                                                          *none
                                                                          **********************************************************************/
-void SPI_SendData(LPC_SPI_TypeDef *SPIx, uint16_t Data) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+void SPI_SendData(LPC_SPI_TypeDef* SPIx, uint16_t Data)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  SPIx->SPDR = Data & SPI_SPDR_BITMASK;
+    SPIx->SPDR = Data & SPI_SPDR_BITMASK;
 }
 
 /*********************************************************************/ /**
@@ -332,10 +349,11 @@ void SPI_SendData(LPC_SPI_TypeDef *SPIx, uint16_t Data) {
                                                                          *(16-bit
                                                                          *long)
                                                                          **********************************************************************/
-uint16_t SPI_ReceiveData(LPC_SPI_TypeDef *SPIx) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+uint16_t SPI_ReceiveData(LPC_SPI_TypeDef* SPIx)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  return ((uint16_t)(SPIx->SPDR & SPI_SPDR_BITMASK));
+    return ((uint16_t)(SPIx->SPDR & SPI_SPDR_BITMASK));
 }
 
 /*********************************************************************/ /**
@@ -413,119 +431,153 @@ uint16_t SPI_ReceiveData(LPC_SPI_TypeDef *SPIx) {
                                                                          *slave
                                                                          *mode.
                                                                          ***********************************************************************/
-int32_t SPI_ReadWrite(LPC_SPI_TypeDef *SPIx, SPI_DATA_SETUP_Type *dataCfg,
-                      SPI_TRANSFER_Type xfType) {
-  uint8_t *rdata8 = NULL;
-  uint8_t *wdata8 = NULL;
-  uint16_t *rdata16 = NULL;
-  uint16_t *wdata16 = NULL;
-  uint32_t stat = 0;
-  uint32_t temp;
-  uint8_t dataword;
+int32_t SPI_ReadWrite(LPC_SPI_TypeDef* SPIx, SPI_DATA_SETUP_Type* dataCfg, SPI_TRANSFER_Type xfType)
+{
+    uint8_t* rdata8 = NULL;
+    uint8_t* wdata8 = NULL;
+    uint16_t* rdata16 = NULL;
+    uint16_t* wdata16 = NULL;
+    uint32_t stat = 0;
+    uint32_t temp;
+    uint8_t dataword;
 
-  // read for empty buffer
-  temp = SPIx->SPDR;
-  // dummy to clear status
-  temp = SPIx->SPSR;
-  dataCfg->counter = 0;
-  dataCfg->status = 0;
+    // read for empty buffer
+    temp = SPIx->SPDR;
+    // dummy to clear status
+    temp = SPIx->SPSR;
+    dataCfg->counter = 0;
+    dataCfg->status = 0;
 
-  if (SPI_GetDataSize(SPIx) == 8)
-    dataword = 0;
-  else
-    dataword = 1;
-  if (xfType == SPI_TRANSFER_POLLING) {
+    if (SPI_GetDataSize(SPIx) == 8)
+        dataword = 0;
+    else
+        dataword = 1;
+    if (xfType == SPI_TRANSFER_POLLING)
+    {
 
-    if (dataword == 0) {
-      rdata8 = (uint8_t *)dataCfg->rx_data;
-      wdata8 = (uint8_t *)dataCfg->tx_data;
-    } else {
-      rdata16 = (uint16_t *)dataCfg->rx_data;
-      wdata16 = (uint16_t *)dataCfg->tx_data;
-    }
-
-    while (dataCfg->counter < dataCfg->length) {
-      // Write data to buffer
-      if (dataCfg->tx_data == NULL) {
-        if (dataword == 0) {
-          SPI_SendData(SPIx, 0xFF);
-        } else {
-          SPI_SendData(SPIx, 0xFFFF);
+        if (dataword == 0)
+        {
+            rdata8 = (uint8_t*)dataCfg->rx_data;
+            wdata8 = (uint8_t*)dataCfg->tx_data;
         }
-      } else {
-        if (dataword == 0) {
-          SPI_SendData(SPIx, *wdata8);
-          wdata8++;
-        } else {
-          SPI_SendData(SPIx, *wdata16);
-          wdata16++;
+        else
+        {
+            rdata16 = (uint16_t*)dataCfg->rx_data;
+            wdata16 = (uint16_t*)dataCfg->tx_data;
         }
-      }
-      // Wait for transfer complete
-      while (!((stat = SPIx->SPSR) & SPI_SPSR_SPIF))
-        ;
-      // Check for error
-      if (stat &
-          (SPI_SPSR_ABRT | SPI_SPSR_MODF | SPI_SPSR_ROVR | SPI_SPSR_WCOL)) {
+
+        while (dataCfg->counter < dataCfg->length)
+        {
+            // Write data to buffer
+            if (dataCfg->tx_data == NULL)
+            {
+                if (dataword == 0)
+                {
+                    SPI_SendData(SPIx, 0xFF);
+                }
+                else
+                {
+                    SPI_SendData(SPIx, 0xFFFF);
+                }
+            }
+            else
+            {
+                if (dataword == 0)
+                {
+                    SPI_SendData(SPIx, *wdata8);
+                    wdata8++;
+                }
+                else
+                {
+                    SPI_SendData(SPIx, *wdata16);
+                    wdata16++;
+                }
+            }
+            // Wait for transfer complete
+            while (!((stat = SPIx->SPSR) & SPI_SPSR_SPIF));
+            // Check for error
+            if (stat & (SPI_SPSR_ABRT | SPI_SPSR_MODF | SPI_SPSR_ROVR | SPI_SPSR_WCOL))
+            {
+                // save status
+                dataCfg->status = stat | SPI_STAT_ERROR;
+                return (dataCfg->counter);
+            }
+            // Read data from SPI dat
+            temp = (uint32_t)SPI_ReceiveData(SPIx);
+
+            // Store data to destination
+            if (dataCfg->rx_data != NULL)
+            {
+                if (dataword == 0)
+                {
+                    *(rdata8) = (uint8_t)temp;
+                    rdata8++;
+                }
+                else
+                {
+                    *(rdata16) = (uint16_t)temp;
+                    rdata16++;
+                }
+            }
+            // Increase counter
+            if (dataword == 0)
+            {
+                dataCfg->counter++;
+            }
+            else
+            {
+                dataCfg->counter += 2;
+            }
+        }
+
+        // Return length of actual data transferred
         // save status
-        dataCfg->status = stat | SPI_STAT_ERROR;
+        dataCfg->status = stat | SPI_STAT_DONE;
         return (dataCfg->counter);
-      }
-      // Read data from SPI dat
-      temp = (uint32_t)SPI_ReceiveData(SPIx);
-
-      // Store data to destination
-      if (dataCfg->rx_data != NULL) {
-        if (dataword == 0) {
-          *(rdata8) = (uint8_t)temp;
-          rdata8++;
-        } else {
-          *(rdata16) = (uint16_t)temp;
-          rdata16++;
-        }
-      }
-      // Increase counter
-      if (dataword == 0) {
-        dataCfg->counter++;
-      } else {
-        dataCfg->counter += 2;
-      }
     }
+    // Interrupt mode
+    else
+    {
 
-    // Return length of actual data transferred
-    // save status
-    dataCfg->status = stat | SPI_STAT_DONE;
-    return (dataCfg->counter);
-  }
-  // Interrupt mode
-  else {
-
-    // Check if interrupt flag is already set
-    if (SPIx->SPINT & SPI_SPINT_INTFLAG) {
-      SPIx->SPINT = SPI_SPINT_INTFLAG;
-    }
-    if (dataCfg->counter < dataCfg->length) {
-      // Write data to buffer
-      if (dataCfg->tx_data == NULL) {
-        if (dataword == 0) {
-          SPI_SendData(SPIx, 0xFF);
-        } else {
-          SPI_SendData(SPIx, 0xFFFF);
+        // Check if interrupt flag is already set
+        if (SPIx->SPINT & SPI_SPINT_INTFLAG)
+        {
+            SPIx->SPINT = SPI_SPINT_INTFLAG;
         }
-      } else {
-        if (dataword == 0) {
-          SPI_SendData(SPIx, (*(uint8_t *)dataCfg->tx_data));
-        } else {
-          SPI_SendData(SPIx, (*(uint16_t *)dataCfg->tx_data));
+        if (dataCfg->counter < dataCfg->length)
+        {
+            // Write data to buffer
+            if (dataCfg->tx_data == NULL)
+            {
+                if (dataword == 0)
+                {
+                    SPI_SendData(SPIx, 0xFF);
+                }
+                else
+                {
+                    SPI_SendData(SPIx, 0xFFFF);
+                }
+            }
+            else
+            {
+                if (dataword == 0)
+                {
+                    SPI_SendData(SPIx, (*(uint8_t*)dataCfg->tx_data));
+                }
+                else
+                {
+                    SPI_SendData(SPIx, (*(uint16_t*)dataCfg->tx_data));
+                }
+            }
+            SPI_IntCmd(SPIx, ENABLE);
         }
-      }
-      SPI_IntCmd(SPIx, ENABLE);
-    } else {
-      // Save status
-      dataCfg->status = SPI_STAT_DONE;
+        else
+        {
+            // Save status
+            dataCfg->status = SPI_STAT_DONE;
+        }
+        return (0);
     }
-    return (0);
-  }
 }
 
 /********************************************************************/ /**
@@ -569,15 +621,19 @@ int32_t SPI_ReadWrite(LPC_SPI_TypeDef *SPIx, SPI_DATA_SETUP_Type *dataCfg,
                                                                         * @return
                                                                         *None
                                                                         *********************************************************************/
-void SPI_IntCmd(LPC_SPI_TypeDef *SPIx, FunctionalState NewState) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void SPI_IntCmd(LPC_SPI_TypeDef* SPIx, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-  if (NewState == ENABLE) {
-    SPIx->SPCR |= SPI_SPCR_SPIE;
-  } else {
-    SPIx->SPCR &= (~SPI_SPCR_SPIE) & SPI_SPCR_BITMASK;
-  }
+    if (NewState == ENABLE)
+    {
+        SPIx->SPCR |= SPI_SPCR_SPIE;
+    }
+    else
+    {
+        SPIx->SPCR &= (~SPI_SPCR_SPIE) & SPI_SPCR_BITMASK;
+    }
 }
 
 /********************************************************************/ /**
@@ -606,10 +662,11 @@ void SPI_IntCmd(LPC_SPI_TypeDef *SPIx, FunctionalState NewState) {
                                                                         *(SET or
                                                                         *RESET)
                                                                         *********************************************************************/
-IntStatus SPI_GetIntStatus(LPC_SPI_TypeDef *SPIx) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+IntStatus SPI_GetIntStatus(LPC_SPI_TypeDef* SPIx)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  return ((SPIx->SPINT & SPI_SPINT_INTFLAG) ? SET : RESET);
+    return ((SPIx->SPINT & SPI_SPINT_INTFLAG) ? SET : RESET);
 }
 
 /********************************************************************/ /**
@@ -629,10 +686,11 @@ IntStatus SPI_GetIntStatus(LPC_SPI_TypeDef *SPIx) {
                                                                         * @return
                                                                         *None
                                                                         *********************************************************************/
-void SPI_ClearIntPending(LPC_SPI_TypeDef *SPIx) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+void SPI_ClearIntPending(LPC_SPI_TypeDef* SPIx)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  SPIx->SPINT = SPI_SPINT_INTFLAG;
+    SPIx->SPINT = SPI_SPINT_INTFLAG;
 }
 
 /********************************************************************/ /**
@@ -719,10 +777,11 @@ void SPI_ClearIntPending(LPC_SPI_TypeDef *SPIx) {
                                                                         *all
                                                                         *flags.
                                                                         *********************************************************************/
-uint32_t SPI_GetStatus(LPC_SPI_TypeDef *SPIx) {
-  CHECK_PARAM(PARAM_SPIx(SPIx));
+uint32_t SPI_GetStatus(LPC_SPI_TypeDef* SPIx)
+{
+    CHECK_PARAM(PARAM_SPIx(SPIx));
 
-  return (SPIx->SPSR & SPI_SPSR_BITMASK);
+    return (SPIx->SPSR & SPI_SPSR_BITMASK);
 }
 
 /********************************************************************/ /**
@@ -741,10 +800,11 @@ uint32_t SPI_GetStatus(LPC_SPI_TypeDef *SPIx) {
                  - SPI_STAT_SPIF: SPI transfer complete.
   * @return 		The new state of SPIStatus (SET or RESET)
   *********************************************************************/
-FlagStatus SPI_CheckStatus(uint32_t inputSPIStatus, uint8_t SPIStatus) {
-  CHECK_PARAM(PARAM_SPI_STAT(SPIStatus));
+FlagStatus SPI_CheckStatus(uint32_t inputSPIStatus, uint8_t SPIStatus)
+{
+    CHECK_PARAM(PARAM_SPI_STAT(SPIStatus));
 
-  return ((inputSPIStatus & SPIStatus) ? SET : RESET);
+    return ((inputSPIStatus & SPIStatus) ? SET : RESET);
 }
 
 /**

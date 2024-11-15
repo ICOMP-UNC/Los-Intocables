@@ -74,18 +74,19 @@
                                                                         * @return
                                                                         *None
                                                                         *********************************************************************/
-void RTC_Init(LPC_RTC_TypeDef *RTCx) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_Init(LPC_RTC_TypeDef* RTCx)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  /* Set up clock and power for RTC module */
-  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRTC, ENABLE);
+    /* Set up clock and power for RTC module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRTC, ENABLE);
 
-  // Clear all register to be default
-  RTCx->ILR = 0x00;
-  RTCx->CCR = 0x00;
-  RTCx->CIIR = 0x00;
-  RTCx->AMR = 0xFF;
-  RTCx->CALIBRATION = 0x00;
+    // Clear all register to be default
+    RTCx->ILR = 0x00;
+    RTCx->CCR = 0x00;
+    RTCx->CIIR = 0x00;
+    RTCx->AMR = 0xFF;
+    RTCx->CALIBRATION = 0x00;
 }
 
 /*********************************************************************/ /**
@@ -111,12 +112,13 @@ void RTC_Init(LPC_RTC_TypeDef *RTCx) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_DeInit(LPC_RTC_TypeDef *RTCx) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_DeInit(LPC_RTC_TypeDef* RTCx)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  RTCx->CCR = 0x00;
-  // Disable power and clock for RTC module
-  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRTC, DISABLE);
+    RTCx->CCR = 0x00;
+    // Disable power and clock for RTC module
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCRTC, DISABLE);
 }
 
 /*********************************************************************/ /**
@@ -138,11 +140,12 @@ void RTC_DeInit(LPC_RTC_TypeDef *RTCx) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_ResetClockTickCounter(LPC_RTC_TypeDef *RTCx) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_ResetClockTickCounter(LPC_RTC_TypeDef* RTCx)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  RTCx->CCR |= RTC_CCR_CTCRST;
-  RTCx->CCR &= (~RTC_CCR_CTCRST) & RTC_CCR_BITMASK;
+    RTCx->CCR |= RTC_CCR_CTCRST;
+    RTCx->CCR &= (~RTC_CCR_CTCRST) & RTC_CCR_BITMASK;
 }
 
 /*********************************************************************/ /**
@@ -184,15 +187,19 @@ void RTC_ResetClockTickCounter(LPC_RTC_TypeDef *RTCx) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_Cmd(LPC_RTC_TypeDef *RTCx, FunctionalState NewState) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void RTC_Cmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-  if (NewState == ENABLE) {
-    RTCx->CCR |= RTC_CCR_CLKEN;
-  } else {
-    RTCx->CCR &= (~RTC_CCR_CLKEN) & RTC_CCR_BITMASK;
-  }
+    if (NewState == ENABLE)
+    {
+        RTCx->CCR |= RTC_CCR_CLKEN;
+    }
+    else
+    {
+        RTCx->CCR &= (~RTC_CCR_CLKEN) & RTC_CCR_BITMASK;
+    }
 }
 
 /*********************************************************************/ /**
@@ -284,67 +291,40 @@ void RTC_Cmd(LPC_RTC_TypeDef *RTCx, FunctionalState NewState) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_CntIncrIntConfig(LPC_RTC_TypeDef *RTCx, uint32_t CntIncrIntType,
-                          FunctionalState NewState) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
-  CHECK_PARAM(PARAM_RTC_TIMETYPE(CntIncrIntType));
+void RTC_CntIncrIntConfig(LPC_RTC_TypeDef* RTCx, uint32_t CntIncrIntType, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+    CHECK_PARAM(PARAM_RTC_TIMETYPE(CntIncrIntType));
 
-  if (NewState == ENABLE) {
-    switch (CntIncrIntType) {
-    case RTC_TIMETYPE_SECOND:
-      RTCx->CIIR |= RTC_CIIR_IMSEC;
-      break;
-    case RTC_TIMETYPE_MINUTE:
-      RTCx->CIIR |= RTC_CIIR_IMMIN;
-      break;
-    case RTC_TIMETYPE_HOUR:
-      RTCx->CIIR |= RTC_CIIR_IMHOUR;
-      break;
-    case RTC_TIMETYPE_DAYOFWEEK:
-      RTCx->CIIR |= RTC_CIIR_IMDOW;
-      break;
-    case RTC_TIMETYPE_DAYOFMONTH:
-      RTCx->CIIR |= RTC_CIIR_IMDOM;
-      break;
-    case RTC_TIMETYPE_DAYOFYEAR:
-      RTCx->CIIR |= RTC_CIIR_IMDOY;
-      break;
-    case RTC_TIMETYPE_MONTH:
-      RTCx->CIIR |= RTC_CIIR_IMMON;
-      break;
-    case RTC_TIMETYPE_YEAR:
-      RTCx->CIIR |= RTC_CIIR_IMYEAR;
-      break;
+    if (NewState == ENABLE)
+    {
+        switch (CntIncrIntType)
+        {
+            case RTC_TIMETYPE_SECOND: RTCx->CIIR |= RTC_CIIR_IMSEC; break;
+            case RTC_TIMETYPE_MINUTE: RTCx->CIIR |= RTC_CIIR_IMMIN; break;
+            case RTC_TIMETYPE_HOUR: RTCx->CIIR |= RTC_CIIR_IMHOUR; break;
+            case RTC_TIMETYPE_DAYOFWEEK: RTCx->CIIR |= RTC_CIIR_IMDOW; break;
+            case RTC_TIMETYPE_DAYOFMONTH: RTCx->CIIR |= RTC_CIIR_IMDOM; break;
+            case RTC_TIMETYPE_DAYOFYEAR: RTCx->CIIR |= RTC_CIIR_IMDOY; break;
+            case RTC_TIMETYPE_MONTH: RTCx->CIIR |= RTC_CIIR_IMMON; break;
+            case RTC_TIMETYPE_YEAR: RTCx->CIIR |= RTC_CIIR_IMYEAR; break;
+        }
     }
-  } else {
-    switch (CntIncrIntType) {
-    case RTC_TIMETYPE_SECOND:
-      RTCx->CIIR &= (~RTC_CIIR_IMSEC) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_MINUTE:
-      RTCx->CIIR &= (~RTC_CIIR_IMMIN) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_HOUR:
-      RTCx->CIIR &= (~RTC_CIIR_IMHOUR) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_DAYOFWEEK:
-      RTCx->CIIR &= (~RTC_CIIR_IMDOW) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_DAYOFMONTH:
-      RTCx->CIIR &= (~RTC_CIIR_IMDOM) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_DAYOFYEAR:
-      RTCx->CIIR &= (~RTC_CIIR_IMDOY) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_MONTH:
-      RTCx->CIIR &= (~RTC_CIIR_IMMON) & RTC_CIIR_BITMASK;
-      break;
-    case RTC_TIMETYPE_YEAR:
-      RTCx->CIIR &= (~RTC_CIIR_IMYEAR) & RTC_CIIR_BITMASK;
-      break;
+    else
+    {
+        switch (CntIncrIntType)
+        {
+            case RTC_TIMETYPE_SECOND: RTCx->CIIR &= (~RTC_CIIR_IMSEC) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_MINUTE: RTCx->CIIR &= (~RTC_CIIR_IMMIN) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_HOUR: RTCx->CIIR &= (~RTC_CIIR_IMHOUR) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_DAYOFWEEK: RTCx->CIIR &= (~RTC_CIIR_IMDOW) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_DAYOFMONTH: RTCx->CIIR &= (~RTC_CIIR_IMDOM) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_DAYOFYEAR: RTCx->CIIR &= (~RTC_CIIR_IMDOY) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_MONTH: RTCx->CIIR &= (~RTC_CIIR_IMMON) & RTC_CIIR_BITMASK; break;
+            case RTC_TIMETYPE_YEAR: RTCx->CIIR &= (~RTC_CIIR_IMYEAR) & RTC_CIIR_BITMASK; break;
+        }
     }
-  }
 }
 
 /*********************************************************************/ /**
@@ -437,67 +417,40 @@ void RTC_CntIncrIntConfig(LPC_RTC_TypeDef *RTCx, uint32_t CntIncrIntType,
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_AlarmIntConfig(LPC_RTC_TypeDef *RTCx, uint32_t AlarmTimeType,
-                        FunctionalState NewState) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
-  CHECK_PARAM(PARAM_RTC_TIMETYPE(AlarmTimeType));
+void RTC_AlarmIntConfig(LPC_RTC_TypeDef* RTCx, uint32_t AlarmTimeType, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+    CHECK_PARAM(PARAM_RTC_TIMETYPE(AlarmTimeType));
 
-  if (NewState == ENABLE) {
-    switch (AlarmTimeType) {
-    case RTC_TIMETYPE_SECOND:
-      RTCx->AMR &= (~RTC_AMR_AMRSEC) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_MINUTE:
-      RTCx->AMR &= (~RTC_AMR_AMRMIN) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_HOUR:
-      RTCx->AMR &= (~RTC_AMR_AMRHOUR) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_DAYOFWEEK:
-      RTCx->AMR &= (~RTC_AMR_AMRDOW) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_DAYOFMONTH:
-      RTCx->AMR &= (~RTC_AMR_AMRDOM) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_DAYOFYEAR:
-      RTCx->AMR &= (~RTC_AMR_AMRDOY) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_MONTH:
-      RTCx->AMR &= (~RTC_AMR_AMRMON) & RTC_AMR_BITMASK;
-      break;
-    case RTC_TIMETYPE_YEAR:
-      RTCx->AMR &= (~RTC_AMR_AMRYEAR) & RTC_AMR_BITMASK;
-      break;
+    if (NewState == ENABLE)
+    {
+        switch (AlarmTimeType)
+        {
+            case RTC_TIMETYPE_SECOND: RTCx->AMR &= (~RTC_AMR_AMRSEC) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_MINUTE: RTCx->AMR &= (~RTC_AMR_AMRMIN) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_HOUR: RTCx->AMR &= (~RTC_AMR_AMRHOUR) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_DAYOFWEEK: RTCx->AMR &= (~RTC_AMR_AMRDOW) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_DAYOFMONTH: RTCx->AMR &= (~RTC_AMR_AMRDOM) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_DAYOFYEAR: RTCx->AMR &= (~RTC_AMR_AMRDOY) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_MONTH: RTCx->AMR &= (~RTC_AMR_AMRMON) & RTC_AMR_BITMASK; break;
+            case RTC_TIMETYPE_YEAR: RTCx->AMR &= (~RTC_AMR_AMRYEAR) & RTC_AMR_BITMASK; break;
+        }
     }
-  } else {
-    switch (AlarmTimeType) {
-    case RTC_TIMETYPE_SECOND:
-      RTCx->AMR |= (RTC_AMR_AMRSEC);
-      break;
-    case RTC_TIMETYPE_MINUTE:
-      RTCx->AMR |= (RTC_AMR_AMRMIN);
-      break;
-    case RTC_TIMETYPE_HOUR:
-      RTCx->AMR |= (RTC_AMR_AMRHOUR);
-      break;
-    case RTC_TIMETYPE_DAYOFWEEK:
-      RTCx->AMR |= (RTC_AMR_AMRDOW);
-      break;
-    case RTC_TIMETYPE_DAYOFMONTH:
-      RTCx->AMR |= (RTC_AMR_AMRDOM);
-      break;
-    case RTC_TIMETYPE_DAYOFYEAR:
-      RTCx->AMR |= (RTC_AMR_AMRDOY);
-      break;
-    case RTC_TIMETYPE_MONTH:
-      RTCx->AMR |= (RTC_AMR_AMRMON);
-      break;
-    case RTC_TIMETYPE_YEAR:
-      RTCx->AMR |= (RTC_AMR_AMRYEAR);
-      break;
+    else
+    {
+        switch (AlarmTimeType)
+        {
+            case RTC_TIMETYPE_SECOND: RTCx->AMR |= (RTC_AMR_AMRSEC); break;
+            case RTC_TIMETYPE_MINUTE: RTCx->AMR |= (RTC_AMR_AMRMIN); break;
+            case RTC_TIMETYPE_HOUR: RTCx->AMR |= (RTC_AMR_AMRHOUR); break;
+            case RTC_TIMETYPE_DAYOFWEEK: RTCx->AMR |= (RTC_AMR_AMRDOW); break;
+            case RTC_TIMETYPE_DAYOFMONTH: RTCx->AMR |= (RTC_AMR_AMRDOM); break;
+            case RTC_TIMETYPE_DAYOFYEAR: RTCx->AMR |= (RTC_AMR_AMRDOY); break;
+            case RTC_TIMETYPE_MONTH: RTCx->AMR |= (RTC_AMR_AMRMON); break;
+            case RTC_TIMETYPE_YEAR: RTCx->AMR |= (RTC_AMR_AMRYEAR); break;
+        }
     }
-  }
 }
 
 /*********************************************************************/ /**
@@ -550,61 +503,61 @@ void RTC_AlarmIntConfig(LPC_RTC_TypeDef *RTCx, uint32_t AlarmTimeType,
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_SetTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype, uint32_t TimeValue) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_TIMETYPE(Timetype));
+void RTC_SetTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype, uint32_t TimeValue)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_TIMETYPE(Timetype));
 
-  switch (Timetype) {
-  case RTC_TIMETYPE_SECOND:
-    CHECK_PARAM(TimeValue <= RTC_SECOND_MAX);
+    switch (Timetype)
+    {
+        case RTC_TIMETYPE_SECOND:
+            CHECK_PARAM(TimeValue <= RTC_SECOND_MAX);
 
-    RTCx->SEC = TimeValue & RTC_SEC_MASK;
-    break;
+            RTCx->SEC = TimeValue & RTC_SEC_MASK;
+            break;
 
-  case RTC_TIMETYPE_MINUTE:
-    CHECK_PARAM(TimeValue <= RTC_MINUTE_MAX);
+        case RTC_TIMETYPE_MINUTE:
+            CHECK_PARAM(TimeValue <= RTC_MINUTE_MAX);
 
-    RTCx->MIN = TimeValue & RTC_MIN_MASK;
-    break;
+            RTCx->MIN = TimeValue & RTC_MIN_MASK;
+            break;
 
-  case RTC_TIMETYPE_HOUR:
-    CHECK_PARAM(TimeValue <= RTC_HOUR_MAX);
+        case RTC_TIMETYPE_HOUR:
+            CHECK_PARAM(TimeValue <= RTC_HOUR_MAX);
 
-    RTCx->HOUR = TimeValue & RTC_HOUR_MASK;
-    break;
+            RTCx->HOUR = TimeValue & RTC_HOUR_MASK;
+            break;
 
-  case RTC_TIMETYPE_DAYOFWEEK:
-    CHECK_PARAM(TimeValue <= RTC_DAYOFWEEK_MAX);
+        case RTC_TIMETYPE_DAYOFWEEK:
+            CHECK_PARAM(TimeValue <= RTC_DAYOFWEEK_MAX);
 
-    RTCx->DOW = TimeValue & RTC_DOW_MASK;
-    break;
+            RTCx->DOW = TimeValue & RTC_DOW_MASK;
+            break;
 
-  case RTC_TIMETYPE_DAYOFMONTH:
-    CHECK_PARAM((TimeValue <= RTC_DAYOFMONTH_MAX) &&
-                (TimeValue >= RTC_DAYOFMONTH_MIN));
+        case RTC_TIMETYPE_DAYOFMONTH:
+            CHECK_PARAM((TimeValue <= RTC_DAYOFMONTH_MAX) && (TimeValue >= RTC_DAYOFMONTH_MIN));
 
-    RTCx->DOM = TimeValue & RTC_DOM_MASK;
-    break;
+            RTCx->DOM = TimeValue & RTC_DOM_MASK;
+            break;
 
-  case RTC_TIMETYPE_DAYOFYEAR:
-    CHECK_PARAM((TimeValue >= RTC_DAYOFYEAR_MIN) &&
-                (TimeValue <= RTC_DAYOFYEAR_MAX));
+        case RTC_TIMETYPE_DAYOFYEAR:
+            CHECK_PARAM((TimeValue >= RTC_DAYOFYEAR_MIN) && (TimeValue <= RTC_DAYOFYEAR_MAX));
 
-    RTCx->DOY = TimeValue & RTC_DOY_MASK;
-    break;
+            RTCx->DOY = TimeValue & RTC_DOY_MASK;
+            break;
 
-  case RTC_TIMETYPE_MONTH:
-    CHECK_PARAM((TimeValue >= RTC_MONTH_MIN) && (TimeValue <= RTC_MONTH_MAX));
+        case RTC_TIMETYPE_MONTH:
+            CHECK_PARAM((TimeValue >= RTC_MONTH_MIN) && (TimeValue <= RTC_MONTH_MAX));
 
-    RTCx->MONTH = TimeValue & RTC_MONTH_MASK;
-    break;
+            RTCx->MONTH = TimeValue & RTC_MONTH_MASK;
+            break;
 
-  case RTC_TIMETYPE_YEAR:
-    CHECK_PARAM(TimeValue <= RTC_YEAR_MAX);
+        case RTC_TIMETYPE_YEAR:
+            CHECK_PARAM(TimeValue <= RTC_YEAR_MAX);
 
-    RTCx->YEAR = TimeValue & RTC_YEAR_MASK;
-    break;
-  }
+            RTCx->YEAR = TimeValue & RTC_YEAR_MASK;
+            break;
+    }
 }
 
 /*********************************************************************/ /**
@@ -658,30 +611,23 @@ void RTC_SetTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype, uint32_t TimeValue) {
                                                                          *time
                                                                          *type
                                                                          **********************************************************************/
-uint32_t RTC_GetTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_TIMETYPE(Timetype));
+uint32_t RTC_GetTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_TIMETYPE(Timetype));
 
-  switch (Timetype) {
-  case RTC_TIMETYPE_SECOND:
-    return (RTCx->SEC & RTC_SEC_MASK);
-  case RTC_TIMETYPE_MINUTE:
-    return (RTCx->MIN & RTC_MIN_MASK);
-  case RTC_TIMETYPE_HOUR:
-    return (RTCx->HOUR & RTC_HOUR_MASK);
-  case RTC_TIMETYPE_DAYOFWEEK:
-    return (RTCx->DOW & RTC_DOW_MASK);
-  case RTC_TIMETYPE_DAYOFMONTH:
-    return (RTCx->DOM & RTC_DOM_MASK);
-  case RTC_TIMETYPE_DAYOFYEAR:
-    return (RTCx->DOY & RTC_DOY_MASK);
-  case RTC_TIMETYPE_MONTH:
-    return (RTCx->MONTH & RTC_MONTH_MASK);
-  case RTC_TIMETYPE_YEAR:
-    return (RTCx->YEAR & RTC_YEAR_MASK);
-  default:
-    return (0);
-  }
+    switch (Timetype)
+    {
+        case RTC_TIMETYPE_SECOND: return (RTCx->SEC & RTC_SEC_MASK);
+        case RTC_TIMETYPE_MINUTE: return (RTCx->MIN & RTC_MIN_MASK);
+        case RTC_TIMETYPE_HOUR: return (RTCx->HOUR & RTC_HOUR_MASK);
+        case RTC_TIMETYPE_DAYOFWEEK: return (RTCx->DOW & RTC_DOW_MASK);
+        case RTC_TIMETYPE_DAYOFMONTH: return (RTCx->DOM & RTC_DOM_MASK);
+        case RTC_TIMETYPE_DAYOFYEAR: return (RTCx->DOY & RTC_DOY_MASK);
+        case RTC_TIMETYPE_MONTH: return (RTCx->MONTH & RTC_MONTH_MASK);
+        case RTC_TIMETYPE_YEAR: return (RTCx->YEAR & RTC_YEAR_MASK);
+        default: return (0);
+    }
 }
 
 /*********************************************************************/ /**
@@ -715,17 +661,18 @@ uint32_t RTC_GetTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_SetFullTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_SetFullTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  RTCx->DOM = pFullTime->DOM & RTC_DOM_MASK;
-  RTCx->DOW = pFullTime->DOW & RTC_DOW_MASK;
-  RTCx->DOY = pFullTime->DOY & RTC_DOY_MASK;
-  RTCx->HOUR = pFullTime->HOUR & RTC_HOUR_MASK;
-  RTCx->MIN = pFullTime->MIN & RTC_MIN_MASK;
-  RTCx->SEC = pFullTime->SEC & RTC_SEC_MASK;
-  RTCx->MONTH = pFullTime->MONTH & RTC_MONTH_MASK;
-  RTCx->YEAR = pFullTime->YEAR & RTC_YEAR_MASK;
+    RTCx->DOM = pFullTime->DOM & RTC_DOM_MASK;
+    RTCx->DOW = pFullTime->DOW & RTC_DOW_MASK;
+    RTCx->DOY = pFullTime->DOY & RTC_DOY_MASK;
+    RTCx->HOUR = pFullTime->HOUR & RTC_HOUR_MASK;
+    RTCx->MIN = pFullTime->MIN & RTC_MIN_MASK;
+    RTCx->SEC = pFullTime->SEC & RTC_SEC_MASK;
+    RTCx->MONTH = pFullTime->MONTH & RTC_MONTH_MASK;
+    RTCx->YEAR = pFullTime->YEAR & RTC_YEAR_MASK;
 }
 
 /*********************************************************************/ /**
@@ -760,17 +707,18 @@ void RTC_SetFullTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_GetFullTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_GetFullTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  pFullTime->DOM = RTCx->DOM & RTC_DOM_MASK;
-  pFullTime->DOW = RTCx->DOW & RTC_DOW_MASK;
-  pFullTime->DOY = RTCx->DOY & RTC_DOY_MASK;
-  pFullTime->HOUR = RTCx->HOUR & RTC_HOUR_MASK;
-  pFullTime->MIN = RTCx->MIN & RTC_MIN_MASK;
-  pFullTime->SEC = RTCx->SEC & RTC_SEC_MASK;
-  pFullTime->MONTH = RTCx->MONTH & RTC_MONTH_MASK;
-  pFullTime->YEAR = RTCx->YEAR & RTC_YEAR_MASK;
+    pFullTime->DOM = RTCx->DOM & RTC_DOM_MASK;
+    pFullTime->DOW = RTCx->DOW & RTC_DOW_MASK;
+    pFullTime->DOY = RTCx->DOY & RTC_DOY_MASK;
+    pFullTime->HOUR = RTCx->HOUR & RTC_HOUR_MASK;
+    pFullTime->MIN = RTCx->MIN & RTC_MIN_MASK;
+    pFullTime->SEC = RTCx->SEC & RTC_SEC_MASK;
+    pFullTime->MONTH = RTCx->MONTH & RTC_MONTH_MASK;
+    pFullTime->YEAR = RTCx->YEAR & RTC_YEAR_MASK;
 }
 
 /*********************************************************************/ /**
@@ -822,61 +770,60 @@ void RTC_GetFullTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_SetAlarmTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype,
-                      uint32_t ALValue) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_SetAlarmTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype, uint32_t ALValue)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  switch (Timetype) {
-  case RTC_TIMETYPE_SECOND:
-    CHECK_PARAM(ALValue <= RTC_SECOND_MAX);
+    switch (Timetype)
+    {
+        case RTC_TIMETYPE_SECOND:
+            CHECK_PARAM(ALValue <= RTC_SECOND_MAX);
 
-    RTCx->ALSEC = ALValue & RTC_SEC_MASK;
-    break;
+            RTCx->ALSEC = ALValue & RTC_SEC_MASK;
+            break;
 
-  case RTC_TIMETYPE_MINUTE:
-    CHECK_PARAM(ALValue <= RTC_MINUTE_MAX);
+        case RTC_TIMETYPE_MINUTE:
+            CHECK_PARAM(ALValue <= RTC_MINUTE_MAX);
 
-    RTCx->ALMIN = ALValue & RTC_MIN_MASK;
-    break;
+            RTCx->ALMIN = ALValue & RTC_MIN_MASK;
+            break;
 
-  case RTC_TIMETYPE_HOUR:
-    CHECK_PARAM(ALValue <= RTC_HOUR_MAX);
+        case RTC_TIMETYPE_HOUR:
+            CHECK_PARAM(ALValue <= RTC_HOUR_MAX);
 
-    RTCx->ALHOUR = ALValue & RTC_HOUR_MASK;
-    break;
+            RTCx->ALHOUR = ALValue & RTC_HOUR_MASK;
+            break;
 
-  case RTC_TIMETYPE_DAYOFWEEK:
-    CHECK_PARAM(ALValue <= RTC_DAYOFWEEK_MAX);
+        case RTC_TIMETYPE_DAYOFWEEK:
+            CHECK_PARAM(ALValue <= RTC_DAYOFWEEK_MAX);
 
-    RTCx->ALDOW = ALValue & RTC_DOW_MASK;
-    break;
+            RTCx->ALDOW = ALValue & RTC_DOW_MASK;
+            break;
 
-  case RTC_TIMETYPE_DAYOFMONTH:
-    CHECK_PARAM((ALValue <= RTC_DAYOFMONTH_MAX) &&
-                (ALValue >= RTC_DAYOFMONTH_MIN));
+        case RTC_TIMETYPE_DAYOFMONTH:
+            CHECK_PARAM((ALValue <= RTC_DAYOFMONTH_MAX) && (ALValue >= RTC_DAYOFMONTH_MIN));
 
-    RTCx->ALDOM = ALValue & RTC_DOM_MASK;
-    break;
+            RTCx->ALDOM = ALValue & RTC_DOM_MASK;
+            break;
 
-  case RTC_TIMETYPE_DAYOFYEAR:
-    CHECK_PARAM((ALValue >= RTC_DAYOFYEAR_MIN) &&
-                (ALValue <= RTC_DAYOFYEAR_MAX));
+        case RTC_TIMETYPE_DAYOFYEAR:
+            CHECK_PARAM((ALValue >= RTC_DAYOFYEAR_MIN) && (ALValue <= RTC_DAYOFYEAR_MAX));
 
-    RTCx->ALDOY = ALValue & RTC_DOY_MASK;
-    break;
+            RTCx->ALDOY = ALValue & RTC_DOY_MASK;
+            break;
 
-  case RTC_TIMETYPE_MONTH:
-    CHECK_PARAM((ALValue >= RTC_MONTH_MIN) && (ALValue <= RTC_MONTH_MAX));
+        case RTC_TIMETYPE_MONTH:
+            CHECK_PARAM((ALValue >= RTC_MONTH_MIN) && (ALValue <= RTC_MONTH_MAX));
 
-    RTCx->ALMON = ALValue & RTC_MONTH_MASK;
-    break;
+            RTCx->ALMON = ALValue & RTC_MONTH_MASK;
+            break;
 
-  case RTC_TIMETYPE_YEAR:
-    CHECK_PARAM(ALValue <= RTC_YEAR_MAX);
+        case RTC_TIMETYPE_YEAR:
+            CHECK_PARAM(ALValue <= RTC_YEAR_MAX);
 
-    RTCx->ALYEAR = ALValue & RTC_YEAR_MASK;
-    break;
-  }
+            RTCx->ALYEAR = ALValue & RTC_YEAR_MASK;
+            break;
+    }
 }
 
 /*********************************************************************/ /**
@@ -930,27 +877,20 @@ void RTC_SetAlarmTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype,
                                                                          *time
                                                                          *type
                                                                          **********************************************************************/
-uint32_t RTC_GetAlarmTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype) {
-  switch (Timetype) {
-  case RTC_TIMETYPE_SECOND:
-    return (RTCx->ALSEC & RTC_SEC_MASK);
-  case RTC_TIMETYPE_MINUTE:
-    return (RTCx->ALMIN & RTC_MIN_MASK);
-  case RTC_TIMETYPE_HOUR:
-    return (RTCx->ALHOUR & RTC_HOUR_MASK);
-  case RTC_TIMETYPE_DAYOFWEEK:
-    return (RTCx->ALDOW & RTC_DOW_MASK);
-  case RTC_TIMETYPE_DAYOFMONTH:
-    return (RTCx->ALDOM & RTC_DOM_MASK);
-  case RTC_TIMETYPE_DAYOFYEAR:
-    return (RTCx->ALDOY & RTC_DOY_MASK);
-  case RTC_TIMETYPE_MONTH:
-    return (RTCx->ALMON & RTC_MONTH_MASK);
-  case RTC_TIMETYPE_YEAR:
-    return (RTCx->ALYEAR & RTC_YEAR_MASK);
-  default:
-    return (0);
-  }
+uint32_t RTC_GetAlarmTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype)
+{
+    switch (Timetype)
+    {
+        case RTC_TIMETYPE_SECOND: return (RTCx->ALSEC & RTC_SEC_MASK);
+        case RTC_TIMETYPE_MINUTE: return (RTCx->ALMIN & RTC_MIN_MASK);
+        case RTC_TIMETYPE_HOUR: return (RTCx->ALHOUR & RTC_HOUR_MASK);
+        case RTC_TIMETYPE_DAYOFWEEK: return (RTCx->ALDOW & RTC_DOW_MASK);
+        case RTC_TIMETYPE_DAYOFMONTH: return (RTCx->ALDOM & RTC_DOM_MASK);
+        case RTC_TIMETYPE_DAYOFYEAR: return (RTCx->ALDOY & RTC_DOY_MASK);
+        case RTC_TIMETYPE_MONTH: return (RTCx->ALMON & RTC_MONTH_MASK);
+        case RTC_TIMETYPE_YEAR: return (RTCx->ALYEAR & RTC_YEAR_MASK);
+        default: return (0);
+    }
 }
 
 /*********************************************************************/ /**
@@ -986,17 +926,18 @@ uint32_t RTC_GetAlarmTime(LPC_RTC_TypeDef *RTCx, uint32_t Timetype) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_SetFullAlarmTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_SetFullAlarmTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  RTCx->ALDOM = pFullTime->DOM & RTC_DOM_MASK;
-  RTCx->ALDOW = pFullTime->DOW & RTC_DOW_MASK;
-  RTCx->ALDOY = pFullTime->DOY & RTC_DOY_MASK;
-  RTCx->ALHOUR = pFullTime->HOUR & RTC_HOUR_MASK;
-  RTCx->ALMIN = pFullTime->MIN & RTC_MIN_MASK;
-  RTCx->ALSEC = pFullTime->SEC & RTC_SEC_MASK;
-  RTCx->ALMON = pFullTime->MONTH & RTC_MONTH_MASK;
-  RTCx->ALYEAR = pFullTime->YEAR & RTC_YEAR_MASK;
+    RTCx->ALDOM = pFullTime->DOM & RTC_DOM_MASK;
+    RTCx->ALDOW = pFullTime->DOW & RTC_DOW_MASK;
+    RTCx->ALDOY = pFullTime->DOY & RTC_DOY_MASK;
+    RTCx->ALHOUR = pFullTime->HOUR & RTC_HOUR_MASK;
+    RTCx->ALMIN = pFullTime->MIN & RTC_MIN_MASK;
+    RTCx->ALSEC = pFullTime->SEC & RTC_SEC_MASK;
+    RTCx->ALMON = pFullTime->MONTH & RTC_MONTH_MASK;
+    RTCx->ALYEAR = pFullTime->YEAR & RTC_YEAR_MASK;
 }
 
 /*********************************************************************/ /**
@@ -1033,17 +974,18 @@ void RTC_SetFullAlarmTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_GetFullAlarmTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
+void RTC_GetFullAlarmTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
 
-  pFullTime->DOM = RTCx->ALDOM & RTC_DOM_MASK;
-  pFullTime->DOW = RTCx->ALDOW & RTC_DOW_MASK;
-  pFullTime->DOY = RTCx->ALDOY & RTC_DOY_MASK;
-  pFullTime->HOUR = RTCx->ALHOUR & RTC_HOUR_MASK;
-  pFullTime->MIN = RTCx->ALMIN & RTC_MIN_MASK;
-  pFullTime->SEC = RTCx->ALSEC & RTC_SEC_MASK;
-  pFullTime->MONTH = RTCx->ALMON & RTC_MONTH_MASK;
-  pFullTime->YEAR = RTCx->ALYEAR & RTC_YEAR_MASK;
+    pFullTime->DOM = RTCx->ALDOM & RTC_DOM_MASK;
+    pFullTime->DOW = RTCx->ALDOW & RTC_DOW_MASK;
+    pFullTime->DOY = RTCx->ALDOY & RTC_DOY_MASK;
+    pFullTime->HOUR = RTCx->ALHOUR & RTC_HOUR_MASK;
+    pFullTime->MIN = RTCx->ALMIN & RTC_MIN_MASK;
+    pFullTime->SEC = RTCx->ALSEC & RTC_SEC_MASK;
+    pFullTime->MONTH = RTCx->ALMON & RTC_MONTH_MASK;
+    pFullTime->YEAR = RTCx->ALYEAR & RTC_YEAR_MASK;
 }
 
 /*********************************************************************/ /**
@@ -1101,11 +1043,12 @@ void RTC_GetFullAlarmTime(LPC_RTC_TypeDef *RTCx, RTC_TIME_Type *pFullTime) {
                                                                          *or
                                                                          *RESET)
                                                                          **********************************************************************/
-IntStatus RTC_GetIntPending(LPC_RTC_TypeDef *RTCx, uint32_t IntType) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_INT(IntType));
+IntStatus RTC_GetIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_INT(IntType));
 
-  return ((RTCx->ILR & IntType) ? SET : RESET);
+    return ((RTCx->ILR & IntType) ? SET : RESET);
 }
 
 /*********************************************************************/ /**
@@ -1148,11 +1091,12 @@ IntStatus RTC_GetIntPending(LPC_RTC_TypeDef *RTCx, uint32_t IntType) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_ClearIntPending(LPC_RTC_TypeDef *RTCx, uint32_t IntType) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_INT(IntType));
+void RTC_ClearIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_INT(IntType));
 
-  RTCx->ILR |= IntType;
+    RTCx->ILR |= IntType;
 }
 
 /*********************************************************************/ /**
@@ -1202,15 +1146,19 @@ void RTC_ClearIntPending(LPC_RTC_TypeDef *RTCx, uint32_t IntType) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_CalibCounterCmd(LPC_RTC_TypeDef *RTCx, FunctionalState NewState) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void RTC_CalibCounterCmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-  if (NewState == ENABLE) {
-    RTCx->CCR &= (~RTC_CCR_CCALEN) & RTC_CCR_BITMASK;
-  } else {
-    RTCx->CCR |= RTC_CCR_CCALEN;
-  }
+    if (NewState == ENABLE)
+    {
+        RTCx->CCR &= (~RTC_CCR_CCALEN) & RTC_CCR_BITMASK;
+    }
+    else
+    {
+        RTCx->CCR |= RTC_CCR_CCALEN;
+    }
 }
 
 /*********************************************************************/ /**
@@ -1254,15 +1202,14 @@ void RTC_CalibCounterCmd(LPC_RTC_TypeDef *RTCx, FunctionalState NewState) {
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void RTC_CalibConfig(LPC_RTC_TypeDef *RTCx, uint32_t CalibValue,
-                     uint8_t CalibDir) {
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_CALIB_DIR(CalibDir));
-  CHECK_PARAM(CalibValue < RTC_CALIBRATION_MAX);
+void RTC_CalibConfig(LPC_RTC_TypeDef* RTCx, uint32_t CalibValue, uint8_t CalibDir)
+{
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_CALIB_DIR(CalibDir));
+    CHECK_PARAM(CalibValue < RTC_CALIBRATION_MAX);
 
-  RTCx->CALIBRATION =
-      ((CalibValue)&RTC_CALIBRATION_CALVAL_MASK) |
-      ((CalibDir == RTC_CALIB_DIR_BACKWARD) ? RTC_CALIBRATION_LIBDIR : 0);
+    RTCx->CALIBRATION = ((CalibValue)&RTC_CALIBRATION_CALVAL_MASK) |
+                        ((CalibDir == RTC_CALIB_DIR_BACKWARD) ? RTC_CALIBRATION_LIBDIR : 0);
 }
 
 /*********************************************************************/ /**
@@ -1329,15 +1276,16 @@ void RTC_CalibConfig(LPC_RTC_TypeDef *RTCx, uint32_t CalibValue,
                                                                          *chip
                                                                          *reset.
                                                                          **********************************************************************/
-void RTC_WriteGPREG(LPC_RTC_TypeDef *RTCx, uint8_t Channel, uint32_t Value) {
-  uint32_t *preg;
+void RTC_WriteGPREG(LPC_RTC_TypeDef* RTCx, uint8_t Channel, uint32_t Value)
+{
+    uint32_t* preg;
 
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_GPREG_CH(Channel));
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_GPREG_CH(Channel));
 
-  preg = (uint32_t *)&RTCx->GPREG0;
-  preg += Channel;
-  *preg = Value;
+    preg = (uint32_t*)&RTCx->GPREG0;
+    preg += Channel;
+    *preg = Value;
 }
 
 /*********************************************************************/ /**
@@ -1400,17 +1348,18 @@ void RTC_WriteGPREG(LPC_RTC_TypeDef *RTCx, uint8_t Channel, uint32_t Value) {
                                                                          *chip
                                                                          *reset.
                                                                          **********************************************************************/
-uint32_t RTC_ReadGPREG(LPC_RTC_TypeDef *RTCx, uint8_t Channel) {
-  uint32_t *preg;
-  uint32_t value;
+uint32_t RTC_ReadGPREG(LPC_RTC_TypeDef* RTCx, uint8_t Channel)
+{
+    uint32_t* preg;
+    uint32_t value;
 
-  CHECK_PARAM(PARAM_RTCx(RTCx));
-  CHECK_PARAM(PARAM_RTC_GPREG_CH(Channel));
+    CHECK_PARAM(PARAM_RTCx(RTCx));
+    CHECK_PARAM(PARAM_RTC_GPREG_CH(Channel));
 
-  preg = (uint32_t *)&RTCx->GPREG0;
-  preg += Channel;
-  value = *preg;
-  return (value);
+    preg = (uint32_t*)&RTCx->GPREG0;
+    preg += Channel;
+    value = *preg;
+    return (value);
 }
 
 /**
