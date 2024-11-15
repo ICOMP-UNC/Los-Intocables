@@ -521,7 +521,9 @@ void TIM_ConfigMatch(LPC_TIM_TypeDef* TIMx, TIM_MATCHCFG_Type* TIM_MatchConfigSt
         default:
             // Error match value
             // Error loop
-            while (1);
+            while (1)
+            {
+            }
     }
     // interrupt on MRn
     TIMx->MCR &= ~TIM_MCR_CHANNEL_MASKBIT(TIM_MatchConfigStruct->MatchChannel);
@@ -567,7 +569,9 @@ void TIM_UpdateMatchValue(LPC_TIM_TypeDef* TIMx, uint8_t MatchChannel, uint32_t 
         case 3: TIMx->MR3 = MatchValue; break;
         default:
             // Error Loop
-            while (1);
+            while (1)
+            {
+            }
     }
 }
 /*********************************************************************/ /**

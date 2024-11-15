@@ -337,7 +337,9 @@ Status EMAC_Init(EMAC_CFG_Type* EMAC_ConfigStruct)
     LPC_EMAC->Command = EMAC_CR_REG_RES | EMAC_CR_TX_RES | EMAC_CR_RX_RES | EMAC_CR_PASS_RUNT_FRM;
 
     /* A short delay after reset. */
-    for (tout = 100; tout; tout--);
+    for (tout = 100; tout; tout--)
+    {
+    }
 
     /* Initialize MAC control registers. */
     LPC_EMAC->MAC1 = EMAC_MAC1_PASS_ALL;
@@ -366,7 +368,9 @@ Status EMAC_Init(EMAC_CFG_Type* EMAC_ConfigStruct)
     /* Reset Reduced MII Logic. */
     //	LPC_EMAC->SUPP = EMAC_SUPP_RES_RMII;
 
-    for (tout = 100; tout; tout--);
+    for (tout = 100; tout; tout--)
+    {
+    }
     LPC_EMAC->SUPP = 0;
 
     /* Put the DP83848C in reset mode */

@@ -279,7 +279,9 @@ void GPIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState)
         LPC_GPIOINT->IO2IntEnF = bitValue;
     else
         // Error
-        while (1);
+        while (1)
+        {
+        }
 }
 
 /*********************************************************************/ /**
@@ -311,7 +313,9 @@ FunctionalState GPIO_GetIntStatus(uint8_t portNum, uint32_t pinNum, uint8_t edge
         return ((FunctionalState)(((LPC_GPIOINT->IO2IntStatF) >> pinNum) & 0x1));
     else
         // Error
-        while (1);
+        while (1)
+        {
+        }
 }
 /*********************************************************************/ /**
                                                                          * @brief		Clear GPIO interrupt (just used
@@ -331,7 +335,9 @@ void GPIO_ClearInt(uint8_t portNum, uint32_t bitValue)
         LPC_GPIOINT->IO2IntClr = bitValue;
     else
         // Invalid portNum
-        while (1);
+        while (1)
+        {
+        }
 }
 
 /* FIO word accessible ----------------------------------------------------------------- */

@@ -76,7 +76,9 @@ void SYSTICK_InternalInit(uint32_t time)
     maxtime = (1 << 24) / (SystemCoreClock / 1000);
     if (time > maxtime)
         // Error loop
-        while (1);
+        while (1)
+        {
+        }
     else
     {
         // Select CPU clock is System Tick clock source
@@ -110,7 +112,9 @@ void SYSTICK_ExternalInit(uint32_t freq, uint32_t time)
     maxtime = (1 << 24) / (freq / 1000);
     if (time > maxtime)
         // Error Loop
-        while (1);
+        while (1)
+        {
+        }
     else
     {
         // Select external clock is System Tick clock source

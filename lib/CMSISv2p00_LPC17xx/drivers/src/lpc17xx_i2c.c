@@ -149,7 +149,9 @@ static uint32_t I2C_Start(LPC_I2C_TypeDef* I2Cx)
     I2Cx->I2CONSET = I2C_I2CONSET_STA;
 
     // Wait for complete
-    while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI));
+    while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI))
+    {
+    }
     I2Cx->I2CONCLR = I2C_I2CONCLR_STAC;
     return (I2Cx->I2STAT & I2C_STAT_CODE_BITMASK);
 }
@@ -994,7 +996,9 @@ Status I2C_MasterTransferData(LPC_I2C_TypeDef* I2Cx, I2C_M_SETUP_Type* TransferC
             else if ((Ret & I2C_BYTE_SENT) || (Ret & I2C_BYTE_RECV))
             {
                 // Wait for sending ends
-                while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI));
+                while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI))
+                {
+                }
             }
             else if (Ret & I2C_SEND_END) // already send all data
             {

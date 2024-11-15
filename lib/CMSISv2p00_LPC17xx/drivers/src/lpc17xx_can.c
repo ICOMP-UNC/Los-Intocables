@@ -118,7 +118,10 @@ static void can_SetBaudrate(LPC_CAN_TypeDef* CANx, uint32_t baudrate)
         }
     }
     if (BRFail)
-        while (1); // Failed to calculate exact CAN baud rate
+        while (1)
+        {
+
+        } // Failed to calculate exact CAN baud rate
     /* Enter reset mode */
     CANx->MOD = 0x01;
     /* Set bit timing

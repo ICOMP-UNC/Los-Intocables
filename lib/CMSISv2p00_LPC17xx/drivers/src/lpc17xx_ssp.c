@@ -110,7 +110,7 @@ static void setSSPclock(LPC_SSP_TypeDef* SSPx, uint32_t target_clock)
 
     /* Write computed prescaler and divider back to register */
     SSPx->CR0 &= (~SSP_CR0_SCR(0xFF)) & SSP_CR0_BITMASK;
-    SSPx->CR0 |= (SSP_CR0_SCR(cr0_div))&SSP_CR0_BITMASK;
+    SSPx->CR0 |= (SSP_CR0_SCR(cr0_div)) & SSP_CR0_BITMASK;
     SSPx->CPSR = prescale & SSP_CPSR_BITMASK;
 }
 

@@ -342,7 +342,9 @@ Status GPDMA_Setup(GPDMA_Channel_CFG_Type* GPDMAChannelConfig)
 
     /* Enable DMA channels, little endian */
     LPC_GPDMA->DMACConfig = GPDMA_DMACConfig_E;
-    while (!(LPC_GPDMA->DMACConfig & GPDMA_DMACConfig_E));
+    while (!(LPC_GPDMA->DMACConfig & GPDMA_DMACConfig_E))
+    {
+    }
 
     // Calculate absolute value for Connection number
     tmp1 = GPDMAChannelConfig->SrcConn;
