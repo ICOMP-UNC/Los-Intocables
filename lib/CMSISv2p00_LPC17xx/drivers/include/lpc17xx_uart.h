@@ -71,8 +71,9 @@ extern "C" {
  */
 
 /* Accepted Error baud rate value (in percent unit) */
-#define UART_ACCEPTED_BAUDRATE_ERROR (3) /*!< Acceptable UART baudrate error   \
-                                          */
+#define UART_ACCEPTED_BAUDRATE_ERROR                                           \
+  (3) /*!< Acceptable UART baudrate error                                      \
+       */
 
 /* --------------------- BIT DEFINITIONS --------------------------------------
  */
@@ -218,11 +219,12 @@ extern "C" {
                                                                          *control
                                                                          *register
                                                                          **********************************************************************/
-#define UART_FCR_FIFO_EN ((uint8_t)(1 << 0))     /*!< UART FIFO enable */
-#define UART_FCR_RX_RS ((uint8_t)(1 << 1))       /*!< UART FIFO RX reset */
-#define UART_FCR_TX_RS ((uint8_t)(1 << 2))       /*!< UART FIFO TX reset */
-#define UART_FCR_DMAMODE_SEL ((uint8_t)(1 << 3)) /*!< UART DMA mode selection  \
-                                                  */
+#define UART_FCR_FIFO_EN ((uint8_t)(1 << 0)) /*!< UART FIFO enable */
+#define UART_FCR_RX_RS ((uint8_t)(1 << 1))   /*!< UART FIFO RX reset */
+#define UART_FCR_TX_RS ((uint8_t)(1 << 2))   /*!< UART FIFO TX reset */
+#define UART_FCR_DMAMODE_SEL                                                   \
+  ((uint8_t)(1 << 3)) /*!< UART DMA mode selection                             \
+                       */
 #define UART_FCR_TRG_LEV0                                                      \
   ((uint8_t)(0)) /*!< UART FIFO trigger level 0: 1 character */
 #define UART_FCR_TRG_LEV1                                                      \
@@ -254,8 +256,9 @@ extern "C" {
   ((uint8_t)(1 << 2))                          /*!< UART Two Stop Bits Select */
 #define UART_LCR_PARITY_EN ((uint8_t)(1 << 3)) /*!< UART Parity Enable */
 #define UART_LCR_PARITY_ODD ((uint8_t)(0))     /*!< UART Odd Parity Select */
-#define UART_LCR_PARITY_EVEN ((uint8_t)(1 << 4)) /*!< UART Even Parity Select  \
-                                                  */
+#define UART_LCR_PARITY_EVEN                                                   \
+  ((uint8_t)(1 << 4)) /*!< UART Even Parity Select                             \
+                       */
 #define UART_LCR_PARITY_F_1                                                    \
   ((uint8_t)(2 << 4)) /*!< UART force 1 stick parity */
 #define UART_LCR_PARITY_F_0                                                    \
@@ -305,8 +308,9 @@ extern "C" {
   ((uint8_t)(1 << 0)) /*!<Line status register: Receive data ready*/
 #define UART_LSR_OE                                                            \
   ((uint8_t)(1 << 1)) /*!<Line status register: Overrun error*/
-#define UART_LSR_PE ((uint8_t)(1 << 2)) /*!<Line status register: Parity       \
-                                           error*/
+#define UART_LSR_PE                                                            \
+  ((uint8_t)(1 << 2)) /*!<Line status register: Parity                         \
+                         error*/
 #define UART_LSR_FE                                                            \
   ((uint8_t)(1 << 3)) /*!<Line status register: Framing error*/
 #define UART_LSR_BI                                                            \
@@ -341,12 +345,13 @@ extern "C" {
   ((uint8_t)(1 << 2)) /*!< Set upon low to high transition of input RI */
 #define UART1_MSR_DELTA_DCD                                                    \
   ((uint8_t)(1 << 3)) /*!< Set upon state change of input DCD */
-#define UART1_MSR_CTS ((uint8_t)(1 << 4))   /*!< Clear To Send State */
-#define UART1_MSR_DSR ((uint8_t)(1 << 5))   /*!< Data Set Ready State */
-#define UART1_MSR_RI ((uint8_t)(1 << 6))    /*!< Ring Indicator State */
-#define UART1_MSR_DCD ((uint8_t)(1 << 7))   /*!< Data Carrier Detect State */
-#define UART1_MSR_BITMASK ((uint8_t)(0xFF)) /*!< MSR register bit-mask value   \
-                                             */
+#define UART1_MSR_CTS ((uint8_t)(1 << 4)) /*!< Clear To Send State */
+#define UART1_MSR_DSR ((uint8_t)(1 << 5)) /*!< Data Set Ready State */
+#define UART1_MSR_RI ((uint8_t)(1 << 6))  /*!< Ring Indicator State */
+#define UART1_MSR_DCD ((uint8_t)(1 << 7)) /*!< Data Carrier Detect State */
+#define UART1_MSR_BITMASK                                                      \
+  ((uint8_t)(0xFF)) /*!< MSR register bit-mask value                           \
+                     */
 
 /*********************************************************************/ /**
                                                                          * Macro
@@ -398,9 +403,10 @@ extern "C" {
                                                                          *control
                                                                          *register
                                                                          **********************************************************************/
-#define UART_ICR_IRDAEN ((uint32_t)(1 << 0))  /**< IrDA mode enable */
-#define UART_ICR_IRDAINV ((uint32_t)(1 << 1)) /**< IrDA serial input inverted  \
-                                               */
+#define UART_ICR_IRDAEN ((uint32_t)(1 << 0)) /**< IrDA mode enable */
+#define UART_ICR_IRDAINV                                                       \
+  ((uint32_t)(1 << 1)) /**< IrDA serial input inverted                         \
+                        */
 #define UART_ICR_FIXPULSE_EN                                                   \
   ((uint32_t)(1 << 2)) /**< IrDA fixed pulse width mode */
 #define UART_ICR_PULSEDIV(n)                                                   \
@@ -471,7 +477,7 @@ extern "C" {
 #define UART1_RS485CTRL_OINV_1                                                 \
   ((uint32_t)(1 << 5)) /*!< This bit reverses the polarity of the direction    \
                        control signal on the RTS (or DTR) pin. The direction   \
-                       control pin will be driven to logic "1" when the                                          \
+                       control pin will be driven to logic "1" when the        \
                        transmitter has data to be sent */
 #define UART1_RS485CTRL_BITMASK                                                \
   ((uint32_t)(0x3F)) /**< RS485 control bit-mask value */

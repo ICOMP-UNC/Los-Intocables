@@ -757,7 +757,7 @@ extern "C" {
 
 /* ENET Device Revision ID */
 #define EMAC_OLD_EMAC_MODULE_ID                                                \
-  0x39022000                          /**< Rev. ID for first rev '-'         */
+  0x39022000                     /**< Rev. ID for first rev '-'         */
 
 /*********************************************************************/ /**
                                                                          * Macro
@@ -767,16 +767,17 @@ extern "C" {
                                                                          *PHY
                                                                          *Registers
                                                                          **********************************************************************/
-#define EMAC_PHY_REG_BMCR 0x00        /**< Basic Mode Control Register       */
-#define EMAC_PHY_REG_BMSR 0x01        /**< Basic Mode Status Register        */
-#define EMAC_PHY_REG_IDR1 0x02        /**< PHY Identifier 1                  */
-#define EMAC_PHY_REG_IDR2 0x03        /**< PHY Identifier 2                  */
-#define EMAC_PHY_REG_ANAR 0x04        /**< Auto-Negotiation Advertisement    */
-#define EMAC_PHY_REG_ANLPAR 0x05      /**< Auto-Neg. Link Partner Abitily    */
-#define EMAC_PHY_REG_ANER 0x06        /**< Auto-Neg. Expansion Register      */
-#define EMAC_PHY_REG_ANNPTR 0x07      /**< Auto-Neg. Next Page TX            */
-#define EMAC_PHY_REG_LPNPA 0x08       /**< Link Partner Next Page Ability    */
-#define EMAC_PHY_REG_REC 0x15         /**< RXError Counter Register            \
+#define EMAC_PHY_REG_BMCR 0x00   /**< Basic Mode Control Register       */
+#define EMAC_PHY_REG_BMSR 0x01   /**< Basic Mode Status Register        */
+#define EMAC_PHY_REG_IDR1 0x02   /**< PHY Identifier 1                  */
+#define EMAC_PHY_REG_IDR2 0x03   /**< PHY Identifier 2                  */
+#define EMAC_PHY_REG_ANAR 0x04   /**< Auto-Negotiation Advertisement    */
+#define EMAC_PHY_REG_ANLPAR 0x05 /**< Auto-Neg. Link Partner Abitily    */
+#define EMAC_PHY_REG_ANER 0x06   /**< Auto-Neg. Expansion Register      */
+#define EMAC_PHY_REG_ANNPTR 0x07 /**< Auto-Neg. Next Page TX            */
+#define EMAC_PHY_REG_LPNPA 0x08  /**< Link Partner Next Page Ability    */
+#define EMAC_PHY_REG_REC                                                       \
+  0x15                                /**< RXError Counter Register            \
                                        */
 #define EMAC_PHY_REG_ISC 0x1b         /**< Interrupt Control/Status Register */
 #define EMAC_PHY_REG_100BASE 0x1f     /**< 100BASE-TX PHY Control Register   */
@@ -851,10 +852,11 @@ extern "C" {
 #define EMAC_PHY_AN_100BASE_T4 (1 << 9)      /**< T4 capable */
 #define EMAC_PHY_AN_100BASE_TX_FD (1 << 8)   /**< TX with Full-duplex capable */
 #define EMAC_PHY_AN_100BASE_TX (1 << 7)      /**< TX capable */
-#define EMAC_PHY_AN_10BASE_T_FD (1 << 6) /**< 10Mbps with full-duplex capable  \
-                                          */
-#define EMAC_PHY_AN_10BASE_T (1 << 5)    /**< 10Mbps capable */
-#define EMAC_PHY_AN_FIELD(n) (n & 0x1F)  /**< Selector Field */
+#define EMAC_PHY_AN_10BASE_T_FD                                                \
+  (1 << 6)                              /**< 10Mbps with full-duplex capable   \
+                                         */
+#define EMAC_PHY_AN_10BASE_T (1 << 5)   /**< 10Mbps capable */
+#define EMAC_PHY_AN_FIELD(n) (n & 0x1F) /**< Selector Field */
 
 #define EMAC_PHY_FULLD_100M 0x2100 /**< Full Duplex 100Mbit               */
 #define EMAC_PHY_HALFD_100M 0x2000 /**< Half Duplex 100Mbit               */

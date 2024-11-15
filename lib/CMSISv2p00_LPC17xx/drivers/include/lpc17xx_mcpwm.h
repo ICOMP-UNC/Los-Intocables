@@ -70,18 +70,24 @@ extern "C" {
 /* Output Patent in 3-phase DC mode, the internal MCOA0 signal is routed to any
  * or all of the six output pins under the control of the bits in this register
  */
-#define MCPWM_PATENT_A0 ((uint32_t)(1 << 0)) /**< MCOA0 tracks internal MCOA0  \
-                                              */
-#define MCPWM_PATENT_B0 ((uint32_t)(1 << 1)) /**< MCOB0 tracks internal MCOA0  \
-                                              */
-#define MCPWM_PATENT_A1 ((uint32_t)(1 << 2)) /**< MCOA1 tracks internal MCOA0  \
-                                              */
-#define MCPWM_PATENT_B1 ((uint32_t)(1 << 3)) /**< MCOB1 tracks internal MCOA0  \
-                                              */
-#define MCPWM_PATENT_A2 ((uint32_t)(1 << 4)) /**< MCOA2 tracks internal MCOA0  \
-                                              */
-#define MCPWM_PATENT_B2 ((uint32_t)(1 << 5)) /**< MCOB2 tracks internal MCOA0  \
-                                              */
+#define MCPWM_PATENT_A0                                                        \
+  ((uint32_t)(1 << 0)) /**< MCOA0 tracks internal MCOA0                        \
+                        */
+#define MCPWM_PATENT_B0                                                        \
+  ((uint32_t)(1 << 1)) /**< MCOB0 tracks internal MCOA0                        \
+                        */
+#define MCPWM_PATENT_A1                                                        \
+  ((uint32_t)(1 << 2)) /**< MCOA1 tracks internal MCOA0                        \
+                        */
+#define MCPWM_PATENT_B1                                                        \
+  ((uint32_t)(1 << 3)) /**< MCOB1 tracks internal MCOA0                        \
+                        */
+#define MCPWM_PATENT_A2                                                        \
+  ((uint32_t)(1 << 4)) /**< MCOA2 tracks internal MCOA0                        \
+                        */
+#define MCPWM_PATENT_B2                                                        \
+  ((uint32_t)(1 << 5)) /**< MCOB2 tracks internal MCOA0                        \
+                        */
 
 /* Interrupt type in MCPWM */
 /** Limit interrupt for channel (0) */
@@ -150,9 +156,10 @@ extern "C" {
                       channel n */
 #define MCPWM_CON_INVBDC                                                       \
   ((uint32_t)(1 << 29)) /**< Control the polarity for all 3 channels */
-#define MCPWM_CON_ACMODE ((uint32_t)(1 << 30))    /**< 3-phase AC mode select */
-#define MCPWM_CON_DCMODE ((uint32_t)(0x80000000)) /**< 3-phase DC mode select  \
-                                                   */
+#define MCPWM_CON_ACMODE ((uint32_t)(1 << 30)) /**< 3-phase AC mode select */
+#define MCPWM_CON_DCMODE                                                       \
+  ((uint32_t)(0x80000000)) /**< 3-phase DC mode select                         \
+                            */
 
 /*********************************************************************/ /**
                                                                          * Macro

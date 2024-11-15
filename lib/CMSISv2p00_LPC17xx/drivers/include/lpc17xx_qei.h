@@ -79,10 +79,12 @@ extern "C" {
   ((uint32_t)(1)) /**< Capture mode: BOTH PhA and PhB edges are counted (4X)*/
 
 /* QEI Invert Index Signal Option */
-#define QEI_INVINX_NONE ((uint32_t)(0)) /**< Invert Index signal option: None  \
-                                         */
-#define QEI_INVINX_EN ((uint32_t)(1)) /**< Invert Index signal option: Enable  \
-                                       */
+#define QEI_INVINX_NONE                                                        \
+  ((uint32_t)(0)) /**< Invert Index signal option: None                        \
+                   */
+#define QEI_INVINX_EN                                                          \
+  ((uint32_t)(1)) /**< Invert Index signal option: Enable                      \
+                   */
 
 /* QEI timer reload option */
 #define QEI_TIMERRELOAD_TICKVAL                                                \
@@ -158,10 +160,11 @@ extern "C" {
 #define QEI_CON_RESP ((uint32_t)(1 << 0)) /**< Reset position counter */
 #define QEI_CON_RESPI                                                          \
   ((uint32_t)(1 << 1)) /**< Reset Posistion Counter on Index */
-#define QEI_CON_RESV ((uint32_t)(1 << 2))  /**< Reset Velocity */
-#define QEI_CON_RESI ((uint32_t)(1 << 3))  /**< Reset Index Counter */
-#define QEI_CON_BITMASK ((uint32_t)(0x0F)) /**< QEI Control register bit-mask  \
-                                            */
+#define QEI_CON_RESV ((uint32_t)(1 << 2)) /**< Reset Velocity */
+#define QEI_CON_RESI ((uint32_t)(1 << 3)) /**< Reset Index Counter */
+#define QEI_CON_BITMASK                                                        \
+  ((uint32_t)(0x0F)) /**< QEI Control register bit-mask                        \
+                      */
 
 /*********************************************************************/ /**
                                                                          * Macro
@@ -233,15 +236,15 @@ extern "C" {
                        the current index count */
 #define QEI_INTSTAT_POS0REV_Int                                                \
   ((uint32_t)(1 << 10)) /**< Combined position 0 and revolution count          \
-                        interrupt. Set when both the POS0_Int bit is set and                                              \
+                        interrupt. Set when both the POS0_Int bit is set and   \
                         the REV_Int is set */
 #define QEI_INTSTAT_POS1REV_Int                                                \
   ((uint32_t)(1 << 11)) /**< Combined position 1 and revolution count          \
-                        interrupt. Set when both the POS1_Int bit is set and                                              \
+                        interrupt. Set when both the POS1_Int bit is set and   \
                         the REV_Int is set */
 #define QEI_INTSTAT_POS2REV_Int                                                \
   ((uint32_t)(1 << 12)) /**< Combined position 2 and revolution count          \
-                        interrupt. Set when both the POS2_Int bit is set and                                              \
+                        interrupt. Set when both the POS2_Int bit is set and   \
                         the REV_Int is set */
 #define QEI_INTSTAT_BITMASK                                                    \
   ((uint32_t)(0x1FFF)) /**< QEI Interrupt Status register bit-mask */
@@ -487,15 +490,15 @@ extern "C" {
                           encoder clock pulse was detected */
 #define QEI_IECLR_POS0_Int                                                     \
   ((uint32_t)(1 << 6)) /**< Clear Enabled Interrupt Bit Indicates that the     \
-                       position 0 compare value is equal to the current                                                                       \
+                       position 0 compare value is equal to the current        \
                        position */
 #define QEI_IECLR_POS1_Int                                                     \
   ((uint32_t)(1 << 7)) /**< Clear Enabled Interrupt Bit Indicates that the     \
-                       position 1compare value is equal to the current                                                                       \
+                       position 1compare value is equal to the current         \
                        position */
 #define QEI_IECLR_POS2_Int                                                     \
   ((uint32_t)(1 << 8)) /**< Clear Enabled Interrupt Bit Indicates that the     \
-                       position 2 compare value is equal to the current                                                                       \
+                       position 2 compare value is equal to the current        \
                        position */
 #define QEI_IECLR_REV_Int                                                      \
   ((uint32_t)(1                                                                \
