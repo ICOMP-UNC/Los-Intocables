@@ -871,7 +871,7 @@ CAN_ERROR CAN_LoadFullCANEntry(LPC_CAN_TypeDef* CANx, uint16_t id)
     }
     // restruct FulCAN Object Section
     bound1 = CANAF_FullCAN_cnt - cnt2;
-    cnt1 = total - (CANAF_FullCAN_cnt) * 3 + cnt2 * 3 + 1;
+    cnt1 = total - (CANAF_FullCAN_cnt)*3 + cnt2 * 3 + 1;
     buf0 = LPC_CANAF_RAM->mask[cnt1];
     buf1 = LPC_CANAF_RAM->mask[cnt1 + 1];
     buf2 = LPC_CANAF_RAM->mask[cnt1 + 2];
