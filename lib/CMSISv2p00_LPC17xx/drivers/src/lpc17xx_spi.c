@@ -316,7 +316,9 @@ int32_t SPI_ReadWrite(LPC_SPI_TypeDef* SPIx, SPI_DATA_SETUP_Type* dataCfg, SPI_T
                 }
             }
             // Wait for transfer complete
-            while (!((stat = SPIx->SPSR) & SPI_SPSR_SPIF));
+            while (!((stat = SPIx->SPSR) & SPI_SPSR_SPIF))
+            {
+            }
             // Check for error
             if (stat & (SPI_SPSR_ABRT | SPI_SPSR_MODF | SPI_SPSR_ROVR | SPI_SPSR_WCOL))
             {

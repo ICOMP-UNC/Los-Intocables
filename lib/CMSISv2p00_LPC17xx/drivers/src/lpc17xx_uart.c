@@ -261,7 +261,9 @@ void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
 
         ((LPC_UART1_TypeDef*)UARTx)->TER = UART_TER_TXEN;
         // Wait for current transmit complete
-        while (!(((LPC_UART1_TypeDef*)UARTx)->LSR & UART_LSR_THRE));
+        while (!(((LPC_UART1_TypeDef*)UARTx)->LSR & UART_LSR_THRE))
+        {
+        }
         // Disable Tx
         ((LPC_UART1_TypeDef*)UARTx)->TER = 0;
 
@@ -298,7 +300,9 @@ void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
 
         UARTx->TER = UART_TER_TXEN;
         // Wait for current transmit complete
-        while (!(UARTx->LSR & UART_LSR_THRE));
+        while (!(UARTx->LSR & UART_LSR_THRE))
+        {
+        }
         // Disable Tx
         UARTx->TER = 0;
 
@@ -1362,13 +1366,17 @@ uint32_t UART_RS485Send(LPC_UART1_TypeDef* UARTx, uint8_t* pDatFrm, uint32_t siz
         tmp &= ~(UART_LCR_PARITY_EVEN);
         UARTx->LCR = tmp;
         cnt = UART_Send((LPC_UART_TypeDef*)UARTx, pDatFrm, size, BLOCKING);
-        while (!(UARTx->LSR & UART_LSR_TEMT));
+        while (!(UARTx->LSR & UART_LSR_TEMT))
+        {
+        }
         UARTx->LCR = save;
     }
     else
     {
         cnt = UART_Send((LPC_UART_TypeDef*)UARTx, pDatFrm, size, BLOCKING);
-        while (!(UARTx->LSR & UART_LSR_TEMT));
+        while (!(UARTx->LSR & UART_LSR_TEMT))
+        {
+        }
     }
     return cnt;
 }
