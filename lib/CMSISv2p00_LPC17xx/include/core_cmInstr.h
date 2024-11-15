@@ -129,7 +129,10 @@ static __INLINE __ASM uint32_t __REV16(uint32_t value)
     \param [in]    value  Value to reverse
     \return               Reversed value
  */
-static __INLINE __ASM int32_t __REVSH(int32_t value) {revsh r0, r0 bx lr}
+static __INLINE __ASM int32_t __REVSH(int32_t value)
+{
+    revsh r0, r0 bx lr
+}
 
 #if (__CORTEX_M >= 0x03)
 
