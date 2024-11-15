@@ -57,8 +57,8 @@
 
 /*********************************************************************/ /**
                                                                          * @brief 		Setup clock rate for SPI device
-                                                                         * @param[in] 	SPIx	SPI peripheral definition,
-                                                                         *should be LPC_SPI
+                                                                         * @param[in] 	SPIx	SPI peripheral
+                                                                         *definition, should be LPC_SPI
                                                                          * @param[in]	target_clock : clock of SPI (Hz)
                                                                          * @return 		None
                                                                          ***********************************************************************/
@@ -99,8 +99,9 @@ void SPI_SetClock(LPC_SPI_TypeDef* SPIx, uint32_t target_clock)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the SPIx peripheral
-                                                                         *registers to their default reset values.
+                                                                         * @brief		De-initializes the SPIx
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
                                                                          * @param[in]	SPIx	SPI peripheral selected,
                                                                          *should be LPC_SPI
                                                                          * @return 		None
@@ -120,8 +121,8 @@ void SPI_DeInit(LPC_SPI_TypeDef* SPIx)
                                                                          * @brief		Get data bit size per transfer
                                                                          * @param[in]	SPIx	SPI peripheral selected,
                                                                          *should be LPC_SPI
-                                                                         * @return 		number of bit per transfer, could
-                                                                         *be 8-16
+                                                                         * @return 		number of bit per transfer,
+                                                                         *could be 8-16
                                                                          **********************************************************************/
 uint8_t SPI_GetDataSize(LPC_SPI_TypeDef* SPIx)
 {
@@ -175,8 +176,9 @@ void SPI_Init(LPC_SPI_TypeDef* SPIx, SPI_CFG_Type* SPI_ConfigStruct)
 }
 
 /*****************************************************************************/ /**
-                                                                                 * @brief		Fills each SPI_InitStruct
-                                                                                 *member with its default value:
+                                                                                 * @brief		Fills each
+                                                                                 *SPI_InitStruct member with its default
+                                                                                 *value:
                                                                                  * 				- CPHA = SPI_CPHA_FIRST
                                                                                  * 				- CPOL = SPI_CPOL_HI
                                                                                  * 				- ClockRate = 1000000
@@ -185,9 +187,9 @@ void SPI_Init(LPC_SPI_TypeDef* SPIx, SPI_CFG_Type* SPI_ConfigStruct)
                                                                                  * 				- Databit =
                                                                                  *SPI_DATABIT_8
                                                                                  * 				- Mode = SPI_MASTER_MODE
-                                                                                 * @param[in]	SPI_InitStruct Pointer to
-                                                                                 *a SPI_CFG_Type structure which will be
-                                                                                 *initialized.
+                                                                                 * @param[in]	SPI_InitStruct Pointer
+                                                                                 *to a SPI_CFG_Type structure which will
+                                                                                 *be initialized.
                                                                                  * @return		None
                                                                                  *******************************************************************************/
 void SPI_ConfigStructInit(SPI_CFG_Type* SPI_InitStruct)
@@ -201,13 +203,13 @@ void SPI_ConfigStructInit(SPI_CFG_Type* SPI_InitStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Transmit a single data through SPIx
-                                                                         *peripheral
+                                                                         * @brief		Transmit a single data through
+                                                                         *SPIx peripheral
                                                                          * @param[in]	SPIx	SPI peripheral selected,
                                                                          *should be LPC_SPI
-                                                                         * @param[in]	Data	Data to transmit (must be
-                                                                         *16 or 8-bit long, this depend on SPI data bit
-                                                                         *number configured)
+                                                                         * @param[in]	Data	Data to transmit (must
+                                                                         *be 16 or 8-bit long, this depend on SPI data
+                                                                         *bit number configured)
                                                                          * @return 		none
                                                                          **********************************************************************/
 void SPI_SendData(LPC_SPI_TypeDef* SPIx, uint16_t Data)
@@ -233,18 +235,18 @@ uint16_t SPI_ReceiveData(LPC_SPI_TypeDef* SPIx)
 
 /*********************************************************************/ /**
                                                                          * @brief 		SPI 	Read write data function
-                                                                         * @param[in]	SPIx 	Pointer to SPI peripheral,
-                                                                         *should be LPC_SPI
+                                                                         * @param[in]	SPIx 	Pointer to SPI
+                                                                         *peripheral, should be LPC_SPI
                                                                          * @param[in]	dataCfg	Pointer to a
                                                                          *SPI_DATA_SETUP_Type structure that contains
                                                                          *specified information about transmit data
                                                                          *configuration.
                                                                          * @param[in]	xfType	Transfer type, should
                                                                          *be:
-                                                                         * 						- SPI_TRANSFER_POLLING: Polling
-                                                                         *mode
-                                                                         * 						- SPI_TRANSFER_INTERRUPT:
-                                                                         *Interrupt mode
+                                                                         * 						- SPI_TRANSFER_POLLING:
+                                                                         *Polling mode
+                                                                         * 						-
+                                                                         *SPI_TRANSFER_INTERRUPT: Interrupt mode
                                                                          * @return 		Actual Data length has been
                                                                          *transferred in polling mode. In interrupt
                                                                          *mode, always return (0) Return (-1) if error.
@@ -314,8 +316,7 @@ int32_t SPI_ReadWrite(LPC_SPI_TypeDef* SPIx, SPI_DATA_SETUP_Type* dataCfg, SPI_T
                 }
             }
             // Wait for transfer complete
-            while (!((stat = SPIx->SPSR) & SPI_SPSR_SPIF))
-                ;
+            while (!((stat = SPIx->SPSR) & SPI_SPSR_SPIF));
             // Check for error
             if (stat & (SPI_SPSR_ABRT | SPI_SPSR_MODF | SPI_SPSR_ROVR | SPI_SPSR_WCOL))
             {

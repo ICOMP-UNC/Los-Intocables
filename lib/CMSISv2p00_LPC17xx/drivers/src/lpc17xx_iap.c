@@ -274,8 +274,8 @@ IAP_STATUS_CODE ReadDeviceSerialNum(uint32_t* uid)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		   compare the memory contents at
-                                                                         *two locations.
+                                                                         * @brief		   compare the memory contents
+                                                                         *at two locations.
                                                                          *
                                                                          * @param[in] addr1   The address of the 1st
                                                                          *buffer (in RAM/Flash).

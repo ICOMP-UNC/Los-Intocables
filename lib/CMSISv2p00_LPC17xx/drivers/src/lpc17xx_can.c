@@ -118,8 +118,7 @@ static void can_SetBaudrate(LPC_CAN_TypeDef* CANx, uint32_t baudrate)
         }
     }
     if (BRFail)
-        while (1)
-            ; // Failed to calculate exact CAN baud rate
+        while (1); // Failed to calculate exact CAN baud rate
     /* Enter reset mode */
     CANx->MOD = 0x01;
     /* Set bit timing
@@ -232,8 +231,8 @@ void CAN_DeInit(LPC_CAN_TypeDef* CANx)
                                                                         *AF_SectionDef structure It contain information
                                                                         *about 5 sections will be install in AFLUT
                                                                         * @return 		CAN Error	could be:
-                                                                        * 				- CAN_OBJECTS_FULL_ERROR: No more
-                                                                        *rx or tx objects available
+                                                                        * 				- CAN_OBJECTS_FULL_ERROR: No
+                                                                        *more rx or tx objects available
                                                                         * 				- CAN_AF_ENTRY_ERROR: table
                                                                         *error-violation of ascending numerical order
                                                                         * 				- CAN_OK: ID is added into table
@@ -508,10 +507,10 @@ CAN_ERROR CAN_SetupAFLUT(LPC_CANAF_TypeDef* CANAFx, AF_SectionDef* AFSection)
                                                                         * 				- STD_ID_FORMAT: 11-bit ID value
                                                                         * 				- EXT_ID_FORMAT: 29-bit ID value
                                                                         * @return 		CAN Error, could be:
-                                                                        * 				- CAN_OBJECTS_FULL_ERROR: No more
-                                                                        *rx or tx objects available
-                                                                        * 				- CAN_ID_EXIT_ERROR: ID exited in
-                                                                        *table
+                                                                        * 				- CAN_OBJECTS_FULL_ERROR: No
+                                                                        *more rx or tx objects available
+                                                                        * 				- CAN_ID_EXIT_ERROR: ID exited
+                                                                        *in table
                                                                         * 				- CAN_OK: ID is added into table
                                                                         *successfully
                                                                         *********************************************************************/
@@ -719,14 +718,14 @@ CAN_ERROR CAN_LoadExplicitEntry(LPC_CAN_TypeDef* CANx, uint32_t id, CAN_ID_FORMA
                                                                         *should be:
                                                                         * 				- LPC_CAN1: CAN1 peripheral
                                                                         * 				- LPC_CAN2: CAN2 peripheral
-                                                                        * @param[in]	id: identifier of entry that will
-                                                                        *be added
+                                                                        * @param[in]	id: identifier of entry that
+                                                                        *will be added
                                                                         * @return 		CAN_ERROR, could be:
                                                                         * 				- CAN_OK: loading is successful
-                                                                        * 				- CAN_ID_EXIT_ERROR: ID exited in
-                                                                        *FullCAN Section
-                                                                        * 				- CAN_OBJECTS_FULL_ERROR: no more
-                                                                        *space available
+                                                                        * 				- CAN_ID_EXIT_ERROR: ID exited
+                                                                        *in FullCAN Section
+                                                                        * 				- CAN_OBJECTS_FULL_ERROR: no
+                                                                        *more space available
                                                                         *********************************************************************/
 CAN_ERROR CAN_LoadFullCANEntry(LPC_CAN_TypeDef* CANx, uint16_t id)
 {
@@ -869,7 +868,7 @@ CAN_ERROR CAN_LoadFullCANEntry(LPC_CAN_TypeDef* CANx, uint16_t id)
     }
     // restruct FulCAN Object Section
     bound1 = CANAF_FullCAN_cnt - cnt2;
-    cnt1 = total - (CANAF_FullCAN_cnt)*3 + cnt2 * 3 + 1;
+    cnt1 = total - (CANAF_FullCAN_cnt) * 3 + cnt2 * 3 + 1;
     buf0 = LPC_CANAF_RAM->mask[cnt1];
     buf1 = LPC_CANAF_RAM->mask[cnt1 + 1];
     buf2 = LPC_CANAF_RAM->mask[cnt1 + 2];
@@ -906,20 +905,20 @@ CAN_ERROR CAN_LoadFullCANEntry(LPC_CAN_TypeDef* CANx, uint16_t id)
                                                                         *should be:
                                                                         * 				- LPC_CAN1: CAN1 peripheral
                                                                         * 				- LPC_CAN2: CAN2 peripheral
-                                                                        * @param[in]	lowerID, upperID: lower and upper
-                                                                        *identifier of entry
-                                                                        * @param[in]	format: type of ID format, should
-                                                                        *be:
+                                                                        * @param[in]	lowerID, upperID: lower and
+                                                                        *upper identifier of entry
+                                                                        * @param[in]	format: type of ID format,
+                                                                        *should be:
                                                                         * 				- STD_ID_FORMAT: Standard ID
                                                                         *format (11-bit value)
                                                                         * 				- EXT_ID_FORMAT: Extended ID
                                                                         *format (29-bit value)
                                                                         * @return 		CAN_ERROR, could be:
                                                                         * 				- CAN_OK: loading is successful
-                                                                        * 				- CAN_CONFLICT_ID_ERROR: Conflict
-                                                                        *ID occurs
-                                                                        * 				- CAN_OBJECTS_FULL_ERROR: no more
-                                                                        *space available
+                                                                        * 				- CAN_CONFLICT_ID_ERROR:
+                                                                        *Conflict ID occurs
+                                                                        * 				- CAN_OBJECTS_FULL_ERROR: no
+                                                                        *more space available
                                                                         *********************************************************************/
 CAN_ERROR CAN_LoadGroupEntry(LPC_CAN_TypeDef* CANx, uint32_t lowerID, uint32_t upperID, CAN_ID_FORMAT_Type format)
 {
@@ -1115,10 +1114,10 @@ CAN_ERROR CAN_LoadGroupEntry(LPC_CAN_TypeDef* CANx, uint32_t lowerID, uint32_t u
 }
 
 /********************************************************************/ /**
-                                                                        * @brief		Remove AFLUT entry (FullCAN entry
-                                                                        *and Explicit Standard entry)
-                                                                        * @param[in]	EntryType: the type of entry that
-                                                                        *want to remove, should be:
+                                                                        * @brief		Remove AFLUT entry (FullCAN
+                                                                        *entry and Explicit Standard entry)
+                                                                        * @param[in]	EntryType: the type of entry
+                                                                        *that want to remove, should be:
                                                                         * 				- FULLCAN_ENTRY
                                                                         * 				- EXPLICIT_STANDARD_ENTRY
                                                                         * 				- GROUP_STANDARD_ENTRY
@@ -1129,8 +1128,8 @@ CAN_ERROR CAN_LoadGroupEntry(LPC_CAN_TypeDef* CANx, uint32_t lowerID, uint32_t u
                                                                         *is 0
                                                                         * @return 		CAN_ERROR, could be:
                                                                         * 				- CAN_OK: removing is successful
-                                                                        * 				- CAN_ENTRY_NOT_EXIT_ERROR: entry
-                                                                        *want to remove is not exit
+                                                                        * 				- CAN_ENTRY_NOT_EXIT_ERROR:
+                                                                        *entry want to remove is not exit
                                                                         *********************************************************************/
 CAN_ERROR CAN_RemoveEntry(AFLUT_ENTRY_Type EntryType, uint16_t position)
 {
@@ -1367,9 +1366,9 @@ CAN_ERROR CAN_RemoveEntry(AFLUT_ENTRY_Type EntryType, uint16_t position)
                                                                         *should be:
                                                                         * 				- LPC_CAN1: CAN1 peripheral
                                                                         * 				- LPC_CAN2: CAN2 peripheral
-                                                                        * @param[in]	CAN_Msg point to the CAN_MSG_Type
-                                                                        *Structure, it contains message information such
-                                                                        *as: ID, DLC, RTR, ID Format
+                                                                        * @param[in]	CAN_Msg point to the
+                                                                        *CAN_MSG_Type Structure, it contains message
+                                                                        *information such as: ID, DLC, RTR, ID Format
                                                                         * @return 		Status:
                                                                         * 				- SUCCESS: send message
                                                                         *successfully
@@ -1530,9 +1529,10 @@ Status CAN_SendMsg(LPC_CAN_TypeDef* CANx, CAN_MSG_Type* CAN_Msg)
                                                                         *should be:
                                                                         * 				- LPC_CAN1: CAN1 peripheral
                                                                         * 				- LPC_CAN2: CAN2 peripheral
-                                                                        * @param[in]	CAN_Msg point to the CAN_MSG_Type
-                                                                        *Struct, it will contain received message
-                                                                        *information such as: ID, DLC, RTR, ID Format
+                                                                        * @param[in]	CAN_Msg point to the
+                                                                        *CAN_MSG_Type Struct, it will contain received
+                                                                        *message information such as: ID, DLC, RTR, ID
+                                                                        *Format
                                                                         * @return 		Status:
                                                                         * 				- SUCCESS: receive message
                                                                         *successfully
@@ -1598,14 +1598,15 @@ Status CAN_ReceiveMsg(LPC_CAN_TypeDef* CANx, CAN_MSG_Type* CAN_Msg)
                                                                         * @brief		Receive FullCAN Object
                                                                         * @param[in]	CANAFx: CAN Acceptance Filter
                                                                         *register, should be: LPC_CANAF
-                                                                        * @param[in]	CAN_Msg point to the CAN_MSG_Type
-                                                                        *Struct, it will contain received message
-                                                                        *information such as: ID, DLC, RTR, ID Format
+                                                                        * @param[in]	CAN_Msg point to the
+                                                                        *CAN_MSG_Type Struct, it will contain received
+                                                                        *message information such as: ID, DLC, RTR, ID
+                                                                        *Format
                                                                         * @return 		CAN_ERROR, could be:
                                                                         * 				- CAN_FULL_OBJ_NOT_RCV: FullCAN
                                                                         *Object is not be received
-                                                                        * 				- CAN_OK: Received FullCAN Object
-                                                                        *successful
+                                                                        * 				- CAN_OK: Received FullCAN
+                                                                        *Object successful
                                                                         *
                                                                         *********************************************************************/
 CAN_ERROR FCAN_ReadObj(LPC_CANAF_TypeDef* CANAFx, CAN_MSG_Type* CAN_Msg)
@@ -1820,8 +1821,8 @@ void CAN_IRQCmd(LPC_CAN_TypeDef* CANx, CAN_INT_EN_Type arg, FunctionalState NewS
 
 /********************************************************************/ /**
                                                                         * @brief		Setting Acceptance Filter mode
-                                                                        * @param[in]	CANAFx point to LPC_CANAF_TypeDef
-                                                                        *object, should be: LPC_CANAF
+                                                                        * @param[in]	CANAFx point to
+                                                                        *LPC_CANAF_TypeDef object, should be: LPC_CANAF
                                                                         * @param[in]	AFMode: type of AF mode that you
                                                                         *want to set, should be:
                                                                         * 				- CAN_Normal: Normal mode
@@ -1858,8 +1859,8 @@ void CAN_SetAFMode(LPC_CANAF_TypeDef* CANAFx, CAN_AFMODE_Type AFMode)
                                                                         * 				- CAN_OPERATING_MODE: Normal
                                                                         *Operating Mode
                                                                         * 				- CAN_RESET_MODE: Reset Mode
-                                                                        * 				- CAN_LISTENONLY_MODE: Listen Only
-                                                                        *Mode
+                                                                        * 				- CAN_LISTENONLY_MODE: Listen
+                                                                        *Only Mode
                                                                         * 				- CAN_SELFTEST_MODE: Self Test
                                                                         *Mode
                                                                         * 				- CAN_TXPRIORITY_MODE: Transmit
@@ -1943,20 +1944,20 @@ void CAN_ModeConfig(LPC_CAN_TypeDef* CANx, CAN_MODE_Type mode, FunctionalState N
                                                                          *request
                                                                          * 				- CAN_CMR_AT: Abort Transmission
                                                                          *request
-                                                                         * 				- CAN_CMR_RRB: Release Receive Buffer
-                                                                         *request
-                                                                         * 				- CAN_CMR_CDO: Clear Data Overrun
-                                                                         *request
+                                                                         * 				- CAN_CMR_RRB: Release Receive
+                                                                         *Buffer request
+                                                                         * 				- CAN_CMR_CDO: Clear Data
+                                                                         *Overrun request
                                                                          * 				- CAN_CMR_SRR: Self Reception
                                                                          *request
-                                                                         * 				- CAN_CMR_STB1: Select Tx Buffer 1
-                                                                         *request
-                                                                         * 				- CAN_CMR_STB2: Select Tx Buffer 2
-                                                                         *request
-                                                                         * 				- CAN_CMR_STB3: Select Tx Buffer 3
-                                                                         *request
-                                                                         * @return		CANICR (CAN interrupt and Capture
-                                                                         *register) value
+                                                                         * 				- CAN_CMR_STB1: Select Tx Buffer
+                                                                         *1 request
+                                                                         * 				- CAN_CMR_STB2: Select Tx Buffer
+                                                                         *2 request
+                                                                         * 				- CAN_CMR_STB3: Select Tx Buffer
+                                                                         *3 request
+                                                                         * @return		CANICR (CAN interrupt and
+                                                                         *Capture register) value
                                                                          **********************************************************************/
 void CAN_SetCommand(LPC_CAN_TypeDef* CANx, uint32_t CMRType)
 {
@@ -1970,8 +1971,8 @@ void CAN_SetCommand(LPC_CAN_TypeDef* CANx, uint32_t CMRType)
                                                                          *selected, should be:
                                                                          * 				- LPC_CAN1: CAN1 peripheral
                                                                          * 				- LPC_CAN2: CAN2 peripheral
-                                                                         * @return		CANICR (CAN interrupt and Capture
-                                                                         *register) value
+                                                                         * @return		CANICR (CAN interrupt and
+                                                                         *Capture register) value
                                                                          **********************************************************************/
 uint32_t CAN_IntGetStatus(LPC_CAN_TypeDef* CANx)
 {
@@ -1980,10 +1981,10 @@ uint32_t CAN_IntGetStatus(LPC_CAN_TypeDef* CANx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Check if FullCAN interrupt enable
-                                                                         *or not
-                                                                         * @param[in]	CANAFx point to LPC_CANAF_TypeDef
-                                                                         *object, should be: LPC_CANAF
+                                                                         * @brief		Check if FullCAN interrupt
+                                                                         *enable or not
+                                                                         * @param[in]	CANAFx point to
+                                                                         *LPC_CANAF_TypeDef object, should be: LPC_CANAF
                                                                          * @return		IntStatus, could be:
                                                                          * 				- SET: if FullCAN interrupt is
                                                                          *enable
@@ -1999,10 +2000,10 @@ IntStatus CAN_FullCANIntGetStatus(LPC_CANAF_TypeDef* CANAFx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get value of FullCAN interrupt and
-                                                                         *capture register
-                                                                         * @param[in]	CANAFx point to LPC_CANAF_TypeDef
-                                                                         *object, should be: LPC_CANAF
+                                                                         * @brief		Get value of FullCAN interrupt
+                                                                         *and capture register
+                                                                         * @param[in]	CANAFx point to
+                                                                         *LPC_CANAF_TypeDef object, should be: LPC_CANAF
                                                                          * @param[in]	type: FullCAN IC type, should
                                                                          *be:
                                                                          * 				- FULLCAN_IC0: FullCAN Interrupt

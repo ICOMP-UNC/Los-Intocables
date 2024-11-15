@@ -279,14 +279,14 @@ void PINSEL_ConfigTraceFunc(FunctionalState NewState)
                                                                          * 				should be one of the following:
                                                                          * 				- PINSEL_I2C_Normal_Mode : The
                                                                          *standard drive mode
-                                                                         * 				- PINSEL_I2C_Fast_Mode : Fast Mode
-                                                                         *Plus drive mode
+                                                                         * 				- PINSEL_I2C_Fast_Mode : Fast
+                                                                         *Mode Plus drive mode
                                                                          *
                                                                          * @param[in]	filterSlewRateEnable  should be:
                                                                          * 				- ENABLE: Enable filter and slew
                                                                          *rate.
-                                                                         * 				- DISABLE: Disable filter and slew
-                                                                         *rate.
+                                                                         * 				- DISABLE: Disable filter and
+                                                                         *slew rate.
                                                                          *
                                                                          * @return 		None
                                                                          **********************************************************************/

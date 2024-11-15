@@ -342,8 +342,7 @@ Status GPDMA_Setup(GPDMA_Channel_CFG_Type* GPDMAChannelConfig)
 
     /* Enable DMA channels, little endian */
     LPC_GPDMA->DMACConfig = GPDMA_DMACConfig_E;
-    while (!(LPC_GPDMA->DMACConfig & GPDMA_DMACConfig_E))
-        ;
+    while (!(LPC_GPDMA->DMACConfig & GPDMA_DMACConfig_E));
 
     // Calculate absolute value for Connection number
     tmp1 = GPDMAChannelConfig->SrcConn;
@@ -361,8 +360,8 @@ Status GPDMA_Setup(GPDMA_Channel_CFG_Type* GPDMAChannelConfig)
 
 /*********************************************************************/ /**
                                                                          * @brief		Enable/Disable DMA channel
-                                                                         * @param[in]	channelNum	GPDMA channel, should
-                                                                         *be in range from 0 to 7
+                                                                         * @param[in]	channelNum	GPDMA channel,
+                                                                         *should be in range from 0 to 7
                                                                          * @param[in]	NewState	New State of this
                                                                          *command, should be:
                                                                          * 					- ENABLE.
@@ -386,30 +385,31 @@ void GPDMA_ChannelCmd(uint8_t channelNum, FunctionalState NewState)
     }
 }
 /*********************************************************************/ /**
-                                                                         * @brief		Check if corresponding channel does
-                                                                         *have an active interrupt request or not
-                                                                         * @param[in]	type		type of status, should
-                                                                         *be:
-                                                                         * 					- GPDMA_STAT_INT: 		GPDMA
+                                                                         * @brief		Check if corresponding channel
+                                                                         *does have an active interrupt request or not
+                                                                         * @param[in]	type		type of status,
+                                                                         *should be:
+                                                                         * 					- GPDMA_STAT_INT: GPDMA
                                                                          *Interrupt Status
-                                                                         * 					- GPDMA_STAT_INTTC: 	GPDMA
+                                                                         * 					- GPDMA_STAT_INTTC: GPDMA
                                                                          *Interrupt Terminal Count Request Status
-                                                                         * 					- GPDMA_STAT_INTERR:	GPDMA
-                                                                         *Interrupt Error Status
-                                                                         * 					- GPDMA_STAT_RAWINTTC:	GPDMA Raw
-                                                                         *Interrupt Terminal Count Status
-                                                                         * 					- GPDMA_STAT_RAWINTERR:	GPDMA Raw
-                                                                         *Error Interrupt Status
-                                                                         * 					- GPDMA_STAT_ENABLED_CH:GPDMA
-                                                                         *Enabled Channel Status
-                                                                         * @param[in]	channel		GPDMA channel, should
-                                                                         *be in range from 0 to 7
-                                                                         * @return		IntStatus	status of DMA channel
-                                                                         *interrupt after masking Should be:
-                                                                         * 					- SET: the corresponding channel
-                                                                         *has no active interrupt request
-                                                                         * 					- RESET: the corresponding channel
-                                                                         *does have an active interrupt request
+                                                                         * 					- GPDMA_STAT_INTERR:
+                                                                         *GPDMA Interrupt Error Status
+                                                                         * 					- GPDMA_STAT_RAWINTTC:
+                                                                         *GPDMA Raw Interrupt Terminal Count Status
+                                                                         * 					- GPDMA_STAT_RAWINTERR:
+                                                                         *GPDMA Raw Error Interrupt Status
+                                                                         * 					-
+                                                                         *GPDMA_STAT_ENABLED_CH:GPDMA Enabled Channel
+                                                                         *Status
+                                                                         * @param[in]	channel		GPDMA channel,
+                                                                         *should be in range from 0 to 7
+                                                                         * @return		IntStatus	status of DMA
+                                                                         *channel interrupt after masking Should be:
+                                                                         * 					- SET: the corresponding
+                                                                         *channel has no active interrupt request
+                                                                         * 					- RESET: the corresponding
+                                                                         *channel does have an active interrupt request
                                                                          **********************************************************************/
 IntStatus GPDMA_IntGetStatus(GPDMA_Status_Type type, uint8_t channel)
 {
@@ -450,12 +450,12 @@ IntStatus GPDMA_IntGetStatus(GPDMA_Status_Type type, uint8_t channel)
                                                                          *requests on DMA channels
                                                                          * @param[in]	type		type of interrupt
                                                                          *request, should be:
-                                                                         * 					- GPDMA_STATCLR_INTTC: 	GPDMA
+                                                                         * 					- GPDMA_STATCLR_INTTC: GPDMA
                                                                          *Interrupt Terminal Count Request Clear
-                                                                         * 					- GPDMA_STATCLR_INTERR: GPDMA
-                                                                         *Interrupt Error Clear
-                                                                         * @param[in]	channel		GPDMA channel, should
-                                                                         *be in range from 0 to 7
+                                                                         * 					- GPDMA_STATCLR_INTERR:
+                                                                         *GPDMA Interrupt Error Clear
+                                                                         * @param[in]	channel		GPDMA channel,
+                                                                         *should be in range from 0 to 7
                                                                          * @return		None
                                                                          **********************************************************************/
 void GPDMA_ClearIntPending(GPDMA_StateClear_Type type, uint8_t channel)

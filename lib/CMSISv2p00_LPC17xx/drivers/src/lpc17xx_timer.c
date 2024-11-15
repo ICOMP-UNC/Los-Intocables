@@ -59,8 +59,8 @@ static uint32_t converUSecToVal(uint32_t timernum, uint32_t usec);
 static uint32_t converPtrToTimeNum(LPC_TIM_TypeDef* TIMx);
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Get peripheral clock of each timer
-                                                                         *controller
+                                                                         * @brief 		Get peripheral clock of each
+                                                                         *timer controller
                                                                          * @param[in]	timernum Timer number
                                                                          * @return 		Peripheral clock of timer
                                                                          **********************************************************************/
@@ -151,18 +151,18 @@ uint32_t converPtrToTimeNum(LPC_TIM_TypeDef* TIMx)
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
                                                                          * @param[in]	IntFlag: interrupt type, should
                                                                          *be:
-                                                                         * 				- TIM_MR0_INT: Interrupt for Match
-                                                                         *channel 0
-                                                                         * 				- TIM_MR1_INT: Interrupt for Match
-                                                                         *channel 1
-                                                                         * 				- TIM_MR2_INT: Interrupt for Match
-                                                                         *channel 2
-                                                                         * 				- TIM_MR3_INT: Interrupt for Match
-                                                                         *channel 3
-                                                                         * 				- TIM_CR0_INT: Interrupt for Capture
-                                                                         *channel 0
-                                                                         * 				- TIM_CR1_INT: Interrupt for Capture
-                                                                         *channel 1
+                                                                         * 				- TIM_MR0_INT: Interrupt for
+                                                                         *Match channel 0
+                                                                         * 				- TIM_MR1_INT: Interrupt for
+                                                                         *Match channel 1
+                                                                         * 				- TIM_MR2_INT: Interrupt for
+                                                                         *Match channel 2
+                                                                         * 				- TIM_MR3_INT: Interrupt for
+                                                                         *Match channel 3
+                                                                         * 				- TIM_CR0_INT: Interrupt for
+                                                                         *Capture channel 0
+                                                                         * 				- TIM_CR1_INT: Interrupt for
+                                                                         *Capture channel 1
                                                                          * @return 		FlagStatus
                                                                          * 				- SET : interrupt
                                                                          * 				- RESET : no interrupt
@@ -187,18 +187,18 @@ FlagStatus TIM_GetIntStatus(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag)
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
                                                                          * @param[in]	IntFlag: interrupt type, should
                                                                          *be:
-                                                                         * 				- TIM_MR0_INT: Interrupt for Match
-                                                                         *channel 0
-                                                                         * 				- TIM_MR1_INT: Interrupt for Match
-                                                                         *channel 1
-                                                                         * 				- TIM_MR2_INT: Interrupt for Match
-                                                                         *channel 2
-                                                                         * 				- TIM_MR3_INT: Interrupt for Match
-                                                                         *channel 3
-                                                                         * 				- TIM_CR0_INT: Interrupt for Capture
-                                                                         *channel 0
-                                                                         * 				- TIM_CR1_INT: Interrupt for Capture
-                                                                         *channel 1
+                                                                         * 				- TIM_MR0_INT: Interrupt for
+                                                                         *Match channel 0
+                                                                         * 				- TIM_MR1_INT: Interrupt for
+                                                                         *Match channel 1
+                                                                         * 				- TIM_MR2_INT: Interrupt for
+                                                                         *Match channel 2
+                                                                         * 				- TIM_MR3_INT: Interrupt for
+                                                                         *Match channel 3
+                                                                         * 				- TIM_CR0_INT: Interrupt for
+                                                                         *Capture channel 0
+                                                                         * 				- TIM_CR1_INT: Interrupt for
+                                                                         *Capture channel 1
                                                                          * @return 		FlagStatus
                                                                          * 				- SET : interrupt
                                                                          * 				- RESET : no interrupt
@@ -222,18 +222,18 @@ FlagStatus TIM_GetIntCaptureStatus(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag)
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
                                                                          * @param[in]	IntFlag: interrupt type, should
                                                                          *be:
-                                                                         * 				- TIM_MR0_INT: Interrupt for Match
-                                                                         *channel 0
-                                                                         * 				- TIM_MR1_INT: Interrupt for Match
-                                                                         *channel 1
-                                                                         * 				- TIM_MR2_INT: Interrupt for Match
-                                                                         *channel 2
-                                                                         * 				- TIM_MR3_INT: Interrupt for Match
-                                                                         *channel 3
-                                                                         * 				- TIM_CR0_INT: Interrupt for Capture
-                                                                         *channel 0
-                                                                         * 				- TIM_CR1_INT: Interrupt for Capture
-                                                                         *channel 1
+                                                                         * 				- TIM_MR0_INT: Interrupt for
+                                                                         *Match channel 0
+                                                                         * 				- TIM_MR1_INT: Interrupt for
+                                                                         *Match channel 1
+                                                                         * 				- TIM_MR2_INT: Interrupt for
+                                                                         *Match channel 2
+                                                                         * 				- TIM_MR3_INT: Interrupt for
+                                                                         *Match channel 3
+                                                                         * 				- TIM_CR0_INT: Interrupt for
+                                                                         *Capture channel 0
+                                                                         * 				- TIM_CR1_INT: Interrupt for
+                                                                         *Capture channel 1
                                                                          * @return 		None
                                                                          **********************************************************************/
 void TIM_ClearIntPending(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag)
@@ -252,18 +252,18 @@ void TIM_ClearIntPending(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag)
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
                                                                          * @param[in]	IntFlag interrupt type, should
                                                                          *be:
-                                                                         *				- TIM_MR0_INT: Interrupt for Match
-                                                                         *channel 0
-                                                                         * 				- TIM_MR1_INT: Interrupt for Match
-                                                                         *channel 1
-                                                                         * 				- TIM_MR2_INT: Interrupt for Match
-                                                                         *channel 2
-                                                                         * 				- TIM_MR3_INT: Interrupt for Match
-                                                                         *channel 3
-                                                                         * 				- TIM_CR0_INT: Interrupt for Capture
-                                                                         *channel 0
-                                                                         * 				- TIM_CR1_INT: Interrupt for Capture
-                                                                         *channel 1
+                                                                         *				- TIM_MR0_INT: Interrupt for
+                                                                         *Match channel 0
+                                                                         * 				- TIM_MR1_INT: Interrupt for
+                                                                         *Match channel 1
+                                                                         * 				- TIM_MR2_INT: Interrupt for
+                                                                         *Match channel 2
+                                                                         * 				- TIM_MR3_INT: Interrupt for
+                                                                         *Match channel 3
+                                                                         * 				- TIM_CR0_INT: Interrupt for
+                                                                         *Capture channel 0
+                                                                         * 				- TIM_CR1_INT: Interrupt for
+                                                                         *Capture channel 1
                                                                          * @return 		None
                                                                          **********************************************************************/
 void TIM_ClearIntCapturePending(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag)
@@ -274,17 +274,17 @@ void TIM_ClearIntCapturePending(LPC_TIM_TypeDef* TIMx, TIM_INT_TYPE IntFlag)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Configuration for Timer at initial
-                                                                         *time
+                                                                         * @brief 		Configuration for Timer at
+                                                                         *initial time
                                                                          * @param[in] 	TimerCounterMode timer counter
                                                                          *mode, should be:
                                                                          * 				- TIM_TIMER_MODE: Timer mode
-                                                                         * 				- TIM_COUNTER_RISING_MODE: Counter
-                                                                         *rising mode
-                                                                         * 				- TIM_COUNTER_FALLING_MODE: Counter
-                                                                         *falling mode
-                                                                         * 				- TIM_COUNTER_ANY_MODE:Counter on
-                                                                         *both edges
+                                                                         * 				- TIM_COUNTER_RISING_MODE:
+                                                                         *Counter rising mode
+                                                                         * 				- TIM_COUNTER_FALLING_MODE:
+                                                                         *Counter falling mode
+                                                                         * 				- TIM_COUNTER_ANY_MODE:Counter
+                                                                         *on both edges
                                                                          * @param[in] 	TIM_ConfigStruct pointer to
                                                                          *TIM_TIMERCFG_Type or TIM_COUNTERCFG_Type
                                                                          * @return 		None
@@ -317,12 +317,12 @@ void TIM_ConfigStructInit(TIM_MODE_OPT TimerCounterMode, void* TIM_ConfigStruct)
                                                                          * @param[in]	TimerCounterMode Timer counter
                                                                          *mode, should be:
                                                                          * 				- TIM_TIMER_MODE: Timer mode
-                                                                         * 				- TIM_COUNTER_RISING_MODE: Counter
-                                                                         *rising mode
-                                                                         * 				- TIM_COUNTER_FALLING_MODE: Counter
-                                                                         *falling mode
-                                                                         * 				- TIM_COUNTER_ANY_MODE:Counter on
-                                                                         *both edges
+                                                                         * 				- TIM_COUNTER_RISING_MODE:
+                                                                         *Counter rising mode
+                                                                         * 				- TIM_COUNTER_FALLING_MODE:
+                                                                         *Counter falling mode
+                                                                         * 				- TIM_COUNTER_ANY_MODE:Counter
+                                                                         *on both edges
                                                                          * @param[in]	TIM_ConfigStruct pointer to
                                                                          *TIM_TIMERCFG_Type that contains the
                                                                          *configuration information for the specified
@@ -456,8 +456,9 @@ void TIM_Cmd(LPC_TIM_TypeDef* TIMx, FunctionalState NewState)
 
 /*********************************************************************/ /**
                                                                          * @brief 		Reset Timer/Counter device,
-                                                                         * 					Make TC and PC are synchronously
-                                                                         *reset on the next positive edge of PCLK
+                                                                         * 					Make TC and PC are
+                                                                         *synchronously reset on the next positive edge
+                                                                         *of PCLK
                                                                          * @param[in]	TIMx Pointer to timer device,
                                                                          *should be:
                                                                          *   			- LPC_TIM0: TIMER0 peripheral
@@ -483,26 +484,26 @@ void TIM_ResetCounter(LPC_TIM_TypeDef* TIMx)
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
                                                                          * @param[in]   TIM_MatchConfigStruct Pointer to
                                                                          *TIM_MATCHCFG_Type
-                                                                         * 					- MatchChannel : choose channel 0
-                                                                         *or 1
-                                                                         * 					- IntOnMatch	 : if SET, interrupt
-                                                                         *will be generated when MRxx match the value in
-                                                                         *TC
-                                                                         * 					- StopOnMatch	 : if SET, TC and PC
-                                                                         *will be stopped whenM Rxx match the value in
-                                                                         *TC
-                                                                         * 					- ResetOnMatch : if SET, Reset on
-                                                                         *MR0 when MRxx match the value in TC
-                                                                         * 					-ExtMatchOutputType: Select output
-                                                                         *for external match +	 0:	Do nothing for
-                                                                         *external output pin if match
-                                                                         *						 +   1:	Force external output pin
-                                                                         *to low if match
-                                                                         *						 + 	 2: Force external output pin
-                                                                         *to high if match
-                                                                         *						 + 	 3: Toggle external output
-                                                                         *pin if match MatchValue: Set the value to be
-                                                                         *compared with TC value
+                                                                         * 					- MatchChannel : choose
+                                                                         *channel 0 or 1
+                                                                         * 					- IntOnMatch	 : if SET,
+                                                                         *interrupt will be generated when MRxx match
+                                                                         *the value in TC
+                                                                         * 					- StopOnMatch	 : if SET,
+                                                                         *TC and PC will be stopped whenM Rxx match the
+                                                                         *value in TC
+                                                                         * 					- ResetOnMatch : if SET,
+                                                                         *Reset on MR0 when MRxx match the value in TC
+                                                                         * 					-ExtMatchOutputType: Select
+                                                                         *output for external match +	 0:	Do nothing
+                                                                         *for external output pin if match
+                                                                         *						 +   1:	Force external
+                                                                         *output pin to low if match
+                                                                         *						 + 	 2: Force external
+                                                                         *output pin to high if match
+                                                                         *						 + 	 3: Toggle external
+                                                                         *output pin if match MatchValue: Set the value
+                                                                         *to be compared with TC value
                                                                          * @return 		None
                                                                          **********************************************************************/
 void TIM_ConfigMatch(LPC_TIM_TypeDef* TIMx, TIM_MATCHCFG_Type* TIM_MatchConfigStruct)
@@ -520,8 +521,7 @@ void TIM_ConfigMatch(LPC_TIM_TypeDef* TIMx, TIM_MATCHCFG_Type* TIM_MatchConfigSt
         default:
             // Error match value
             // Error loop
-            while (1)
-                ;
+            while (1);
     }
     // interrupt on MRn
     TIMx->MCR &= ~TIM_MCR_CHANNEL_MASKBIT(TIM_MatchConfigStruct->MatchChannel);
@@ -567,8 +567,7 @@ void TIM_UpdateMatchValue(LPC_TIM_TypeDef* TIMx, uint8_t MatchChannel, uint32_t 
         case 3: TIMx->MR3 = MatchValue; break;
         default:
             // Error Loop
-            while (1)
-                ;
+            while (1);
     }
 }
 /*********************************************************************/ /**
@@ -580,14 +579,14 @@ void TIM_UpdateMatchValue(LPC_TIM_TypeDef* TIMx, uint8_t MatchChannel, uint32_t 
                                                                          * 				- LPC_TIM1: TIMER1 peripheral
                                                                          * 				- LPC_TIM2: TIMER2 peripheral
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
-                                                                         * 					- CaptureChannel: set the channel
-                                                                         *to capture data
-                                                                         * 					- RisingEdge    : if SET, Capture
-                                                                         *at rising edge
-                                                                         * 					- FallingEdge	: if SET, Capture at
-                                                                         *falling edge
-                                                                         * 					- IntOnCaption  : if SET, Capture
-                                                                         *generate interrupt
+                                                                         * 					- CaptureChannel: set the
+                                                                         *channel to capture data
+                                                                         * 					- RisingEdge    : if SET,
+                                                                         *Capture at rising edge
+                                                                         * 					- FallingEdge	: if SET,
+                                                                         *Capture at falling edge
+                                                                         * 					- IntOnCaption  : if SET,
+                                                                         *Capture generate interrupt
                                                                          * @param[in]   TIM_CaptureConfigStruct	Pointer
                                                                          *to TIM_CAPTURECFG_Type
                                                                          * @return 		None
@@ -609,8 +608,8 @@ void TIM_ConfigCapture(LPC_TIM_TypeDef* TIMx, TIM_CAPTURECFG_Type* TIM_CaptureCo
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Read value of capture register in
-                                                                         *timer/counter device
+                                                                         * @brief 		Read value of capture register
+                                                                         *in timer/counter device
                                                                          * @param[in]	TIMx Pointer to timer/counter
                                                                          *device, should be:
                                                                          *  			- LPC_TIM0: TIMER0 peripheral
@@ -619,10 +618,10 @@ void TIM_ConfigCapture(LPC_TIM_TypeDef* TIMx, TIM_CAPTURECFG_Type* TIM_CaptureCo
                                                                          * 				- LPC_TIM3: TIMER3 peripheral
                                                                          * @param[in]	CaptureChannel: capture channel
                                                                          *number, should be:
-                                                                         * 				- TIM_COUNTER_INCAP0: CAPn.0 input
-                                                                         *pin for TIMERn
-                                                                         * 				- TIM_COUNTER_INCAP1: CAPn.1 input
-                                                                         *pin for TIMERn
+                                                                         * 				- TIM_COUNTER_INCAP0: CAPn.0
+                                                                         *input pin for TIMERn
+                                                                         * 				- TIM_COUNTER_INCAP1: CAPn.1
+                                                                         *input pin for TIMERn
                                                                          * @return 		Value of capture register
                                                                          **********************************************************************/
 uint32_t TIM_GetCaptureValue(LPC_TIM_TypeDef* TIMx, TIM_COUNTER_INPUT_OPT CaptureChannel)

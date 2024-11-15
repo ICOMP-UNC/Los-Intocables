@@ -93,9 +93,9 @@ void NVIC_DeInit(void)
 }
 
 /*****************************************************************************/ /**
-                                                                                 * @brief			De-initializes the SCB
-                                                                                 *peripheral registers to their default
-                                                                                 *                  reset values.
+                                                                                 * @brief			De-initializes the
+                                                                                 *SCB peripheral registers to their
+                                                                                 *default reset values.
                                                                                  * @param			none
                                                                                  * @return 			none
                                                                                  *

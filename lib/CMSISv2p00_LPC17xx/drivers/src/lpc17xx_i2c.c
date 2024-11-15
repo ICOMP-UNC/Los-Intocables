@@ -130,8 +130,8 @@ static int32_t I2C_getNum(LPC_I2C_TypeDef* I2Cx)
 }
 
 /********************************************************************/ /**
-                                                                        * @brief		Generate a start condition on I2C
-                                                                        *bus (in master mode only)
+                                                                        * @brief		Generate a start condition on
+                                                                        *I2C bus (in master mode only)
                                                                         * @param[in]	I2Cx: I2C peripheral selected,
                                                                         *should be:
                                                                         * 				- LPC_I2C0
@@ -149,8 +149,7 @@ static uint32_t I2C_Start(LPC_I2C_TypeDef* I2Cx)
     I2Cx->I2CONSET = I2C_I2CONSET_STA;
 
     // Wait for complete
-    while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI))
-        ;
+    while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI));
     I2Cx->I2CONCLR = I2C_I2CONCLR_STAC;
     return (I2Cx->I2STAT & I2C_STAT_CODE_BITMASK);
 }
@@ -295,8 +294,8 @@ static void I2C_SetClock(LPC_I2C_TypeDef* I2Cx, uint32_t target_clock)
                                                                         * 				- LPC_I2C0
                                                                         * 				- LPC_I2C1
                                                                         * 				- LPC_I2C2
-                                                                        * @param[in]	clockrate Target clock rate value
-                                                                        *to initialized I2C peripheral (Hz)
+                                                                        * @param[in]	clockrate Target clock rate
+                                                                        *value to initialized I2C peripheral (Hz)
                                                                         * @return 		None
                                                                         *********************************************************************/
 void I2C_Init(LPC_I2C_TypeDef* I2Cx, uint32_t clockrate)
@@ -340,8 +339,9 @@ void I2C_Init(LPC_I2C_TypeDef* I2Cx, uint32_t clockrate)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the I2C peripheral
-                                                                         *registers to their default reset values.
+                                                                         * @brief		De-initializes the I2C
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
                                                                          * @param[in]	I2Cx	I2C peripheral selected,
                                                                          *should be
                                                                          *  			- LPC_I2C0
@@ -374,8 +374,8 @@ void I2C_DeInit(LPC_I2C_TypeDef* I2Cx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enable or disable I2C peripheral's
-                                                                         *operation
+                                                                         * @brief		Enable or disable I2C
+                                                                         *peripheral's operation
                                                                          * @param[in]	I2Cx I2C peripheral selected,
                                                                          *should be
                                                                          *  			- LPC_I2C0
@@ -413,10 +413,10 @@ void I2C_Cmd(LPC_I2C_TypeDef* I2Cx, en_I2C_Mode Mode, FunctionalState NewState)
                                                                          * 				- LPC_I2C2
                                                                          * @param[in]	NewState	New State of I2C
                                                                          *peripheral interrupt in NVIC core should be:
-                                                                         * 				- ENABLE: enable interrupt for this
-                                                                         *I2C peripheral
-                                                                         * 				- DISABLE: disable interrupt for this
-                                                                         *I2C peripheral
+                                                                         * 				- ENABLE: enable interrupt for
+                                                                         *this I2C peripheral
+                                                                         * 				- DISABLE: disable interrupt for
+                                                                         *this I2C peripheral
                                                                          * @return 		None
                                                                          **********************************************************************/
 void I2C_IntCmd(LPC_I2C_TypeDef* I2Cx, Bool NewState)
@@ -935,8 +935,8 @@ s_int_end:
                                                                          *for master transfer.
                                                                          * @param[in]	Opt				a
                                                                          *I2C_TRANSFER_OPT_Type type that selected for
-                                                                         * 								interrupt or polling
-                                                                         *mode.
+                                                                         * 								interrupt or
+                                                                         *polling mode.
                                                                          * @return 		SUCCESS or ERROR
                                                                          *
                                                                          * Note:
@@ -994,8 +994,7 @@ Status I2C_MasterTransferData(LPC_I2C_TypeDef* I2Cx, I2C_M_SETUP_Type* TransferC
             else if ((Ret & I2C_BYTE_SENT) || (Ret & I2C_BYTE_RECV))
             {
                 // Wait for sending ends
-                while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI))
-                    ;
+                while (!(I2Cx->I2CONSET & I2C_I2CONSET_SI));
             }
             else if (Ret & I2C_SEND_END) // already send all data
             {
@@ -1042,8 +1041,8 @@ Status I2C_MasterTransferData(LPC_I2C_TypeDef* I2Cx, I2C_M_SETUP_Type* TransferC
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Receive and Transmit data in slave
-                                                                         *mode
+                                                                         * @brief 		Receive and Transmit data in
+                                                                         *slave mode
                                                                          * @param[in]	I2Cx			I2C peripheral
                                                                          *selected, should be
                                                                          *    			- LPC_I2C0
@@ -1053,9 +1052,9 @@ Status I2C_MasterTransferData(LPC_I2C_TypeDef* I2Cx, I2C_M_SETUP_Type* TransferC
                                                                          *I2C_S_SETUP_Type structure that contains
                                                                          *specified information about the configuration
                                                                          *for master transfer.
-                                                                         * @param[in]	Opt				I2C_TRANSFER_OPT_Type
-                                                                         *type that selected for interrupt or polling
-                                                                         *mode.
+                                                                         * @param[in]	Opt
+                                                                         *I2C_TRANSFER_OPT_Type type that selected for
+                                                                         *interrupt or polling mode.
                                                                          * @return 		SUCCESS or ERROR
                                                                          *
                                                                          * Note:
@@ -1189,10 +1188,11 @@ Status I2C_SlaveTransferData(LPC_I2C_TypeDef* I2Cx, I2C_S_SETUP_Type* TransferCf
                                                                          *    			- LPC_I2C0
                                                                          * 				- LPC_I2C1
                                                                          * 				- LPC_I2C2
-                                                                         * @param[in]	OwnSlaveAddrConfigStruct	Pointer
-                                                                         *to a I2C_OWNSLAVEADDR_CFG_Type structure that
-                                                                         *contains the configuration information for the
-                                                                         *               specified I2C slave address.
+                                                                         * @param[in]	OwnSlaveAddrConfigStruct
+                                                                         *Pointer to a I2C_OWNSLAVEADDR_CFG_Type
+                                                                         *structure that contains the configuration
+                                                                         *information for the specified I2C slave
+                                                                         *address.
                                                                          * @return 		None
                                                                          **********************************************************************/
 void I2C_SetOwnSlaveAddr(LPC_I2C_TypeDef* I2Cx, I2C_OWNSLAVEADDR_CFG_Type* OwnSlaveAddrConfigStruct)
@@ -1236,14 +1236,14 @@ void I2C_SetOwnSlaveAddr(LPC_I2C_TypeDef* I2Cx, I2C_OWNSLAVEADDR_CFG_Type* OwnSl
                                                                          * 				- LPC_I2C2
                                                                          * @param[in]	MonitorCfgType Monitor
                                                                          *Configuration type, should be:
-                                                                         * 				- I2C_MONITOR_CFG_SCL_OUTPUT: I2C
-                                                                         *module can 'stretch' the clock line (hold it
-                                                                         *low) until it has had time to respond to an
+                                                                         * 				- I2C_MONITOR_CFG_SCL_OUTPUT:
+                                                                         *I2C module can 'stretch' the clock line (hold
+                                                                         *it low) until it has had time to respond to an
                                                                          *I2C interrupt.
-                                                                         * 				- I2C_MONITOR_CFG_MATCHALL: When this
-                                                                         *bit is set to '1' and the I2C is in monitor
-                                                                         *mode, an interrupt will be generated on ANY
-                                                                         *address received.
+                                                                         * 				- I2C_MONITOR_CFG_MATCHALL: When
+                                                                         *this bit is set to '1' and the I2C is in
+                                                                         *monitor mode, an interrupt will be generated
+                                                                         *on ANY address received.
                                                                          * @param[in]	NewState New State of this
                                                                          *function, should be:
                                                                          * 				- ENABLE: Enable this function.
