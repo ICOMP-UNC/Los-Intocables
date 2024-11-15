@@ -15,7 +15,6 @@
 #include "lpc17xx_pwm.h"            /* Handler PWM */
 #include "lpc17xx_uart.h"           /* Handler UART */
 #include "stdio.h"
-
 #include "system_LPC17xx.h" /* Handler del sistema de LPC1769 */
 
 #define PIN_ADC0_CH0 ((uint32_t)(1 << 23))     // P0.23 Pin ADC canal 0
