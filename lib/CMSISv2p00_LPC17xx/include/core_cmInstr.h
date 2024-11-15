@@ -245,6 +245,8 @@ static __INLINE __ASM int32_t __REVSH(int32_t value)
 #elif defined(__GNUC__) /*------------------ GNU Compiler ---------------------*/
 /* GNU gcc specific functions */
 
+#include <stdint.h>
+
 /** \brief  No Operation
 
     No Operation does nothing. This instruction can be used for code alignment purposes.

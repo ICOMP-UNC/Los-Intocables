@@ -289,6 +289,8 @@ static __INLINE void __set_FPSCR(uint32_t fpscr)
 #elif defined(__GNUC__) /*------------------ GNU Compiler ---------------------*/
 /* GNU gcc specific functions */
 
+#include <stdint.h>
+
 /** \brief  Enable IRQ Interrupts
 
   This function enables IRQ interrupts by clearing the I-bit in the CPSR.
