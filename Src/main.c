@@ -74,6 +74,28 @@ void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
 
+int main(void){
+
+    SystemInit();
+
+    Config_GPIO();
+    Config_SYSTICK();
+    Config_TIMER0();
+    Config_ADC();
+    Config_DAC();
+    Config_PWM();
+    Config_UART();
+    Config_GPDMA();
+
+    while (TRUE)
+    {
+        /* code */
+    }
+    
+    return 0;
+
+}
+
 void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
 
@@ -107,27 +129,5 @@ void Config_UART(void){
     UART_TxCmd(LPC_UART2, ENABLE);
 
     UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
-
-}
-
-int main(void){
-
-    SystemInit();
-
-    Config_GPIO();
-    Config_SYSTICK();
-    Config_TIMER0();
-    Config_ADC();
-    Config_DAC();
-    Config_PWM();
-    Config_UART();
-    Config_GPDMA();
-
-    while (TRUE)
-    {
-        /* code */
-    }
-    
-    return 0;
 
 }
