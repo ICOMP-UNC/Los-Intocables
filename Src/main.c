@@ -74,26 +74,64 @@ void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
 
-int main(void){
+int main(void) {
 
-    SystemInit();
+  SystemInit();
 
-    Config_GPIO();
-    Config_SYSTICK();
-    Config_TIMER0();
-    Config_ADC();
-    Config_DAC();
-    Config_PWM();
-    Config_UART();
-    Config_GPDMA();
+  Config_GPIO();
+  Config_SYSTICK();
+  Config_TIMER0();
+  Config_ADC();
+  Config_DAC();
+  Config_PWM();
+  Config_UART();
+  Config_GPDMA();
 
-    while (TRUE)
-    {
-        /* code */
-    }
-    
-    return 0;
+  while (TRUE) {
+    /* code */
+  }
 
+  return 0;
+}
+
+void Config_GPDMA(void) {
+
+  GPDMA_Channel_CFG_Type ChannelCfg0; // Estructura para canal 0
+  GPDMA_Channel_CFG_Type ChannelCfg1; // Estructura para canal 1
+
+  GPDMA_LLI_Type ListADC; // Estructura para lista del ADC
+
+  // Configuración de la Lista de Transferencias:
+  ListADC.DstAddr = (uint16_t)&Conversiones[0];
+  ListADC.SrcAddr = GPDMA_CONN_ADC;
+  ListADC.NextLLI = 0;
+  ListADC.Control = (3 << 0) | (1 << 18) | (1 << 21) | (1 << 27);
+
+  // Inicialización del GPDMA:
+  GPDMA_Init();
+
+  // Configuración de Canales de GPDMA:
+  ChannelCfg0.ChannelNum = 0;
+  ChannelCfg0.TransferType = GPDMA_TRANSFERTYPE_P2M;
+  ChannelCfg0.TransferSize = 0;
+  ChannelCfg0.SrcConn = GPDMA_CONN_ADC;
+  ChannelCfg0.DstMemAddr = (uint32_t)&Conversiones[0];
+  ChannelCfg0.DMALLI = (uint32_t)&ListADC;
+
+  ChannelCfg1.ChannelNum = 1;
+  ChannelCfg1.TransferType = GPDMA_TRANSFERTYPE_M2P;
+  ChannelCfg1.TransferSize = 1;
+  ChannelCfg1.SrcMemAddr = (uint32_t)&Valor_DAC;
+  ChannelCfg1.DstConn = GPDMA_CONN_DAC;
+  ChannelCfg1.DMALLI = 0;
+
+  // Carga de canales de GPDMA:
+  GPDMA_Setup(&ChannelCfg0);
+  GPDMA_Setup(&ChannelCfg1);
+
+  // Hablititacion de canales de GPDMA:
+  GPDMA_ChannelCmd(0, ENABLE);
+  GPDMA_ChannelCmd(1, ENABLE);
 }
 
 void Config_ADC(void){
@@ -183,4 +221,3 @@ void Systick_Handler(void) {
 
   SYSTICK_ClearCounterFlag();
 }
-
