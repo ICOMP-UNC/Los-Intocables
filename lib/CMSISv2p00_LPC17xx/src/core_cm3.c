@@ -253,7 +253,10 @@ __ASM uint32_t __get_FAULTMASK(void) {mrs r0, faultmask bx lr}
     \param [in]    faultMask  Fault Mask value value to set
  */
 #if (__ARMCC_VERSION < 400000)
-__ASM void __set_FAULTMASK(uint32_t faultMask) {msr faultmask, r0 bx lr}
+__ASM void __set_FAULTMASK(uint32_t faultMask)
+{
+    msr faultmask, r0 bx lr
+}
 #endif /*  __ARMCC_VERSION  */
 
 #elif (defined(__ICCARM__))  /*---------------- ICC Compiler ---------------------*/
