@@ -61,10 +61,9 @@
 /**
  * @brief QEI configuration union type definition
  */
-typedef union
-{
-    QEI_CFG_Type bmQEIConfig;
-    uint32_t ulQEIConfig;
+typedef union {
+  QEI_CFG_Type bmQEIConfig;
+  uint32_t ulQEIConfig;
 } QEI_CFGOPT_Type;
 
 /**
@@ -133,12 +132,11 @@ typedef union
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_Reset(LPC_QEI_TypeDef* QEIx, uint32_t ulResetType)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_RESET(ulResetType));
+void QEI_Reset(LPC_QEI_TypeDef *QEIx, uint32_t ulResetType) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_RESET(ulResetType));
 
-    QEIx->QEICON = ulResetType;
+  QEIx->QEICON = ulResetType;
 }
 
 /*********************************************************************/ /**
@@ -179,38 +177,37 @@ void QEI_Reset(LPC_QEI_TypeDef* QEIx, uint32_t ulResetType)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_Init(LPC_QEI_TypeDef* QEIx, QEI_CFG_Type* QEI_ConfigStruct)
-{
+void QEI_Init(LPC_QEI_TypeDef *QEIx, QEI_CFG_Type *QEI_ConfigStruct) {
 
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_DIRINV(QEI_ConfigStruct->DirectionInvert));
-    CHECK_PARAM(PARAM_QEI_SIGNALMODE(QEI_ConfigStruct->SignalMode));
-    CHECK_PARAM(PARAM_QEI_CAPMODE(QEI_ConfigStruct->CaptureMode));
-    CHECK_PARAM(PARAM_QEI_INVINX(QEI_ConfigStruct->InvertIndex));
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_DIRINV(QEI_ConfigStruct->DirectionInvert));
+  CHECK_PARAM(PARAM_QEI_SIGNALMODE(QEI_ConfigStruct->SignalMode));
+  CHECK_PARAM(PARAM_QEI_CAPMODE(QEI_ConfigStruct->CaptureMode));
+  CHECK_PARAM(PARAM_QEI_INVINX(QEI_ConfigStruct->InvertIndex));
 
-    /* Set up clock and power for QEI module */
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCQEI, ENABLE);
+  /* Set up clock and power for QEI module */
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCQEI, ENABLE);
 
-    /* As default, peripheral clock for QEI module
-     * is set to FCCLK / 2 */
-    CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_QEI, CLKPWR_PCLKSEL_CCLK_DIV_1);
+  /* As default, peripheral clock for QEI module
+   * is set to FCCLK / 2 */
+  CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_QEI, CLKPWR_PCLKSEL_CCLK_DIV_1);
 
-    // Reset all remaining value in QEI peripheral
-    QEIx->QEICON = QEI_CON_RESP | QEI_CON_RESV | QEI_CON_RESI;
-    QEIx->QEIMAXPOS = 0x00;
-    QEIx->CMPOS0 = 0x00;
-    QEIx->CMPOS1 = 0x00;
-    QEIx->CMPOS2 = 0x00;
-    QEIx->INXCMP = 0x00;
-    QEIx->QEILOAD = 0x00;
-    QEIx->VELCOMP = 0x00;
-    QEIx->FILTER = 0x00;
-    // Disable all Interrupt
-    QEIx->QEIIEC = QEI_IECLR_BITMASK;
-    // Clear all Interrupt pending
-    QEIx->QEICLR = QEI_INTCLR_BITMASK;
-    // Set QEI configuration value corresponding to its setting up value
-    QEIx->QEICONF = ((QEI_CFGOPT_Type*)QEI_ConfigStruct)->ulQEIConfig;
+  // Reset all remaining value in QEI peripheral
+  QEIx->QEICON = QEI_CON_RESP | QEI_CON_RESV | QEI_CON_RESI;
+  QEIx->QEIMAXPOS = 0x00;
+  QEIx->CMPOS0 = 0x00;
+  QEIx->CMPOS1 = 0x00;
+  QEIx->CMPOS2 = 0x00;
+  QEIx->INXCMP = 0x00;
+  QEIx->QEILOAD = 0x00;
+  QEIx->VELCOMP = 0x00;
+  QEIx->FILTER = 0x00;
+  // Disable all Interrupt
+  QEIx->QEIIEC = QEI_IECLR_BITMASK;
+  // Clear all Interrupt pending
+  QEIx->QEICLR = QEI_INTCLR_BITMASK;
+  // Set QEI configuration value corresponding to its setting up value
+  QEIx->QEICONF = ((QEI_CFGOPT_Type *)QEI_ConfigStruct)->ulQEIConfig;
 }
 
 /*********************************************************************/ /**
@@ -235,12 +232,11 @@ void QEI_Init(LPC_QEI_TypeDef* QEIx, QEI_CFG_Type* QEI_ConfigStruct)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_DeInit(LPC_QEI_TypeDef* QEIx)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
+void QEI_DeInit(LPC_QEI_TypeDef *QEIx) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
 
-    /* Turn off clock and power for QEI module */
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCQEI, DISABLE);
+  /* Turn off clock and power for QEI module */
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCQEI, DISABLE);
 }
 
 /*****************************************************************************/ /**
@@ -260,12 +256,11 @@ void QEI_DeInit(LPC_QEI_TypeDef* QEIx)
                                                                                  *be initialized.
                                                                                  * @return		None
                                                                                  *******************************************************************************/
-void QEI_ConfigStructInit(QEI_CFG_Type* QIE_InitStruct)
-{
-    QIE_InitStruct->CaptureMode = QEI_CAPMODE_4X;
-    QIE_InitStruct->DirectionInvert = QEI_DIRINV_NONE;
-    QIE_InitStruct->InvertIndex = QEI_INVINX_NONE;
-    QIE_InitStruct->SignalMode = QEI_SIGNALMODE_QUAD;
+void QEI_ConfigStructInit(QEI_CFG_Type *QIE_InitStruct) {
+  QIE_InitStruct->CaptureMode = QEI_CAPMODE_4X;
+  QIE_InitStruct->DirectionInvert = QEI_DIRINV_NONE;
+  QIE_InitStruct->InvertIndex = QEI_INVINX_NONE;
+  QIE_InitStruct->SignalMode = QEI_SIGNALMODE_QUAD;
 }
 
 /*********************************************************************/ /**
@@ -309,11 +304,10 @@ void QEI_ConfigStructInit(QEI_CFG_Type* QIE_InitStruct)
                                                                          *or
                                                                          *RESET)
                                                                          **********************************************************************/
-FlagStatus QEI_GetStatus(LPC_QEI_TypeDef* QEIx, uint32_t ulFlagType)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_STATUS(ulFlagType));
-    return ((QEIx->QEISTAT & ulFlagType) ? SET : RESET);
+FlagStatus QEI_GetStatus(LPC_QEI_TypeDef *QEIx, uint32_t ulFlagType) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_STATUS(ulFlagType));
+  return ((QEIx->QEISTAT & ulFlagType) ? SET : RESET);
 }
 
 /*********************************************************************/ /**
@@ -338,10 +332,9 @@ FlagStatus QEI_GetStatus(LPC_QEI_TypeDef* QEIx, uint32_t ulFlagType)
                                                                          *of QEI
                                                                          *peripheral
                                                                          **********************************************************************/
-uint32_t QEI_GetPosition(LPC_QEI_TypeDef* QEIx)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    return (QEIx->QEIPOS);
+uint32_t QEI_GetPosition(LPC_QEI_TypeDef *QEIx) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  return (QEIx->QEIPOS);
 }
 
 /*********************************************************************/ /**
@@ -369,10 +362,9 @@ uint32_t QEI_GetPosition(LPC_QEI_TypeDef* QEIx)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_SetMaxPosition(LPC_QEI_TypeDef* QEIx, uint32_t ulMaxPos)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    QEIx->QEIMAXPOS = ulMaxPos;
+void QEI_SetMaxPosition(LPC_QEI_TypeDef *QEIx, uint32_t ulMaxPos) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  QEIx->QEIMAXPOS = ulMaxPos;
 }
 
 /*********************************************************************/ /**
@@ -428,14 +420,14 @@ void QEI_SetMaxPosition(LPC_QEI_TypeDef* QEIx, uint32_t ulMaxPos)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_SetPositionComp(LPC_QEI_TypeDef* QEIx, uint8_t bPosCompCh, uint32_t ulPosComp)
-{
-    uint32_t* tmp;
+void QEI_SetPositionComp(LPC_QEI_TypeDef *QEIx, uint8_t bPosCompCh,
+                         uint32_t ulPosComp) {
+  uint32_t *tmp;
 
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_COMPPOS_CH(bPosCompCh));
-    tmp = (uint32_t*)(&(QEIx->CMPOS0) + bPosCompCh * 4);
-    *tmp = ulPosComp;
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_COMPPOS_CH(bPosCompCh));
+  tmp = (uint32_t *)(&(QEIx->CMPOS0) + bPosCompCh * 4);
+  *tmp = ulPosComp;
 }
 
 /*********************************************************************/ /**
@@ -460,10 +452,9 @@ void QEI_SetPositionComp(LPC_QEI_TypeDef* QEIx, uint8_t bPosCompCh, uint32_t ulP
                                                                          *index
                                                                          *counter
                                                                          **********************************************************************/
-uint32_t QEI_GetIndex(LPC_QEI_TypeDef* QEIx)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    return (QEIx->INXCNT);
+uint32_t QEI_GetIndex(LPC_QEI_TypeDef *QEIx) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  return (QEIx->INXCNT);
 }
 
 /*********************************************************************/ /**
@@ -491,10 +482,9 @@ uint32_t QEI_GetIndex(LPC_QEI_TypeDef* QEIx)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_SetIndexComp(LPC_QEI_TypeDef* QEIx, uint32_t ulIndexComp)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    QEIx->INXCMP = ulIndexComp;
+void QEI_SetIndexComp(LPC_QEI_TypeDef *QEIx, uint32_t ulIndexComp) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  QEIx->INXCMP = ulIndexComp;
 }
 
 /*********************************************************************/ /**
@@ -556,23 +546,20 @@ void QEI_SetIndexComp(LPC_QEI_TypeDef* QEIx, uint32_t ulIndexComp)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_SetTimerReload(LPC_QEI_TypeDef* QEIx, QEI_RELOADCFG_Type* QEIReloadStruct)
-{
-    uint64_t pclk;
+void QEI_SetTimerReload(LPC_QEI_TypeDef *QEIx,
+                        QEI_RELOADCFG_Type *QEIReloadStruct) {
+  uint64_t pclk;
 
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_TIMERRELOAD(QEIReloadStruct->ReloadOption));
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_TIMERRELOAD(QEIReloadStruct->ReloadOption));
 
-    if (QEIReloadStruct->ReloadOption == QEI_TIMERRELOAD_TICKVAL)
-    {
-        QEIx->QEILOAD = QEIReloadStruct->ReloadValue - 1;
-    }
-    else
-    {
-        pclk = (uint64_t)CLKPWR_GetPCLK(CLKPWR_PCLKSEL_QEI);
-        pclk = (pclk / (1000000 / QEIReloadStruct->ReloadValue)) - 1;
-        QEIx->QEILOAD = (uint32_t)pclk;
-    }
+  if (QEIReloadStruct->ReloadOption == QEI_TIMERRELOAD_TICKVAL) {
+    QEIx->QEILOAD = QEIReloadStruct->ReloadValue - 1;
+  } else {
+    pclk = (uint64_t)CLKPWR_GetPCLK(CLKPWR_PCLKSEL_QEI);
+    pclk = (pclk / (1000000 / QEIReloadStruct->ReloadValue)) - 1;
+    QEIx->QEILOAD = (uint32_t)pclk;
+  }
 }
 
 /*********************************************************************/ /**
@@ -597,10 +584,9 @@ void QEI_SetTimerReload(LPC_QEI_TypeDef* QEIx, QEI_RELOADCFG_Type* QEIReloadStru
                                                                          *in QEI
                                                                          *peripheral
                                                                          **********************************************************************/
-uint32_t QEI_GetTimer(LPC_QEI_TypeDef* QEIx)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    return (QEIx->QEITIME);
+uint32_t QEI_GetTimer(LPC_QEI_TypeDef *QEIx) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  return (QEIx->QEITIME);
 }
 
 /*********************************************************************/ /**
@@ -628,10 +614,9 @@ uint32_t QEI_GetTimer(LPC_QEI_TypeDef* QEIx)
                                                                          *counter
                                                                          *value
                                                                          **********************************************************************/
-uint32_t QEI_GetVelocity(LPC_QEI_TypeDef* QEIx)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    return (QEIx->QEIVEL);
+uint32_t QEI_GetVelocity(LPC_QEI_TypeDef *QEIx) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  return (QEIx->QEIVEL);
 }
 
 /*********************************************************************/ /**
@@ -677,10 +662,9 @@ uint32_t QEI_GetVelocity(LPC_QEI_TypeDef* QEIx)
                                                                          *velocity
                                                                          *value
                                                                          **********************************************************************/
-uint32_t QEI_GetVelocityCap(LPC_QEI_TypeDef* QEIx)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    return (QEIx->QEICAP);
+uint32_t QEI_GetVelocityCap(LPC_QEI_TypeDef *QEIx) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  return (QEIx->QEICAP);
 }
 
 /*********************************************************************/ /**
@@ -708,10 +692,9 @@ uint32_t QEI_GetVelocityCap(LPC_QEI_TypeDef* QEIx)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_SetVelocityComp(LPC_QEI_TypeDef* QEIx, uint32_t ulVelComp)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    QEIx->VELCOMP = ulVelComp;
+void QEI_SetVelocityComp(LPC_QEI_TypeDef *QEIx, uint32_t ulVelComp) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  QEIx->VELCOMP = ulVelComp;
 }
 
 /*********************************************************************/ /**
@@ -744,10 +727,9 @@ void QEI_SetVelocityComp(LPC_QEI_TypeDef* QEIx, uint32_t ulVelComp)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_SetDigiFilter(LPC_QEI_TypeDef* QEIx, uint32_t ulSamplingPulse)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    QEIx->FILTER = ulSamplingPulse;
+void QEI_SetDigiFilter(LPC_QEI_TypeDef *QEIx, uint32_t ulSamplingPulse) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  QEIx->FILTER = ulSamplingPulse;
 }
 
 /*********************************************************************/ /**
@@ -784,12 +766,11 @@ void QEI_SetDigiFilter(LPC_QEI_TypeDef* QEIx, uint32_t ulSamplingPulse)
   * @return		New State of specified interrupt flag status (SET or
   RESET)
   **********************************************************************/
-FlagStatus QEI_GetIntStatus(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
+FlagStatus QEI_GetIntStatus(LPC_QEI_TypeDef *QEIx, uint32_t ulIntType) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
 
-    return ((QEIx->QEIINTSTAT & ulIntType) ? SET : RESET);
+  return ((QEIx->QEIINTSTAT & ulIntType) ? SET : RESET);
 }
 
 /*********************************************************************/ /**
@@ -945,20 +926,17 @@ FlagStatus QEI_GetIntStatus(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void QEI_IntCmd(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void QEI_IntCmd(LPC_QEI_TypeDef *QEIx, uint32_t ulIntType,
+                FunctionalState NewState) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    if (NewState == ENABLE)
-    {
-        QEIx->QEIIES = ulIntType;
-    }
-    else
-    {
-        QEIx->QEIIEC = ulIntType;
-    }
+  if (NewState == ENABLE) {
+    QEIx->QEIIES = ulIntType;
+  } else {
+    QEIx->QEIIEC = ulIntType;
+  }
 }
 
 /*********************************************************************/ /**
@@ -993,12 +971,11 @@ void QEI_IntCmd(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType, FunctionalState NewSt
   and revolution count interrupt
   * @return		None
   **********************************************************************/
-void QEI_IntSet(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
+void QEI_IntSet(LPC_QEI_TypeDef *QEIx, uint32_t ulIntType) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
 
-    QEIx->QEISET = ulIntType;
+  QEIx->QEISET = ulIntType;
 }
 
 /*********************************************************************/ /**
@@ -1034,12 +1011,11 @@ void QEI_IntSet(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
   and revolution count interrupt
   * @return		None
   **********************************************************************/
-void QEI_IntClear(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
-{
-    CHECK_PARAM(PARAM_QEIx(QEIx));
-    CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
+void QEI_IntClear(LPC_QEI_TypeDef *QEIx, uint32_t ulIntType) {
+  CHECK_PARAM(PARAM_QEIx(QEIx));
+  CHECK_PARAM(PARAM_QEI_INTFLAG(ulIntType));
 
-    QEIx->QEICLR = ulIntType;
+  QEIx->QEICLR = ulIntType;
 }
 
 /*********************************************************************/ /**
@@ -1101,20 +1077,20 @@ void QEI_IntClear(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
                                                                          *per
                                                                          *minute)
                                                                          **********************************************************************/
-uint32_t QEI_CalculateRPM(LPC_QEI_TypeDef* QEIx, uint32_t ulVelCapValue, uint32_t ulPPR)
-{
-    uint64_t rpm, clock, Load, edges;
+uint32_t QEI_CalculateRPM(LPC_QEI_TypeDef *QEIx, uint32_t ulVelCapValue,
+                          uint32_t ulPPR) {
+  uint64_t rpm, clock, Load, edges;
 
-    // Get current Clock rate for timer input
-    clock = (uint64_t)CLKPWR_GetPCLK(CLKPWR_PCLKSEL_QEI);
-    // Get Timer load value (velocity capture period)
-    Load = (uint64_t)(QEIx->QEILOAD + 1);
-    // Get Edge
-    edges = (uint64_t)((QEIx->QEICONF & QEI_CONF_CAPMODE) ? 4 : 2);
-    // Calculate RPM
-    rpm = ((clock * ulVelCapValue * 60) / (Load * ulPPR * edges));
+  // Get current Clock rate for timer input
+  clock = (uint64_t)CLKPWR_GetPCLK(CLKPWR_PCLKSEL_QEI);
+  // Get Timer load value (velocity capture period)
+  Load = (uint64_t)(QEIx->QEILOAD + 1);
+  // Get Edge
+  edges = (uint64_t)((QEIx->QEICONF & QEI_CONF_CAPMODE) ? 4 : 2);
+  // Calculate RPM
+  rpm = ((clock * ulVelCapValue * 60) / (Load * ulPPR * edges));
 
-    return (uint32_t)(rpm);
+  return (uint32_t)(rpm);
 }
 
 /**

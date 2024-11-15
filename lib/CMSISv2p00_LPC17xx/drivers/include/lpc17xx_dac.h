@@ -46,8 +46,7 @@
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /* Public Macros --------------------------------------------------------------
@@ -78,69 +77,70 @@ is VALUE/1024 � VREF */
 #define DAC_DACCTRL_MASK ((uint32_t)(0x0F))
 
 /** Macro to determine if it is valid DAC peripheral */
-#define PARAM_DACx(n) (((uint32_t*)n) == ((uint32_t*)LPC_DAC))
+#define PARAM_DACx(n) (((uint32_t *)n) == ((uint32_t *)LPC_DAC))
 
 /** Macro to check DAC current optional parameter */
-#define PARAM_DAC_CURRENT_OPT(OPTION) ((OPTION == DAC_MAX_CURRENT_700uA) || (OPTION == DAC_MAX_CURRENT_350uA))
-    /**
-     * @}
-     */
-    /* Public Types ---------------------------------------------------------------
-     */
-    /** @defgroup DAC_Public_Types DAC Public Types
-     * @{
-     */
+#define PARAM_DAC_CURRENT_OPT(OPTION)                                          \
+  ((OPTION == DAC_MAX_CURRENT_700uA) || (OPTION == DAC_MAX_CURRENT_350uA))
+/**
+ * @}
+ */
+/* Public Types ---------------------------------------------------------------
+ */
+/** @defgroup DAC_Public_Types DAC Public Types
+ * @{
+ */
 
-    /**
-     * @brief Current option in DAC configuration option */
-    typedef enum
-    {
-        DAC_MAX_CURRENT_700uA = 0, /*!< The settling time of the DAC is 1 us max,
-                                   and the maximum	current is 700 uA */
-        DAC_MAX_CURRENT_350uA      /*!< The settling time of the DAC is 2.5 us
-                                   and the maximum current is 350 uA */
-    } DAC_CURRENT_OPT;
+/**
+ * @brief Current option in DAC configuration option */
+typedef enum {
+  DAC_MAX_CURRENT_700uA = 0, /*!< The settling time of the DAC is 1 us max,
+                             and the maximum	current is 700 uA */
+  DAC_MAX_CURRENT_350uA      /*!< The settling time of the DAC is 2.5 us
+                             and the maximum current is 350 uA */
+} DAC_CURRENT_OPT;
 
-    /**
-     * @brief Configuration for DAC converter control register */
-    typedef struct
-    {
+/**
+ * @brief Configuration for DAC converter control register */
+typedef struct {
 
-        uint8_t DBLBUF_ENA; /**<
-                             -0: Disable DACR double buffering
-                             -1: when bit CNT_ENA, enable DACR double buffering feature
-                             */
-        uint8_t CNT_ENA;    /*!<
-                             -0: Time out counter is disable
-                             -1: Time out conter is enable
-                             */
-        uint8_t DMA_ENA;    /*!<
-                                 -0: DMA access is disable
-                                 -1: DMA burst request
-                            */
-        uint8_t RESERVED;
+  uint8_t
+      DBLBUF_ENA;  /**<
+                    -0: Disable DACR double buffering
+                    -1: when bit CNT_ENA, enable DACR double buffering feature
+                    */
+  uint8_t CNT_ENA; /*!<
+                    -0: Time out counter is disable
+                    -1: Time out conter is enable
+                    */
+  uint8_t DMA_ENA; /*!<
+                        -0: DMA access is disable
+                        -1: DMA burst request
+                   */
+  uint8_t RESERVED;
 
-    } DAC_CONVERTER_CFG_Type;
+} DAC_CONVERTER_CFG_Type;
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Functions -----------------------------------------------------------
-     */
-    /** @defgroup DAC_Public_Functions DAC Public Functions
-     * @{
-     */
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup DAC_Public_Functions DAC Public Functions
+ * @{
+ */
 
-    void DAC_Init(LPC_DAC_TypeDef* DACx);
-    void DAC_UpdateValue(LPC_DAC_TypeDef* DACx, uint32_t dac_value);
-    void DAC_SetBias(LPC_DAC_TypeDef* DACx, uint32_t bias);
-    void DAC_ConfigDAConverterControl(LPC_DAC_TypeDef* DACx, DAC_CONVERTER_CFG_Type* DAC_ConverterConfigStruct);
-    void DAC_SetDMATimeOut(LPC_DAC_TypeDef* DACx, uint32_t time_out);
+void DAC_Init(LPC_DAC_TypeDef *DACx);
+void DAC_UpdateValue(LPC_DAC_TypeDef *DACx, uint32_t dac_value);
+void DAC_SetBias(LPC_DAC_TypeDef *DACx, uint32_t bias);
+void DAC_ConfigDAConverterControl(
+    LPC_DAC_TypeDef *DACx, DAC_CONVERTER_CFG_Type *DAC_ConverterConfigStruct);
+void DAC_SetDMATimeOut(LPC_DAC_TypeDef *DACx, uint32_t time_out);
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }

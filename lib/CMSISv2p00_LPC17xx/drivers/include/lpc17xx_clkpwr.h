@@ -46,8 +46,7 @@
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /* Public Macros --------------------------------------------------------------
@@ -461,28 +460,28 @@ extern "C"
 /** Power Control for Peripherals bit mask */
 #define CLKPWR_PCONP_BITMASK 0xEFEFF7DE
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Functions -----------------------------------------------------------
-     */
-    /** @defgroup CLKPWR_Public_Functions CLKPWR Public Functions
-     * @{
-     */
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup CLKPWR_Public_Functions CLKPWR Public Functions
+ * @{
+ */
 
-    void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal);
-    uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType);
-    uint32_t CLKPWR_GetPCLK(uint32_t ClkType);
-    void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState);
-    void CLKPWR_Sleep(void);
-    void CLKPWR_DeepSleep(void);
-    void CLKPWR_PowerDown(void);
-    void CLKPWR_DeepPowerDown(void);
+void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal);
+uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType);
+uint32_t CLKPWR_GetPCLK(uint32_t ClkType);
+void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState);
+void CLKPWR_Sleep(void);
+void CLKPWR_DeepSleep(void);
+void CLKPWR_PowerDown(void);
+void CLKPWR_DeepPowerDown(void);
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }

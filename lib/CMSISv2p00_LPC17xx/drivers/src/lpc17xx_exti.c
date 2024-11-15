@@ -77,11 +77,10 @@
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void EXTI_Init(void)
-{
-    LPC_SC->EXTINT = 0xF;
-    LPC_SC->EXTMODE = 0x0;
-    LPC_SC->EXTPOLAR = 0x0;
+void EXTI_Init(void) {
+  LPC_SC->EXTINT = 0xF;
+  LPC_SC->EXTMODE = 0x0;
+  LPC_SC->EXTPOLAR = 0x0;
 }
 
 /*********************************************************************/ /**
@@ -93,10 +92,7 @@ void EXTI_Init(void)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void EXTI_DeInit(void)
-{
-    ;
-}
+void EXTI_DeInit(void) { ; }
 
 /*********************************************************************/ /**
                                                                          * @brief
@@ -128,11 +124,10 @@ void EXTI_DeInit(void)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void EXTI_Config(EXTI_InitTypeDef* EXTICfg)
-{
-    LPC_SC->EXTINT = 0x0;
-    EXTI_SetMode(EXTICfg->EXTI_Line, EXTICfg->EXTI_Mode);
-    EXTI_SetPolarity(EXTICfg->EXTI_Line, EXTICfg->EXTI_polarity);
+void EXTI_Config(EXTI_InitTypeDef *EXTICfg) {
+  LPC_SC->EXTINT = 0x0;
+  EXTI_SetMode(EXTICfg->EXTI_Line, EXTICfg->EXTI_Mode);
+  EXTI_SetPolarity(EXTICfg->EXTI_Line, EXTICfg->EXTI_polarity);
 }
 
 /*********************************************************************/ /**
@@ -186,16 +181,12 @@ void EXTI_Config(EXTI_InitTypeDef* EXTICfg)
                                                                          * @return
                                                                          *None
                                                                          *********************************************************************/
-void EXTI_SetMode(EXTI_LINE_ENUM EXTILine, EXTI_MODE_ENUM mode)
-{
-    if (mode == EXTI_MODE_EDGE_SENSITIVE)
-    {
-        LPC_SC->EXTMODE |= (1 << EXTILine);
-    }
-    else if (mode == EXTI_MODE_LEVEL_SENSITIVE)
-    {
-        LPC_SC->EXTMODE &= ~(1 << EXTILine);
-    }
+void EXTI_SetMode(EXTI_LINE_ENUM EXTILine, EXTI_MODE_ENUM mode) {
+  if (mode == EXTI_MODE_EDGE_SENSITIVE) {
+    LPC_SC->EXTMODE |= (1 << EXTILine);
+  } else if (mode == EXTI_MODE_LEVEL_SENSITIVE) {
+    LPC_SC->EXTMODE &= ~(1 << EXTILine);
+  }
 }
 
 /*********************************************************************/ /**
@@ -250,16 +241,12 @@ void EXTI_SetMode(EXTI_LINE_ENUM EXTILine, EXTI_MODE_ENUM mode)
                                                                          * @return
                                                                          *None
                                                                          *********************************************************************/
-void EXTI_SetPolarity(EXTI_LINE_ENUM EXTILine, EXTI_POLARITY_ENUM polarity)
-{
-    if (polarity == EXTI_POLARITY_HIGH_ACTIVE_OR_RISING_EDGE)
-    {
-        LPC_SC->EXTPOLAR |= (1 << EXTILine);
-    }
-    else if (polarity == EXTI_POLARITY_LOW_ACTIVE_OR_FALLING_EDGE)
-    {
-        LPC_SC->EXTPOLAR &= ~(1 << EXTILine);
-    }
+void EXTI_SetPolarity(EXTI_LINE_ENUM EXTILine, EXTI_POLARITY_ENUM polarity) {
+  if (polarity == EXTI_POLARITY_HIGH_ACTIVE_OR_RISING_EDGE) {
+    LPC_SC->EXTPOLAR |= (1 << EXTILine);
+  } else if (polarity == EXTI_POLARITY_LOW_ACTIVE_OR_FALLING_EDGE) {
+    LPC_SC->EXTPOLAR &= ~(1 << EXTILine);
+  }
 }
 
 /*********************************************************************/ /**
@@ -302,9 +289,8 @@ void EXTI_SetPolarity(EXTI_LINE_ENUM EXTILine, EXTI_POLARITY_ENUM polarity)
                                                                          * @return
                                                                          *None
                                                                          *********************************************************************/
-void EXTI_ClearEXTIFlag(EXTI_LINE_ENUM EXTILine)
-{
-    LPC_SC->EXTINT = (1 << EXTILine);
+void EXTI_ClearEXTIFlag(EXTI_LINE_ENUM EXTILine) {
+  LPC_SC->EXTINT = (1 << EXTILine);
 }
 
 /**

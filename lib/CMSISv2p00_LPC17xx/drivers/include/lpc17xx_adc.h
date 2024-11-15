@@ -48,8 +48,7 @@
 #include "lpc_types.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /* Private macros -------------------------------------------------------------
@@ -182,143 +181,145 @@ extern "C"
 
 /* ------------------- CHECK PARAM DEFINITIONS ------------------------- */
 /** Check ADC parameter */
-#define PARAM_ADCx(n) (((uint32_t*)n) == ((uint32_t*)LPC_ADC))
+#define PARAM_ADCx(n) (((uint32_t *)n) == ((uint32_t *)LPC_ADC))
 
 /** Check ADC state parameter */
-#define PARAM_ADC_START_ON_EDGE_OPT(OPT) ((OPT == ADC_START_ON_RISING) || (OPT == ADC_START_ON_FALLING))
+#define PARAM_ADC_START_ON_EDGE_OPT(OPT)                                       \
+  ((OPT == ADC_START_ON_RISING) || (OPT == ADC_START_ON_FALLING))
 
 /** Check ADC state parameter */
-#define PARAM_ADC_DATA_STATUS(OPT) ((OPT == ADC_DATA_BURST) || (OPT == ADC_DATA_DONE))
+#define PARAM_ADC_DATA_STATUS(OPT)                                             \
+  ((OPT == ADC_DATA_BURST) || (OPT == ADC_DATA_DONE))
 
 /** Check ADC rate parameter */
 #define PARAM_ADC_RATE(rate) ((rate > 0) && (rate <= 200000))
 
 /** Check ADC channel selection parameter */
-#define PARAM_ADC_CHANNEL_SELECTION(SEL)                                                                               \
-    ((SEL == ADC_CHANNEL_0) || (ADC_CHANNEL_1) || (SEL == ADC_CHANNEL_2) | (ADC_CHANNEL_3) ||                          \
-     (SEL == ADC_CHANNEL_4) || (ADC_CHANNEL_5) || (SEL == ADC_CHANNEL_6) || (ADC_CHANNEL_7))
+#define PARAM_ADC_CHANNEL_SELECTION(SEL)                                       \
+  ((SEL == ADC_CHANNEL_0) || (ADC_CHANNEL_1) ||                                \
+   (SEL == ADC_CHANNEL_2) | (ADC_CHANNEL_3) || (SEL == ADC_CHANNEL_4) ||       \
+   (ADC_CHANNEL_5) || (SEL == ADC_CHANNEL_6) || (ADC_CHANNEL_7))
 
 /** Check ADC start option parameter */
-#define PARAM_ADC_START_OPT(OPT)                                                                                       \
-    ((OPT == ADC_START_CONTINUOUS) || (OPT == ADC_START_NOW) || (OPT == ADC_START_ON_EINT0) ||                         \
-     (OPT == ADC_START_ON_CAP01) || (OPT == ADC_START_ON_MAT01) || (OPT == ADC_START_ON_MAT03) ||                      \
-     (OPT == ADC_START_ON_MAT10) || (OPT == ADC_START_ON_MAT11))
+#define PARAM_ADC_START_OPT(OPT)                                               \
+  ((OPT == ADC_START_CONTINUOUS) || (OPT == ADC_START_NOW) ||                  \
+   (OPT == ADC_START_ON_EINT0) || (OPT == ADC_START_ON_CAP01) ||               \
+   (OPT == ADC_START_ON_MAT01) || (OPT == ADC_START_ON_MAT03) ||               \
+   (OPT == ADC_START_ON_MAT10) || (OPT == ADC_START_ON_MAT11))
 
 /** Check ADC interrupt type parameter */
-#define PARAM_ADC_TYPE_INT_OPT(OPT)                                                                                    \
-    ((OPT == ADC_ADINTEN0) || (OPT == ADC_ADINTEN1) || (OPT == ADC_ADINTEN2) || (OPT == ADC_ADINTEN3) ||               \
-     (OPT == ADC_ADINTEN4) || (OPT == ADC_ADINTEN5) || (OPT == ADC_ADINTEN6) || (OPT == ADC_ADINTEN7) ||               \
-     (OPT == ADC_ADGINTEN))
+#define PARAM_ADC_TYPE_INT_OPT(OPT)                                            \
+  ((OPT == ADC_ADINTEN0) || (OPT == ADC_ADINTEN1) || (OPT == ADC_ADINTEN2) ||  \
+   (OPT == ADC_ADINTEN3) || (OPT == ADC_ADINTEN4) || (OPT == ADC_ADINTEN5) ||  \
+   (OPT == ADC_ADINTEN6) || (OPT == ADC_ADINTEN7) || (OPT == ADC_ADGINTEN))
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Types ---------------------------------------------------------------
-     */
-    /** @defgroup ADC_Public_Types ADC Public Types
-     * @{
-     */
+/* Public Types ---------------------------------------------------------------
+ */
+/** @defgroup ADC_Public_Types ADC Public Types
+ * @{
+ */
 
-    /*********************************************************************/ /**
-                                                                             * @brief
-                                                                             *ADC
-                                                                             *enumeration
-                                                                             **********************************************************************/
-    /** @brief Channel Selection */
-    typedef enum
-    {
-        ADC_CHANNEL_0 = 0, /*!<  Channel 0 */
-        ADC_CHANNEL_1,     /*!<  Channel 1 */
-        ADC_CHANNEL_2,     /*!<  Channel 2 */
-        ADC_CHANNEL_3,     /*!<  Channel 3 */
-        ADC_CHANNEL_4,     /*!<  Channel 4 */
-        ADC_CHANNEL_5,     /*!<  Channel 5 */
-        ADC_CHANNEL_6,     /*!<  Channel 6 */
-        ADC_CHANNEL_7      /*!<  Channel 7 */
-    } ADC_CHANNEL_SELECTION;
+/*********************************************************************/ /**
+                                                                         * @brief
+                                                                         *ADC
+                                                                         *enumeration
+                                                                         **********************************************************************/
+/** @brief Channel Selection */
+typedef enum {
+  ADC_CHANNEL_0 = 0, /*!<  Channel 0 */
+  ADC_CHANNEL_1,     /*!<  Channel 1 */
+  ADC_CHANNEL_2,     /*!<  Channel 2 */
+  ADC_CHANNEL_3,     /*!<  Channel 3 */
+  ADC_CHANNEL_4,     /*!<  Channel 4 */
+  ADC_CHANNEL_5,     /*!<  Channel 5 */
+  ADC_CHANNEL_6,     /*!<  Channel 6 */
+  ADC_CHANNEL_7      /*!<  Channel 7 */
+} ADC_CHANNEL_SELECTION;
 
-    /** @brief Type of start option */
-    typedef enum
-    {
-        ADC_START_CONTINUOUS = 0, /*!< Continuous mode */
-        ADC_START_NOW,            /*!< Start conversion now */
-        ADC_START_ON_EINT0,       /*!< Start conversion when the edge selected
-                                   * by bit 27 occurs on P2.10/EINT0 */
-        ADC_START_ON_CAP01,       /*!< Start conversion when the edge selected
-                                   * by bit 27 occurs on P1.27/CAP0.1 */
-        ADC_START_ON_MAT01,       /*!< Start conversion when the edge selected
-                                   * by bit 27 occurs on MAT0.1 */
-        ADC_START_ON_MAT03,       /*!< Start conversion when the edge selected
-                                   * by bit 27 occurs on MAT0.3 */
-        ADC_START_ON_MAT10,       /*!< Start conversion when the edge selected
-                                   * by bit 27 occurs on MAT1.0 */
-        ADC_START_ON_MAT11        /*!< Start conversion when the edge selected
-                                   * by bit 27 occurs on MAT1.1 */
-    } ADC_START_OPT;
+/** @brief Type of start option */
+typedef enum {
+  ADC_START_CONTINUOUS = 0, /*!< Continuous mode */
+  ADC_START_NOW,            /*!< Start conversion now */
+  ADC_START_ON_EINT0,       /*!< Start conversion when the edge selected
+                             * by bit 27 occurs on P2.10/EINT0 */
+  ADC_START_ON_CAP01,       /*!< Start conversion when the edge selected
+                             * by bit 27 occurs on P1.27/CAP0.1 */
+  ADC_START_ON_MAT01,       /*!< Start conversion when the edge selected
+                             * by bit 27 occurs on MAT0.1 */
+  ADC_START_ON_MAT03,       /*!< Start conversion when the edge selected
+                             * by bit 27 occurs on MAT0.3 */
+  ADC_START_ON_MAT10,       /*!< Start conversion when the edge selected
+                             * by bit 27 occurs on MAT1.0 */
+  ADC_START_ON_MAT11        /*!< Start conversion when the edge selected
+                             * by bit 27 occurs on MAT1.1 */
+} ADC_START_OPT;
 
-    /** @brief Type of edge when start conversion on the selected CAP/MAT signal */
-    typedef enum
-    {
-        ADC_START_ON_RISING = 0, /*!< Start conversion on a rising edge
-                                  *on the selected CAP/MAT signal */
-        ADC_START_ON_FALLING     /*!< Start conversion on a falling edge
-                                  *on the selected CAP/MAT signal */
-    } ADC_START_ON_EDGE_OPT;
+/** @brief Type of edge when start conversion on the selected CAP/MAT signal */
+typedef enum {
+  ADC_START_ON_RISING = 0, /*!< Start conversion on a rising edge
+                            *on the selected CAP/MAT signal */
+  ADC_START_ON_FALLING     /*!< Start conversion on a falling edge
+                            *on the selected CAP/MAT signal */
+} ADC_START_ON_EDGE_OPT;
 
-    /** @brief* ADC type interrupt enum */
-    typedef enum
-    {
-        ADC_ADINTEN0 = 0, /*!< Interrupt channel 0 */
-        ADC_ADINTEN1,     /*!< Interrupt channel 1 */
-        ADC_ADINTEN2,     /*!< Interrupt channel 2 */
-        ADC_ADINTEN3,     /*!< Interrupt channel 3 */
-        ADC_ADINTEN4,     /*!< Interrupt channel 4 */
-        ADC_ADINTEN5,     /*!< Interrupt channel 5 */
-        ADC_ADINTEN6,     /*!< Interrupt channel 6 */
-        ADC_ADINTEN7,     /*!< Interrupt channel 7 */
-        ADC_ADGINTEN      /*!< Individual channel/global flag done generate an interrupt */
-    } ADC_TYPE_INT_OPT;
+/** @brief* ADC type interrupt enum */
+typedef enum {
+  ADC_ADINTEN0 = 0, /*!< Interrupt channel 0 */
+  ADC_ADINTEN1,     /*!< Interrupt channel 1 */
+  ADC_ADINTEN2,     /*!< Interrupt channel 2 */
+  ADC_ADINTEN3,     /*!< Interrupt channel 3 */
+  ADC_ADINTEN4,     /*!< Interrupt channel 4 */
+  ADC_ADINTEN5,     /*!< Interrupt channel 5 */
+  ADC_ADINTEN6,     /*!< Interrupt channel 6 */
+  ADC_ADINTEN7,     /*!< Interrupt channel 7 */
+  ADC_ADGINTEN /*!< Individual channel/global flag done generate an interrupt */
+} ADC_TYPE_INT_OPT;
 
-    /** @brief ADC Data  status */
-    typedef enum
-    {
-        ADC_DATA_BURST = 0, /*Burst bit*/
-        ADC_DATA_DONE       /*Done bit*/
-    } ADC_DATA_STATUS;
+/** @brief ADC Data  status */
+typedef enum {
+  ADC_DATA_BURST = 0, /*Burst bit*/
+  ADC_DATA_DONE       /*Done bit*/
+} ADC_DATA_STATUS;
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
-    /* Public Functions -----------------------------------------------------------
-     */
-    /** @defgroup ADC_Public_Functions ADC Public Functions
-     * @{
-     */
-    /* Init/DeInit ADC peripheral ----------------*/
-    void ADC_Init(LPC_ADC_TypeDef* ADCx, uint32_t rate);
-    void ADC_DeInit(LPC_ADC_TypeDef* ADCx);
+/* Public Functions -----------------------------------------------------------
+ */
+/** @defgroup ADC_Public_Functions ADC Public Functions
+ * @{
+ */
+/* Init/DeInit ADC peripheral ----------------*/
+void ADC_Init(LPC_ADC_TypeDef *ADCx, uint32_t rate);
+void ADC_DeInit(LPC_ADC_TypeDef *ADCx);
 
-    /* Enable/Disable ADC functions --------------*/
-    void ADC_BurstCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState);
-    void ADC_PowerdownCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState);
-    void ADC_StartCmd(LPC_ADC_TypeDef* ADCx, uint8_t start_mode);
-    void ADC_ChannelCmd(LPC_ADC_TypeDef* ADCx, uint8_t Channel, FunctionalState NewState);
+/* Enable/Disable ADC functions --------------*/
+void ADC_BurstCmd(LPC_ADC_TypeDef *ADCx, FunctionalState NewState);
+void ADC_PowerdownCmd(LPC_ADC_TypeDef *ADCx, FunctionalState NewState);
+void ADC_StartCmd(LPC_ADC_TypeDef *ADCx, uint8_t start_mode);
+void ADC_ChannelCmd(LPC_ADC_TypeDef *ADCx, uint8_t Channel,
+                    FunctionalState NewState);
 
-    /* Configure ADC functions -------------------*/
-    void ADC_EdgeStartConfig(LPC_ADC_TypeDef* ADCx, uint8_t EdgeOption);
-    void ADC_IntConfig(LPC_ADC_TypeDef* ADCx, ADC_TYPE_INT_OPT IntType, FunctionalState NewState);
+/* Configure ADC functions -------------------*/
+void ADC_EdgeStartConfig(LPC_ADC_TypeDef *ADCx, uint8_t EdgeOption);
+void ADC_IntConfig(LPC_ADC_TypeDef *ADCx, ADC_TYPE_INT_OPT IntType,
+                   FunctionalState NewState);
 
-    /* Get ADC information functions -------------------*/
-    uint16_t ADC_ChannelGetData(LPC_ADC_TypeDef* ADCx, uint8_t channel);
-    FlagStatus ADC_ChannelGetStatus(LPC_ADC_TypeDef* ADCx, uint8_t channel, uint32_t StatusType);
-    uint32_t ADC_GlobalGetData(LPC_ADC_TypeDef* ADCx);
-    FlagStatus ADC_GlobalGetStatus(LPC_ADC_TypeDef* ADCx, uint32_t StatusType);
+/* Get ADC information functions -------------------*/
+uint16_t ADC_ChannelGetData(LPC_ADC_TypeDef *ADCx, uint8_t channel);
+FlagStatus ADC_ChannelGetStatus(LPC_ADC_TypeDef *ADCx, uint8_t channel,
+                                uint32_t StatusType);
+uint32_t ADC_GlobalGetData(LPC_ADC_TypeDef *ADCx);
+FlagStatus ADC_GlobalGetStatus(LPC_ADC_TypeDef *ADCx, uint32_t StatusType);
 
-    /**
-     * @}
-     */
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }

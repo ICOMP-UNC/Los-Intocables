@@ -56,7 +56,7 @@
 /* Private Functions ----------------------------------------------------------
  */
 
-static Status uart_set_divisors(LPC_UART_TypeDef* UARTx, uint32_t baudrate);
+static Status uart_set_divisors(LPC_UART_TypeDef *UARTx, uint32_t baudrate);
 
 /*********************************************************************/ /**
                                                                          * @brief
@@ -109,117 +109,107 @@ static Status uart_set_divisors(LPC_UART_TypeDef* UARTx, uint32_t baudrate);
                                                                          * 				-
                                                                          *ERROR
                                                                          **********************************************************************/
-static Status uart_set_divisors(LPC_UART_TypeDef* UARTx, uint32_t baudrate)
-{
-    Status errorStatus = ERROR;
+static Status uart_set_divisors(LPC_UART_TypeDef *UARTx, uint32_t baudrate) {
+  Status errorStatus = ERROR;
 
-    uint32_t uClk = 0;
-    uint32_t d, m, bestd, bestm, tmp;
-    uint64_t best_divisor, divisor;
-    uint32_t current_error, best_error;
-    uint32_t recalcbaud;
+  uint32_t uClk = 0;
+  uint32_t d, m, bestd, bestm, tmp;
+  uint64_t best_divisor, divisor;
+  uint32_t current_error, best_error;
+  uint32_t recalcbaud;
 
-    /* get UART block clock */
-    if (UARTx == (LPC_UART_TypeDef*)LPC_UART0)
-    {
-        uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART0);
-    }
-    else if (UARTx == (LPC_UART_TypeDef*)LPC_UART1)
-    {
-        uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART1);
-    }
-    else if (UARTx == LPC_UART2)
-    {
-        uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART2);
-    }
-    else if (UARTx == LPC_UART3)
-    {
-        uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART3);
-    }
+  /* get UART block clock */
+  if (UARTx == (LPC_UART_TypeDef *)LPC_UART0) {
+    uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART0);
+  } else if (UARTx == (LPC_UART_TypeDef *)LPC_UART1) {
+    uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART1);
+  } else if (UARTx == LPC_UART2) {
+    uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART2);
+  } else if (UARTx == LPC_UART3) {
+    uClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_UART3);
+  }
 
-    /* In the Uart IP block, baud rate is calculated using FDR and DLL-DLM
-     * registers The formula is : BaudRate= uClk *
-     * (mulFracDiv/(mulFracDiv+dividerAddFracDiv) / (16 * (DLL) It involves
-     * floating point calculations. That's the reason the formulae are adjusted
-     * with Multiply and divide method.*/
-    /* The value of mulFracDiv and dividerAddFracDiv should comply to the
-     * following expressions: 0 < mulFracDiv <= 15, 0 <= dividerAddFracDiv <= 15
-     */
-    best_error = 0xFFFFFFFF; /* Worst case */
-    bestd = 0;
-    bestm = 0;
-    best_divisor = 0;
-    for (m = 1; m <= 15; m++)
-    {
-        for (d = 0; d < m; d++)
-        {
-            divisor = ((uint64_t)uClk << 28) * m / (baudrate * (m + d));
-            current_error = divisor & 0xFFFFFFFF;
+  /* In the Uart IP block, baud rate is calculated using FDR and DLL-DLM
+   * registers The formula is : BaudRate= uClk *
+   * (mulFracDiv/(mulFracDiv+dividerAddFracDiv) / (16 * (DLL) It involves
+   * floating point calculations. That's the reason the formulae are adjusted
+   * with Multiply and divide method.*/
+  /* The value of mulFracDiv and dividerAddFracDiv should comply to the
+   * following expressions: 0 < mulFracDiv <= 15, 0 <= dividerAddFracDiv <= 15
+   */
+  best_error = 0xFFFFFFFF; /* Worst case */
+  bestd = 0;
+  bestm = 0;
+  best_divisor = 0;
+  for (m = 1; m <= 15; m++) {
+    for (d = 0; d < m; d++) {
+      divisor = ((uint64_t)uClk << 28) * m / (baudrate * (m + d));
+      current_error = divisor & 0xFFFFFFFF;
 
-            tmp = divisor >> 32;
+      tmp = divisor >> 32;
 
-            /* Adjust error */
-            if (current_error > ((uint32_t)1 << 31))
-            {
-                current_error = -current_error;
-                tmp++;
-            }
+      /* Adjust error */
+      if (current_error > ((uint32_t)1 << 31)) {
+        current_error = -current_error;
+        tmp++;
+      }
 
-            if (tmp < 1 || tmp > 65536) /* Out of range */
-                continue;
+      if (tmp < 1 || tmp > 65536) /* Out of range */
+        continue;
 
-            if (current_error < best_error)
-            {
-                best_error = current_error;
-                best_divisor = tmp;
-                bestd = d;
-                bestm = m;
-                if (best_error == 0)
-                    break;
-            }
-        } /* end of inner for loop */
-
+      if (current_error < best_error) {
+        best_error = current_error;
+        best_divisor = tmp;
+        bestd = d;
+        bestm = m;
         if (best_error == 0)
-            break;
-    } /* end of outer for loop  */
+          break;
+      }
+    } /* end of inner for loop */
 
-    if (best_divisor == 0)
-        return ERROR; /* can not find best match */
+    if (best_error == 0)
+      break;
+  } /* end of outer for loop  */
 
-    recalcbaud = (uClk >> 4) * bestm / (best_divisor * (bestm + bestd));
+  if (best_divisor == 0)
+    return ERROR; /* can not find best match */
 
-    /* reuse best_error to evaluate baud error*/
-    if (baudrate > recalcbaud)
-        best_error = baudrate - recalcbaud;
-    else
-        best_error = recalcbaud - baudrate;
+  recalcbaud = (uClk >> 4) * bestm / (best_divisor * (bestm + bestd));
 
-    best_error = best_error * 100 / baudrate;
+  /* reuse best_error to evaluate baud error*/
+  if (baudrate > recalcbaud)
+    best_error = baudrate - recalcbaud;
+  else
+    best_error = recalcbaud - baudrate;
 
-    if (best_error < UART_ACCEPTED_BAUDRATE_ERROR)
-    {
-        if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-        {
-            ((LPC_UART1_TypeDef*)UARTx)->LCR |= UART_LCR_DLAB_EN;
-            ((LPC_UART1_TypeDef*)UARTx)->/*DLIER.*/ DLM = UART_LOAD_DLM(best_divisor);
-            ((LPC_UART1_TypeDef*)UARTx)->/*RBTHDLR.*/ DLL = UART_LOAD_DLL(best_divisor);
-            /* Then reset DLAB bit */
-            ((LPC_UART1_TypeDef*)UARTx)->LCR &= (~UART_LCR_DLAB_EN) & UART_LCR_BITMASK;
-            ((LPC_UART1_TypeDef*)UARTx)->FDR = (UART_FDR_MULVAL(bestm) | UART_FDR_DIVADDVAL(bestd)) & UART_FDR_BITMASK;
-        }
-        else
-        {
-            UARTx->LCR |= UART_LCR_DLAB_EN;
-            UARTx->/*DLIER.*/ DLM = UART_LOAD_DLM(best_divisor);
-            UARTx->/*RBTHDLR.*/ DLL = UART_LOAD_DLL(best_divisor);
-            /* Then reset DLAB bit */
-            UARTx->LCR &= (~UART_LCR_DLAB_EN) & UART_LCR_BITMASK;
-            UARTx->FDR = (UART_FDR_MULVAL(bestm) | UART_FDR_DIVADDVAL(bestd)) & UART_FDR_BITMASK;
-        }
-        errorStatus = SUCCESS;
+  best_error = best_error * 100 / baudrate;
+
+  if (best_error < UART_ACCEPTED_BAUDRATE_ERROR) {
+    if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+      ((LPC_UART1_TypeDef *)UARTx)->LCR |= UART_LCR_DLAB_EN;
+      ((LPC_UART1_TypeDef *)UARTx)->/*DLIER.*/ DLM =
+          UART_LOAD_DLM(best_divisor);
+      ((LPC_UART1_TypeDef *)UARTx)->/*RBTHDLR.*/ DLL =
+          UART_LOAD_DLL(best_divisor);
+      /* Then reset DLAB bit */
+      ((LPC_UART1_TypeDef *)UARTx)->LCR &=
+          (~UART_LCR_DLAB_EN) & UART_LCR_BITMASK;
+      ((LPC_UART1_TypeDef *)UARTx)->FDR =
+          (UART_FDR_MULVAL(bestm) | UART_FDR_DIVADDVAL(bestd)) &
+          UART_FDR_BITMASK;
+    } else {
+      UARTx->LCR |= UART_LCR_DLAB_EN;
+      UARTx->/*DLIER.*/ DLM = UART_LOAD_DLM(best_divisor);
+      UARTx->/*RBTHDLR.*/ DLL = UART_LOAD_DLL(best_divisor);
+      /* Then reset DLAB bit */
+      UARTx->LCR &= (~UART_LCR_DLAB_EN) & UART_LCR_BITMASK;
+      UARTx->FDR = (UART_FDR_MULVAL(bestm) | UART_FDR_DIVADDVAL(bestd)) &
+                   UART_FDR_BITMASK;
     }
+    errorStatus = SUCCESS;
+  }
 
-    return errorStatus;
+  return errorStatus;
 }
 
 /* End of Private Functions ----------------------------------------------------
@@ -285,180 +275,183 @@ static Status uart_set_divisors(LPC_UART_TypeDef* UARTx, uint32_t baudrate)
                                                                         * @return
                                                                         *None
                                                                         *********************************************************************/
-void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
-{
-    uint32_t tmp;
+void UART_Init(LPC_UART_TypeDef *UARTx, UART_CFG_Type *UART_ConfigStruct) {
+  uint32_t tmp;
 
-    // For debug mode
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    CHECK_PARAM(PARAM_UART_DATABIT(UART_ConfigStruct->Databits));
-    CHECK_PARAM(PARAM_UART_STOPBIT(UART_ConfigStruct->Stopbits));
-    CHECK_PARAM(PARAM_UART_PARITY(UART_ConfigStruct->Parity));
+  // For debug mode
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  CHECK_PARAM(PARAM_UART_DATABIT(UART_ConfigStruct->Databits));
+  CHECK_PARAM(PARAM_UART_STOPBIT(UART_ConfigStruct->Stopbits));
+  CHECK_PARAM(PARAM_UART_PARITY(UART_ConfigStruct->Parity));
 
 #ifdef _UART0
-    if (UARTx == (LPC_UART_TypeDef*)LPC_UART0)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART0, ENABLE);
-    }
+  if (UARTx == (LPC_UART_TypeDef *)LPC_UART0) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART0, ENABLE);
+  }
 #endif
 
 #ifdef _UART1
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART1, ENABLE);
-    }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART1, ENABLE);
+  }
 #endif
 
 #ifdef _UART2
-    if (UARTx == LPC_UART2)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART2, ENABLE);
-    }
+  if (UARTx == LPC_UART2) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART2, ENABLE);
+  }
 #endif
 
 #ifdef _UART3
-    if (UARTx == LPC_UART3)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART3, ENABLE);
-    }
+  if (UARTx == LPC_UART3) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART3, ENABLE);
+  }
 #endif
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        /* FIFOs are empty */
-        ((LPC_UART1_TypeDef*)UARTx)->/*IIFCR.*/ FCR = (UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS);
-        // Disable FIFO
-        ((LPC_UART1_TypeDef*)UARTx)->/*IIFCR.*/ FCR = 0;
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    /* FIFOs are empty */
+    ((LPC_UART1_TypeDef *)UARTx)->/*IIFCR.*/ FCR =
+        (UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS);
+    // Disable FIFO
+    ((LPC_UART1_TypeDef *)UARTx)->/*IIFCR.*/ FCR = 0;
 
-        // Dummy reading
-        while (((LPC_UART1_TypeDef*)UARTx)->LSR & UART_LSR_RDR)
-        {
-            tmp = ((LPC_UART1_TypeDef*)UARTx)->/*RBTHDLR.*/ RBR;
-        }
-
-        ((LPC_UART1_TypeDef*)UARTx)->TER = UART_TER_TXEN;
-        // Wait for current transmit complete
-        while (!(((LPC_UART1_TypeDef*)UARTx)->LSR & UART_LSR_THRE));
-        // Disable Tx
-        ((LPC_UART1_TypeDef*)UARTx)->TER = 0;
-
-        // Disable interrupt
-        ((LPC_UART1_TypeDef*)UARTx)->/*DLIER.*/ IER = 0;
-        // Set LCR to default state
-        ((LPC_UART1_TypeDef*)UARTx)->LCR = 0;
-        // Set ACR to default state
-        ((LPC_UART1_TypeDef*)UARTx)->ACR = 0;
-        // Set Modem Control to default state
-        ((LPC_UART1_TypeDef*)UARTx)->MCR = 0;
-        // Set RS485 control to default state
-        ((LPC_UART1_TypeDef*)UARTx)->RS485CTRL = 0;
-        // Set RS485 delay timer to default state
-        ((LPC_UART1_TypeDef*)UARTx)->RS485DLY = 0;
-        // Set RS485 addr match to default state
-        ((LPC_UART1_TypeDef*)UARTx)->ADRMATCH = 0;
-        // Dummy Reading to Clear Status
-        tmp = ((LPC_UART1_TypeDef*)UARTx)->MSR;
-        tmp = ((LPC_UART1_TypeDef*)UARTx)->LSR;
-    }
-    else
-    {
-        /* FIFOs are empty */
-        UARTx->/*IIFCR.*/ FCR = (UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS);
-        // Disable FIFO
-        UARTx->/*IIFCR.*/ FCR = 0;
-
-        // Dummy reading
-        while (UARTx->LSR & UART_LSR_RDR)
-        {
-            tmp = UARTx->/*RBTHDLR.*/ RBR;
-        }
-
-        UARTx->TER = UART_TER_TXEN;
-        // Wait for current transmit complete
-        while (!(UARTx->LSR & UART_LSR_THRE));
-        // Disable Tx
-        UARTx->TER = 0;
-
-        // Disable interrupt
-        UARTx->/*DLIER.*/ IER = 0;
-        // Set LCR to default state
-        UARTx->LCR = 0;
-        // Set ACR to default state
-        UARTx->ACR = 0;
-        // Dummy reading
-        tmp = UARTx->LSR;
+    // Dummy reading
+    while (((LPC_UART1_TypeDef *)UARTx)->LSR & UART_LSR_RDR) {
+      tmp = ((LPC_UART1_TypeDef *)UARTx)->/*RBTHDLR.*/ RBR;
     }
 
-    if (UARTx == LPC_UART3)
-    {
-        // Set IrDA to default state
-        UARTx->ICR = 0;
+    ((LPC_UART1_TypeDef *)UARTx)->TER = UART_TER_TXEN;
+    // Wait for current transmit complete
+    while (!(((LPC_UART1_TypeDef *)UARTx)->LSR & UART_LSR_THRE))
+      ;
+    // Disable Tx
+    ((LPC_UART1_TypeDef *)UARTx)->TER = 0;
+
+    // Disable interrupt
+    ((LPC_UART1_TypeDef *)UARTx)->/*DLIER.*/ IER = 0;
+    // Set LCR to default state
+    ((LPC_UART1_TypeDef *)UARTx)->LCR = 0;
+    // Set ACR to default state
+    ((LPC_UART1_TypeDef *)UARTx)->ACR = 0;
+    // Set Modem Control to default state
+    ((LPC_UART1_TypeDef *)UARTx)->MCR = 0;
+    // Set RS485 control to default state
+    ((LPC_UART1_TypeDef *)UARTx)->RS485CTRL = 0;
+    // Set RS485 delay timer to default state
+    ((LPC_UART1_TypeDef *)UARTx)->RS485DLY = 0;
+    // Set RS485 addr match to default state
+    ((LPC_UART1_TypeDef *)UARTx)->ADRMATCH = 0;
+    // Dummy Reading to Clear Status
+    tmp = ((LPC_UART1_TypeDef *)UARTx)->MSR;
+    tmp = ((LPC_UART1_TypeDef *)UARTx)->LSR;
+  } else {
+    /* FIFOs are empty */
+    UARTx->/*IIFCR.*/ FCR =
+        (UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS);
+    // Disable FIFO
+    UARTx->/*IIFCR.*/ FCR = 0;
+
+    // Dummy reading
+    while (UARTx->LSR & UART_LSR_RDR) {
+      tmp = UARTx->/*RBTHDLR.*/ RBR;
     }
 
-    // Set Line Control register ----------------------------
+    UARTx->TER = UART_TER_TXEN;
+    // Wait for current transmit complete
+    while (!(UARTx->LSR & UART_LSR_THRE))
+      ;
+    // Disable Tx
+    UARTx->TER = 0;
 
-    uart_set_divisors(UARTx, (UART_ConfigStruct->Baud_rate));
+    // Disable interrupt
+    UARTx->/*DLIER.*/ IER = 0;
+    // Set LCR to default state
+    UARTx->LCR = 0;
+    // Set ACR to default state
+    UARTx->ACR = 0;
+    // Dummy reading
+    tmp = UARTx->LSR;
+  }
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        tmp = (((LPC_UART1_TypeDef*)UARTx)->LCR & (UART_LCR_DLAB_EN | UART_LCR_BREAK_EN)) & UART_LCR_BITMASK;
+  if (UARTx == LPC_UART3) {
+    // Set IrDA to default state
+    UARTx->ICR = 0;
+  }
+
+  // Set Line Control register ----------------------------
+
+  uart_set_divisors(UARTx, (UART_ConfigStruct->Baud_rate));
+
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    tmp = (((LPC_UART1_TypeDef *)UARTx)->LCR &
+           (UART_LCR_DLAB_EN | UART_LCR_BREAK_EN)) &
+          UART_LCR_BITMASK;
+  } else {
+    tmp = (UARTx->LCR & (UART_LCR_DLAB_EN | UART_LCR_BREAK_EN)) &
+          UART_LCR_BITMASK;
+  }
+
+  switch (UART_ConfigStruct->Databits) {
+  case UART_DATABIT_5:
+    tmp |= UART_LCR_WLEN5;
+    break;
+  case UART_DATABIT_6:
+    tmp |= UART_LCR_WLEN6;
+    break;
+  case UART_DATABIT_7:
+    tmp |= UART_LCR_WLEN7;
+    break;
+  case UART_DATABIT_8:
+  default:
+    tmp |= UART_LCR_WLEN8;
+    break;
+  }
+
+  if (UART_ConfigStruct->Parity == UART_PARITY_NONE) {
+    // Do nothing...
+  } else {
+    tmp |= UART_LCR_PARITY_EN;
+    switch (UART_ConfigStruct->Parity) {
+    case UART_PARITY_ODD:
+      tmp |= UART_LCR_PARITY_ODD;
+      break;
+
+    case UART_PARITY_EVEN:
+      tmp |= UART_LCR_PARITY_EVEN;
+      break;
+
+    case UART_PARITY_SP_1:
+      tmp |= UART_LCR_PARITY_F_1;
+      break;
+
+    case UART_PARITY_SP_0:
+      tmp |= UART_LCR_PARITY_F_0;
+      break;
+    default:
+      break;
     }
-    else
-    {
-        tmp = (UARTx->LCR & (UART_LCR_DLAB_EN | UART_LCR_BREAK_EN)) & UART_LCR_BITMASK;
-    }
+  }
 
-    switch (UART_ConfigStruct->Databits)
-    {
-        case UART_DATABIT_5: tmp |= UART_LCR_WLEN5; break;
-        case UART_DATABIT_6: tmp |= UART_LCR_WLEN6; break;
-        case UART_DATABIT_7: tmp |= UART_LCR_WLEN7; break;
-        case UART_DATABIT_8:
-        default: tmp |= UART_LCR_WLEN8; break;
-    }
+  switch (UART_ConfigStruct->Stopbits) {
+  case UART_STOPBIT_2:
+    tmp |= UART_LCR_STOPBIT_SEL;
+    break;
+  case UART_STOPBIT_1:
+  default:
+    // Do no thing
+    break;
+  }
 
-    if (UART_ConfigStruct->Parity == UART_PARITY_NONE)
-    {
-        // Do nothing...
-    }
-    else
-    {
-        tmp |= UART_LCR_PARITY_EN;
-        switch (UART_ConfigStruct->Parity)
-        {
-            case UART_PARITY_ODD: tmp |= UART_LCR_PARITY_ODD; break;
-
-            case UART_PARITY_EVEN: tmp |= UART_LCR_PARITY_EVEN; break;
-
-            case UART_PARITY_SP_1: tmp |= UART_LCR_PARITY_F_1; break;
-
-            case UART_PARITY_SP_0: tmp |= UART_LCR_PARITY_F_0; break;
-            default: break;
-        }
-    }
-
-    switch (UART_ConfigStruct->Stopbits)
-    {
-        case UART_STOPBIT_2: tmp |= UART_LCR_STOPBIT_SEL; break;
-        case UART_STOPBIT_1:
-        default:
-            // Do no thing
-            break;
-    }
-
-    // Write back to LCR, configure FIFO and Disable Tx
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        ((LPC_UART1_TypeDef*)UARTx)->LCR = (uint8_t)(tmp & UART_LCR_BITMASK);
-    }
-    else
-    {
-        UARTx->LCR = (uint8_t)(tmp & UART_LCR_BITMASK);
-    }
+  // Write back to LCR, configure FIFO and Disable Tx
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    ((LPC_UART1_TypeDef *)UARTx)->LCR = (uint8_t)(tmp & UART_LCR_BITMASK);
+  } else {
+    UARTx->LCR = (uint8_t)(tmp & UART_LCR_BITMASK);
+  }
 }
 
 /*********************************************************************/ /**
@@ -499,43 +492,38 @@ void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void UART_DeInit(LPC_UART_TypeDef* UARTx)
-{
-    // For debug mode
-    CHECK_PARAM(PARAM_UARTx(UARTx));
+void UART_DeInit(LPC_UART_TypeDef *UARTx) {
+  // For debug mode
+  CHECK_PARAM(PARAM_UARTx(UARTx));
 
-    UART_TxCmd(UARTx, DISABLE);
+  UART_TxCmd(UARTx, DISABLE);
 
 #ifdef _UART0
-    if (UARTx == (LPC_UART_TypeDef*)LPC_UART0)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART0, DISABLE);
-    }
+  if (UARTx == (LPC_UART_TypeDef *)LPC_UART0) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART0, DISABLE);
+  }
 #endif
 
 #ifdef _UART1
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART1, DISABLE);
-    }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART1, DISABLE);
+  }
 #endif
 
 #ifdef _UART2
-    if (UARTx == LPC_UART2)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART2, DISABLE);
-    }
+  if (UARTx == LPC_UART2) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART2, DISABLE);
+  }
 #endif
 
 #ifdef _UART3
-    if (UARTx == LPC_UART3)
-    {
-        /* Set up clock and power for UART module */
-        CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART3, DISABLE);
-    }
+  if (UARTx == LPC_UART3) {
+    /* Set up clock and power for UART module */
+    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCUART3, DISABLE);
+  }
 #endif
 }
 
@@ -552,12 +540,11 @@ void UART_DeInit(LPC_UART_TypeDef* UARTx)
                                                                                  *will be initialized.
                                                                                  * @return		None
                                                                                  *******************************************************************************/
-void UART_ConfigStructInit(UART_CFG_Type* UART_InitStruct)
-{
-    UART_InitStruct->Baud_rate = 9600;
-    UART_InitStruct->Databits = UART_DATABIT_8;
-    UART_InitStruct->Parity = UART_PARITY_NONE;
-    UART_InitStruct->Stopbits = UART_STOPBIT_1;
+void UART_ConfigStructInit(UART_CFG_Type *UART_InitStruct) {
+  UART_InitStruct->Baud_rate = 9600;
+  UART_InitStruct->Databits = UART_DATABIT_8;
+  UART_InitStruct->Parity = UART_PARITY_NONE;
+  UART_InitStruct->Stopbits = UART_STOPBIT_1;
 }
 
 /* UART Send/Recieve functions
@@ -606,18 +593,14 @@ void UART_ConfigStructInit(UART_CFG_Type* UART_InitStruct)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void UART_SendByte(LPC_UART_TypeDef* UARTx, uint8_t Data)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
+void UART_SendByte(LPC_UART_TypeDef *UARTx, uint8_t Data) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        ((LPC_UART1_TypeDef*)UARTx)->/*RBTHDLR.*/ THR = Data & UART_THR_MASKBIT;
-    }
-    else
-    {
-        UARTx->/*RBTHDLR.*/ THR = Data & UART_THR_MASKBIT;
-    }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    ((LPC_UART1_TypeDef *)UARTx)->/*RBTHDLR.*/ THR = Data & UART_THR_MASKBIT;
+  } else {
+    UARTx->/*RBTHDLR.*/ THR = Data & UART_THR_MASKBIT;
+  }
 }
 
 /*********************************************************************/ /**
@@ -656,18 +639,14 @@ void UART_SendByte(LPC_UART_TypeDef* UARTx, uint8_t Data)
                                                                          *Data
                                                                          *received
                                                                          **********************************************************************/
-uint8_t UART_ReceiveByte(LPC_UART_TypeDef* UARTx)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
+uint8_t UART_ReceiveByte(LPC_UART_TypeDef *UARTx) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        return (((LPC_UART1_TypeDef*)UARTx)->/*RBTHDLR.*/ RBR & UART_RBR_MASKBIT);
-    }
-    else
-    {
-        return (UARTx->/*RBTHDLR.*/ RBR & UART_RBR_MASKBIT);
-    }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    return (((LPC_UART1_TypeDef *)UARTx)->/*RBTHDLR.*/ RBR & UART_RBR_MASKBIT);
+  } else {
+    return (UARTx->/*RBTHDLR.*/ RBR & UART_RBR_MASKBIT);
+  }
 }
 
 /*********************************************************************/ /**
@@ -753,61 +732,53 @@ uint8_t UART_ReceiveByte(LPC_UART_TypeDef* UARTx)
                                                                          *symbol
                                                                          *UART_BLOCKING_TIMEOUT.
                                                                          **********************************************************************/
-uint32_t UART_Send(LPC_UART_TypeDef* UARTx, uint8_t* txbuf, uint32_t buflen, TRANSFER_BLOCK_Type flag)
-{
-    uint32_t bToSend, bSent, timeOut, fifo_cnt;
-    uint8_t* pChar = txbuf;
+uint32_t UART_Send(LPC_UART_TypeDef *UARTx, uint8_t *txbuf, uint32_t buflen,
+                   TRANSFER_BLOCK_Type flag) {
+  uint32_t bToSend, bSent, timeOut, fifo_cnt;
+  uint8_t *pChar = txbuf;
 
-    bToSend = buflen;
+  bToSend = buflen;
 
-    // blocking mode
-    if (flag == BLOCKING)
-    {
-        bSent = 0;
-        while (bToSend)
-        {
-            timeOut = UART_BLOCKING_TIMEOUT;
-            // Wait for THR empty with timeout
-            while (!(UARTx->LSR & UART_LSR_THRE))
-            {
-                if (timeOut == 0)
-                    break;
-                timeOut--;
-            }
-            // Time out!
-            if (timeOut == 0)
-                break;
-            fifo_cnt = UART_TX_FIFO_SIZE;
-            while (fifo_cnt && bToSend)
-            {
-                UART_SendByte(UARTx, (*pChar++));
-                fifo_cnt--;
-                bToSend--;
-                bSent++;
-            }
-        }
+  // blocking mode
+  if (flag == BLOCKING) {
+    bSent = 0;
+    while (bToSend) {
+      timeOut = UART_BLOCKING_TIMEOUT;
+      // Wait for THR empty with timeout
+      while (!(UARTx->LSR & UART_LSR_THRE)) {
+        if (timeOut == 0)
+          break;
+        timeOut--;
+      }
+      // Time out!
+      if (timeOut == 0)
+        break;
+      fifo_cnt = UART_TX_FIFO_SIZE;
+      while (fifo_cnt && bToSend) {
+        UART_SendByte(UARTx, (*pChar++));
+        fifo_cnt--;
+        bToSend--;
+        bSent++;
+      }
     }
-    // None blocking mode
-    else
-    {
-        bSent = 0;
-        while (bToSend)
-        {
-            if (!(UARTx->LSR & UART_LSR_THRE))
-            {
-                break;
-            }
-            fifo_cnt = UART_TX_FIFO_SIZE;
-            while (fifo_cnt && bToSend)
-            {
-                UART_SendByte(UARTx, (*pChar++));
-                bToSend--;
-                fifo_cnt--;
-                bSent++;
-            }
-        }
+  }
+  // None blocking mode
+  else {
+    bSent = 0;
+    while (bToSend) {
+      if (!(UARTx->LSR & UART_LSR_THRE)) {
+        break;
+      }
+      fifo_cnt = UART_TX_FIFO_SIZE;
+      while (fifo_cnt && bToSend) {
+        UART_SendByte(UARTx, (*pChar++));
+        bToSend--;
+        fifo_cnt--;
+        bSent++;
+      }
     }
-    return bSent;
+  }
+  return bSent;
 }
 
 /*********************************************************************/ /**
@@ -827,54 +798,46 @@ uint32_t UART_Send(LPC_UART_TypeDef* UARTx, uint8_t* txbuf, uint32_t buflen, TRA
   * Note: when using UART in BLOCKING mode, a time-out condition is used
   * via defined symbol UART_BLOCKING_TIMEOUT.
   **********************************************************************/
-uint32_t UART_Receive(LPC_UART_TypeDef* UARTx, uint8_t* rxbuf, uint32_t buflen, TRANSFER_BLOCK_Type flag)
-{
-    uint32_t bToRecv, bRecv, timeOut;
-    uint8_t* pChar = rxbuf;
+uint32_t UART_Receive(LPC_UART_TypeDef *UARTx, uint8_t *rxbuf, uint32_t buflen,
+                      TRANSFER_BLOCK_Type flag) {
+  uint32_t bToRecv, bRecv, timeOut;
+  uint8_t *pChar = rxbuf;
 
-    bToRecv = buflen;
+  bToRecv = buflen;
 
-    // Blocking mode
-    if (flag == BLOCKING)
-    {
-        bRecv = 0;
-        while (bToRecv)
-        {
-            timeOut = UART_BLOCKING_TIMEOUT;
-            while (!(UARTx->LSR & UART_LSR_RDR))
-            {
-                if (timeOut == 0)
-                    break;
-                timeOut--;
-            }
-            // Time out!
-            if (timeOut == 0)
-                break;
-            // Get data from the buffer
-            (*pChar++) = UART_ReceiveByte(UARTx);
-            bToRecv--;
-            bRecv++;
-        }
+  // Blocking mode
+  if (flag == BLOCKING) {
+    bRecv = 0;
+    while (bToRecv) {
+      timeOut = UART_BLOCKING_TIMEOUT;
+      while (!(UARTx->LSR & UART_LSR_RDR)) {
+        if (timeOut == 0)
+          break;
+        timeOut--;
+      }
+      // Time out!
+      if (timeOut == 0)
+        break;
+      // Get data from the buffer
+      (*pChar++) = UART_ReceiveByte(UARTx);
+      bToRecv--;
+      bRecv++;
     }
-    // None blocking mode
-    else
-    {
-        bRecv = 0;
-        while (bToRecv)
-        {
-            if (!(UARTx->LSR & UART_LSR_RDR))
-            {
-                break;
-            }
-            else
-            {
-                (*pChar++) = UART_ReceiveByte(UARTx);
-                bRecv++;
-                bToRecv--;
-            }
-        }
+  }
+  // None blocking mode
+  else {
+    bRecv = 0;
+    while (bToRecv) {
+      if (!(UARTx->LSR & UART_LSR_RDR)) {
+        break;
+      } else {
+        (*pChar++) = UART_ReceiveByte(UARTx);
+        bRecv++;
+        bToRecv--;
+      }
     }
-    return bRecv;
+  }
+  return bRecv;
 }
 
 /*********************************************************************/ /**
@@ -887,18 +850,14 @@ uint32_t UART_Receive(LPC_UART_TypeDef* UARTx, uint8_t* rxbuf, uint32_t buflen, 
   * 				- LPC_UART3: UART3 peripheral
   * @return 		None
   **********************************************************************/
-void UART_ForceBreak(LPC_UART_TypeDef* UARTx)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
+void UART_ForceBreak(LPC_UART_TypeDef *UARTx) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        ((LPC_UART1_TypeDef*)UARTx)->LCR |= UART_LCR_BREAK_EN;
-    }
-    else
-    {
-        UARTx->LCR |= UART_LCR_BREAK_EN;
-    }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    ((LPC_UART1_TypeDef *)UARTx)->LCR |= UART_LCR_BREAK_EN;
+  } else {
+    UARTx->LCR |= UART_LCR_BREAK_EN;
+  }
 }
 
 /********************************************************************/ /**
@@ -927,55 +886,58 @@ void UART_ForceBreak(LPC_UART_TypeDef* UARTx)
  * 				- DISALBE: Disable this UART interrupt type.
   * @return 		None
   *********************************************************************/
-void UART_IntConfig(LPC_UART_TypeDef* UARTx, UART_INT_Type UARTIntCfg, FunctionalState NewState)
-{
-    uint32_t tmp = 0;
+void UART_IntConfig(LPC_UART_TypeDef *UARTx, UART_INT_Type UARTIntCfg,
+                    FunctionalState NewState) {
+  uint32_t tmp = 0;
 
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    switch (UARTIntCfg)
-    {
-        case UART_INTCFG_RBR: tmp = UART_IER_RBRINT_EN; break;
-        case UART_INTCFG_THRE: tmp = UART_IER_THREINT_EN; break;
-        case UART_INTCFG_RLS: tmp = UART_IER_RLSINT_EN; break;
-        case UART1_INTCFG_MS: tmp = UART1_IER_MSINT_EN; break;
-        case UART1_INTCFG_CTS: tmp = UART1_IER_CTSINT_EN; break;
-        case UART_INTCFG_ABEO: tmp = UART_IER_ABEOINT_EN; break;
-        case UART_INTCFG_ABTO: tmp = UART_IER_ABTOINT_EN; break;
-    }
+  switch (UARTIntCfg) {
+  case UART_INTCFG_RBR:
+    tmp = UART_IER_RBRINT_EN;
+    break;
+  case UART_INTCFG_THRE:
+    tmp = UART_IER_THREINT_EN;
+    break;
+  case UART_INTCFG_RLS:
+    tmp = UART_IER_RLSINT_EN;
+    break;
+  case UART1_INTCFG_MS:
+    tmp = UART1_IER_MSINT_EN;
+    break;
+  case UART1_INTCFG_CTS:
+    tmp = UART1_IER_CTSINT_EN;
+    break;
+  case UART_INTCFG_ABEO:
+    tmp = UART_IER_ABEOINT_EN;
+    break;
+  case UART_INTCFG_ABTO:
+    tmp = UART_IER_ABTOINT_EN;
+    break;
+  }
 
-    if ((LPC_UART1_TypeDef*)UARTx == LPC_UART1)
-    {
-        CHECK_PARAM((PARAM_UART_INTCFG(UARTIntCfg)) || (PARAM_UART1_INTCFG(UARTIntCfg)));
-    }
-    else
-    {
-        CHECK_PARAM(PARAM_UART_INTCFG(UARTIntCfg));
-    }
+  if ((LPC_UART1_TypeDef *)UARTx == LPC_UART1) {
+    CHECK_PARAM((PARAM_UART_INTCFG(UARTIntCfg)) ||
+                (PARAM_UART1_INTCFG(UARTIntCfg)));
+  } else {
+    CHECK_PARAM(PARAM_UART_INTCFG(UARTIntCfg));
+  }
 
-    if (NewState == ENABLE)
-    {
-        if ((LPC_UART1_TypeDef*)UARTx == LPC_UART1)
-        {
-            ((LPC_UART1_TypeDef*)UARTx)->/*DLIER.*/ IER |= tmp;
-        }
-        else
-        {
-            UARTx->/*DLIER.*/ IER |= tmp;
-        }
+  if (NewState == ENABLE) {
+    if ((LPC_UART1_TypeDef *)UARTx == LPC_UART1) {
+      ((LPC_UART1_TypeDef *)UARTx)->/*DLIER.*/ IER |= tmp;
+    } else {
+      UARTx->/*DLIER.*/ IER |= tmp;
     }
-    else
-    {
-        if ((LPC_UART1_TypeDef*)UARTx == LPC_UART1)
-        {
-            ((LPC_UART1_TypeDef*)UARTx)->/*DLIER.*/ IER &= (~tmp) & UART1_IER_BITMASK;
-        }
-        else
-        {
-            UARTx->/*DLIER.*/ IER &= (~tmp) & UART_IER_BITMASK;
-        }
+  } else {
+    if ((LPC_UART1_TypeDef *)UARTx == LPC_UART1) {
+      ((LPC_UART1_TypeDef *)UARTx)->/*DLIER.*/ IER &=
+          (~tmp) & UART1_IER_BITMASK;
+    } else {
+      UARTx->/*DLIER.*/ IER &= (~tmp) & UART_IER_BITMASK;
     }
+  }
 }
 
 /********************************************************************/ /**
@@ -1081,18 +1043,14 @@ void UART_IntConfig(LPC_UART_TypeDef* UARTx, UART_INT_Type UARTIntCfg, Functiona
                                                                         *all
                                                                         *flags.
                                                                         *********************************************************************/
-uint8_t UART_GetLineStatus(LPC_UART_TypeDef* UARTx)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
+uint8_t UART_GetLineStatus(LPC_UART_TypeDef *UARTx) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        return ((((LPC_UART1_TypeDef*)LPC_UART1)->LSR) & UART_LSR_BITMASK);
-    }
-    else
-    {
-        return ((UARTx->LSR) & UART_LSR_BITMASK);
-    }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    return ((((LPC_UART1_TypeDef *)LPC_UART1)->LSR) & UART_LSR_BITMASK);
+  } else {
+    return ((UARTx->LSR) & UART_LSR_BITMASK);
+  }
 }
 
 /********************************************************************/ /**
@@ -1133,10 +1091,9 @@ uint8_t UART_GetLineStatus(LPC_UART_TypeDef* UARTx)
                                                                         *in UART
                                                                         *peripheral.
                                                                         *********************************************************************/
-uint32_t UART_GetIntId(LPC_UART_TypeDef* UARTx)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    return (UARTx->IIR & 0x03CF);
+uint32_t UART_GetIntId(LPC_UART_TypeDef *UARTx) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  return (UARTx->IIR & 0x03CF);
 }
 
 /*********************************************************************/ /**
@@ -1181,16 +1138,12 @@ uint32_t UART_GetIntId(LPC_UART_TypeDef* UARTx)
                                                                          *return
                                                                          *SET.
                                                                          **********************************************************************/
-FlagStatus UART_CheckBusy(LPC_UART_TypeDef* UARTx)
-{
-    if (UARTx->LSR & UART_LSR_TEMT)
-    {
-        return RESET;
-    }
-    else
-    {
-        return SET;
-    }
+FlagStatus UART_CheckBusy(LPC_UART_TypeDef *UARTx) {
+  if (UARTx->LSR & UART_LSR_TEMT) {
+    return RESET;
+  } else {
+    return SET;
+  }
 }
 
 /*********************************************************************/ /**
@@ -1241,48 +1194,48 @@ FlagStatus UART_CheckBusy(LPC_UART_TypeDef* UARTx)
                                                                          * @return
                                                                          *none
                                                                          **********************************************************************/
-void UART_FIFOConfig(LPC_UART_TypeDef* UARTx, UART_FIFO_CFG_Type* FIFOCfg)
-{
-    uint8_t tmp = 0;
+void UART_FIFOConfig(LPC_UART_TypeDef *UARTx, UART_FIFO_CFG_Type *FIFOCfg) {
+  uint8_t tmp = 0;
 
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    CHECK_PARAM(PARAM_UART_FIFO_LEVEL(FIFOCfg->FIFO_Level));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(FIFOCfg->FIFO_DMAMode));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(FIFOCfg->FIFO_ResetRxBuf));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(FIFOCfg->FIFO_ResetTxBuf));
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  CHECK_PARAM(PARAM_UART_FIFO_LEVEL(FIFOCfg->FIFO_Level));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(FIFOCfg->FIFO_DMAMode));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(FIFOCfg->FIFO_ResetRxBuf));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(FIFOCfg->FIFO_ResetTxBuf));
 
-    tmp |= UART_FCR_FIFO_EN;
-    switch (FIFOCfg->FIFO_Level)
-    {
-        case UART_FIFO_TRGLEV0: tmp |= UART_FCR_TRG_LEV0; break;
-        case UART_FIFO_TRGLEV1: tmp |= UART_FCR_TRG_LEV1; break;
-        case UART_FIFO_TRGLEV2: tmp |= UART_FCR_TRG_LEV2; break;
-        case UART_FIFO_TRGLEV3:
-        default: tmp |= UART_FCR_TRG_LEV3; break;
-    }
+  tmp |= UART_FCR_FIFO_EN;
+  switch (FIFOCfg->FIFO_Level) {
+  case UART_FIFO_TRGLEV0:
+    tmp |= UART_FCR_TRG_LEV0;
+    break;
+  case UART_FIFO_TRGLEV1:
+    tmp |= UART_FCR_TRG_LEV1;
+    break;
+  case UART_FIFO_TRGLEV2:
+    tmp |= UART_FCR_TRG_LEV2;
+    break;
+  case UART_FIFO_TRGLEV3:
+  default:
+    tmp |= UART_FCR_TRG_LEV3;
+    break;
+  }
 
-    if (FIFOCfg->FIFO_ResetTxBuf == ENABLE)
-    {
-        tmp |= UART_FCR_TX_RS;
-    }
-    if (FIFOCfg->FIFO_ResetRxBuf == ENABLE)
-    {
-        tmp |= UART_FCR_RX_RS;
-    }
-    if (FIFOCfg->FIFO_DMAMode == ENABLE)
-    {
-        tmp |= UART_FCR_DMAMODE_SEL;
-    }
+  if (FIFOCfg->FIFO_ResetTxBuf == ENABLE) {
+    tmp |= UART_FCR_TX_RS;
+  }
+  if (FIFOCfg->FIFO_ResetRxBuf == ENABLE) {
+    tmp |= UART_FCR_RX_RS;
+  }
+  if (FIFOCfg->FIFO_DMAMode == ENABLE) {
+    tmp |= UART_FCR_DMAMODE_SEL;
+  }
 
-    // write to FIFO control register
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        ((LPC_UART1_TypeDef*)UARTx)->/*IIFCR.*/ FCR = tmp & UART_FCR_BITMASK;
-    }
-    else
-    {
-        UARTx->/*IIFCR.*/ FCR = tmp & UART_FCR_BITMASK;
-    }
+  // write to FIFO control register
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    ((LPC_UART1_TypeDef *)UARTx)->/*IIFCR.*/ FCR = tmp & UART_FCR_BITMASK;
+  } else {
+    UARTx->/*IIFCR.*/ FCR = tmp & UART_FCR_BITMASK;
+  }
 }
 
 /*****************************************************************************/ /**
@@ -1298,12 +1251,11 @@ void UART_FIFOConfig(LPC_UART_TypeDef* UARTx, UART_FIFO_CFG_Type* FIFOCfg)
  *                    which will be initialized.
  * @return		None
  *******************************************************************************/
-void UART_FIFOConfigStructInit(UART_FIFO_CFG_Type* UART_FIFOInitStruct)
-{
-    UART_FIFOInitStruct->FIFO_DMAMode = DISABLE;
-    UART_FIFOInitStruct->FIFO_Level = UART_FIFO_TRGLEV0;
-    UART_FIFOInitStruct->FIFO_ResetRxBuf = ENABLE;
-    UART_FIFOInitStruct->FIFO_ResetTxBuf = ENABLE;
+void UART_FIFOConfigStructInit(UART_FIFO_CFG_Type *UART_FIFOInitStruct) {
+  UART_FIFOInitStruct->FIFO_DMAMode = DISABLE;
+  UART_FIFOInitStruct->FIFO_Level = UART_FIFO_TRGLEV0;
+  UART_FIFOInitStruct->FIFO_ResetRxBuf = ENABLE;
+  UART_FIFOInitStruct->FIFO_ResetTxBuf = ENABLE;
 }
 
 /*********************************************************************/ /**
@@ -1386,62 +1338,50 @@ void UART_FIFOConfigStructInit(UART_FIFO_CFG_Type* UART_FIFOInitStruct)
                                                                          * @return
                                                                          *none
                                                                          **********************************************************************/
-void UART_ABCmd(LPC_UART_TypeDef* UARTx, UART_AB_CFG_Type* ABConfigStruct, FunctionalState NewState)
-{
-    uint32_t tmp;
+void UART_ABCmd(LPC_UART_TypeDef *UARTx, UART_AB_CFG_Type *ABConfigStruct,
+                FunctionalState NewState) {
+  uint32_t tmp;
 
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    tmp = 0;
-    if (NewState == ENABLE)
-    {
-        if (ABConfigStruct->ABMode == UART_AUTOBAUD_MODE1)
-        {
-            tmp |= UART_ACR_MODE;
-        }
-        if (ABConfigStruct->AutoRestart == ENABLE)
-        {
-            tmp |= UART_ACR_AUTO_RESTART;
-        }
+  tmp = 0;
+  if (NewState == ENABLE) {
+    if (ABConfigStruct->ABMode == UART_AUTOBAUD_MODE1) {
+      tmp |= UART_ACR_MODE;
     }
+    if (ABConfigStruct->AutoRestart == ENABLE) {
+      tmp |= UART_ACR_AUTO_RESTART;
+    }
+  }
 
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        if (NewState == ENABLE)
-        {
-            // Clear DLL and DLM value
-            ((LPC_UART1_TypeDef*)UARTx)->LCR |= UART_LCR_DLAB_EN;
-            ((LPC_UART1_TypeDef*)UARTx)->DLL = 0;
-            ((LPC_UART1_TypeDef*)UARTx)->DLM = 0;
-            ((LPC_UART1_TypeDef*)UARTx)->LCR &= ~UART_LCR_DLAB_EN;
-            // FDR value must be reset to default value
-            ((LPC_UART1_TypeDef*)UARTx)->FDR = 0x10;
-            ((LPC_UART1_TypeDef*)UARTx)->ACR = UART_ACR_START | tmp;
-        }
-        else
-        {
-            ((LPC_UART1_TypeDef*)UARTx)->ACR = 0;
-        }
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    if (NewState == ENABLE) {
+      // Clear DLL and DLM value
+      ((LPC_UART1_TypeDef *)UARTx)->LCR |= UART_LCR_DLAB_EN;
+      ((LPC_UART1_TypeDef *)UARTx)->DLL = 0;
+      ((LPC_UART1_TypeDef *)UARTx)->DLM = 0;
+      ((LPC_UART1_TypeDef *)UARTx)->LCR &= ~UART_LCR_DLAB_EN;
+      // FDR value must be reset to default value
+      ((LPC_UART1_TypeDef *)UARTx)->FDR = 0x10;
+      ((LPC_UART1_TypeDef *)UARTx)->ACR = UART_ACR_START | tmp;
+    } else {
+      ((LPC_UART1_TypeDef *)UARTx)->ACR = 0;
     }
-    else
-    {
-        if (NewState == ENABLE)
-        {
-            // Clear DLL and DLM value
-            UARTx->LCR |= UART_LCR_DLAB_EN;
-            UARTx->DLL = 0;
-            UARTx->DLM = 0;
-            UARTx->LCR &= ~UART_LCR_DLAB_EN;
-            // FDR value must be reset to default value
-            UARTx->FDR = 0x10;
-            UARTx->ACR = UART_ACR_START | tmp;
-        }
-        else
-        {
-            UARTx->ACR = 0;
-        }
+  } else {
+    if (NewState == ENABLE) {
+      // Clear DLL and DLM value
+      UARTx->LCR |= UART_LCR_DLAB_EN;
+      UARTx->DLL = 0;
+      UARTx->DLM = 0;
+      UARTx->LCR &= ~UART_LCR_DLAB_EN;
+      // FDR value must be reset to default value
+      UARTx->FDR = 0x10;
+      UARTx->ACR = UART_ACR_START | tmp;
+    } else {
+      UARTx->ACR = 0;
     }
+  }
 }
 
 /*********************************************************************/ /**
@@ -1495,15 +1435,12 @@ void UART_ABCmd(LPC_UART_TypeDef* UARTx, UART_AB_CFG_Type* ABConfigStruct, Funct
                                                                          * @return
                                                                          *none
                                                                          **********************************************************************/
-void UART_ABClearIntPending(LPC_UART_TypeDef* UARTx, UART_ABEO_Type ABIntType)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-    {
-        UARTx->ACR |= ABIntType;
-    }
-    else
-        UARTx->ACR |= ABIntType;
+void UART_ABClearIntPending(LPC_UART_TypeDef *UARTx, UART_ABEO_Type ABIntType) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+    UARTx->ACR |= ABIntType;
+  } else
+    UARTx->ACR |= ABIntType;
 }
 
 /*********************************************************************/ /**
@@ -1518,33 +1455,23 @@ void UART_ABClearIntPending(LPC_UART_TypeDef* UARTx, UART_ABEO_Type ABIntType)
                  - DISABLE: Disable this function
   * @return none
   **********************************************************************/
-void UART_TxCmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_UARTx(UARTx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void UART_TxCmd(LPC_UART_TypeDef *UARTx, FunctionalState NewState) {
+  CHECK_PARAM(PARAM_UARTx(UARTx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    if (NewState == ENABLE)
-    {
-        if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-        {
-            ((LPC_UART1_TypeDef*)UARTx)->TER |= UART_TER_TXEN;
-        }
-        else
-        {
-            UARTx->TER |= UART_TER_TXEN;
-        }
+  if (NewState == ENABLE) {
+    if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+      ((LPC_UART1_TypeDef *)UARTx)->TER |= UART_TER_TXEN;
+    } else {
+      UARTx->TER |= UART_TER_TXEN;
     }
-    else
-    {
-        if (((LPC_UART1_TypeDef*)UARTx) == LPC_UART1)
-        {
-            ((LPC_UART1_TypeDef*)UARTx)->TER &= (~UART_TER_TXEN) & UART_TER_BITMASK;
-        }
-        else
-        {
-            UARTx->TER &= (~UART_TER_TXEN) & UART_TER_BITMASK;
-        }
+  } else {
+    if (((LPC_UART1_TypeDef *)UARTx) == LPC_UART1) {
+      ((LPC_UART1_TypeDef *)UARTx)->TER &= (~UART_TER_TXEN) & UART_TER_BITMASK;
+    } else {
+      UARTx->TER &= (~UART_TER_TXEN) & UART_TER_BITMASK;
     }
+  }
 }
 
 /* UART IrDA functions ---------------------------------------------------*/
@@ -1597,19 +1524,15 @@ void UART_TxCmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
                                                                          * @return
                                                                          *none
                                                                          **********************************************************************/
-void UART_IrDAInvtInputCmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_UART_IrDA(UARTx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void UART_IrDAInvtInputCmd(LPC_UART_TypeDef *UARTx, FunctionalState NewState) {
+  CHECK_PARAM(PARAM_UART_IrDA(UARTx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    if (NewState == ENABLE)
-    {
-        UARTx->ICR |= UART_ICR_IRDAINV;
-    }
-    else if (NewState == DISABLE)
-    {
-        UARTx->ICR &= (~UART_ICR_IRDAINV) & UART_ICR_BITMASK;
-    }
+  if (NewState == ENABLE) {
+    UARTx->ICR |= UART_ICR_IRDAINV;
+  } else if (NewState == DISABLE) {
+    UARTx->ICR &= (~UART_ICR_IRDAINV) & UART_ICR_BITMASK;
+  }
 }
 
 /*********************************************************************/ /**
@@ -1653,19 +1576,15 @@ void UART_IrDAInvtInputCmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
                                                                          * @return
                                                                          *none
                                                                          **********************************************************************/
-void UART_IrDACmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_UART_IrDA(UARTx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void UART_IrDACmd(LPC_UART_TypeDef *UARTx, FunctionalState NewState) {
+  CHECK_PARAM(PARAM_UART_IrDA(UARTx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    if (NewState == ENABLE)
-    {
-        UARTx->ICR |= UART_ICR_IRDAEN;
-    }
-    else
-    {
-        UARTx->ICR &= (~UART_ICR_IRDAEN) & UART_ICR_BITMASK;
-    }
+  if (NewState == ENABLE) {
+    UARTx->ICR |= UART_ICR_IRDAEN;
+  } else {
+    UARTx->ICR &= (~UART_ICR_IRDAEN) & UART_ICR_BITMASK;
+  }
 }
 
 /*********************************************************************/ /**
@@ -1685,16 +1604,16 @@ void UART_IrDACmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
 
   * @return none
   **********************************************************************/
-void UART_IrDAPulseDivConfig(LPC_UART_TypeDef* UARTx, UART_IrDA_PULSE_Type PulseDiv)
-{
-    uint32_t tmp, tmp1;
-    CHECK_PARAM(PARAM_UART_IrDA(UARTx));
-    CHECK_PARAM(PARAM_UART_IrDA_PULSEDIV(PulseDiv));
+void UART_IrDAPulseDivConfig(LPC_UART_TypeDef *UARTx,
+                             UART_IrDA_PULSE_Type PulseDiv) {
+  uint32_t tmp, tmp1;
+  CHECK_PARAM(PARAM_UART_IrDA(UARTx));
+  CHECK_PARAM(PARAM_UART_IrDA_PULSEDIV(PulseDiv));
 
-    tmp1 = UART_ICR_PULSEDIV(PulseDiv);
-    tmp = UARTx->ICR & (~UART_ICR_PULSEDIV(7));
-    tmp |= tmp1 | UART_ICR_FIXPULSE_EN;
-    UARTx->ICR = tmp & UART_ICR_BITMASK;
+  tmp1 = UART_ICR_PULSEDIV(PulseDiv);
+  tmp = UARTx->ICR & (~UART_ICR_PULSEDIV(7));
+  tmp |= tmp1 | UART_ICR_FIXPULSE_EN;
+  UARTx->ICR = tmp & UART_ICR_BITMASK;
 }
 
 #endif
@@ -1715,29 +1634,31 @@ void UART_IrDAPulseDivConfig(LPC_UART_TypeDef* UARTx, UART_IrDA_PULSE_Type Pulse
                  - ACTIVE: Force the pin to active signal.
   * @return none
   **********************************************************************/
-void UART_FullModemForcePinState(LPC_UART1_TypeDef* UARTx, UART_MODEM_PIN_Type Pin, UART1_SignalState NewState)
-{
-    uint8_t tmp = 0;
+void UART_FullModemForcePinState(LPC_UART1_TypeDef *UARTx,
+                                 UART_MODEM_PIN_Type Pin,
+                                 UART1_SignalState NewState) {
+  uint8_t tmp = 0;
 
-    CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
-    CHECK_PARAM(PARAM_UART1_MODEM_PIN(Pin));
-    CHECK_PARAM(PARAM_UART1_SIGNALSTATE(NewState));
+  CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
+  CHECK_PARAM(PARAM_UART1_MODEM_PIN(Pin));
+  CHECK_PARAM(PARAM_UART1_SIGNALSTATE(NewState));
 
-    switch (Pin)
-    {
-        case UART1_MODEM_PIN_DTR: tmp = UART1_MCR_DTR_CTRL; break;
-        case UART1_MODEM_PIN_RTS: tmp = UART1_MCR_RTS_CTRL; break;
-        default: break;
-    }
+  switch (Pin) {
+  case UART1_MODEM_PIN_DTR:
+    tmp = UART1_MCR_DTR_CTRL;
+    break;
+  case UART1_MODEM_PIN_RTS:
+    tmp = UART1_MCR_RTS_CTRL;
+    break;
+  default:
+    break;
+  }
 
-    if (NewState == ACTIVE)
-    {
-        UARTx->MCR |= tmp;
-    }
-    else
-    {
-        UARTx->MCR &= (~tmp) & UART1_MCR_BITMASK;
-    }
+  if (NewState == ACTIVE) {
+    UARTx->MCR |= tmp;
+  } else {
+    UARTx->MCR &= (~tmp) & UART1_MCR_BITMASK;
+  }
 }
 
 /*********************************************************************/ /**
@@ -1752,30 +1673,34 @@ void UART_FullModemForcePinState(LPC_UART1_TypeDef* UARTx, UART_MODEM_PIN_Type P
                  - DISABLE: Disable this mode.
   * @return none
   **********************************************************************/
-void UART_FullModemConfigMode(LPC_UART1_TypeDef* UARTx, UART_MODEM_MODE_Type Mode, FunctionalState NewState)
-{
-    uint8_t tmp = 0;
+void UART_FullModemConfigMode(LPC_UART1_TypeDef *UARTx,
+                              UART_MODEM_MODE_Type Mode,
+                              FunctionalState NewState) {
+  uint8_t tmp = 0;
 
-    CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
-    CHECK_PARAM(PARAM_UART1_MODEM_MODE(Mode));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+  CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
+  CHECK_PARAM(PARAM_UART1_MODEM_MODE(Mode));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    switch (Mode)
-    {
-        case UART1_MODEM_MODE_LOOPBACK: tmp = UART1_MCR_LOOPB_EN; break;
-        case UART1_MODEM_MODE_AUTO_RTS: tmp = UART1_MCR_AUTO_RTS_EN; break;
-        case UART1_MODEM_MODE_AUTO_CTS: tmp = UART1_MCR_AUTO_CTS_EN; break;
-        default: break;
-    }
+  switch (Mode) {
+  case UART1_MODEM_MODE_LOOPBACK:
+    tmp = UART1_MCR_LOOPB_EN;
+    break;
+  case UART1_MODEM_MODE_AUTO_RTS:
+    tmp = UART1_MCR_AUTO_RTS_EN;
+    break;
+  case UART1_MODEM_MODE_AUTO_CTS:
+    tmp = UART1_MCR_AUTO_CTS_EN;
+    break;
+  default:
+    break;
+  }
 
-    if (NewState == ENABLE)
-    {
-        UARTx->MCR |= tmp;
-    }
-    else
-    {
-        UARTx->MCR &= (~tmp) & UART1_MCR_BITMASK;
-    }
+  if (NewState == ENABLE) {
+    UARTx->MCR |= tmp;
+  } else {
+    UARTx->MCR &= (~tmp) & UART1_MCR_BITMASK;
+  }
 }
 
 /*********************************************************************/ /**
@@ -1866,10 +1791,9 @@ void UART_FullModemConfigMode(LPC_UART1_TypeDef* UARTx, UART_MODEM_MODE_Type Mod
                                                                          *all
                                                                          *flags.
                                                                          **********************************************************************/
-uint8_t UART_FullModemGetStatus(LPC_UART1_TypeDef* UARTx)
-{
-    CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
-    return ((UARTx->MSR) & UART1_MSR_BITMASK);
+uint8_t UART_FullModemGetStatus(LPC_UART1_TypeDef *UARTx) {
+  CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
+  return ((UARTx->MSR) & UART1_MSR_BITMASK);
 }
 
 /* UART RS485 functions
@@ -1913,68 +1837,65 @@ uint8_t UART_FullModemGetStatus(LPC_UART1_TypeDef* UARTx)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void UART_RS485Config(LPC_UART1_TypeDef* UARTx, UART1_RS485_CTRLCFG_Type* RS485ConfigStruct)
-{
-    uint32_t tmp;
+void UART_RS485Config(LPC_UART1_TypeDef *UARTx,
+                      UART1_RS485_CTRLCFG_Type *RS485ConfigStruct) {
+  uint32_t tmp;
 
-    CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->AutoAddrDetect_State));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->AutoDirCtrl_State));
-    CHECK_PARAM(PARAM_UART1_RS485_CFG_DELAYVALUE(RS485ConfigStruct->DelayValue));
-    CHECK_PARAM(PARAM_SETSTATE(RS485ConfigStruct->DirCtrlPol_Level));
-    CHECK_PARAM(PARAM_UART_RS485_DIRCTRL_PIN(RS485ConfigStruct->DirCtrlPin));
-    CHECK_PARAM(PARAM_UART1_RS485_CFG_MATCHADDRVALUE(RS485ConfigStruct->MatchAddrValue));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->NormalMultiDropMode_State));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->Rx_State));
+  CHECK_PARAM(PARAM_UART1_MODEM(UARTx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->AutoAddrDetect_State));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->AutoDirCtrl_State));
+  CHECK_PARAM(PARAM_UART1_RS485_CFG_DELAYVALUE(RS485ConfigStruct->DelayValue));
+  CHECK_PARAM(PARAM_SETSTATE(RS485ConfigStruct->DirCtrlPol_Level));
+  CHECK_PARAM(PARAM_UART_RS485_DIRCTRL_PIN(RS485ConfigStruct->DirCtrlPin));
+  CHECK_PARAM(
+      PARAM_UART1_RS485_CFG_MATCHADDRVALUE(RS485ConfigStruct->MatchAddrValue));
+  CHECK_PARAM(
+      PARAM_FUNCTIONALSTATE(RS485ConfigStruct->NormalMultiDropMode_State));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(RS485ConfigStruct->Rx_State));
 
-    tmp = 0;
-    // If Auto Direction Control is enabled -  This function is used in Master
-    // mode
-    if (RS485ConfigStruct->AutoDirCtrl_State == ENABLE)
-    {
-        tmp |= UART1_RS485CTRL_DCTRL_EN;
+  tmp = 0;
+  // If Auto Direction Control is enabled -  This function is used in Master
+  // mode
+  if (RS485ConfigStruct->AutoDirCtrl_State == ENABLE) {
+    tmp |= UART1_RS485CTRL_DCTRL_EN;
 
-        // Set polar
-        if (RS485ConfigStruct->DirCtrlPol_Level == SET)
-        {
-            tmp |= UART1_RS485CTRL_OINV_1;
-        }
-
-        // Set pin according to
-        if (RS485ConfigStruct->DirCtrlPin == UART1_RS485_DIRCTRL_DTR)
-        {
-            tmp |= UART1_RS485CTRL_SEL_DTR;
-        }
-
-        // Fill delay time
-        UARTx->RS485DLY = RS485ConfigStruct->DelayValue & UART1_RS485DLY_BITMASK;
+    // Set polar
+    if (RS485ConfigStruct->DirCtrlPol_Level == SET) {
+      tmp |= UART1_RS485CTRL_OINV_1;
     }
 
-    // MultiDrop mode is enable
-    if (RS485ConfigStruct->NormalMultiDropMode_State == ENABLE)
-    {
-        tmp |= UART1_RS485CTRL_NMM_EN;
+    // Set pin according to
+    if (RS485ConfigStruct->DirCtrlPin == UART1_RS485_DIRCTRL_DTR) {
+      tmp |= UART1_RS485CTRL_SEL_DTR;
     }
 
-    // Auto Address Detect function
-    if (RS485ConfigStruct->AutoAddrDetect_State == ENABLE)
-    {
-        tmp |= UART1_RS485CTRL_AADEN;
-        // Fill Match Address
-        UARTx->ADRMATCH = RS485ConfigStruct->MatchAddrValue & UART1_RS485ADRMATCH_BITMASK;
-    }
+    // Fill delay time
+    UARTx->RS485DLY = RS485ConfigStruct->DelayValue & UART1_RS485DLY_BITMASK;
+  }
 
-    // Receiver is disable
-    if (RS485ConfigStruct->Rx_State == DISABLE)
-    {
-        tmp |= UART1_RS485CTRL_RX_DIS;
-    }
+  // MultiDrop mode is enable
+  if (RS485ConfigStruct->NormalMultiDropMode_State == ENABLE) {
+    tmp |= UART1_RS485CTRL_NMM_EN;
+  }
 
-    // write back to RS485 control register
-    UARTx->RS485CTRL = tmp & UART1_RS485CTRL_BITMASK;
+  // Auto Address Detect function
+  if (RS485ConfigStruct->AutoAddrDetect_State == ENABLE) {
+    tmp |= UART1_RS485CTRL_AADEN;
+    // Fill Match Address
+    UARTx->ADRMATCH =
+        RS485ConfigStruct->MatchAddrValue & UART1_RS485ADRMATCH_BITMASK;
+  }
 
-    // Enable Parity function and leave parity in stick '0' parity as default
-    UARTx->LCR |= (UART_LCR_PARITY_F_0 | UART_LCR_PARITY_EN);
+  // Receiver is disable
+  if (RS485ConfigStruct->Rx_State == DISABLE) {
+    tmp |= UART1_RS485CTRL_RX_DIS;
+  }
+
+  // write back to RS485 control register
+  UARTx->RS485CTRL = tmp & UART1_RS485CTRL_BITMASK;
+
+  // Enable Parity function and leave parity in stick '0' parity as default
+  UARTx->LCR |= (UART_LCR_PARITY_F_0 | UART_LCR_PARITY_EN);
 }
 
 /*********************************************************************/ /**
@@ -2011,16 +1932,12 @@ void UART_RS485Config(LPC_UART1_TypeDef* UARTx, UART1_RS485_CTRLCFG_Type* RS485C
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void UART_RS485ReceiverCmd(LPC_UART1_TypeDef* UARTx, FunctionalState NewState)
-{
-    if (NewState == ENABLE)
-    {
-        UARTx->RS485CTRL &= ~UART1_RS485CTRL_RX_DIS;
-    }
-    else
-    {
-        UARTx->RS485CTRL |= UART1_RS485CTRL_RX_DIS;
-    }
+void UART_RS485ReceiverCmd(LPC_UART1_TypeDef *UARTx, FunctionalState NewState) {
+  if (NewState == ENABLE) {
+    UARTx->RS485CTRL &= ~UART1_RS485CTRL_RX_DIS;
+  } else {
+    UARTx->RS485CTRL |= UART1_RS485CTRL_RX_DIS;
+  }
 }
 
 /*********************************************************************/ /**
@@ -2063,26 +1980,25 @@ void UART_RS485ReceiverCmd(LPC_UART1_TypeDef* UARTx, FunctionalState NewState)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-uint32_t UART_RS485Send(LPC_UART1_TypeDef* UARTx, uint8_t* pDatFrm, uint32_t size, uint8_t ParityStick)
-{
-    uint8_t tmp, save;
-    uint32_t cnt;
+uint32_t UART_RS485Send(LPC_UART1_TypeDef *UARTx, uint8_t *pDatFrm,
+                        uint32_t size, uint8_t ParityStick) {
+  uint8_t tmp, save;
+  uint32_t cnt;
 
-    if (ParityStick)
-    {
-        save = tmp = UARTx->LCR & UART_LCR_BITMASK;
-        tmp &= ~(UART_LCR_PARITY_EVEN);
-        UARTx->LCR = tmp;
-        cnt = UART_Send((LPC_UART_TypeDef*)UARTx, pDatFrm, size, BLOCKING);
-        while (!(UARTx->LSR & UART_LSR_TEMT));
-        UARTx->LCR = save;
-    }
-    else
-    {
-        cnt = UART_Send((LPC_UART_TypeDef*)UARTx, pDatFrm, size, BLOCKING);
-        while (!(UARTx->LSR & UART_LSR_TEMT));
-    }
-    return cnt;
+  if (ParityStick) {
+    save = tmp = UARTx->LCR & UART_LCR_BITMASK;
+    tmp &= ~(UART_LCR_PARITY_EVEN);
+    UARTx->LCR = tmp;
+    cnt = UART_Send((LPC_UART_TypeDef *)UARTx, pDatFrm, size, BLOCKING);
+    while (!(UARTx->LSR & UART_LSR_TEMT))
+      ;
+    UARTx->LCR = save;
+  } else {
+    cnt = UART_Send((LPC_UART_TypeDef *)UARTx, pDatFrm, size, BLOCKING);
+    while (!(UARTx->LSR & UART_LSR_TEMT))
+      ;
+  }
+  return cnt;
 }
 
 /*********************************************************************/ /**
@@ -2105,9 +2021,8 @@ uint32_t UART_RS485Send(LPC_UART1_TypeDef* UARTx, uint8_t* pDatFrm, uint32_t siz
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void UART_RS485SendSlvAddr(LPC_UART1_TypeDef* UARTx, uint8_t SlvAddr)
-{
-    UART_RS485Send(UARTx, &SlvAddr, 1, 1);
+void UART_RS485SendSlvAddr(LPC_UART1_TypeDef *UARTx, uint8_t SlvAddr) {
+  UART_RS485Send(UARTx, &SlvAddr, 1, 1);
 }
 
 /*********************************************************************/ /**
@@ -2140,9 +2055,9 @@ void UART_RS485SendSlvAddr(LPC_UART1_TypeDef* UARTx, uint8_t SlvAddr)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-uint32_t UART_RS485SendData(LPC_UART1_TypeDef* UARTx, uint8_t* pData, uint32_t size)
-{
-    return (UART_RS485Send(UARTx, pData, size, 0));
+uint32_t UART_RS485SendData(LPC_UART1_TypeDef *UARTx, uint8_t *pData,
+                            uint32_t size) {
+  return (UART_RS485Send(UARTx, pData, size, 0));
 }
 
 #endif /* _UART1 */

@@ -100,19 +100,18 @@ static void set_OpenDrainMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum);
   *
   * @return 		None
   **********************************************************************/
-static void set_PinFunc(uint8_t portnum, uint8_t pinnum, uint8_t funcnum)
-{
-    uint32_t pinnum_t = pinnum;
-    uint32_t pinselreg_idx = 2 * portnum;
-    uint32_t* pPinCon = (uint32_t*)&LPC_PINCON->PINSEL0;
+static void set_PinFunc(uint8_t portnum, uint8_t pinnum, uint8_t funcnum) {
+  uint32_t pinnum_t = pinnum;
+  uint32_t pinselreg_idx = 2 * portnum;
+  uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINSEL0;
 
-    if (pinnum_t >= 16)
-    {
-        pinnum_t -= 16;
-        pinselreg_idx++;
-    }
-    *(uint32_t*)(pPinCon + pinselreg_idx) &= ~(0x03UL << (pinnum_t * 2));
-    *(uint32_t*)(pPinCon + pinselreg_idx) |= ((uint32_t)funcnum) << (pinnum_t * 2);
+  if (pinnum_t >= 16) {
+    pinnum_t -= 16;
+    pinselreg_idx++;
+  }
+  *(uint32_t *)(pPinCon + pinselreg_idx) &= ~(0x03UL << (pinnum_t * 2));
+  *(uint32_t *)(pPinCon + pinselreg_idx) |= ((uint32_t)funcnum)
+                                            << (pinnum_t * 2);
 }
 
 /*********************************************************************/ /**
@@ -166,20 +165,19 @@ static void set_PinFunc(uint8_t portnum, uint8_t pinnum, uint8_t funcnum)
 
   * @return 		None
   **********************************************************************/
-void set_ResistorMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum)
-{
-    uint32_t pinnum_t = pinnum;
-    uint32_t pinmodereg_idx = 2 * portnum;
-    uint32_t* pPinCon = (uint32_t*)&LPC_PINCON->PINMODE0;
+void set_ResistorMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum) {
+  uint32_t pinnum_t = pinnum;
+  uint32_t pinmodereg_idx = 2 * portnum;
+  uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINMODE0;
 
-    if (pinnum_t >= 16)
-    {
-        pinnum_t -= 16;
-        pinmodereg_idx++;
-    }
+  if (pinnum_t >= 16) {
+    pinnum_t -= 16;
+    pinmodereg_idx++;
+  }
 
-    *(uint32_t*)(pPinCon + pinmodereg_idx) &= ~(0x03UL << (pinnum_t * 2));
-    *(uint32_t*)(pPinCon + pinmodereg_idx) |= ((uint32_t)modenum) << (pinnum_t * 2);
+  *(uint32_t *)(pPinCon + pinmodereg_idx) &= ~(0x03UL << (pinnum_t * 2));
+  *(uint32_t *)(pPinCon + pinmodereg_idx) |= ((uint32_t)modenum)
+                                             << (pinnum_t * 2);
 }
 
 /*********************************************************************/ /**
@@ -235,18 +233,14 @@ void set_ResistorMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum)
   *
   * @return 		None
   **********************************************************************/
-void set_OpenDrainMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum)
-{
-    uint32_t* pPinCon = (uint32_t*)&LPC_PINCON->PINMODE_OD0;
+void set_OpenDrainMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum) {
+  uint32_t *pPinCon = (uint32_t *)&LPC_PINCON->PINMODE_OD0;
 
-    if (modenum == PINSEL_PINMODE_OPENDRAIN)
-    {
-        *(uint32_t*)(pPinCon + portnum) |= (0x01UL << pinnum);
-    }
-    else
-    {
-        *(uint32_t*)(pPinCon + portnum) &= ~(0x01UL << pinnum);
-    }
+  if (modenum == PINSEL_PINMODE_OPENDRAIN) {
+    *(uint32_t *)(pPinCon + portnum) |= (0x01UL << pinnum);
+  } else {
+    *(uint32_t *)(pPinCon + portnum) &= ~(0x01UL << pinnum);
+  }
 }
 
 /* End of Public Functions ----------------------------------------------------
@@ -289,16 +283,12 @@ void set_OpenDrainMode(uint8_t portnum, uint8_t pinnum, uint8_t modenum)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void PINSEL_ConfigTraceFunc(FunctionalState NewState)
-{
-    if (NewState == ENABLE)
-    {
-        LPC_PINCON->PINSEL10 |= (0x01UL << 3);
-    }
-    else if (NewState == DISABLE)
-    {
-        LPC_PINCON->PINSEL10 &= ~(0x01UL << 3);
-    }
+void PINSEL_ConfigTraceFunc(FunctionalState NewState) {
+  if (NewState == ENABLE) {
+    LPC_PINCON->PINSEL10 |= (0x01UL << 3);
+  } else if (NewState == DISABLE) {
+    LPC_PINCON->PINSEL10 &= ~(0x01UL << 3);
+  }
 }
 
 /*********************************************************************/ /**
@@ -351,20 +341,18 @@ void PINSEL_ConfigTraceFunc(FunctionalState NewState)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void PINSEL_SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnable)
-{
-    uint32_t regVal;
+void PINSEL_SetI2C0Pins(uint8_t i2cPinMode,
+                        FunctionalState filterSlewRateEnable) {
+  uint32_t regVal;
 
-    if (i2cPinMode == PINSEL_I2C_Fast_Mode)
-    {
-        regVal = PINSEL_I2CPADCFG_SCLDRV0 | PINSEL_I2CPADCFG_SDADRV0;
-    }
+  if (i2cPinMode == PINSEL_I2C_Fast_Mode) {
+    regVal = PINSEL_I2CPADCFG_SCLDRV0 | PINSEL_I2CPADCFG_SDADRV0;
+  }
 
-    if (filterSlewRateEnable == DISABLE)
-    {
-        regVal = PINSEL_I2CPADCFG_SCLI2C0 | PINSEL_I2CPADCFG_SDAI2C0;
-    }
-    LPC_PINCON->I2CPADCFG = regVal;
+  if (filterSlewRateEnable == DISABLE) {
+    regVal = PINSEL_I2CPADCFG_SCLI2C0 | PINSEL_I2CPADCFG_SDAI2C0;
+  }
+  LPC_PINCON->I2CPADCFG = regVal;
 }
 
 /*********************************************************************/ /**
@@ -396,11 +384,10 @@ void PINSEL_SetI2C0Pins(uint8_t i2cPinMode, FunctionalState filterSlewRateEnable
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void PINSEL_ConfigPin(PINSEL_CFG_Type* PinCfg)
-{
-    set_PinFunc(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Funcnum);
-    set_ResistorMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Pinmode);
-    set_OpenDrainMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->OpenDrain);
+void PINSEL_ConfigPin(PINSEL_CFG_Type *PinCfg) {
+  set_PinFunc(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Funcnum);
+  set_ResistorMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->Pinmode);
+  set_OpenDrainMode(PinCfg->Portnum, PinCfg->Pinnum, PinCfg->OpenDrain);
 }
 
 /**

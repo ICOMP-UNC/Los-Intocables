@@ -78,22 +78,24 @@
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_Init(LPC_MCPWM_TypeDef* MCPWMx)
-{
+void MCPWM_Init(LPC_MCPWM_TypeDef *MCPWMx) {
 
-    /* Turn On MCPWM PCLK */
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCMC, ENABLE);
-    /* As default, peripheral clock for MCPWM module
-     * is set to FCCLK / 2 */
-    // CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_MC, CLKPWR_PCLKSEL_CCLK_DIV_2);
+  /* Turn On MCPWM PCLK */
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCMC, ENABLE);
+  /* As default, peripheral clock for MCPWM module
+   * is set to FCCLK / 2 */
+  // CLKPWR_SetPCLKDiv(CLKPWR_PCLKSEL_MC, CLKPWR_PCLKSEL_CCLK_DIV_2);
 
-    MCPWMx->MCCAP_CLR = MCPWM_CAPCLR_CAP(0) | MCPWM_CAPCLR_CAP(1) | MCPWM_CAPCLR_CAP(2);
-    MCPWMx->MCINTFLAG_CLR = MCPWM_INT_ILIM(0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) | MCPWM_INT_IMAT(0) |
-                            MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) | MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1) |
-                            MCPWM_INT_ICAP(2);
-    MCPWMx->MCINTEN_CLR = MCPWM_INT_ILIM(0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) | MCPWM_INT_IMAT(0) |
-                          MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) | MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1) |
-                          MCPWM_INT_ICAP(2);
+  MCPWMx->MCCAP_CLR =
+      MCPWM_CAPCLR_CAP(0) | MCPWM_CAPCLR_CAP(1) | MCPWM_CAPCLR_CAP(2);
+  MCPWMx->MCINTFLAG_CLR =
+      MCPWM_INT_ILIM(0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) |
+      MCPWM_INT_IMAT(0) | MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) |
+      MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1) | MCPWM_INT_ICAP(2);
+  MCPWMx->MCINTEN_CLR =
+      MCPWM_INT_ILIM(0) | MCPWM_INT_ILIM(1) | MCPWM_INT_ILIM(2) |
+      MCPWM_INT_IMAT(0) | MCPWM_INT_IMAT(1) | MCPWM_INT_IMAT(2) |
+      MCPWM_INT_ICAP(0) | MCPWM_INT_ICAP(1) | MCPWM_INT_ICAP(2);
 }
 
 /*********************************************************************/ /**
@@ -146,71 +148,52 @@ void MCPWM_Init(LPC_MCPWM_TypeDef* MCPWMx)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_ConfigChannel(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_CHANNEL_CFG_Type* channelSetup)
-{
-    if (channelNum <= 2)
-    {
-        if (channelNum == 0)
-        {
-            MCPWMx->MCTIM0 = channelSetup->channelTimercounterValue;
-            MCPWMx->MCPER0 = channelSetup->channelPeriodValue;
-            MCPWMx->MCPW0 = channelSetup->channelPulsewidthValue;
-        }
-        else if (channelNum == 1)
-        {
-            MCPWMx->MCTIM1 = channelSetup->channelTimercounterValue;
-            MCPWMx->MCPER1 = channelSetup->channelPeriodValue;
-            MCPWMx->MCPW1 = channelSetup->channelPulsewidthValue;
-        }
-        else if (channelNum == 2)
-        {
-            MCPWMx->MCTIM2 = channelSetup->channelTimercounterValue;
-            MCPWMx->MCPER2 = channelSetup->channelPeriodValue;
-            MCPWMx->MCPW2 = channelSetup->channelPulsewidthValue;
-        }
-        else
-        {
-            return;
-        }
-
-        if (channelSetup->channelType /* == MCPWM_CHANNEL_CENTER_MODE */)
-        {
-            MCPWMx->MCCON_SET = MCPWM_CON_CENTER(channelNum);
-        }
-        else
-        {
-            MCPWMx->MCCON_CLR = MCPWM_CON_CENTER(channelNum);
-        }
-
-        if (channelSetup->channelPolarity /* == MCPWM_CHANNEL_PASSIVE_HI */)
-        {
-            MCPWMx->MCCON_SET = MCPWM_CON_POLAR(channelNum);
-        }
-        else
-        {
-            MCPWMx->MCCON_CLR = MCPWM_CON_POLAR(channelNum);
-        }
-
-        if (channelSetup->channelDeadtimeEnable /* == ENABLE */)
-        {
-            MCPWMx->MCCON_SET = MCPWM_CON_DTE(channelNum);
-            MCPWMx->MCDEADTIME &= ~(MCPWM_DT(channelNum, 0x3FF));
-            MCPWMx->MCDEADTIME |= MCPWM_DT(channelNum, channelSetup->channelDeadtimeValue);
-        }
-        else
-        {
-            MCPWMx->MCCON_CLR = MCPWM_CON_DTE(channelNum);
-        }
-
-        if (channelSetup->channelUpdateEnable /* == ENABLE */)
-        {
-            MCPWMx->MCCON_CLR = MCPWM_CON_DISUP(channelNum);
-        }
-        else
-        {
-            MCPWMx->MCCON_SET = MCPWM_CON_DISUP(channelNum);
-        }
+void MCPWM_ConfigChannel(LPC_MCPWM_TypeDef *MCPWMx, uint32_t channelNum,
+                         MCPWM_CHANNEL_CFG_Type *channelSetup) {
+  if (channelNum <= 2) {
+    if (channelNum == 0) {
+      MCPWMx->MCTIM0 = channelSetup->channelTimercounterValue;
+      MCPWMx->MCPER0 = channelSetup->channelPeriodValue;
+      MCPWMx->MCPW0 = channelSetup->channelPulsewidthValue;
+    } else if (channelNum == 1) {
+      MCPWMx->MCTIM1 = channelSetup->channelTimercounterValue;
+      MCPWMx->MCPER1 = channelSetup->channelPeriodValue;
+      MCPWMx->MCPW1 = channelSetup->channelPulsewidthValue;
+    } else if (channelNum == 2) {
+      MCPWMx->MCTIM2 = channelSetup->channelTimercounterValue;
+      MCPWMx->MCPER2 = channelSetup->channelPeriodValue;
+      MCPWMx->MCPW2 = channelSetup->channelPulsewidthValue;
+    } else {
+      return;
     }
+
+    if (channelSetup->channelType /* == MCPWM_CHANNEL_CENTER_MODE */) {
+      MCPWMx->MCCON_SET = MCPWM_CON_CENTER(channelNum);
+    } else {
+      MCPWMx->MCCON_CLR = MCPWM_CON_CENTER(channelNum);
+    }
+
+    if (channelSetup->channelPolarity /* == MCPWM_CHANNEL_PASSIVE_HI */) {
+      MCPWMx->MCCON_SET = MCPWM_CON_POLAR(channelNum);
+    } else {
+      MCPWMx->MCCON_CLR = MCPWM_CON_POLAR(channelNum);
+    }
+
+    if (channelSetup->channelDeadtimeEnable /* == ENABLE */) {
+      MCPWMx->MCCON_SET = MCPWM_CON_DTE(channelNum);
+      MCPWMx->MCDEADTIME &= ~(MCPWM_DT(channelNum, 0x3FF));
+      MCPWMx->MCDEADTIME |=
+          MCPWM_DT(channelNum, channelSetup->channelDeadtimeValue);
+    } else {
+      MCPWMx->MCCON_CLR = MCPWM_CON_DTE(channelNum);
+    }
+
+    if (channelSetup->channelUpdateEnable /* == ENABLE */) {
+      MCPWMx->MCCON_CLR = MCPWM_CON_DISUP(channelNum);
+    } else {
+      MCPWMx->MCCON_SET = MCPWM_CON_DISUP(channelNum);
+    }
+  }
 }
 
 /*********************************************************************/ /**
@@ -268,23 +251,18 @@ void MCPWM_ConfigChannel(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_C
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_WriteToShadow(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_CHANNEL_CFG_Type* channelSetup)
-{
-    if (channelNum == 0)
-    {
-        MCPWMx->MCPER0 = channelSetup->channelPeriodValue;
-        MCPWMx->MCPW0 = channelSetup->channelPulsewidthValue;
-    }
-    else if (channelNum == 1)
-    {
-        MCPWMx->MCPER1 = channelSetup->channelPeriodValue;
-        MCPWMx->MCPW1 = channelSetup->channelPulsewidthValue;
-    }
-    else if (channelNum == 2)
-    {
-        MCPWMx->MCPER2 = channelSetup->channelPeriodValue;
-        MCPWMx->MCPW2 = channelSetup->channelPulsewidthValue;
-    }
+void MCPWM_WriteToShadow(LPC_MCPWM_TypeDef *MCPWMx, uint32_t channelNum,
+                         MCPWM_CHANNEL_CFG_Type *channelSetup) {
+  if (channelNum == 0) {
+    MCPWMx->MCPER0 = channelSetup->channelPeriodValue;
+    MCPWMx->MCPW0 = channelSetup->channelPulsewidthValue;
+  } else if (channelNum == 1) {
+    MCPWMx->MCPER1 = channelSetup->channelPeriodValue;
+    MCPWMx->MCPW1 = channelSetup->channelPulsewidthValue;
+  } else if (channelNum == 2) {
+    MCPWMx->MCPER2 = channelSetup->channelPeriodValue;
+    MCPWMx->MCPW2 = channelSetup->channelPulsewidthValue;
+  }
 }
 
 /*********************************************************************/ /**
@@ -334,47 +312,38 @@ void MCPWM_WriteToShadow(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_C
                                                                          *capture.
                                                                          * @return
                                                                          **********************************************************************/
-void MCPWM_ConfigCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_CAPTURE_CFG_Type* captureConfig)
-{
-    if (channelNum <= 2)
-    {
+void MCPWM_ConfigCapture(LPC_MCPWM_TypeDef *MCPWMx, uint32_t channelNum,
+                         MCPWM_CAPTURE_CFG_Type *captureConfig) {
+  if (channelNum <= 2) {
 
-        if (captureConfig->captureFalling /* == ENABLE */)
-        {
-            MCPWMx->MCCAPCON_SET = MCPWM_CAPCON_CAPMCI_FE(captureConfig->captureChannel, channelNum);
-        }
-        else
-        {
-            MCPWMx->MCCAPCON_CLR = MCPWM_CAPCON_CAPMCI_FE(captureConfig->captureChannel, channelNum);
-        }
-
-        if (captureConfig->captureRising /* == ENABLE */)
-        {
-            MCPWMx->MCCAPCON_SET = MCPWM_CAPCON_CAPMCI_RE(captureConfig->captureChannel, channelNum);
-        }
-        else
-        {
-            MCPWMx->MCCAPCON_CLR = MCPWM_CAPCON_CAPMCI_RE(captureConfig->captureChannel, channelNum);
-        }
-
-        if (captureConfig->timerReset /* == ENABLE */)
-        {
-            MCPWMx->MCCAPCON_SET = MCPWM_CAPCON_RT(captureConfig->captureChannel);
-        }
-        else
-        {
-            MCPWMx->MCCAPCON_CLR = MCPWM_CAPCON_RT(captureConfig->captureChannel);
-        }
-
-        if (captureConfig->hnfEnable /* == ENABLE */)
-        {
-            MCPWMx->MCCAPCON_SET = MCPWM_CAPCON_HNFCAP(channelNum);
-        }
-        else
-        {
-            MCPWMx->MCCAPCON_CLR = MCPWM_CAPCON_HNFCAP(channelNum);
-        }
+    if (captureConfig->captureFalling /* == ENABLE */) {
+      MCPWMx->MCCAPCON_SET =
+          MCPWM_CAPCON_CAPMCI_FE(captureConfig->captureChannel, channelNum);
+    } else {
+      MCPWMx->MCCAPCON_CLR =
+          MCPWM_CAPCON_CAPMCI_FE(captureConfig->captureChannel, channelNum);
     }
+
+    if (captureConfig->captureRising /* == ENABLE */) {
+      MCPWMx->MCCAPCON_SET =
+          MCPWM_CAPCON_CAPMCI_RE(captureConfig->captureChannel, channelNum);
+    } else {
+      MCPWMx->MCCAPCON_CLR =
+          MCPWM_CAPCON_CAPMCI_RE(captureConfig->captureChannel, channelNum);
+    }
+
+    if (captureConfig->timerReset /* == ENABLE */) {
+      MCPWMx->MCCAPCON_SET = MCPWM_CAPCON_RT(captureConfig->captureChannel);
+    } else {
+      MCPWMx->MCCAPCON_CLR = MCPWM_CAPCON_RT(captureConfig->captureChannel);
+    }
+
+    if (captureConfig->hnfEnable /* == ENABLE */) {
+      MCPWMx->MCCAPCON_SET = MCPWM_CAPCON_HNFCAP(channelNum);
+    } else {
+      MCPWMx->MCCAPCON_CLR = MCPWM_CAPCON_HNFCAP(channelNum);
+    }
+  }
 }
 
 /*********************************************************************/ /**
@@ -408,9 +377,8 @@ void MCPWM_ConfigCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_C
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_ClearCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t captureChannel)
-{
-    MCPWMx->MCCAP_CLR = MCPWM_CAPCLR_CAP(captureChannel);
+void MCPWM_ClearCapture(LPC_MCPWM_TypeDef *MCPWMx, uint32_t captureChannel) {
+  MCPWMx->MCCAP_CLR = MCPWM_CAPCLR_CAP(captureChannel);
 }
 
 /*********************************************************************/ /**
@@ -444,21 +412,15 @@ void MCPWM_ClearCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t captureChannel)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-uint32_t MCPWM_GetCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t captureChannel)
-{
-    if (captureChannel == 0)
-    {
-        return (MCPWMx->MCCR0);
-    }
-    else if (captureChannel == 1)
-    {
-        return (MCPWMx->MCCR1);
-    }
-    else if (captureChannel == 2)
-    {
-        return (MCPWMx->MCCR2);
-    }
-    return (0);
+uint32_t MCPWM_GetCapture(LPC_MCPWM_TypeDef *MCPWMx, uint32_t captureChannel) {
+  if (captureChannel == 0) {
+    return (MCPWMx->MCCR0);
+  } else if (captureChannel == 1) {
+    return (MCPWMx->MCCR1);
+  } else if (captureChannel == 2) {
+    return (MCPWMx->MCCR2);
+  }
+  return (0);
 }
 
 /*********************************************************************/ /**
@@ -527,38 +489,29 @@ uint32_t MCPWM_GetCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t captureChannel)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_CountConfig(LPC_MCPWM_TypeDef* MCPWMx,
-                       uint32_t channelNum,
-                       uint32_t countMode,
-                       MCPWM_COUNT_CFG_Type* countConfig)
-{
-    if (channelNum <= 2)
-    {
-        if (countMode /* == ENABLE */)
-        {
-            MCPWMx->MCCNTCON_SET = MCPWM_CNTCON_CNTR(channelNum);
-            if (countConfig->countFalling /* == ENABLE */)
-            {
-                MCPWMx->MCCNTCON_SET = MCPWM_CNTCON_TCMCI_FE(countConfig->counterChannel, channelNum);
-            }
-            else
-            {
-                MCPWMx->MCCNTCON_CLR = MCPWM_CNTCON_TCMCI_FE(countConfig->counterChannel, channelNum);
-            }
-            if (countConfig->countRising /* == ENABLE */)
-            {
-                MCPWMx->MCCNTCON_SET = MCPWM_CNTCON_TCMCI_RE(countConfig->counterChannel, channelNum);
-            }
-            else
-            {
-                MCPWMx->MCCNTCON_CLR = MCPWM_CNTCON_TCMCI_RE(countConfig->counterChannel, channelNum);
-            }
-        }
-        else
-        {
-            MCPWMx->MCCNTCON_CLR = MCPWM_CNTCON_CNTR(channelNum);
-        }
+void MCPWM_CountConfig(LPC_MCPWM_TypeDef *MCPWMx, uint32_t channelNum,
+                       uint32_t countMode, MCPWM_COUNT_CFG_Type *countConfig) {
+  if (channelNum <= 2) {
+    if (countMode /* == ENABLE */) {
+      MCPWMx->MCCNTCON_SET = MCPWM_CNTCON_CNTR(channelNum);
+      if (countConfig->countFalling /* == ENABLE */) {
+        MCPWMx->MCCNTCON_SET =
+            MCPWM_CNTCON_TCMCI_FE(countConfig->counterChannel, channelNum);
+      } else {
+        MCPWMx->MCCNTCON_CLR =
+            MCPWM_CNTCON_TCMCI_FE(countConfig->counterChannel, channelNum);
+      }
+      if (countConfig->countRising /* == ENABLE */) {
+        MCPWMx->MCCNTCON_SET =
+            MCPWM_CNTCON_TCMCI_RE(countConfig->counterChannel, channelNum);
+      } else {
+        MCPWMx->MCCNTCON_CLR =
+            MCPWM_CNTCON_TCMCI_RE(countConfig->counterChannel, channelNum);
+      }
+    } else {
+      MCPWMx->MCCNTCON_CLR = MCPWM_CNTCON_CNTR(channelNum);
     }
+  }
 }
 
 /*********************************************************************/ /**
@@ -667,11 +620,13 @@ void MCPWM_CountConfig(LPC_MCPWM_TypeDef* MCPWMx,
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_Start(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1, uint32_t channel2)
-{
-    uint32_t regVal = 0;
-    regVal = (channel0 ? MCPWM_CON_RUN(0) : 0) | (channel1 ? MCPWM_CON_RUN(1) : 0) | (channel2 ? MCPWM_CON_RUN(2) : 0);
-    MCPWMx->MCCON_SET = regVal;
+void MCPWM_Start(LPC_MCPWM_TypeDef *MCPWMx, uint32_t channel0,
+                 uint32_t channel1, uint32_t channel2) {
+  uint32_t regVal = 0;
+  regVal = (channel0 ? MCPWM_CON_RUN(0) : 0) |
+           (channel1 ? MCPWM_CON_RUN(1) : 0) |
+           (channel2 ? MCPWM_CON_RUN(2) : 0);
+  MCPWMx->MCCON_SET = regVal;
 }
 
 /*********************************************************************/ /**
@@ -780,11 +735,13 @@ void MCPWM_Start(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_Stop(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1, uint32_t channel2)
-{
-    uint32_t regVal = 0;
-    regVal = (channel0 ? MCPWM_CON_RUN(0) : 0) | (channel1 ? MCPWM_CON_RUN(1) : 0) | (channel2 ? MCPWM_CON_RUN(2) : 0);
-    MCPWMx->MCCON_CLR = regVal;
+void MCPWM_Stop(LPC_MCPWM_TypeDef *MCPWMx, uint32_t channel0, uint32_t channel1,
+                uint32_t channel2) {
+  uint32_t regVal = 0;
+  regVal = (channel0 ? MCPWM_CON_RUN(0) : 0) |
+           (channel1 ? MCPWM_CON_RUN(1) : 0) |
+           (channel2 ? MCPWM_CON_RUN(2) : 0);
+  MCPWMx->MCCON_CLR = regVal;
 }
 
 /*********************************************************************/ /**
@@ -822,16 +779,12 @@ void MCPWM_Stop(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1,
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void MCPWM_ACMode(LPC_MCPWM_TypeDef* MCPWMx, uint32_t acMode)
-{
-    if (acMode)
-    {
-        MCPWMx->MCCON_SET = MCPWM_CON_ACMODE;
-    }
-    else
-    {
-        MCPWMx->MCCON_CLR = MCPWM_CON_ACMODE;
-    }
+void MCPWM_ACMode(LPC_MCPWM_TypeDef *MCPWMx, uint32_t acMode) {
+  if (acMode) {
+    MCPWMx->MCCON_SET = MCPWM_CON_ACMODE;
+  } else {
+    MCPWMx->MCCON_CLR = MCPWM_CON_ACMODE;
+  }
 }
 
 /*********************************************************************/ /**
@@ -874,27 +827,21 @@ void MCPWM_ACMode(LPC_MCPWM_TypeDef* MCPWMx, uint32_t acMode)
   * Note: all these outputPatent values above can be ORed together for using as
   input parameter.
   **********************************************************************/
-void MCPWM_DCMode(LPC_MCPWM_TypeDef* MCPWMx, uint32_t dcMode, uint32_t outputInvered, uint32_t outputPattern)
-{
-    if (dcMode)
-    {
-        MCPWMx->MCCON_SET = MCPWM_CON_DCMODE;
-    }
-    else
-    {
-        MCPWMx->MCCON_CLR = MCPWM_CON_DCMODE;
-    }
+void MCPWM_DCMode(LPC_MCPWM_TypeDef *MCPWMx, uint32_t dcMode,
+                  uint32_t outputInvered, uint32_t outputPattern) {
+  if (dcMode) {
+    MCPWMx->MCCON_SET = MCPWM_CON_DCMODE;
+  } else {
+    MCPWMx->MCCON_CLR = MCPWM_CON_DCMODE;
+  }
 
-    if (outputInvered)
-    {
-        MCPWMx->MCCON_SET = MCPWM_CON_INVBDC;
-    }
-    else
-    {
-        MCPWMx->MCCON_CLR = MCPWM_CON_INVBDC;
-    }
+  if (outputInvered) {
+    MCPWMx->MCCON_SET = MCPWM_CON_INVBDC;
+  } else {
+    MCPWMx->MCCON_CLR = MCPWM_CON_INVBDC;
+  }
 
-    MCPWMx->MCCCP = outputPattern;
+  MCPWMx->MCCCP = outputPattern;
 }
 
 /*********************************************************************/ /**
@@ -1021,16 +968,13 @@ void MCPWM_DCMode(LPC_MCPWM_TypeDef* MCPWMx, uint32_t dcMode, uint32_t outputInv
                                                                          *input
                                                                          *parameter.
                                                                          **********************************************************************/
-void MCPWM_IntConfig(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType, FunctionalState NewState)
-{
-    if (NewState)
-    {
-        MCPWMx->MCINTEN_SET = ulIntType;
-    }
-    else
-    {
-        MCPWMx->MCINTEN_CLR = ulIntType;
-    }
+void MCPWM_IntConfig(LPC_MCPWM_TypeDef *MCPWMx, uint32_t ulIntType,
+                     FunctionalState NewState) {
+  if (NewState) {
+    MCPWMx->MCINTEN_SET = ulIntType;
+  } else {
+    MCPWMx->MCINTEN_CLR = ulIntType;
+  }
 }
 
 /*********************************************************************/ /**
@@ -1143,9 +1087,8 @@ void MCPWM_IntConfig(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType, FunctionalSt
                                                                          *input
                                                                          *parameter.
                                                                          **********************************************************************/
-void MCPWM_IntSet(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
-{
-    MCPWMx->MCINTFLAG_SET = ulIntType;
+void MCPWM_IntSet(LPC_MCPWM_TypeDef *MCPWMx, uint32_t ulIntType) {
+  MCPWMx->MCINTFLAG_SET = ulIntType;
 }
 
 /*********************************************************************/ /**
@@ -1259,9 +1202,8 @@ void MCPWM_IntSet(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
                                                                          *input
                                                                          *parameter.
                                                                          **********************************************************************/
-void MCPWM_IntClear(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
-{
-    MCPWMx->MCINTFLAG_CLR = ulIntType;
+void MCPWM_IntClear(LPC_MCPWM_TypeDef *MCPWMx, uint32_t ulIntType) {
+  MCPWMx->MCINTFLAG_CLR = ulIntType;
 }
 
 /*********************************************************************/ /**
@@ -1362,9 +1304,8 @@ void MCPWM_IntClear(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-FlagStatus MCPWM_GetIntStatus(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
-{
-    return ((MCPWMx->MCINTFLAG & ulIntType) ? SET : RESET);
+FlagStatus MCPWM_GetIntStatus(LPC_MCPWM_TypeDef *MCPWMx, uint32_t ulIntType) {
+  return ((MCPWMx->MCINTFLAG & ulIntType) ? SET : RESET);
 }
 
 /**

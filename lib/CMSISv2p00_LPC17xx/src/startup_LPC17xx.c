@@ -27,7 +27,7 @@
 //*****************************************************************************
 #include "LPC17xx.h"
 
-#define WEAK     __attribute__((weak))
+#define WEAK __attribute__((weak))
 #define ALIAS(f) __attribute__((weak, alias(#f)))
 
 //*****************************************************************************
@@ -192,53 +192,50 @@ extern unsigned long _ebss;
 // library.
 //
 //*****************************************************************************
-void Reset_Handler(void)
-{
-    unsigned long *pulSrc, *pulDest;
+void Reset_Handler(void) {
+  unsigned long *pulSrc, *pulDest;
 
-    //
-    // Copy the data segment initializers from flash to SRAM.
-    //
-    pulSrc = &_etext;
-    for (pulDest = &_data; pulDest < &_edata;)
-    {
-        *pulDest++ = *pulSrc++;
-    }
+  //
+  // Copy the data segment initializers from flash to SRAM.
+  //
+  pulSrc = &_etext;
+  for (pulDest = &_data; pulDest < &_edata;) {
+    *pulDest++ = *pulSrc++;
+  }
 
-    //
-    // Zero fill the bss segment.  This is done with inline assembly since this
-    // will clear the value of pulDest if it is not kept in a register.
-    //
-    __asm("    ldr     r0, =_bss\n"
-          "    ldr     r1, =_ebss\n"
-          "    mov     r2, #0\n"
-          "    .thumb_func\n"
-          "zero_loop:\n"
-          "        cmp     r0, r1\n"
-          "        it      lt\n"
-          "        strlt   r2, [r0], #4\n"
-          "        blt     zero_loop");
+  //
+  // Zero fill the bss segment.  This is done with inline assembly since this
+  // will clear the value of pulDest if it is not kept in a register.
+  //
+  __asm("    ldr     r0, =_bss\n"
+        "    ldr     r1, =_ebss\n"
+        "    mov     r2, #0\n"
+        "    .thumb_func\n"
+        "zero_loop:\n"
+        "        cmp     r0, r1\n"
+        "        it      lt\n"
+        "        strlt   r2, [r0], #4\n"
+        "        blt     zero_loop");
 
-    // Call SystemInit to initialize clocks, etc.
-    SystemInit();
+  // Call SystemInit to initialize clocks, etc.
+  SystemInit();
 
 #if defined(__cplusplus)
-    //
-    // Call C++ library initialisation
-    //
-    __libc_init_array();
+  //
+  // Call C++ library initialisation
+  //
+  __libc_init_array();
 #endif
 
-    // Finally call the main function
-    main();
+  // Finally call the main function
+  main();
 
-    //
-    // main() shouldn't return, but if it does, we'll just enter an infinite loop
-    //
-    while (1)
-    {
-        ;
-    }
+  //
+  // main() shouldn't return, but if it does, we'll just enter an infinite loop
+  //
+  while (1) {
+    ;
+  }
 }
 
 //*****************************************************************************
@@ -248,53 +245,39 @@ void Reset_Handler(void)
 // by a debugger.
 //
 //*****************************************************************************
-void NMI_Handler(void)
-{
-    while (1)
-    {
-    }
+void NMI_Handler(void) {
+  while (1) {
+  }
 }
 
-void HardFault_Handler(void)
-{
-    while (1)
-    {
-    }
+void HardFault_Handler(void) {
+  while (1) {
+  }
 }
 
-void MemManage_Handler(void)
-{
-    while (1)
-    {
-    }
+void MemManage_Handler(void) {
+  while (1) {
+  }
 }
 
-void BusFault_Handler(void)
-{
-    while (1)
-    {
-    }
+void BusFault_Handler(void) {
+  while (1) {
+  }
 }
 
-void UsageFault_Handler(void)
-{
-    while (1)
-    {
-    }
+void UsageFault_Handler(void) {
+  while (1) {
+  }
 }
 
-static void SVC_Handler(void)
-{
-    while (1)
-    {
-    }
+static void SVC_Handler(void) {
+  while (1) {
+  }
 }
 
-static void DebugMon_Handler(void)
-{
-    while (1)
-    {
-    }
+static void DebugMon_Handler(void) {
+  while (1) {
+  }
 }
 
 static void PendSV_Handler(void) {}
@@ -306,12 +289,10 @@ static void SysTick_Handler(void) {}
 // is not present in the application code.
 //
 //*****************************************************************************
-static void IntDefaultHandler(void)
-{
-    //
-    // Go into an infinite loop.
-    //
-    while (1)
-    {
-    }
+static void IntDefaultHandler(void) {
+  //
+  // Go into an infinite loop.
+  //
+  while (1) {
+  }
 }

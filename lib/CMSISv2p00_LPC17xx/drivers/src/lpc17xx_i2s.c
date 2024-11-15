@@ -56,8 +56,8 @@
 /* Private Functions ----------------------------------------------------------
  */
 
-static uint8_t i2s_GetWordWidth(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
-static uint8_t i2s_GetChannel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
+static uint8_t i2s_GetWordWidth(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
+static uint8_t i2s_GetChannel(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode);
 
 /********************************************************************/ /**
                                                                         * @brief
@@ -98,27 +98,25 @@ static uint8_t i2s_GetChannel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode);
                                                                         *8,16 or
                                                                         *32
                                                                         *********************************************************************/
-static uint8_t i2s_GetWordWidth(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    uint8_t value;
+static uint8_t i2s_GetWordWidth(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  uint8_t value;
 
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE)
-    {
-        value = (I2Sx->I2SDAO) & 0x03; /* get wordwidth bit */
-    }
-    else
-    {
-        value = (I2Sx->I2SDAI) & 0x03; /* get wordwidth bit */
-    }
-    switch (value)
-    {
-        case I2S_WORDWIDTH_8: return 8;
-        case I2S_WORDWIDTH_16: return 16;
-        default: return 32;
-    }
+  if (TRMode == I2S_TX_MODE) {
+    value = (I2Sx->I2SDAO) & 0x03; /* get wordwidth bit */
+  } else {
+    value = (I2Sx->I2SDAI) & 0x03; /* get wordwidth bit */
+  }
+  switch (value) {
+  case I2S_WORDWIDTH_8:
+    return 8;
+  case I2S_WORDWIDTH_16:
+    return 16;
+  default:
+    return 32;
+  }
 }
 
 /********************************************************************/ /**
@@ -161,24 +159,20 @@ static uint8_t i2s_GetWordWidth(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         *or
                                                                         *2(stereo)
                                                                         *********************************************************************/
-static uint8_t i2s_GetChannel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    uint8_t value;
+static uint8_t i2s_GetChannel(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  uint8_t value;
 
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE)
-    {
-        value = ((I2Sx->I2SDAO) & 0x04) >> 2; /* get bit[2] */
-    }
-    else
-    {
-        value = ((I2Sx->I2SDAI) & 0x04) >> 2; /* get bit[2] */
-    }
-    if (value == I2S_MONO)
-        return 1;
-    return 2;
+  if (TRMode == I2S_TX_MODE) {
+    value = ((I2Sx->I2SDAO) & 0x04) >> 2; /* get bit[2] */
+  } else {
+    value = ((I2Sx->I2SDAI) & 0x04) >> 2; /* get bit[2] */
+  }
+  if (value == I2S_MONO)
+    return 1;
+  return 2;
 }
 
 /* End of Private Functions ---------------------------------------------------
@@ -210,13 +204,12 @@ static uint8_t i2s_GetChannel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Init(LPC_I2S_TypeDef* I2Sx)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
+void I2S_Init(LPC_I2S_TypeDef *I2Sx) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
 
-    // Turn on power and clock
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCI2S, ENABLE);
-    LPC_I2S->I2SDAI = LPC_I2S->I2SDAO = 0x00;
+  // Turn on power and clock
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCI2S, ENABLE);
+  LPC_I2S->I2SDAI = LPC_I2S->I2SDAO = 0x00;
 }
 
 /********************************************************************/ /**
@@ -269,34 +262,32 @@ void I2S_Init(LPC_I2S_TypeDef* I2Sx)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Config(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, I2S_CFG_Type* ConfigStruct)
-{
-    uint32_t bps, config;
+void I2S_Config(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode,
+                I2S_CFG_Type *ConfigStruct) {
+  uint32_t bps, config;
 
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
 
-    CHECK_PARAM(PARAM_I2S_WORDWIDTH(ConfigStruct->wordwidth));
-    CHECK_PARAM(PARAM_I2S_CHANNEL(ConfigStruct->mono));
-    CHECK_PARAM(PARAM_I2S_STOP(ConfigStruct->stop));
-    CHECK_PARAM(PARAM_I2S_RESET(ConfigStruct->reset));
-    CHECK_PARAM(PARAM_I2S_WS_SEL(ConfigStruct->ws_sel));
-    CHECK_PARAM(PARAM_I2S_MUTE(ConfigStruct->mute));
+  CHECK_PARAM(PARAM_I2S_WORDWIDTH(ConfigStruct->wordwidth));
+  CHECK_PARAM(PARAM_I2S_CHANNEL(ConfigStruct->mono));
+  CHECK_PARAM(PARAM_I2S_STOP(ConfigStruct->stop));
+  CHECK_PARAM(PARAM_I2S_RESET(ConfigStruct->reset));
+  CHECK_PARAM(PARAM_I2S_WS_SEL(ConfigStruct->ws_sel));
+  CHECK_PARAM(PARAM_I2S_MUTE(ConfigStruct->mute));
 
-    /* Setup clock */
-    bps = (ConfigStruct->wordwidth + 1) * 8;
+  /* Setup clock */
+  bps = (ConfigStruct->wordwidth + 1) * 8;
 
-    /* Calculate audio config */
-    config = (bps - 1) << 6 | (ConfigStruct->ws_sel) << 5 | (ConfigStruct->reset) << 4 | (ConfigStruct->stop) << 3 |
-             (ConfigStruct->mono) << 2 | (ConfigStruct->wordwidth);
+  /* Calculate audio config */
+  config = (bps - 1) << 6 | (ConfigStruct->ws_sel) << 5 |
+           (ConfigStruct->reset) << 4 | (ConfigStruct->stop) << 3 |
+           (ConfigStruct->mono) << 2 | (ConfigStruct->wordwidth);
 
-    if (TRMode == I2S_RX_MODE)
-    {
-        LPC_I2S->I2SDAI = config;
-    }
-    else
-    {
-        LPC_I2S->I2SDAO = config;
-    }
+  if (TRMode == I2S_RX_MODE) {
+    LPC_I2S->I2SDAI = config;
+  } else {
+    LPC_I2S->I2SDAO = config;
+  }
 }
 
 /********************************************************************/ /**
@@ -318,12 +309,11 @@ void I2S_Config(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, I2S_CFG_Type* ConfigStruc
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_DeInit(LPC_I2S_TypeDef* I2Sx)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
+void I2S_DeInit(LPC_I2S_TypeDef *I2Sx) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
 
-    // Turn off power and clock
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCI2S, DISABLE);
+  // Turn off power and clock
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCI2S, DISABLE);
 }
 
 /********************************************************************/ /**
@@ -362,19 +352,15 @@ void I2S_DeInit(LPC_I2S_TypeDef* I2Sx)
                                                                         *Transmit/Receive
                                                                         *Buffer
                                                                         *********************************************************************/
-uint8_t I2S_GetLevel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+uint8_t I2S_GetLevel(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE)
-    {
-        return ((I2Sx->I2SSTATE >> 16) & 0xFF);
-    }
-    else
-    {
-        return ((I2Sx->I2SSTATE >> 8) & 0xFF);
-    }
+  if (TRMode == I2S_TX_MODE) {
+    return ((I2Sx->I2SSTATE >> 16) & 0xFF);
+  } else {
+    return ((I2Sx->I2SSTATE >> 8) & 0xFF);
+  }
 }
 
 /********************************************************************/ /**
@@ -401,14 +387,13 @@ uint8_t I2S_GetLevel(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Start(LPC_I2S_TypeDef* I2Sx)
-{
-    // Clear STOP,RESET and MUTE bit
-    I2Sx->I2SDAO &= ~I2S_DAI_RESET;
-    I2Sx->I2SDAI &= ~I2S_DAI_RESET;
-    I2Sx->I2SDAO &= ~I2S_DAI_STOP;
-    I2Sx->I2SDAI &= ~I2S_DAI_STOP;
-    I2Sx->I2SDAO &= ~I2S_DAI_MUTE;
+void I2S_Start(LPC_I2S_TypeDef *I2Sx) {
+  // Clear STOP,RESET and MUTE bit
+  I2Sx->I2SDAO &= ~I2S_DAI_RESET;
+  I2Sx->I2SDAI &= ~I2S_DAI_RESET;
+  I2Sx->I2SDAO &= ~I2S_DAI_STOP;
+  I2Sx->I2SDAI &= ~I2S_DAI_STOP;
+  I2Sx->I2SDAO &= ~I2S_DAI_MUTE;
 }
 
 /********************************************************************/ /**
@@ -436,11 +421,10 @@ void I2S_Start(LPC_I2S_TypeDef* I2Sx)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Send(LPC_I2S_TypeDef* I2Sx, uint32_t BufferData)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
+void I2S_Send(LPC_I2S_TypeDef *I2Sx, uint32_t BufferData) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
 
-    I2Sx->I2STXFIFO = BufferData;
+  I2Sx->I2STXFIFO = BufferData;
 }
 
 /********************************************************************/ /**
@@ -457,11 +441,10 @@ void I2S_Send(LPC_I2S_TypeDef* I2Sx, uint32_t BufferData)
                                                                         *received
                                                                         *value
                                                                         *********************************************************************/
-uint32_t I2S_Receive(LPC_I2S_TypeDef* I2Sx)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
+uint32_t I2S_Receive(LPC_I2S_TypeDef *I2Sx) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
 
-    return (I2Sx->I2SRXFIFO);
+  return (I2Sx->I2SRXFIFO);
 }
 
 /********************************************************************/ /**
@@ -496,19 +479,17 @@ uint32_t I2S_Receive(LPC_I2S_TypeDef* I2Sx)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Pause(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_Pause(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE) // Transmit mode
-    {
-        I2Sx->I2SDAO |= I2S_DAO_STOP;
-    }
-    else // Receive mode
-    {
-        I2Sx->I2SDAI |= I2S_DAI_STOP;
-    }
+  if (TRMode == I2S_TX_MODE) // Transmit mode
+  {
+    I2Sx->I2SDAO |= I2S_DAO_STOP;
+  } else // Receive mode
+  {
+    I2Sx->I2SDAI |= I2S_DAI_STOP;
+  }
 }
 
 /********************************************************************/ /**
@@ -543,19 +524,17 @@ void I2S_Pause(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Mute(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_Mute(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE) // Transmit mode
-    {
-        I2Sx->I2SDAO |= I2S_DAO_MUTE;
-    }
-    else // Receive mode
-    {
-        I2Sx->I2SDAI |= I2S_DAI_MUTE;
-    }
+  if (TRMode == I2S_TX_MODE) // Transmit mode
+  {
+    I2Sx->I2SDAO |= I2S_DAO_MUTE;
+  } else // Receive mode
+  {
+    I2Sx->I2SDAI |= I2S_DAI_MUTE;
+  }
 }
 
 /********************************************************************/ /**
@@ -590,22 +569,20 @@ void I2S_Mute(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_Stop(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_Stop(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE) // Transmit mode
-    {
-        I2Sx->I2SDAO &= ~I2S_DAO_MUTE;
-        I2Sx->I2SDAO |= I2S_DAO_STOP;
-        I2Sx->I2SDAO |= I2S_DAO_RESET;
-    }
-    else // Receive mode
-    {
-        I2Sx->I2SDAI |= I2S_DAI_STOP;
-        I2Sx->I2SDAI |= I2S_DAI_RESET;
-    }
+  if (TRMode == I2S_TX_MODE) // Transmit mode
+  {
+    I2Sx->I2SDAO &= ~I2S_DAO_MUTE;
+    I2Sx->I2SDAO |= I2S_DAO_STOP;
+    I2Sx->I2SDAO |= I2S_DAO_RESET;
+  } else // Receive mode
+  {
+    I2Sx->I2SDAI |= I2S_DAI_STOP;
+    I2Sx->I2SDAI |= I2S_DAI_RESET;
+  }
 }
 
 /********************************************************************/ /**
@@ -659,105 +636,96 @@ void I2S_Stop(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         *or
                                                                         *SUCCESS
                                                                         *********************************************************************/
-Status I2S_FreqConfig(LPC_I2S_TypeDef* I2Sx, uint32_t Freq, uint8_t TRMode)
-{
+Status I2S_FreqConfig(LPC_I2S_TypeDef *I2Sx, uint32_t Freq, uint8_t TRMode) {
 
-    uint32_t i2s_clk;
-    uint8_t channel, wordwidth;
-    uint32_t x, y;
-    uint64_t divider;
-    uint16_t dif;
-    uint16_t x_divide, y_divide;
-    uint16_t err, ErrorOptimal = 0xFFFF;
+  uint32_t i2s_clk;
+  uint8_t channel, wordwidth;
+  uint32_t x, y;
+  uint64_t divider;
+  uint16_t dif;
+  uint16_t x_divide, y_divide;
+  uint16_t err, ErrorOptimal = 0xFFFF;
 
-    uint32_t N;
+  uint32_t N;
 
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PRAM_I2S_FREQ(Freq));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PRAM_I2S_FREQ(Freq));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    // Get the frequency of PCLK_I2S
-    i2s_clk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_I2S);
+  // Get the frequency of PCLK_I2S
+  i2s_clk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_I2S);
 
-    if (TRMode == I2S_TX_MODE)
-    {
-        channel = i2s_GetChannel(I2Sx, I2S_TX_MODE);
-        wordwidth = i2s_GetWordWidth(I2Sx, I2S_TX_MODE);
-    }
+  if (TRMode == I2S_TX_MODE) {
+    channel = i2s_GetChannel(I2Sx, I2S_TX_MODE);
+    wordwidth = i2s_GetWordWidth(I2Sx, I2S_TX_MODE);
+  } else {
+    channel = i2s_GetChannel(I2Sx, I2S_RX_MODE);
+    wordwidth = i2s_GetWordWidth(I2Sx, I2S_RX_MODE);
+  }
+
+  /* Calculate X and Y divider
+   * The MCLK rate for the I2S transmitter is determined by the value
+   * in the I2STXRATE/I2SRXRATE register. The required I2STXRATE/I2SRXRATE
+   * setting depends on the desired audio sample rate desired, the format
+   * (stereo/mono) used, and the data size.
+   * The formula is:
+   * 		I2S_MCLK = PCLK_I2S * (X/Y) / 2
+   * In that, Y must be greater than or equal to X. X should divides evenly
+   * into Y.
+   * We have:
+   * 		I2S_MCLK = Freq * channel*wordwidth * (I2STXBITRATE+1);
+   * So: (X/Y) = (Freq * channel*wordwidth * (I2STXBITRATE+1))*2/PCLK_I2S
+   * We use a loop function to chose the most suitable X,Y value
+   */
+
+  /* divider is a fixed point number with 16 fractional bits */
+  divider = (((uint64_t)Freq * channel * wordwidth * 2) << 16) / i2s_clk;
+
+  /* find N that make x/y <= 1 -> divider <= 2^16 */
+  for (N = 64; N > 0; N--) {
+    if ((divider * N) < (1 << 16))
+      break;
+  }
+
+  if (N == 0)
+    return ERROR;
+
+  divider *= N;
+
+  for (y = 255; y > 0; y--) {
+    x = y * divider;
+    if (x & (0xFF000000))
+      continue;
+    dif = x & 0xFFFF;
+    if (dif > 0x8000)
+      err = 0x10000 - dif;
     else
-    {
-        channel = i2s_GetChannel(I2Sx, I2S_RX_MODE);
-        wordwidth = i2s_GetWordWidth(I2Sx, I2S_RX_MODE);
+      err = dif;
+    if (err == 0) {
+      y_divide = y;
+      break;
+    } else if (err < ErrorOptimal) {
+      ErrorOptimal = err;
+      y_divide = y;
     }
+  }
+  x_divide =
+      ((uint64_t)y_divide * Freq * (channel * wordwidth) * N * 2) / i2s_clk;
+  if (x_divide >= 256)
+    x_divide = 0xFF;
+  if (x_divide == 0)
+    x_divide = 1;
 
-    /* Calculate X and Y divider
-     * The MCLK rate for the I2S transmitter is determined by the value
-     * in the I2STXRATE/I2SRXRATE register. The required I2STXRATE/I2SRXRATE
-     * setting depends on the desired audio sample rate desired, the format
-     * (stereo/mono) used, and the data size.
-     * The formula is:
-     * 		I2S_MCLK = PCLK_I2S * (X/Y) / 2
-     * In that, Y must be greater than or equal to X. X should divides evenly
-     * into Y.
-     * We have:
-     * 		I2S_MCLK = Freq * channel*wordwidth * (I2STXBITRATE+1);
-     * So: (X/Y) = (Freq * channel*wordwidth * (I2STXBITRATE+1))*2/PCLK_I2S
-     * We use a loop function to chose the most suitable X,Y value
-     */
-
-    /* divider is a fixed point number with 16 fractional bits */
-    divider = (((uint64_t)Freq * channel * wordwidth * 2) << 16) / i2s_clk;
-
-    /* find N that make x/y <= 1 -> divider <= 2^16 */
-    for (N = 64; N > 0; N--)
-    {
-        if ((divider * N) < (1 << 16))
-            break;
-    }
-
-    if (N == 0)
-        return ERROR;
-
-    divider *= N;
-
-    for (y = 255; y > 0; y--)
-    {
-        x = y * divider;
-        if (x & (0xFF000000))
-            continue;
-        dif = x & 0xFFFF;
-        if (dif > 0x8000)
-            err = 0x10000 - dif;
-        else
-            err = dif;
-        if (err == 0)
-        {
-            y_divide = y;
-            break;
-        }
-        else if (err < ErrorOptimal)
-        {
-            ErrorOptimal = err;
-            y_divide = y;
-        }
-    }
-    x_divide = ((uint64_t)y_divide * Freq * (channel * wordwidth) * N * 2) / i2s_clk;
-    if (x_divide >= 256)
-        x_divide = 0xFF;
-    if (x_divide == 0)
-        x_divide = 1;
-
-    if (TRMode == I2S_TX_MODE) // Transmitter
-    {
-        I2Sx->I2STXBITRATE = N - 1;
-        I2Sx->I2STXRATE = y_divide | (x_divide << 8);
-    }
-    else // Receiver
-    {
-        I2Sx->I2SRXBITRATE = N - 1;
-        I2Sx->I2STXRATE = y_divide | (x_divide << 8);
-    }
-    return SUCCESS;
+  if (TRMode == I2S_TX_MODE) // Transmitter
+  {
+    I2Sx->I2STXBITRATE = N - 1;
+    I2Sx->I2STXRATE = y_divide | (x_divide << 8);
+  } else // Receiver
+  {
+    I2Sx->I2SRXBITRATE = N - 1;
+    I2Sx->I2STXRATE = y_divide | (x_divide << 8);
+  }
+  return SUCCESS;
 }
 
 /********************************************************************/ /**
@@ -803,20 +771,16 @@ Status I2S_FreqConfig(LPC_I2S_TypeDef* I2Sx, uint32_t Freq, uint8_t TRMode)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_SetBitRate(LPC_I2S_TypeDef* I2Sx, uint8_t bitrate, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_BITRATE(bitrate));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_SetBitRate(LPC_I2S_TypeDef *I2Sx, uint8_t bitrate, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_BITRATE(bitrate));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE)
-    {
-        I2Sx->I2STXBITRATE = bitrate;
-    }
-    else
-    {
-        I2Sx->I2SRXBITRATE = bitrate;
-    }
+  if (TRMode == I2S_TX_MODE) {
+    I2Sx->I2STXBITRATE = bitrate;
+  } else {
+    I2Sx->I2SRXBITRATE = bitrate;
+  }
 }
 
 /********************************************************************/ /**
@@ -861,46 +825,37 @@ void I2S_SetBitRate(LPC_I2S_TypeDef* I2Sx, uint8_t bitrate, uint8_t TRMode)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_ModeConfig(LPC_I2S_TypeDef* I2Sx, I2S_MODEConf_Type* ModeConfig, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_CLKSEL(ModeConfig->clksel));
-    CHECK_PARAM(PARAM_I2S_4PIN(ModeConfig->fpin));
-    CHECK_PARAM(PARAM_I2S_MCLK(ModeConfig->mcena));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_ModeConfig(LPC_I2S_TypeDef *I2Sx, I2S_MODEConf_Type *ModeConfig,
+                    uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_CLKSEL(ModeConfig->clksel));
+  CHECK_PARAM(PARAM_I2S_4PIN(ModeConfig->fpin));
+  CHECK_PARAM(PARAM_I2S_MCLK(ModeConfig->mcena));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_TX_MODE)
-    {
-        I2Sx->I2STXMODE &= ~0x0F; // clear bit 3:0 in I2STXMODE register
-        if (ModeConfig->clksel == I2S_CLKSEL_MCLK)
-        {
-            I2Sx->I2STXMODE |= 0x02;
-        }
-        if (ModeConfig->fpin == I2S_4PIN_ENABLE)
-        {
-            I2Sx->I2STXMODE |= (1 << 2);
-        }
-        if (ModeConfig->mcena == I2S_MCLK_ENABLE)
-        {
-            I2Sx->I2STXMODE |= (1 << 3);
-        }
+  if (TRMode == I2S_TX_MODE) {
+    I2Sx->I2STXMODE &= ~0x0F; // clear bit 3:0 in I2STXMODE register
+    if (ModeConfig->clksel == I2S_CLKSEL_MCLK) {
+      I2Sx->I2STXMODE |= 0x02;
     }
-    else
-    {
-        I2Sx->I2SRXMODE &= ~0x0F; // clear bit 3:0 in I2STXMODE register
-        if (ModeConfig->clksel == I2S_CLKSEL_MCLK)
-        {
-            I2Sx->I2SRXMODE |= 0x02;
-        }
-        if (ModeConfig->fpin == I2S_4PIN_ENABLE)
-        {
-            I2Sx->I2SRXMODE |= (1 << 2);
-        }
-        if (ModeConfig->mcena == I2S_MCLK_ENABLE)
-        {
-            I2Sx->I2SRXMODE |= (1 << 3);
-        }
+    if (ModeConfig->fpin == I2S_4PIN_ENABLE) {
+      I2Sx->I2STXMODE |= (1 << 2);
     }
+    if (ModeConfig->mcena == I2S_MCLK_ENABLE) {
+      I2Sx->I2STXMODE |= (1 << 3);
+    }
+  } else {
+    I2Sx->I2SRXMODE &= ~0x0F; // clear bit 3:0 in I2STXMODE register
+    if (ModeConfig->clksel == I2S_CLKSEL_MCLK) {
+      I2Sx->I2SRXMODE |= 0x02;
+    }
+    if (ModeConfig->fpin == I2S_4PIN_ENABLE) {
+      I2Sx->I2SRXMODE |= (1 << 2);
+    }
+    if (ModeConfig->mcena == I2S_MCLK_ENABLE) {
+      I2Sx->I2SRXMODE |= (1 << 3);
+    }
+  }
 }
 
 /********************************************************************/ /**
@@ -945,35 +900,26 @@ void I2S_ModeConfig(LPC_I2S_TypeDef* I2Sx, I2S_MODEConf_Type* ModeConfig, uint8_
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_DMAConfig(LPC_I2S_TypeDef* I2Sx, I2S_DMAConf_Type* DMAConfig, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_DMA(DMAConfig->DMAIndex));
-    CHECK_PARAM(PARAM_I2S_DMA_DEPTH(DMAConfig->depth));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_DMAConfig(LPC_I2S_TypeDef *I2Sx, I2S_DMAConf_Type *DMAConfig,
+                   uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_DMA(DMAConfig->DMAIndex));
+  CHECK_PARAM(PARAM_I2S_DMA_DEPTH(DMAConfig->depth));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_RX_MODE)
-    {
-        if (DMAConfig->DMAIndex == I2S_DMA_1)
-        {
-            LPC_I2S->I2SDMA1 = (DMAConfig->depth) << 8;
-        }
-        else
-        {
-            LPC_I2S->I2SDMA2 = (DMAConfig->depth) << 8;
-        }
+  if (TRMode == I2S_RX_MODE) {
+    if (DMAConfig->DMAIndex == I2S_DMA_1) {
+      LPC_I2S->I2SDMA1 = (DMAConfig->depth) << 8;
+    } else {
+      LPC_I2S->I2SDMA2 = (DMAConfig->depth) << 8;
     }
-    else
-    {
-        if (DMAConfig->DMAIndex == I2S_DMA_1)
-        {
-            LPC_I2S->I2SDMA1 = (DMAConfig->depth) << 16;
-        }
-        else
-        {
-            LPC_I2S->I2SDMA2 = (DMAConfig->depth) << 16;
-        }
+  } else {
+    if (DMAConfig->DMAIndex == I2S_DMA_1) {
+      LPC_I2S->I2SDMA1 = (DMAConfig->depth) << 16;
+    } else {
+      LPC_I2S->I2SDMA2 = (DMAConfig->depth) << 16;
     }
+  }
 }
 
 /********************************************************************/ /**
@@ -1038,47 +984,38 @@ void I2S_DMAConfig(LPC_I2S_TypeDef* I2Sx, I2S_DMAConf_Type* DMAConfig, uint8_t T
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_DMACmd(LPC_I2S_TypeDef* I2Sx, uint8_t DMAIndex, uint8_t TRMode, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
-    CHECK_PARAM(PARAM_I2S_DMA(DMAIndex));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+void I2S_DMACmd(LPC_I2S_TypeDef *I2Sx, uint8_t DMAIndex, uint8_t TRMode,
+                FunctionalState NewState) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+  CHECK_PARAM(PARAM_I2S_DMA(DMAIndex));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
 
-    if (TRMode == I2S_RX_MODE)
-    {
-        if (DMAIndex == I2S_DMA_1)
-        {
-            if (NewState == ENABLE)
-                I2Sx->I2SDMA1 |= 0x01;
-            else
-                I2Sx->I2SDMA1 &= ~0x01;
-        }
-        else
-        {
-            if (NewState == ENABLE)
-                I2Sx->I2SDMA2 |= 0x01;
-            else
-                I2Sx->I2SDMA2 &= ~0x01;
-        }
+  if (TRMode == I2S_RX_MODE) {
+    if (DMAIndex == I2S_DMA_1) {
+      if (NewState == ENABLE)
+        I2Sx->I2SDMA1 |= 0x01;
+      else
+        I2Sx->I2SDMA1 &= ~0x01;
+    } else {
+      if (NewState == ENABLE)
+        I2Sx->I2SDMA2 |= 0x01;
+      else
+        I2Sx->I2SDMA2 &= ~0x01;
     }
-    else
-    {
-        if (DMAIndex == I2S_DMA_1)
-        {
-            if (NewState == ENABLE)
-                I2Sx->I2SDMA1 |= 0x02;
-            else
-                I2Sx->I2SDMA1 &= ~0x02;
-        }
-        else
-        {
-            if (NewState == ENABLE)
-                I2Sx->I2SDMA2 |= 0x02;
-            else
-                I2Sx->I2SDMA2 &= ~0x02;
-        }
+  } else {
+    if (DMAIndex == I2S_DMA_1) {
+      if (NewState == ENABLE)
+        I2Sx->I2SDMA1 |= 0x02;
+      else
+        I2Sx->I2SDMA1 &= ~0x02;
+    } else {
+      if (NewState == ENABLE)
+        I2Sx->I2SDMA2 |= 0x02;
+      else
+        I2Sx->I2SDMA2 &= ~0x02;
     }
+  }
 }
 
 /********************************************************************/ /**
@@ -1123,20 +1060,16 @@ void I2S_DMACmd(LPC_I2S_TypeDef* I2Sx, uint8_t DMAIndex, uint8_t TRMode, Functio
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_IRQConfig(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, uint8_t level)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_I2S_TRX(TRMode));
-    CHECK_PARAM(PARAM_I2S_IRQ_LEVEL(level));
+void I2S_IRQConfig(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode, uint8_t level) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_I2S_TRX(TRMode));
+  CHECK_PARAM(PARAM_I2S_IRQ_LEVEL(level));
 
-    if (TRMode == I2S_RX_MODE)
-    {
-        I2Sx->I2SIRQ |= (level << 8);
-    }
-    else
-    {
-        I2Sx->I2SIRQ |= (level << 16);
-    }
+  if (TRMode == I2S_RX_MODE) {
+    I2Sx->I2SIRQ |= (level << 8);
+  } else {
+    I2Sx->I2SIRQ |= (level << 16);
+  }
 }
 
 /********************************************************************/ /**
@@ -1184,26 +1117,23 @@ void I2S_IRQConfig(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, uint8_t level)
                                                                         * @return
                                                                         *none
                                                                         *********************************************************************/
-void I2S_IRQCmd(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
+void I2S_IRQCmd(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode,
+                FunctionalState NewState) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  CHECK_PARAM(PARAM_FUNCTIONALSTATE(NewState));
 
-    if (TRMode == I2S_RX_MODE)
-    {
-        if (NewState == ENABLE)
-            I2Sx->I2SIRQ |= 0x01;
-        else
-            I2Sx->I2SIRQ &= ~0x01;
-        // Enable DMA
-    }
+  if (TRMode == I2S_RX_MODE) {
+    if (NewState == ENABLE)
+      I2Sx->I2SIRQ |= 0x01;
     else
-    {
-        if (NewState == ENABLE)
-            I2Sx->I2SIRQ |= 0x02;
-        else
-            I2Sx->I2SIRQ &= ~0x02;
-    }
+      I2Sx->I2SIRQ &= ~0x01;
+    // Enable DMA
+  } else {
+    if (NewState == ENABLE)
+      I2Sx->I2SIRQ |= 0x02;
+    else
+      I2Sx->I2SIRQ &= ~0x02;
+  }
 }
 
 /********************************************************************/ /**
@@ -1251,13 +1181,12 @@ void I2S_IRQCmd(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode, FunctionalState NewState)
                                                                         *is
                                                                         *disable
                                                                         *********************************************************************/
-FunctionalState I2S_GetIRQStatus(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    if (TRMode == I2S_TX_MODE)
-        return ((FunctionalState)((I2Sx->I2SIRQ >> 1) & 0x01));
-    else
-        return ((FunctionalState)((I2Sx->I2SIRQ) & 0x01));
+FunctionalState I2S_GetIRQStatus(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  if (TRMode == I2S_TX_MODE)
+    return ((FunctionalState)((I2Sx->I2SIRQ >> 1) & 0x01));
+  else
+    return ((FunctionalState)((I2Sx->I2SIRQ) & 0x01));
 }
 
 /********************************************************************/ /**
@@ -1301,13 +1230,12 @@ FunctionalState I2S_GetIRQStatus(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
                                                                         *an irq
                                                                         *request
                                                                         *********************************************************************/
-uint8_t I2S_GetIRQDepth(LPC_I2S_TypeDef* I2Sx, uint8_t TRMode)
-{
-    CHECK_PARAM(PARAM_I2Sx(I2Sx));
-    if (TRMode == I2S_TX_MODE)
-        return (((I2Sx->I2SIRQ) >> 16) & 0xFF);
-    else
-        return (((I2Sx->I2SIRQ) >> 8) & 0xFF);
+uint8_t I2S_GetIRQDepth(LPC_I2S_TypeDef *I2Sx, uint8_t TRMode) {
+  CHECK_PARAM(PARAM_I2Sx(I2Sx));
+  if (TRMode == I2S_TX_MODE)
+    return (((I2Sx->I2SIRQ) >> 16) & 0xFF);
+  else
+    return (((I2Sx->I2SIRQ) >> 8) & 0xFF);
 }
 /**
  * @}

@@ -95,33 +95,33 @@
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_Init(LPC_ADC_TypeDef* ADCx, uint32_t rate)
-{
-    uint32_t ADCPClk, temp, tmp;
+void ADC_Init(LPC_ADC_TypeDef *ADCx, uint32_t rate) {
+  uint32_t ADCPClk, temp, tmp;
 
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_RATE(rate));
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_RATE(rate));
 
-    // Turn on power and clock
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCAD, ENABLE);
+  // Turn on power and clock
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCAD, ENABLE);
 
-    ADCx->ADCR = 0;
+  ADCx->ADCR = 0;
 
-    // Enable PDN bit
-    tmp = ADC_CR_PDN;
-    // Set clock frequency
-    ADCPClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_ADC);
-    /* The APB clock (PCLK_ADC0) is divided by (CLKDIV+1) to produce the clock for
-     * A/D converter, which should be less than or equal to 13MHz.
-     * A fully conversion requires 65 of these clocks.
-     * ADC clock = PCLK_ADC0 / (CLKDIV + 1);
-     * ADC rate = ADC clock / 65;
-     */
-    temp = rate * 65;
-    temp = (ADCPClk * 2 + temp) / (2 * temp) - 1; // get the round value by fomular: (2*A + B)/(2*B)
-    tmp |= ADC_CR_CLKDIV(temp);
+  // Enable PDN bit
+  tmp = ADC_CR_PDN;
+  // Set clock frequency
+  ADCPClk = CLKPWR_GetPCLK(CLKPWR_PCLKSEL_ADC);
+  /* The APB clock (PCLK_ADC0) is divided by (CLKDIV+1) to produce the clock for
+   * A/D converter, which should be less than or equal to 13MHz.
+   * A fully conversion requires 65 of these clocks.
+   * ADC clock = PCLK_ADC0 / (CLKDIV + 1);
+   * ADC rate = ADC clock / 65;
+   */
+  temp = rate * 65;
+  temp = (ADCPClk * 2 + temp) / (2 * temp) -
+         1; // get the round value by fomular: (2*A + B)/(2*B)
+  tmp |= ADC_CR_CLKDIV(temp);
 
-    ADCx->ADCR = tmp;
+  ADCx->ADCR = tmp;
 }
 
 /*********************************************************************/ /**
@@ -139,17 +139,16 @@ void ADC_Init(LPC_ADC_TypeDef* ADCx, uint32_t rate)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_DeInit(LPC_ADC_TypeDef* ADCx)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    if (ADCx->ADCR & ADC_CR_START_MASK) // need to stop START bits before DeInit
-        ADCx->ADCR &= ~ADC_CR_START_MASK;
-    // Clear SEL bits
-    ADCx->ADCR &= ~0xFF;
-    // Clear PDN bit
-    ADCx->ADCR &= ~ADC_CR_PDN;
-    // Turn on power and clock
-    CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCAD, DISABLE);
+void ADC_DeInit(LPC_ADC_TypeDef *ADCx) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  if (ADCx->ADCR & ADC_CR_START_MASK) // need to stop START bits before DeInit
+    ADCx->ADCR &= ~ADC_CR_START_MASK;
+  // Clear SEL bits
+  ADCx->ADCR &= ~0xFF;
+  // Clear PDN bit
+  ADCx->ADCR &= ~ADC_CR_PDN;
+  // Turn on power and clock
+  CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCAD, DISABLE);
 }
 
 /*********************************************************************/ /**
@@ -176,14 +175,13 @@ void ADC_DeInit(LPC_ADC_TypeDef* ADCx)
                                                                          *of
                                                                          *conversion
                                                                          *********************************************************************/
-uint32_t ADC_GetData(uint32_t channel)
-{
-    uint32_t adc_value;
+uint32_t ADC_GetData(uint32_t channel) {
+  uint32_t adc_value;
 
-    CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(channel));
+  CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(channel));
 
-    adc_value = *(uint32_t*)((&LPC_ADC->ADDR0) + channel);
-    return ADC_GDR_RESULT(adc_value);
+  adc_value = *(uint32_t *)((&LPC_ADC->ADDR0) + channel);
+  return ADC_GDR_RESULT(adc_value);
 }
 
 /*********************************************************************/ /**
@@ -234,13 +232,12 @@ uint32_t ADC_GetData(uint32_t channel)
                                                                          * @return
                                                                          *None
                                                                          *********************************************************************/
-void ADC_StartCmd(LPC_ADC_TypeDef* ADCx, uint8_t start_mode)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_START_OPT(start_mode));
+void ADC_StartCmd(LPC_ADC_TypeDef *ADCx, uint8_t start_mode) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_START_OPT(start_mode));
 
-    ADCx->ADCR &= ~ADC_CR_START_MASK;
-    ADCx->ADCR |= ADC_CR_START_MODE_SEL((uint32_t)start_mode);
+  ADCx->ADCR &= ~ADC_CR_START_MASK;
+  ADCx->ADCR |= ADC_CR_START_MODE_SEL((uint32_t)start_mode);
 }
 
 /*********************************************************************/ /**
@@ -271,15 +268,13 @@ void ADC_StartCmd(LPC_ADC_TypeDef* ADCx, uint8_t start_mode)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_BurstCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
+void ADC_BurstCmd(LPC_ADC_TypeDef *ADCx, FunctionalState NewState) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
 
-    ADCx->ADCR &= ~ADC_CR_BURST;
-    if (NewState)
-    {
-        ADCx->ADCR |= ADC_CR_BURST;
-    }
+  ADCx->ADCR &= ~ADC_CR_BURST;
+  if (NewState) {
+    ADCx->ADCR |= ADC_CR_BURST;
+  }
 }
 
 /*********************************************************************/ /**
@@ -314,15 +309,13 @@ void ADC_BurstCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_PowerdownCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
+void ADC_PowerdownCmd(LPC_ADC_TypeDef *ADCx, FunctionalState NewState) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
 
-    ADCx->ADCR &= ~ADC_CR_PDN;
-    if (NewState)
-    {
-        ADCx->ADCR |= ADC_CR_PDN;
-    }
+  ADCx->ADCR &= ~ADC_CR_PDN;
+  if (NewState) {
+    ADCx->ADCR |= ADC_CR_PDN;
+  }
 }
 
 /*********************************************************************/ /**
@@ -350,16 +343,14 @@ void ADC_PowerdownCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_EdgeStartConfig(LPC_ADC_TypeDef* ADCx, uint8_t EdgeOption)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_START_ON_EDGE_OPT(EdgeOption));
+void ADC_EdgeStartConfig(LPC_ADC_TypeDef *ADCx, uint8_t EdgeOption) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_START_ON_EDGE_OPT(EdgeOption));
 
-    ADCx->ADCR &= ~ADC_CR_EDGE;
-    if (EdgeOption)
-    {
-        ADCx->ADCR |= ADC_CR_EDGE;
-    }
+  ADCx->ADCR &= ~ADC_CR_EDGE;
+  if (EdgeOption) {
+    ADCx->ADCR |= ADC_CR_EDGE;
+  }
 }
 
 /*********************************************************************/ /**
@@ -422,16 +413,15 @@ void ADC_EdgeStartConfig(LPC_ADC_TypeDef* ADCx, uint8_t EdgeOption)
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_IntConfig(LPC_ADC_TypeDef* ADCx, ADC_TYPE_INT_OPT IntType, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_TYPE_INT_OPT(IntType));
+void ADC_IntConfig(LPC_ADC_TypeDef *ADCx, ADC_TYPE_INT_OPT IntType,
+                   FunctionalState NewState) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_TYPE_INT_OPT(IntType));
 
-    ADCx->ADINTEN &= ~ADC_INTEN_CH(IntType);
-    if (NewState)
-    {
-        ADCx->ADINTEN |= ADC_INTEN_CH(IntType);
-    }
+  ADCx->ADINTEN &= ~ADC_INTEN_CH(IntType);
+  if (NewState) {
+    ADCx->ADINTEN |= ADC_INTEN_CH(IntType);
+  }
 }
 
 /*********************************************************************/ /**
@@ -461,21 +451,19 @@ void ADC_IntConfig(LPC_ADC_TypeDef* ADCx, ADC_TYPE_INT_OPT IntType, FunctionalSt
                                                                          * @return
                                                                          *None
                                                                          **********************************************************************/
-void ADC_ChannelCmd(LPC_ADC_TypeDef* ADCx, uint8_t Channel, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(Channel));
+void ADC_ChannelCmd(LPC_ADC_TypeDef *ADCx, uint8_t Channel,
+                    FunctionalState NewState) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(Channel));
 
-    if (NewState == ENABLE)
-    {
-        ADCx->ADCR |= ADC_CR_CH_SEL(Channel);
-    }
-    else
-    {
-        if (ADCx->ADCR & ADC_CR_START_MASK) // need to stop START bits before disable channel
-            ADCx->ADCR &= ~ADC_CR_START_MASK;
-        ADCx->ADCR &= ~ADC_CR_CH_SEL(Channel);
-    }
+  if (NewState == ENABLE) {
+    ADCx->ADCR |= ADC_CR_CH_SEL(Channel);
+  } else {
+    if (ADCx->ADCR &
+        ADC_CR_START_MASK) // need to stop START bits before disable channel
+      ADCx->ADCR &= ~ADC_CR_START_MASK;
+    ADCx->ADCR &= ~ADC_CR_CH_SEL(Channel);
+  }
 }
 
 /*********************************************************************/ /**
@@ -502,15 +490,14 @@ void ADC_ChannelCmd(LPC_ADC_TypeDef* ADCx, uint8_t Channel, FunctionalState NewS
                                                                          *Data
                                                                          *conversion
                                                                          **********************************************************************/
-uint16_t ADC_ChannelGetData(LPC_ADC_TypeDef* ADCx, uint8_t channel)
-{
-    uint32_t adc_value;
+uint16_t ADC_ChannelGetData(LPC_ADC_TypeDef *ADCx, uint8_t channel) {
+  uint32_t adc_value;
 
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(channel));
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(channel));
 
-    adc_value = *(uint32_t*)((&ADCx->ADDR0) + channel);
-    return ADC_DR_RESULT(adc_value);
+  adc_value = *(uint32_t *)((&ADCx->ADDR0) + channel);
+  return ADC_DR_RESULT(adc_value);
 }
 
 /*********************************************************************/ /**
@@ -548,31 +535,25 @@ uint16_t ADC_ChannelGetData(LPC_ADC_TypeDef* ADCx, uint8_t channel)
                                                                          *SET /
                                                                          *RESET
                                                                          **********************************************************************/
-FlagStatus ADC_ChannelGetStatus(LPC_ADC_TypeDef* ADCx, uint8_t channel, uint32_t StatusType)
-{
-    uint32_t temp;
+FlagStatus ADC_ChannelGetStatus(LPC_ADC_TypeDef *ADCx, uint8_t channel,
+                                uint32_t StatusType) {
+  uint32_t temp;
 
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(channel));
-    CHECK_PARAM(PARAM_ADC_DATA_STATUS(StatusType));
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_CHANNEL_SELECTION(channel));
+  CHECK_PARAM(PARAM_ADC_DATA_STATUS(StatusType));
 
-    temp = *(uint32_t*)((&ADCx->ADDR0) + channel);
-    if (StatusType)
-    {
-        temp &= ADC_DR_DONE_FLAG;
-    }
-    else
-    {
-        temp &= ADC_DR_OVERRUN_FLAG;
-    }
-    if (temp)
-    {
-        return SET;
-    }
-    else
-    {
-        return RESET;
-    }
+  temp = *(uint32_t *)((&ADCx->ADDR0) + channel);
+  if (StatusType) {
+    temp &= ADC_DR_DONE_FLAG;
+  } else {
+    temp &= ADC_DR_OVERRUN_FLAG;
+  }
+  if (temp) {
+    return SET;
+  } else {
+    return RESET;
+  }
 }
 
 /*********************************************************************/ /**
@@ -597,11 +578,10 @@ FlagStatus ADC_ChannelGetStatus(LPC_ADC_TypeDef* ADCx, uint8_t channel, uint32_t
                                                                          *of
                                                                          *conversion
                                                                          **********************************************************************/
-uint32_t ADC_GlobalGetData(LPC_ADC_TypeDef* ADCx)
-{
-    CHECK_PARAM(PARAM_ADCx(ADCx));
+uint32_t ADC_GlobalGetData(LPC_ADC_TypeDef *ADCx) {
+  CHECK_PARAM(PARAM_ADCx(ADCx));
 
-    return ((uint32_t)(ADCx->ADGDR));
+  return ((uint32_t)(ADCx->ADGDR));
 }
 
 /*********************************************************************/ /**
@@ -633,30 +613,23 @@ uint32_t ADC_GlobalGetData(LPC_ADC_TypeDef* ADCx)
                                                                          *SET /
                                                                          *RESET
                                                                          **********************************************************************/
-FlagStatus ADC_GlobalGetStatus(LPC_ADC_TypeDef* ADCx, uint32_t StatusType)
-{
-    uint32_t temp;
+FlagStatus ADC_GlobalGetStatus(LPC_ADC_TypeDef *ADCx, uint32_t StatusType) {
+  uint32_t temp;
 
-    CHECK_PARAM(PARAM_ADCx(ADCx));
-    CHECK_PARAM(PARAM_ADC_DATA_STATUS(StatusType));
+  CHECK_PARAM(PARAM_ADCx(ADCx));
+  CHECK_PARAM(PARAM_ADC_DATA_STATUS(StatusType));
 
-    temp = ADCx->ADGDR;
-    if (StatusType)
-    {
-        temp &= ADC_DR_DONE_FLAG;
-    }
-    else
-    {
-        temp &= ADC_DR_OVERRUN_FLAG;
-    }
-    if (temp)
-    {
-        return SET;
-    }
-    else
-    {
-        return RESET;
-    }
+  temp = ADCx->ADGDR;
+  if (StatusType) {
+    temp &= ADC_DR_DONE_FLAG;
+  } else {
+    temp &= ADC_DR_OVERRUN_FLAG;
+  }
+  if (temp) {
+    return SET;
+  } else {
+    return RESET;
+  }
 }
 
 /**
