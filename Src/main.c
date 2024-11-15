@@ -74,47 +74,6 @@ void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
 
-int main(void){
-
-    SystemInit();
-
-    Config_GPIO();
-    Config_SYSTICK();
-    Config_TIMER0();
-    Config_ADC();
-    Config_DAC();
-    Config_PWM();
-    Config_UART();
-    Config_GPDMA();
-
-    while (TRUE)
-    {
-        /* code */
-    }
-    
-    return 0;
-
-}
-
-void Config_PWM(void) {
-  PWM_TIMERCFG_Type PWMCfg;
-  PWM_MATCHCFG_Type match0;
-  PINSEL_CFG_Type PinCgf;
-
-  // Cofiguracion pin PWM:
-  PinCgf.Portnum = PINSEL_PORT_1;
-  PinCgf.Pinnum = PINSEL_PIN_18;
-  PinCgf.Funcnum = PINSEL_FUNC_2;
-  PinCgf.Pinmode = PINSEL_PINMODE_PULLDOWN;
-  PinCgf.OpenDrain = PINSEL_PINMODE_NORMAL;
-
-  PINSEL_ConfigPin(&PinCgf);
-
-  // Configuracion PWM:
-  PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
-  PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
-
-  PWM_Init(LPC_PWM1, PWM_MODE_TIMER, &PWMCfg);
 void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
 
@@ -151,4 +110,24 @@ void Config_UART(void){
 
 }
 
+int main(void){
 
+    SystemInit();
+
+    Config_GPIO();
+    Config_SYSTICK();
+    Config_TIMER0();
+    Config_ADC();
+    Config_DAC();
+    Config_PWM();
+    Config_UART();
+    Config_GPDMA();
+
+    while (TRUE)
+    {
+        /* code */
+    }
+    
+    return 0;
+
+}
