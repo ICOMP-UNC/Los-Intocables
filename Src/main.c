@@ -88,6 +88,24 @@ int main(void){
 
 }
 
+void Config_PWM(void) {
+  PWM_TIMERCFG_Type PWMCfg;
+  PWM_MATCHCFG_Type match0;
+  PINSEL_CFG_Type PinCgf;
+
+  // Cofiguracion pin PWM:
+  PinCgf.Portnum = PINSEL_PORT_1;
+  PinCgf.Pinnum = PINSEL_PIN_18;
+  PinCgf.Funcnum = PINSEL_FUNC_2;
+  PinCgf.Pinmode = PINSEL_PINMODE_PULLDOWN;
+  PinCgf.OpenDrain = PINSEL_PINMODE_NORMAL;
+
+  PINSEL_ConfigPin(&PinCgf);
+
+  // Configuracion PWM:
+  PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
+  PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
+
 void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
 
