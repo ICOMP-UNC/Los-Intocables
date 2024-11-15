@@ -116,12 +116,12 @@ void DAC_SetBias(LPC_DAC_TypeDef* DACx, uint32_t bias)
                                                                          *should be: LPC_DAC
                                                                          * @param[in] 	DAC_ConverterConfigStruct
                                                                          *pointer to DAC_CONVERTER_CFG_Type
-                                                                         * 					- DBLBUF_ENA :  enable/disable DACR
-                                                                         *double buffering feature
-                                                                         * 					- CNT_ENA    :  enable/disable
-                                                                         *timer out counter
-                                                                         * 					- DMA_ENA    :	enable/disable DMA
-                                                                         *access
+                                                                         * 					- DBLBUF_ENA :
+                                                                         *enable/disable DACR double buffering feature
+                                                                         * 					- CNT_ENA    :
+                                                                         *enable/disable timer out counter
+                                                                         * 					- DMA_ENA    :
+                                                                         *enable/disable DMA access
                                                                          * @return 		None
                                                                          ***********************************************************************/
 void DAC_ConfigDAConverterControl(LPC_DAC_TypeDef* DACx, DAC_CONVERTER_CFG_Type* DAC_ConverterConfigStruct)
@@ -137,8 +137,8 @@ void DAC_ConfigDAConverterControl(LPC_DAC_TypeDef* DACx, DAC_CONVERTER_CFG_Type*
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Set reload value for interrupt/DMA
-                                                                         *counter
+                                                                         * @brief 		Set reload value for
+                                                                         *interrupt/DMA counter
                                                                          * @param[in] 	DACx pointer to LPC_DAC_TypeDef,
                                                                          *should be: LPC_DAC
                                                                          * @param[in] 	time_out time out to reload for

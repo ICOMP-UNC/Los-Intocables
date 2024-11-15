@@ -61,8 +61,8 @@ static uint8_t WDT_SetTimeOut(uint8_t clk_source, uint32_t timeout);
                                                                         *mode
                                                                         * @param[in]	clk_source select Clock source
                                                                         *for WDT device
-                                                                        * @param[in]	timeout value of time-out for WDT
-                                                                        *(us)
+                                                                        * @param[in]	timeout value of time-out for
+                                                                        *WDT (us)
                                                                         * @return		None
                                                                         *********************************************************************/
 static uint8_t WDT_SetTimeOut(uint8_t clk_source, uint32_t timeout)
@@ -157,17 +157,17 @@ static uint8_t WDT_SetTimeOut(uint8_t clk_source, uint32_t timeout)
                                                                          * 					Clock source = RTC ,
                                                                          * @param[in]	ClkSrc  Select clock source,
                                                                          *should be:
-                                                                         * 				- WDT_CLKSRC_IRC: Clock source from
-                                                                         *Internal RC oscillator
-                                                                         * 				- WDT_CLKSRC_PCLK: Selects the APB
-                                                                         *peripheral clock (PCLK)
-                                                                         * 				- WDT_CLKSRC_RTC: Selects the RTC
-                                                                         *oscillator
+                                                                         * 				- WDT_CLKSRC_IRC: Clock source
+                                                                         *from Internal RC oscillator
+                                                                         * 				- WDT_CLKSRC_PCLK: Selects the
+                                                                         *APB peripheral clock (PCLK)
+                                                                         * 				- WDT_CLKSRC_RTC: Selects the
+                                                                         *RTC oscillator
                                                                          * @param[in]	WDTMode WDT mode, should be:
                                                                          * 				- WDT_MODE_INT_ONLY: Use WDT to
                                                                          *generate interrupt only
-                                                                         * 				- WDT_MODE_RESET: Use WDT to generate
-                                                                         *interrupt and reset MCU
+                                                                         * 				- WDT_MODE_RESET: Use WDT to
+                                                                         *generate interrupt and reset MCU
                                                                          * @return 		None
                                                                          **********************************************************************/
 void WDT_Init(WDT_CLK_OPT ClkSrc, WDT_MODE_OPT WDTMode)
