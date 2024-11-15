@@ -96,6 +96,59 @@ int main(void){
 
 }
 
+void Config_PWM(void) {
+  PWM_TIMERCFG_Type PWMCfg;
+  PWM_MATCHCFG_Type match0;
+  PINSEL_CFG_Type PinCgf;
+
+  // Cofiguracion pin PWM:
+  PinCgf.Portnum = PINSEL_PORT_1;
+  PinCgf.Pinnum = PINSEL_PIN_18;
+  PinCgf.Funcnum = PINSEL_FUNC_2;
+  PinCgf.Pinmode = PINSEL_PINMODE_PULLDOWN;
+  PinCgf.OpenDrain = PINSEL_PINMODE_NORMAL;
+
+  PINSEL_ConfigPin(&PinCgf);
+
+  // Configuracion PWM:
+  PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
+  PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
+
+  PWM_Init(LPC_PWM1, PWM_MODE_TIMER, &PWMCfg);
+
+  PWM_MatchUpdate(LPC_PWM1, PWM1_MR0, VAL_PERIODO_PWM, PWM_MATCH_UPDATE_NOW);
+  PWM_MatchUpdate(LPC_PWM1, PWM1_MR1, VAL_DUTYCICLE_PWM, PWM_MATCH_UPDATE_NOW);
+
+  match0.MatchChannel = 0;
+  match0.IntOnMatch = ENABLE;
+  match0.ResetOnMatch = ENABLE;
+
+  PWM_ConfigMatch(LPC_PWM1, &match0);
+
+  PWM_ChannelConfig(LPC_PWM1, 1, PWM_CHANNEL_SINGLE_EDGE);
+
+  PWM_ChannelCmd(LPC_PWM1, 1, ENABLE);
+}
+
+void PWM1_IRQHandler(void) {
+
+  Count_PWM++;
+
+  if (Count_PWM == 100) {
+    PWM_Cmd(LPC_PWM1, DISABLE);
+    Count_PWM = 0;
+  }
+
+  PWM_ClearIntPending(LPC_PWM1, PWM_INTSTAT_MR0);
+}
+
+void Systick_Handler(void) {
+
+  UART_Send(LPC_UART0, &Datos, 4, NONE_BLOCKING);
+
+  SYSTICK_ClearCounterFlag();
+}
+
 void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
 
