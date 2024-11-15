@@ -30,15 +30,18 @@
 * this code.
 **********************************************************************/
 
-/* Peripheral group ----------------------------------------------------------- */
+/* Peripheral group -----------------------------------------------------------
+ */
 /** @addtogroup CLKPWR
  * @{
  */
 
-/* Includes ------------------------------------------------------------------- */
+/* Includes -------------------------------------------------------------------
+ */
 #include "lpc17xx_clkpwr.h"
 
-/* Public Functions ----------------------------------------------------------- */
+/* Public Functions -----------------------------------------------------------
+ */
 /** @addtogroup CLKPWR_Public_Functions
  * @{
  */
@@ -76,36 +79,35 @@
                  - CLKPWR_PCLKSEL_MC 		: MC
 
   * @param[in]	DivVal	Value of divider, should be:
-  * 				- CLKPWR_PCLKSEL_CCLK_DIV_4 : PCLK_peripheral = CCLK/4
-  * 				- CLKPWR_PCLKSEL_CCLK_DIV_1 : PCLK_peripheral = CCLK/1
-  *				- CLKPWR_PCLKSEL_CCLK_DIV_2 : PCLK_peripheral = CCLK/2
+  * 				- CLKPWR_PCLKSEL_CCLK_DIV_4 : PCLK_peripheral =
+  CCLK/4
+  * 				- CLKPWR_PCLKSEL_CCLK_DIV_1 : PCLK_peripheral =
+  CCLK/1 *				- CLKPWR_PCLKSEL_CCLK_DIV_2 :
+  PCLK_peripheral = CCLK/2
   *
   * @return none
   **********************************************************************/
-void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal)
-{
-    uint32_t bitpos;
+void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal) {
+  uint32_t bitpos;
 
-    bitpos = (ClkType < 32) ? (ClkType) : (ClkType - 32);
+  bitpos = (ClkType < 32) ? (ClkType) : (ClkType - 32);
 
-    /* PCLKSEL0 selected */
-    if (ClkType < 32)
-    {
-        /* Clear two bit at bit position */
-        LPC_SC->PCLKSEL0 &= (~(CLKPWR_PCLKSEL_BITMASK(bitpos)));
+  /* PCLKSEL0 selected */
+  if (ClkType < 32) {
+    /* Clear two bit at bit position */
+    LPC_SC->PCLKSEL0 &= (~(CLKPWR_PCLKSEL_BITMASK(bitpos)));
 
-        /* Set two selected bit */
-        LPC_SC->PCLKSEL0 |= (CLKPWR_PCLKSEL_SET(bitpos, DivVal));
-    }
-    /* PCLKSEL1 selected */
-    else
-    {
-        /* Clear two bit at bit position */
-        LPC_SC->PCLKSEL1 &= ~(CLKPWR_PCLKSEL_BITMASK(bitpos));
+    /* Set two selected bit */
+    LPC_SC->PCLKSEL0 |= (CLKPWR_PCLKSEL_SET(bitpos, DivVal));
+  }
+  /* PCLKSEL1 selected */
+  else {
+    /* Clear two bit at bit position */
+    LPC_SC->PCLKSEL1 &= ~(CLKPWR_PCLKSEL_BITMASK(bitpos));
 
-        /* Set two selected bit */
-        LPC_SC->PCLKSEL1 |= (CLKPWR_PCLKSEL_SET(bitpos, DivVal));
-    }
+    /* Set two selected bit */
+    LPC_SC->PCLKSEL1 |= (CLKPWR_PCLKSEL_SET(bitpos, DivVal));
+  }
 }
 
 /*********************************************************************/ /**
@@ -142,23 +144,19 @@ void CLKPWR_SetPCLKDiv(uint32_t ClkType, uint32_t DivVal)
 
   * @return		Value of Selected Peripheral Clock Selection
   **********************************************************************/
-uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType)
-{
-    uint32_t bitpos, retval;
+uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType) {
+  uint32_t bitpos, retval;
 
-    if (ClkType < 32)
-    {
-        bitpos = ClkType;
-        retval = LPC_SC->PCLKSEL0;
-    }
-    else
-    {
-        bitpos = ClkType - 32;
-        retval = LPC_SC->PCLKSEL1;
-    }
+  if (ClkType < 32) {
+    bitpos = ClkType;
+    retval = LPC_SC->PCLKSEL0;
+  } else {
+    bitpos = ClkType - 32;
+    retval = LPC_SC->PCLKSEL1;
+  }
 
-    retval = CLKPWR_PCLKSEL_GET(bitpos, retval);
-    return retval;
+  retval = CLKPWR_PCLKSEL_GET(bitpos, retval);
+  return retval;
 }
 
 /*********************************************************************/ /**
@@ -195,30 +193,37 @@ uint32_t CLKPWR_GetPCLKSEL(uint32_t ClkType)
 
   * @return		Value of Selected Peripheral Clock
   **********************************************************************/
-uint32_t CLKPWR_GetPCLK(uint32_t ClkType)
-{
-    uint32_t retval, div;
+uint32_t CLKPWR_GetPCLK(uint32_t ClkType) {
+  uint32_t retval, div;
 
-    retval = SystemCoreClock;
-    div = CLKPWR_GetPCLKSEL(ClkType);
+  retval = SystemCoreClock;
+  div = CLKPWR_GetPCLKSEL(ClkType);
 
-    switch (div)
-    {
-        case 0: div = 4; break;
+  switch (div) {
+  case 0:
+    div = 4;
+    break;
 
-        case 1: div = 1; break;
+  case 1:
+    div = 1;
+    break;
 
-        case 2: div = 2; break;
+  case 2:
+    div = 2;
+    break;
 
-        case 3: div = 8; break;
-    }
-    retval /= div;
+  case 3:
+    div = 8;
+    break;
+  }
+  retval /= div;
 
-    return retval;
+  return retval;
 }
 
 /*********************************************************************/ /**
-  * @brief 		Configure power supply for each peripheral according to NewState
+  * @brief 		Configure power supply for each peripheral according to
+  NewState
   * @param[in]	PPType	Type of peripheral used to enable power,
   *     					should be one of the following:
   *     			-  CLKPWR_PCONP_PCTIM0 		: Timer 0
@@ -250,79 +255,113 @@ uint32_t CLKPWR_GetPCLK(uint32_t ClkType)
                  -  CLKPWR_PCONP_PCUSB   	: USB
   *
   * @param[in]	NewState	New state of Peripheral Power, should be:
-  * 				- ENABLE	: Enable power for this peripheral
-  * 				- DISABLE	: Disable power for this peripheral
+  * 				- ENABLE	: Enable power for this
+  peripheral
+  * 				- DISABLE	: Disable power for this
+  peripheral
   *
   * @return none
   **********************************************************************/
-void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState)
-{
-    if (NewState == ENABLE)
-    {
-        LPC_SC->PCONP |= PPType & CLKPWR_PCONP_BITMASK;
-    }
-    else if (NewState == DISABLE)
-    {
-        LPC_SC->PCONP &= (~PPType) & CLKPWR_PCONP_BITMASK;
-    }
+void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState) {
+  if (NewState == ENABLE) {
+    LPC_SC->PCONP |= PPType & CLKPWR_PCONP_BITMASK;
+  } else if (NewState == DISABLE) {
+    LPC_SC->PCONP &= (~PPType) & CLKPWR_PCONP_BITMASK;
+  }
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enter Sleep mode with co-operated
-                                                                         *instruction by the Cortex-M3.
-                                                                         * @param[in]	None
-                                                                         * @return		None
+                                                                         * @brief
+                                                                         *Enter
+                                                                         *Sleep
+                                                                         *mode
+                                                                         *with
+                                                                         *co-operated
+                                                                         *instruction
+                                                                         *by the
+                                                                         *Cortex-M3.
+                                                                         * @param[in]
+                                                                         *None
+                                                                         * @return
+                                                                         *None
                                                                          **********************************************************************/
-void CLKPWR_Sleep(void)
-{
-    LPC_SC->PCON = 0x00;
-    /* Sleep Mode*/
-    __WFI();
+void CLKPWR_Sleep(void) {
+  LPC_SC->PCON = 0x00;
+  /* Sleep Mode*/
+  __WFI();
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enter Deep Sleep mode with
-                                                                         *co-operated instruction by the Cortex-M3.
-                                                                         * @param[in]	None
-                                                                         * @return		None
+                                                                         * @brief
+                                                                         *Enter
+                                                                         *Deep
+                                                                         *Sleep
+                                                                         *mode
+                                                                         *with
+                                                                         *co-operated
+                                                                         *instruction
+                                                                         *by the
+                                                                         *Cortex-M3.
+                                                                         * @param[in]
+                                                                         *None
+                                                                         * @return
+                                                                         *None
                                                                          **********************************************************************/
-void CLKPWR_DeepSleep(void)
-{
-    /* Deep-Sleep Mode, set SLEEPDEEP bit */
-    SCB->SCR = 0x4;
-    LPC_SC->PCON = 0x00;
-    /* Deep Sleep Mode*/
-    __WFI();
+void CLKPWR_DeepSleep(void) {
+  /* Deep-Sleep Mode, set SLEEPDEEP bit */
+  SCB->SCR = 0x4;
+  LPC_SC->PCON = 0x00;
+  /* Deep Sleep Mode*/
+  __WFI();
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enter Power Down mode with
-                                                                         *co-operated instruction by the Cortex-M3.
-                                                                         * @param[in]	None
-                                                                         * @return		None
+                                                                         * @brief
+                                                                         *Enter
+                                                                         *Power
+                                                                         *Down
+                                                                         *mode
+                                                                         *with
+                                                                         *co-operated
+                                                                         *instruction
+                                                                         *by the
+                                                                         *Cortex-M3.
+                                                                         * @param[in]
+                                                                         *None
+                                                                         * @return
+                                                                         *None
                                                                          **********************************************************************/
-void CLKPWR_PowerDown(void)
-{
-    /* Deep-Sleep Mode, set SLEEPDEEP bit */
-    SCB->SCR = 0x4;
-    LPC_SC->PCON = 0x01;
-    /* Power Down Mode*/
-    __WFI();
+void CLKPWR_PowerDown(void) {
+  /* Deep-Sleep Mode, set SLEEPDEEP bit */
+  SCB->SCR = 0x4;
+  LPC_SC->PCON = 0x01;
+  /* Power Down Mode*/
+  __WFI();
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enter Deep Power Down mode with
-                                                                         *co-operated instruction by the Cortex-M3.
-                                                                         * @param[in]	None
-                                                                         * @return		None
+                                                                         * @brief
+                                                                         *Enter
+                                                                         *Deep
+                                                                         *Power
+                                                                         *Down
+                                                                         *mode
+                                                                         *with
+                                                                         *co-operated
+                                                                         *instruction
+                                                                         *by the
+                                                                         *Cortex-M3.
+                                                                         * @param[in]
+                                                                         *None
+                                                                         * @return
+                                                                         *None
                                                                          **********************************************************************/
-void CLKPWR_DeepPowerDown(void)
-{
-    /* Deep-Sleep Mode, set SLEEPDEEP bit */
-    SCB->SCR = 0x4;
-    LPC_SC->PCON = 0x03;
-    /* Deep Power Down Mode*/
-    __WFI();
+void CLKPWR_DeepPowerDown(void) {
+  /* Deep-Sleep Mode, set SLEEPDEEP bit */
+  SCB->SCR = 0x4;
+  LPC_SC->PCON = 0x03;
+  /* Deep Power Down Mode*/
+  __WFI();
 }
 
 /**
@@ -333,4 +372,5 @@ void CLKPWR_DeepPowerDown(void)
  * @}
  */
 
-/* --------------------------------- End Of File ------------------------------ */
+/* --------------------------------- End Of File ------------------------------
+ */

@@ -120,22 +120,22 @@ WEAK extern void __LPC_Checksum();
 //*****************************************************************************
 __attribute__((section(".isr_vector"))) void (*const g_pfnVectors[])(void) = {
     // Core Level - CM3
-    (void (*)(void)) & _vStackTop, // The initial stack pointer
-    Reset_Handler,                 // The reset handler
-    NMI_Handler,                   // The NMI handler
-    HardFault_Handler,             // The hard fault handler
-    MemManage_Handler,             // The MPU fault handler
-    BusFault_Handler,              // The bus fault handler
-    UsageFault_Handler,            // The usage fault handler
-    __LPC_Checksum,                // Reserved
-    0,                             // Reserved
-    0,                             // Reserved
-    0,                             // Reserved
-    SVC_Handler,                   // SVCall handler
-    DebugMon_Handler,              // Debug monitor handler
-    0,                             // Reserved
-    PendSV_Handler,                // The PendSV handler
-    SysTick_Handler,               // The SysTick handler
+    (void (*)(void))&_vStackTop, // The initial stack pointer
+    Reset_Handler,               // The reset handler
+    NMI_Handler,                 // The NMI handler
+    HardFault_Handler,           // The hard fault handler
+    MemManage_Handler,           // The MPU fault handler
+    BusFault_Handler,            // The bus fault handler
+    UsageFault_Handler,          // The usage fault handler
+    __LPC_Checksum,              // Reserved
+    0,                           // Reserved
+    0,                           // Reserved
+    0,                           // Reserved
+    SVC_Handler,                 // SVCall handler
+    DebugMon_Handler,            // Debug monitor handler
+    0,                           // Reserved
+    PendSV_Handler,              // The PendSV handler
+    SysTick_Handler,             // The SysTick handler
 
     // Chip Level - LPC17
     WDT_IRQHandler,    // 16, 0x40 - WDT

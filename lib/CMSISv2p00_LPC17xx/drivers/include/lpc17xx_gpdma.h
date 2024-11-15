@@ -56,30 +56,30 @@ extern "C" {
  */
 
 /** DMA Connection number definitions */
-#define GPDMA_CONN_SSP0_Tx ((0UL)) /**< SSP0 Tx */
-#define GPDMA_CONN_SSP0_Rx ((1UL)) /**< SSP0 Rx */
-#define GPDMA_CONN_SSP1_Tx ((2UL)) /**< SSP1 Tx */
-#define GPDMA_CONN_SSP1_Rx ((3UL)) /**< SSP1 Rx */
-#define GPDMA_CONN_ADC ((4UL)) /**< ADC */
+#define GPDMA_CONN_SSP0_Tx ((0UL))       /**< SSP0 Tx */
+#define GPDMA_CONN_SSP0_Rx ((1UL))       /**< SSP0 Rx */
+#define GPDMA_CONN_SSP1_Tx ((2UL))       /**< SSP1 Tx */
+#define GPDMA_CONN_SSP1_Rx ((3UL))       /**< SSP1 Rx */
+#define GPDMA_CONN_ADC ((4UL))           /**< ADC */
 #define GPDMA_CONN_I2S_Channel_0 ((5UL)) /**< I2S channel 0 */
 #define GPDMA_CONN_I2S_Channel_1 ((6UL)) /**< I2S channel 1 */
-#define GPDMA_CONN_DAC ((7UL)) /**< DAC */
-#define GPDMA_CONN_UART0_Tx ((8UL)) /**< UART0 Tx */
-#define GPDMA_CONN_UART0_Rx ((9UL)) /**< UART0 Rx */
-#define GPDMA_CONN_UART1_Tx ((10UL)) /**< UART1 Tx */
-#define GPDMA_CONN_UART1_Rx ((11UL)) /**< UART1 Rx */
-#define GPDMA_CONN_UART2_Tx ((12UL)) /**< UART2 Tx */
-#define GPDMA_CONN_UART2_Rx ((13UL)) /**< UART2 Rx */
-#define GPDMA_CONN_UART3_Tx ((14UL)) /**< UART3 Tx */
-#define GPDMA_CONN_UART3_Rx ((15UL)) /**< UART3 Rx */
-#define GPDMA_CONN_MAT0_0 ((16UL)) /**< MAT0.0 */
-#define GPDMA_CONN_MAT0_1 ((17UL)) /**< MAT0.1 */
-#define GPDMA_CONN_MAT1_0 ((18UL)) /**< MAT1.0 */
-#define GPDMA_CONN_MAT1_1 ((19UL)) /**< MAT1.1 */
-#define GPDMA_CONN_MAT2_0 ((20UL)) /**< MAT2.0 */
-#define GPDMA_CONN_MAT2_1 ((21UL)) /**< MAT2.1 */
-#define GPDMA_CONN_MAT3_0 ((22UL)) /**< MAT3.0 */
-#define GPDMA_CONN_MAT3_1 ((23UL)) /**< MAT3.1 */
+#define GPDMA_CONN_DAC ((7UL))           /**< DAC */
+#define GPDMA_CONN_UART0_Tx ((8UL))      /**< UART0 Tx */
+#define GPDMA_CONN_UART0_Rx ((9UL))      /**< UART0 Rx */
+#define GPDMA_CONN_UART1_Tx ((10UL))     /**< UART1 Tx */
+#define GPDMA_CONN_UART1_Rx ((11UL))     /**< UART1 Rx */
+#define GPDMA_CONN_UART2_Tx ((12UL))     /**< UART2 Tx */
+#define GPDMA_CONN_UART2_Rx ((13UL))     /**< UART2 Rx */
+#define GPDMA_CONN_UART3_Tx ((14UL))     /**< UART3 Tx */
+#define GPDMA_CONN_UART3_Rx ((15UL))     /**< UART3 Rx */
+#define GPDMA_CONN_MAT0_0 ((16UL))       /**< MAT0.0 */
+#define GPDMA_CONN_MAT0_1 ((17UL))       /**< MAT0.1 */
+#define GPDMA_CONN_MAT1_0 ((18UL))       /**< MAT1.0 */
+#define GPDMA_CONN_MAT1_1 ((19UL))       /**< MAT1.1 */
+#define GPDMA_CONN_MAT2_0 ((20UL))       /**< MAT2.0 */
+#define GPDMA_CONN_MAT2_1 ((21UL))       /**< MAT2.1 */
+#define GPDMA_CONN_MAT3_0 ((22UL))       /**< MAT3.0 */
+#define GPDMA_CONN_MAT3_1 ((23UL))       /**< MAT3.1 */
 
 /** GPDMA Transfer type definitions */
 #define GPDMA_TRANSFERTYPE_M2M ((0UL)) /**< Memory to memory - DMA control */
@@ -91,22 +91,22 @@ extern "C" {
   ((3UL)) /**< Source peripheral to destination peripheral - DMA control */
 
 /** Burst size in Source and Destination definitions */
-#define GPDMA_BSIZE_1 ((0UL)) /**< Burst size = 1 */
-#define GPDMA_BSIZE_4 ((1UL)) /**< Burst size = 4 */
-#define GPDMA_BSIZE_8 ((2UL)) /**< Burst size = 8 */
-#define GPDMA_BSIZE_16 ((3UL)) /**< Burst size = 16 */
-#define GPDMA_BSIZE_32 ((4UL)) /**< Burst size = 32 */
-#define GPDMA_BSIZE_64 ((5UL)) /**< Burst size = 64 */
+#define GPDMA_BSIZE_1 ((0UL))   /**< Burst size = 1 */
+#define GPDMA_BSIZE_4 ((1UL))   /**< Burst size = 4 */
+#define GPDMA_BSIZE_8 ((2UL))   /**< Burst size = 8 */
+#define GPDMA_BSIZE_16 ((3UL))  /**< Burst size = 16 */
+#define GPDMA_BSIZE_32 ((4UL))  /**< Burst size = 32 */
+#define GPDMA_BSIZE_64 ((5UL))  /**< Burst size = 64 */
 #define GPDMA_BSIZE_128 ((6UL)) /**< Burst size = 128 */
 #define GPDMA_BSIZE_256 ((7UL)) /**< Burst size = 256 */
 
 /** Width in Source transfer width and Destination transfer width definitions */
-#define GPDMA_WIDTH_BYTE ((0UL)) /**< Width = 1 byte */
+#define GPDMA_WIDTH_BYTE ((0UL))     /**< Width = 1 byte */
 #define GPDMA_WIDTH_HALFWORD ((1UL)) /**< Width = 2 bytes */
-#define GPDMA_WIDTH_WORD ((2UL)) /**< Width = 4 bytes */
+#define GPDMA_WIDTH_WORD ((2UL))     /**< Width = 4 bytes */
 
 /** DMA Request Select Mode definitions */
-#define GPDMA_REQSEL_UART ((0UL)) /**< UART TX/RX is selected */
+#define GPDMA_REQSEL_UART ((0UL))  /**< UART TX/RX is selected */
 #define GPDMA_REQSEL_TIMER ((1UL)) /**< Timer match is selected */
 
 /**
@@ -351,7 +351,7 @@ extern "C" {
 #define GPDMA_DMACCxControl_SWidth(n)                                          \
   (((n & 0x07) << 18)) /**< Source transfer width*/
 #define GPDMA_DMACCxControl_DWidth(n)                                          \
-  (((n & 0x07) << 21)) /**< Destination transfer width*/
+  (((n & 0x07) << 21))                       /**< Destination transfer width*/
 #define GPDMA_DMACCxControl_SI ((1UL << 26)) /**< Source increment*/
 #define GPDMA_DMACCxControl_DI ((1UL << 27)) /**< Destination increment*/
 #define GPDMA_DMACCxControl_Prot1                                              \
@@ -385,7 +385,7 @@ extern "C" {
   (((n & 0x7) << 11)) /**< This value indicates the type of transfer*/
 #define GPDMA_DMACCxConfig_IE ((1UL << 14)) /**< Interrupt error mask*/
 #define GPDMA_DMACCxConfig_ITC                                                 \
-  ((1UL << 15)) /**< Terminal count interrupt mask*/
+  ((1UL << 15))                            /**< Terminal count interrupt mask*/
 #define GPDMA_DMACCxConfig_L ((1UL << 16)) /**< Lock*/
 #define GPDMA_DMACCxConfig_A ((1UL << 17)) /**< Active*/
 #define GPDMA_DMACCxConfig_H ((1UL << 18)) /**< Halt*/

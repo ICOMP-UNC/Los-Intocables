@@ -61,7 +61,7 @@ extern "C" {
 
 /*  CMSIS CM3 definitions */
 #define __CM3_CMSIS_VERSION_MAIN (0x02) /*!< [31:16] CMSIS HAL main version */
-#define __CM3_CMSIS_VERSION_SUB (0x10) /*!< [15:0]  CMSIS HAL sub version  */
+#define __CM3_CMSIS_VERSION_SUB (0x10)  /*!< [15:0]  CMSIS HAL sub version  */
 #define __CM3_CMSIS_VERSION                                                    \
   ((__CM3_CMSIS_VERSION_MAIN << 16) |                                          \
    __CM3_CMSIS_VERSION_SUB) /*!< CMSIS HAL version number       */
@@ -69,7 +69,7 @@ extern "C" {
 #define __CORTEX_M (0x03) /*!< Cortex core                    */
 
 #if defined(__CC_ARM)
-#define __ASM __asm /*!< asm keyword for ARM Compiler          */
+#define __ASM __asm       /*!< asm keyword for ARM Compiler          */
 #define __INLINE __inline /*!< inline keyword for ARM Compiler       */
 
 #elif defined(__ICCARM__)
@@ -79,11 +79,11 @@ extern "C" {
             optimization mode! */
 
 #elif defined(__GNUC__)
-#define __ASM __asm /*!< asm keyword for GNU Compiler          */
+#define __ASM __asm     /*!< asm keyword for GNU Compiler          */
 #define __INLINE inline /*!< inline keyword for GNU Compiler       */
 
 #elif defined(__TASKING__)
-#define __ASM __asm /*!< asm keyword for TASKING Compiler      */
+#define __ASM __asm     /*!< asm keyword for TASKING Compiler      */
 #define __INLINE inline /*!< inline keyword for TASKING Compiler   */
 
 #endif
@@ -155,7 +155,7 @@ extern "C" {
 #define __I                                                                    \
   volatile const /*!< defines 'read only' permissions                 */
 #endif
-#define __O volatile /*!< defines 'write only' permissions                */
+#define __O volatile  /*!< defines 'write only' permissions                */
 #define __IO volatile /*!< defines 'read / write' permissions              */
 
 /*@} end of group CMSIS_core_definitions */
@@ -299,8 +299,7 @@ typedef struct {
   __I uint32_t CPUID; /*!< Offset: 0x000 (R/ )  CPUID Base Register */
   __IO uint32_t
       ICSR; /*!< Offset: 0x004 (R/W)  Interrupt Control and State Register */
-  __IO uint32_t
-      VTOR; /*!< Offset: 0x008 (R/W)  Vector Table Offset Register            */
+  __IO uint32_t VTOR;  /*!< Offset: 0x008 (R/W)  Vector Table Offset Register  */
   __IO uint32_t AIRCR; /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset
                           Control Register      */
   __IO uint32_t SCR;   /*!< Offset: 0x010 (R/W)  System Control Register   */
@@ -635,12 +634,9 @@ typedef struct {
 typedef struct {
   __IO uint32_t
       CTRL; /*!< Offset: 0x000 (R/W)  SysTick Control and Status Register */
-  __IO uint32_t
-      LOAD; /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register       */
-  __IO uint32_t
-      VAL; /*!< Offset: 0x008 (R/W)  SysTick Current Value Register      */
-  __I uint32_t
-      CALIB; /*!< Offset: 0x00C (R/ )  SysTick Calibration Register        */
+  __IO uint32_t LOAD; /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register */
+  __IO uint32_t VAL; /*!< Offset: 0x008 (R/W)  SysTick Current Value Register */
+  __I uint32_t CALIB; /*!< Offset: 0x00C (R/ )  SysTick Calibration Register */
 } SysTick_Type;
 
 /* SysTick Control / Status Register Definitions */
@@ -1024,8 +1020,8 @@ typedef struct {
  */
 
 /* Memory mapping of Cortex-M3 Hardware */
-#define SCS_BASE (0xE000E000UL) /*!< System Control Space Base Address  */
-#define ITM_BASE (0xE0000000UL) /*!< ITM Base Address                   */
+#define SCS_BASE (0xE000E000UL)       /*!< System Control Space Base Address  */
+#define ITM_BASE (0xE0000000UL)       /*!< ITM Base Address                   */
 #define CoreDebug_BASE (0xE000EDF0UL) /*!< Core Debug Base Address */
 #define SysTick_BASE                                                           \
   (SCS_BASE + 0x0010UL) /*!< SysTick Base Address               */
@@ -1035,18 +1031,18 @@ typedef struct {
   (SCS_BASE + 0x0D00UL) /*!< System Control Block Base Address  */
 
 #define SCnSCB                                                                 \
-  ((SCnSCB_Type *)SCS_BASE) /*!< System control Register not in SCB */
+  ((SCnSCB_Type *)SCS_BASE)        /*!< System control Register not in SCB */
 #define SCB ((SCB_Type *)SCB_BASE) /*!< SCB configuration struct           */
 #define SysTick                                                                \
-  ((SysTick_Type *)SysTick_BASE) /*!< SysTick configuration struct       */
+  ((SysTick_Type *)SysTick_BASE)      /*!< SysTick configuration struct       */
 #define NVIC ((NVIC_Type *)NVIC_BASE) /*!< NVIC configuration struct */
-#define ITM ((ITM_Type *)ITM_BASE) /*!< ITM configuration struct           */
+#define ITM ((ITM_Type *)ITM_BASE)    /*!< ITM configuration struct           */
 #define CoreDebug                                                              \
   ((CoreDebug_Type *)CoreDebug_BASE) /*!< Core Debug configuration struct */
 
 #if (__MPU_PRESENT == 1)
 #define MPU_BASE                                                               \
-  (SCS_BASE + 0x0D90UL) /*!< Memory Protection Unit             */
+  (SCS_BASE + 0x0D90UL)            /*!< Memory Protection Unit             */
 #define MPU ((MPU_Type *)MPU_BASE) /*!< Memory Protection Unit             */
 #endif
 
@@ -1116,7 +1112,7 @@ static __INLINE uint32_t NVIC_GetPriorityGrouping(void) {
  */
 static __INLINE void NVIC_EnableIRQ(IRQn_Type IRQn) {
   NVIC->ISER[((uint32_t)(IRQn) >> 5)] =
-      (1 << ((uint32_t)(IRQn)&0x1F)); /* enable interrupt */
+      (1 << ((uint32_t)(IRQn) & 0x1F)); /* enable interrupt */
 }
 
 /** \brief  Disable External Interrupt
@@ -1128,7 +1124,7 @@ static __INLINE void NVIC_EnableIRQ(IRQn_Type IRQn) {
  */
 static __INLINE void NVIC_DisableIRQ(IRQn_Type IRQn) {
   NVIC->ICER[((uint32_t)(IRQn) >> 5)] =
-      (1 << ((uint32_t)(IRQn)&0x1F)); /* disable interrupt */
+      (1 << ((uint32_t)(IRQn) & 0x1F)); /* disable interrupt */
 }
 
 /** \brief  Get Pending Interrupt
@@ -1141,10 +1137,10 @@ static __INLINE void NVIC_DisableIRQ(IRQn_Type IRQn) {
     \return             1  Interrupt status is pending
  */
 static __INLINE uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn) {
-  return ((uint32_t)(
-      (NVIC->ISPR[(uint32_t)(IRQn) >> 5] & (1 << ((uint32_t)(IRQn)&0x1F)))
-          ? 1
-          : 0)); /* Return 1 if pending else 0 */
+  return ((uint32_t)((NVIC->ISPR[(uint32_t)(IRQn) >> 5] &
+                      (1 << ((uint32_t)(IRQn) & 0x1F)))
+                         ? 1
+                         : 0)); /* Return 1 if pending else 0 */
 }
 
 /** \brief  Set Pending Interrupt
@@ -1156,7 +1152,7 @@ static __INLINE uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn) {
  */
 static __INLINE void NVIC_SetPendingIRQ(IRQn_Type IRQn) {
   NVIC->ISPR[((uint32_t)(IRQn) >> 5)] =
-      (1 << ((uint32_t)(IRQn)&0x1F)); /* set interrupt pending */
+      (1 << ((uint32_t)(IRQn) & 0x1F)); /* set interrupt pending */
 }
 
 /** \brief  Clear Pending Interrupt
@@ -1168,7 +1164,7 @@ static __INLINE void NVIC_SetPendingIRQ(IRQn_Type IRQn) {
  */
 static __INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn) {
   NVIC->ICPR[((uint32_t)(IRQn) >> 5)] =
-      (1 << ((uint32_t)(IRQn)&0x1F)); /* Clear pending interrupt */
+      (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
 }
 
 /** \brief  Get Active Interrupt
@@ -1179,10 +1175,10 @@ static __INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn) {
     \return             1  Interrupt status is active
  */
 static __INLINE uint32_t NVIC_GetActive(IRQn_Type IRQn) {
-  return ((uint32_t)(
-      (NVIC->IABR[(uint32_t)(IRQn) >> 5] & (1 << ((uint32_t)(IRQn)&0x1F)))
-          ? 1
-          : 0)); /* Return 1 if active else 0 */
+  return ((uint32_t)((NVIC->IABR[(uint32_t)(IRQn) >> 5] &
+                      (1 << ((uint32_t)(IRQn) & 0x1F)))
+                         ? 1
+                         : 0)); /* Return 1 if active else 0 */
 }
 
 /** \brief  Set Interrupt Priority
@@ -1198,7 +1194,7 @@ static __INLINE uint32_t NVIC_GetActive(IRQn_Type IRQn) {
  */
 static __INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority) {
   if (IRQn < 0) {
-    SCB->SHP[((uint32_t)(IRQn)&0xF) - 4] =
+    SCB->SHP[((uint32_t)(IRQn) & 0xF) - 4] =
         ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff);
   } /* set Priority for Cortex-M  System Interrupts */
   else {
@@ -1221,7 +1217,7 @@ static __INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority) {
 static __INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn) {
 
   if (IRQn < 0) {
-    return ((uint32_t)(SCB->SHP[((uint32_t)(IRQn)&0xF) - 4] >>
+    return ((uint32_t)(SCB->SHP[((uint32_t)(IRQn) & 0xF) - 4] >>
                        (8 - __NVIC_PRIO_BITS)));
   } /* get priority for Cortex-M  system interrupts */
   else {

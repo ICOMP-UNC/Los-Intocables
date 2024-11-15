@@ -401,10 +401,10 @@ PWM
 #define IRC_OSC (4000000UL) /* Internal RC oscillator frequency   */
 
 /* F_cco0 = (2 * M * F_in) / N  */
-#define __M (((PLL0CFG_Val)&0x7FFF) + 1)
+#define __M (((PLL0CFG_Val) & 0x7FFF) + 1)
 #define __N (((PLL0CFG_Val >> 16) & 0x00FF) + 1)
 #define __FCCO(__F_IN) ((2 * __M * __F_IN) / __N)
-#define __CCLK_DIV (((CCLKCFG_Val)&0x00FF) + 1)
+#define __CCLK_DIV (((CCLKCFG_Val) & 0x00FF) + 1)
 
 /* Determine core clock frequency according to settings */
 #if (PLL0_SETUP)
