@@ -105,7 +105,6 @@ void Config_PWM(void) {
   // Configuracion PWM:
   PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
   PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
-
 void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
 
