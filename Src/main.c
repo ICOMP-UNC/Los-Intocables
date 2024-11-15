@@ -148,7 +148,6 @@ void Systick_Handler(void) {
 
   SYSTICK_ClearCounterFlag();
 }
-
 void Config_ADC(void){
     ADC_Init (LPC_ADC, FREQ_ADC);
 
