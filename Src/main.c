@@ -74,91 +74,26 @@ void Config_PWM(void);
 void Config_UART(void);
 void Config_GPDMA(void);
 
-int main(void) {
+int main(void){
 
-  SystemInit();
+    SystemInit();
 
-  Config_GPIO();
-  Config_SYSTICK();
-  Config_TIMER0();
-  Config_ADC();
-  Config_DAC();
-  Config_PWM();
-  Config_UART();
-  Config_GPDMA();
+    Config_GPIO();
+    Config_SYSTICK();
+    Config_TIMER0();
+    Config_ADC();
+    Config_DAC();
+    Config_PWM();
+    Config_UART();
+    Config_GPDMA();
 
-  while (TRUE) {
-    /* code */
-  }
+    while (TRUE)
+    {
+        /* code */
+    }
+    
+    return 0;
 
-  return 0;
-}
-
-void Config_GPDMA(void) {
-
-  GPDMA_Channel_CFG_Type ChannelCfg0; // Estructura para canal 0
-  GPDMA_Channel_CFG_Type ChannelCfg1; // Estructura para canal 1
-
-  GPDMA_LLI_Type ListADC; // Estructura para lista del ADC
-
-  // Configuración de la Lista de Transferencias:
-  ListADC.DstAddr = (uint16_t)&Conversiones[0];
-  ListADC.SrcAddr = GPDMA_CONN_ADC;
-  ListADC.NextLLI = 0;
-  ListADC.Control = (3 << 0) | (1 << 18) | (1 << 21) | (1 << 27);
-}
-
-void Config_PWM(void) {
-  PWM_TIMERCFG_Type PWMCfg;
-  PWM_MATCHCFG_Type match0;
-  PINSEL_CFG_Type PinCgf;
-
-  // Cofiguracion pin PWM:
-  PinCgf.Portnum = PINSEL_PORT_1;
-  PinCgf.Pinnum = PINSEL_PIN_18;
-  PinCgf.Funcnum = PINSEL_FUNC_2;
-  PinCgf.Pinmode = PINSEL_PINMODE_PULLDOWN;
-  PinCgf.OpenDrain = PINSEL_PINMODE_NORMAL;
-
-  PINSEL_ConfigPin(&PinCgf);
-
-  // Configuracion PWM:
-  PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
-  PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
-
-  PWM_Init(LPC_PWM1, PWM_MODE_TIMER, &PWMCfg);
-
-  PWM_MatchUpdate(LPC_PWM1, PWM1_MR0, VAL_PERIODO_PWM, PWM_MATCH_UPDATE_NOW);
-  PWM_MatchUpdate(LPC_PWM1, PWM1_MR1, VAL_DUTYCICLE_PWM, PWM_MATCH_UPDATE_NOW);
-
-  match0.MatchChannel = 0;
-  match0.IntOnMatch = ENABLE;
-  match0.ResetOnMatch = ENABLE;
-
-  PWM_ConfigMatch(LPC_PWM1, &match0);
-
-  PWM_ChannelConfig(LPC_PWM1, 1, PWM_CHANNEL_SINGLE_EDGE);
-
-  PWM_ChannelCmd(LPC_PWM1, 1, ENABLE);
-}
-
-void PWM1_IRQHandler(void) {
-
-  Count_PWM++;
-
-  if (Count_PWM == 100) {
-    PWM_Cmd(LPC_PWM1, DISABLE);
-    Count_PWM = 0;
-  }
-
-  PWM_ClearIntPending(LPC_PWM1, PWM_INTSTAT_MR0);
-}
-
-void Systick_Handler(void) {
-
-  UART_Send(LPC_UART0, &Datos, 4, NONE_BLOCKING);
-
-  SYSTICK_ClearCounterFlag();
 }
 
 void Config_ADC(void){
@@ -196,10 +131,5 @@ void Config_UART(void){
     UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
 
 }
-
-
-
-
-
 
 
