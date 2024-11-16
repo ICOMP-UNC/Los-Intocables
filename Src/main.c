@@ -185,7 +185,7 @@ void Config_DAC()
     DAC_ConfigDAConverterControl(LPC_DAC, &cfg_dac);
 
     // Configuramos la salida del DAC en 350uA
-    DAC_SetBias(LPC_ADC, DAC_MAX_CURRENT_350uA);
+    DAC_SetBias(LPC_DAC, DAC_MAX_CURRENT_350uA);
 
     // Configuramos el tiempo de actualizacion del DAC en 10ms
     timeout = (uint32_t)((1 / FREQ_DAC) * VAL_TIEMPO_DAC);
