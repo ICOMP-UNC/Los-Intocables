@@ -4,7 +4,8 @@
 
 # We define the source files that will be compiled and linked into the final binary.
 # Add all the source files here, ending with \ to continue on the next line.
-SRCS =	system_LPC17xx.c \
+SRCS =	newlib_stubs.c \
+		system_LPC17xx.c \
 		main.c \
 		lpc17xx_gpio.c \
 		lpc17xx_pinsel.c \
