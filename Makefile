@@ -4,24 +4,15 @@
 
 # We define the source files that will be compiled and linked into the final binary.
 # Add all the source files here, ending with \ to continue on the next line.
-SRCS =	system_LPC17xx.c \
-		main.c \
-		lpc17xx_gpio.c \
-		lpc17xx_pinsel.c \
-		lpc17xx_systick.c \
-		lpc17xx_timer.c \
-		lpc17xx_pwm.c \
-		lpc17xx_adc.c \
-		lpc17xx_dac.c \
-		lpc17xx_gpdma.c \
-		lpc17xx_uart.c \
-		lpc17xx_nvic.c
+SRCS =	newlib_stubs.c \
+		system_LPC17xx.c \
+		main.c
  
 	 
 # Define the name of the project
 # This will be the name of the final binary file
 
-PROJ_NAME=Proyecto_Domotica
+PROJ_NAME=gates-of-survival
 
 # You should not need to change anything below this line =D
 

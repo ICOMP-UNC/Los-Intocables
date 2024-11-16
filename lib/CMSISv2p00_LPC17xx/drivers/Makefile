@@ -51,7 +51,9 @@ SRCS = lpc17xx_libcfg_default.c \
 	 lpc17xx_uart.c \
 	 lpc17xx_i2c.c \
 	 lpc17xx_spi.c \
-	 lpc17xx_clkpwr.c
+	 lpc17xx_clkpwr.c\
+	 lpc17xx_systick.c\
+	 lpc17xx_timer.c
 
 # OBJS: Converts each source file name (.c) into its corresponding object file name (.o).
 OBJS = $(SRCS:.c=.o)
