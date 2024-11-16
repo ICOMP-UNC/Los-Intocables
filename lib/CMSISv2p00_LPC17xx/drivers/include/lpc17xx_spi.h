@@ -73,7 +73,7 @@ extern "C"
 #define SPI_DATA_LSB_FIRST ((uint32_t)(1 << 6))
 
 /** SPI data bit number defines */
-#define SPI_DATABIT_16 SPI_SPCR_BITS(0)    /*!< Databit number = 16 */
+#define SPI_DATABIT_16 SPI_SPCR_BITS(0) /*!< Databit number = 16 */
 #define SPI_DATABIT_8  SPI_SPCR_BITS(0x08) /*!< Databit number = 8 */
 #define SPI_DATABIT_9  SPI_SPCR_BITS(0x09) /*!< Databit number = 9 */
 #define SPI_DATABIT_10 SPI_SPCR_BITS(0x0A) /*!< Databit number = 10 */

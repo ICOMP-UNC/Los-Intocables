@@ -75,12 +75,12 @@ extern "C"
 #define SSP_MASTER_MODE ((uint32_t)(0))
 
 /** SSP data bit number defines */
-#define SSP_DATABIT_4  SSP_CR0_DSS(4)  /*!< Databit number = 4 */
-#define SSP_DATABIT_5  SSP_CR0_DSS(5)  /*!< Databit number = 5 */
-#define SSP_DATABIT_6  SSP_CR0_DSS(6)  /*!< Databit number = 6 */
-#define SSP_DATABIT_7  SSP_CR0_DSS(7)  /*!< Databit number = 7 */
-#define SSP_DATABIT_8  SSP_CR0_DSS(8)  /*!< Databit number = 8 */
-#define SSP_DATABIT_9  SSP_CR0_DSS(9)  /*!< Databit number = 9 */
+#define SSP_DATABIT_4  SSP_CR0_DSS(4) /*!< Databit number = 4 */
+#define SSP_DATABIT_5  SSP_CR0_DSS(5) /*!< Databit number = 5 */
+#define SSP_DATABIT_6  SSP_CR0_DSS(6) /*!< Databit number = 6 */
+#define SSP_DATABIT_7  SSP_CR0_DSS(7) /*!< Databit number = 7 */
+#define SSP_DATABIT_8  SSP_CR0_DSS(8) /*!< Databit number = 8 */
+#define SSP_DATABIT_9  SSP_CR0_DSS(9) /*!< Databit number = 9 */
 #define SSP_DATABIT_10 SSP_CR0_DSS(10) /*!< Databit number = 10 */
 #define SSP_DATABIT_11 SSP_CR0_DSS(11) /*!< Databit number = 11 */
 #define SSP_DATABIT_12 SSP_CR0_DSS(12) /*!< Databit number = 12 */

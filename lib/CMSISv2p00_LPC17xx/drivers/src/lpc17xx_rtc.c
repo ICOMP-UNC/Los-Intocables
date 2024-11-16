@@ -77,8 +77,9 @@ void RTC_Init(LPC_RTC_TypeDef* RTCx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the RTC peripheral
-                                                                         *registers to their default reset values.
+                                                                         * @brief		De-initializes the RTC
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
                                                                          * @return 		None
@@ -139,9 +140,9 @@ void RTC_Cmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState)
                                                                          *interrupt for each time type in RTC peripheral
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
-                                                                         * @param[in]	CntIncrIntType: Counter Increment
-                                                                         *Interrupt type, an increment of this type
-                                                                         *value below will generates an interrupt,
+                                                                         * @param[in]	CntIncrIntType: Counter
+                                                                         *Increment Interrupt type, an increment of this
+                                                                         *type value below will generates an interrupt,
                                                                          *should be:
                                                                          * 				- RTC_TIMETYPE_SECOND
                                                                          * 				- RTC_TIMETYPE_MINUTE
@@ -153,8 +154,8 @@ void RTC_Cmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState)
                                                                          * 				- RTC_TIMETYPE_YEAR
                                                                          * @param[in]	NewState New State of this
                                                                          *function, should be:
-                                                                         * 				- ENABLE: Counter Increment interrupt
-                                                                         *for this time type are enabled
+                                                                         * 				- ENABLE: Counter Increment
+                                                                         *interrupt for this time type are enabled
                                                                          * 				- DISABLE: Counter Increment
                                                                          *interrupt for this time type are disabled
                                                                          * @return 		None
@@ -196,8 +197,8 @@ void RTC_CntIncrIntConfig(LPC_RTC_TypeDef* RTCx, uint32_t CntIncrIntType, Functi
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enable/Disable Alarm interrupt for
-                                                                         *each time type in RTC peripheral
+                                                                         * @brief 		Enable/Disable Alarm interrupt
+                                                                         *for each time type in RTC peripheral
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
                                                                          * @param[in]	AlarmTimeType: Alarm Time
@@ -415,8 +416,8 @@ void RTC_GetFullTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Set alarm time value for each time
-                                                                         *type
+                                                                         * @brief 		Set alarm time value for each
+                                                                         *time type
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
                                                                          * @param[in]	Timetype: Time Type, should be:
@@ -488,8 +489,8 @@ void RTC_SetAlarmTime(LPC_RTC_TypeDef* RTCx, uint32_t Timetype, uint32_t ALValue
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Get alarm time value for each time
-                                                                         *type
+                                                                         * @brief 		Get alarm time value for each
+                                                                         *time type
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
                                                                          * @param[in]	Timetype: Time Type, should be:
@@ -576,11 +577,11 @@ void RTC_GetFullAlarmTime(LPC_RTC_TypeDef* RTCx, RTC_TIME_Type* pFullTime)
                                                                          *should be LPC_RTC
                                                                          * @param[in]	IntType Interrupt location type,
                                                                          *should be:
-                                                                         * 						- RTC_INT_COUNTER_INCREASE:
-                                                                         *Counter Increment Interrupt block generated an
-                                                                         *interrupt.
-                                                                         * 						- RTC_INT_ALARM: Alarm generated
-                                                                         *an interrupt.
+                                                                         * 						-
+                                                                         *RTC_INT_COUNTER_INCREASE: Counter Increment
+                                                                         *Interrupt block generated an interrupt.
+                                                                         * 						- RTC_INT_ALARM: Alarm
+                                                                         *generated an interrupt.
                                                                          * @return 		New state of specified Location
                                                                          *interrupt in RTC peripheral (SET or RESET)
                                                                          **********************************************************************/
@@ -593,16 +594,17 @@ IntStatus RTC_GetIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Clear specified Location interrupt
-                                                                         *pending in RTC peripheral
+                                                                         * @brief 		Clear specified Location
+                                                                         *interrupt pending in RTC peripheral
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
                                                                          * @param[in]	IntType Interrupt location type,
                                                                          *should be:
-                                                                         * 						- RTC_INT_COUNTER_INCREASE: Clear
-                                                                         *Counter Increment Interrupt pending.
-                                                                         * 						- RTC_INT_ALARM: Clear alarm
-                                                                         *interrupt pending
+                                                                         * 						-
+                                                                         *RTC_INT_COUNTER_INCREASE: Clear Counter
+                                                                         *Increment Interrupt pending.
+                                                                         * 						- RTC_INT_ALARM: Clear
+                                                                         *alarm interrupt pending
                                                                          * @return 		None
                                                                          **********************************************************************/
 void RTC_ClearIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType)
@@ -614,16 +616,16 @@ void RTC_ClearIntPending(LPC_RTC_TypeDef* RTCx, uint32_t IntType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enable/Disable calibration counter
-                                                                         *in RTC peripheral
+                                                                         * @brief 		Enable/Disable calibration
+                                                                         *counter in RTC peripheral
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
                                                                          * @param[in]	NewState New State of this
                                                                          *function, should be:
-                                                                         * 				- ENABLE: The calibration counter is
-                                                                         *enabled and counting
-                                                                         * 				- DISABLE: The calibration counter is
-                                                                         *disabled and reset to zero
+                                                                         * 				- ENABLE: The calibration
+                                                                         *counter is enabled and counting
+                                                                         * 				- DISABLE: The calibration
+                                                                         *counter is disabled and reset to zero
                                                                          * @return 		None
                                                                          **********************************************************************/
 void RTC_CalibCounterCmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState)
@@ -650,10 +652,10 @@ void RTC_CalibCounterCmd(LPC_RTC_TypeDef* RTCx, FunctionalState NewState)
                                                                          *should be in range from 0 to 131,072
                                                                          * @param[in]	CalibDir Calibration Direction,
                                                                          *should be:
-                                                                         * 					- RTC_CALIB_DIR_FORWARD: Forward
-                                                                         *calibration
-                                                                         * 					- RTC_CALIB_DIR_BACKWARD: Backward
-                                                                         *calibration
+                                                                         * 					- RTC_CALIB_DIR_FORWARD:
+                                                                         *Forward calibration
+                                                                         * 					- RTC_CALIB_DIR_BACKWARD:
+                                                                         *Backward calibration
                                                                          * @return 		None
                                                                          **********************************************************************/
 void RTC_CalibConfig(LPC_RTC_TypeDef* RTCx, uint32_t CalibValue, uint8_t CalibDir)
@@ -671,9 +673,9 @@ void RTC_CalibConfig(LPC_RTC_TypeDef* RTCx, uint32_t CalibValue, uint8_t CalibDi
                                                                          *registers
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
-                                                                         * @param[in]	Channel General purpose registers
-                                                                         *Channel number, should be in range from 0
-                                                                         *to 4.
+                                                                         * @param[in]	Channel General purpose
+                                                                         *registers Channel number, should be in range
+                                                                         *from 0 to 4.
                                                                          * @param[in]	Value Value to write
                                                                          * @return 		None
                                                                          * Note: These General purpose registers can be
@@ -698,9 +700,9 @@ void RTC_WriteGPREG(LPC_RTC_TypeDef* RTCx, uint8_t Channel, uint32_t Value)
                                                                          *registers
                                                                          * @param[in]	RTCx	RTC peripheral selected,
                                                                          *should be LPC_RTC
-                                                                         * @param[in]	Channel General purpose registers
-                                                                         *Channel number, should be in range from 0
-                                                                         *to 4.
+                                                                         * @param[in]	Channel General purpose
+                                                                         *registers Channel number, should be in range
+                                                                         *from 0 to 4.
                                                                          * @return 		Read Value
                                                                          * Note: These General purpose registers can be
                                                                          *used to store important information when the

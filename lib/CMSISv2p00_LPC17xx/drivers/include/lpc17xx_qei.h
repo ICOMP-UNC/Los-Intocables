@@ -54,10 +54,10 @@ extern "C"
  */
 
 /* QEI Reset types */
-#define QEI_RESET_POS      QEI_CON_RESP  /**< Reset position counter */
+#define QEI_RESET_POS      QEI_CON_RESP /**< Reset position counter */
 #define QEI_RESET_POSOnIDX QEI_CON_RESPI /**< Reset Posistion Counter on Index */
-#define QEI_RESET_VEL      QEI_CON_RESV  /**< Reset Velocity */
-#define QEI_RESET_IDX      QEI_CON_RESI  /**< Reset Index Counter */
+#define QEI_RESET_VEL      QEI_CON_RESV /**< Reset Velocity */
+#define QEI_RESET_IDX      QEI_CON_RESI /**< Reset Index Counter */
 
 /* QEI Direction Invert Type Option */
 #define QEI_DIRINV_NONE ((uint32_t)(0)) /**< Direction is not inverted */
@@ -104,8 +104,8 @@ extern "C"
     ((uint32_t)(1 << 8)) /**< position 2 compare value is equal to the                                                 \
                          current position interrupt */
 #define QEI_INTFLAG_REV_Int                                                                                            \
-    ((uint32_t)(1 << 9))                              /**< Index compare value is equal to the current                 \
-                                                      index count interrupt */
+    ((uint32_t)(1 << 9)) /**< Index compare value is equal to the current                                              \
+                         index count interrupt */
 #define QEI_INTFLAG_POS0REV_Int ((uint32_t)(1 << 10)) /**< Combined position 0 and revolution count interrupt */
 #define QEI_INTFLAG_POS1REV_Int ((uint32_t)(1 << 11)) /**< Combined position 1 and revolution count interrupt */
 #define QEI_INTFLAG_POS2REV_Int ((uint32_t)(1 << 12)) /**< Combined position 2 and revolution count interrupt */
@@ -125,35 +125,36 @@ extern "C"
                                                                          * Macro defines for QEI Control register
                                                                          **********************************************************************/
 #define QEI_CON_RESP    ((uint32_t)(1 << 0))                            /**< Reset position counter */
-#define QEI_CON_RESPI   ((uint32_t)(1 << 1))                            /**< Reset Posistion Counter on Index */
-#define QEI_CON_RESV    ((uint32_t)(1 << 2))                            /**< Reset Velocity */
-#define QEI_CON_RESI    ((uint32_t)(1 << 3))                            /**< Reset Index Counter */
-#define QEI_CON_BITMASK ((uint32_t)(0x0F))                              /**< QEI Control register bit-mask */
+#define QEI_CON_RESPI   ((uint32_t)(1 << 1)) /**< Reset Posistion Counter on Index */
+#define QEI_CON_RESV    ((uint32_t)(1 << 2)) /**< Reset Velocity */
+#define QEI_CON_RESI    ((uint32_t)(1 << 3)) /**< Reset Index Counter */
+#define QEI_CON_BITMASK ((uint32_t)(0x0F)) /**< QEI Control register bit-mask */
 
 /*********************************************************************/ /**
                                                                          * Macro defines for QEI Configuration register
                                                                          **********************************************************************/
 #define QEI_CONF_DIRINV  ((uint32_t)(1 << 0))                           /**< Direction Invert */
-#define QEI_CONF_SIGMODE ((uint32_t)(1 << 1))                           /**< Signal mode */
-#define QEI_CONF_CAPMODE ((uint32_t)(1 << 2))                           /**< Capture mode */
-#define QEI_CONF_INVINX  ((uint32_t)(1 << 3))                           /**< Invert index */
-#define QEI_CONF_BITMASK ((uint32_t)(0x0F))                             /**< QEI Configuration register bit-mask */
+#define QEI_CONF_SIGMODE ((uint32_t)(1 << 1)) /**< Signal mode */
+#define QEI_CONF_CAPMODE ((uint32_t)(1 << 2)) /**< Capture mode */
+#define QEI_CONF_INVINX  ((uint32_t)(1 << 3)) /**< Invert index */
+#define QEI_CONF_BITMASK ((uint32_t)(0x0F)) /**< QEI Configuration register bit-mask */
 
 /*********************************************************************/ /**
                                                                          * Macro defines for QEI Status register
                                                                          **********************************************************************/
 #define QEI_STAT_DIR     ((uint32_t)(1 << 0))                           /**< Direction bit */
-#define QEI_STAT_BITMASK ((uint32_t)(1 << 0))                           /**< QEI status register bit-mask */
+#define QEI_STAT_BITMASK ((uint32_t)(1 << 0)) /**< QEI status register bit-mask */
 
 /* Quadrature Encoder Interface Interrupt registers definitions --------------------- */
 /*********************************************************************/ /**
                                                                          * Macro defines for QEI Interrupt Status
                                                                          *register
                                                                          **********************************************************************/
-#define QEI_INTSTAT_INX_Int  ((uint32_t)(1 << 0))  /**< Indicates that an index pulse was detected */
-#define QEI_INTSTAT_TIM_Int  ((uint32_t)(1 << 1))  /**< Indicates that a velocity timer overflow occurred */
-#define QEI_INTSTAT_VELC_Int ((uint32_t)(1 << 2))  /**< Indicates that capture velocity is less than compare velocity  \
-                                                    */
+#define QEI_INTSTAT_INX_Int ((uint32_t)(1 << 0)) /**< Indicates that an index pulse was detected */
+#define QEI_INTSTAT_TIM_Int ((uint32_t)(1 << 1)) /**< Indicates that a velocity timer overflow occurred */
+#define QEI_INTSTAT_VELC_Int                                                                                           \
+    ((uint32_t)(1 << 2)) /**< Indicates that capture velocity is less than compare velocity                            \
+                          */
 #define QEI_INTSTAT_DIR_Int   ((uint32_t)(1 << 3)) /**< Indicates that a change of direction was detected */
 #define QEI_INTSTAT_ERR_Int   ((uint32_t)(1 << 4)) /**< Indicates that an encoder phase error was detected */
 #define QEI_INTSTAT_ENCLK_Int ((uint32_t)(1 << 5)) /**< Indicates that and encoder clock pulse was detected */
@@ -176,8 +177,8 @@ extern "C"
     ((uint32_t)(1 << 11)) /**< Combined position 1 and revolution count interrupt. Set when                            \
                           both the POS1_Int bit is set and the REV_Int is set */
 #define QEI_INTSTAT_POS2REV_Int                                                                                        \
-    ((uint32_t)(1 << 12))                        /**< Combined position 2 and revolution count interrupt. Set when     \
-                                                 both the POS2_Int bit is set and the REV_Int is set */
+    ((uint32_t)(1 << 12)) /**< Combined position 2 and revolution count interrupt. Set when                            \
+                          both the POS2_Int bit is set and the REV_Int is set */
 #define QEI_INTSTAT_BITMASK ((uint32_t)(0x1FFF)) /**< QEI Interrupt Status register bit-mask */
 
 /*********************************************************************/ /**
@@ -207,7 +208,7 @@ extern "C"
 #define QEI_INTSET_POS1REV_Int                                                                                         \
     ((uint32_t)(1 << 11)) /**< Set Bit that Combined position 1 and revolution count interrupt */
 #define QEI_INTSET_POS2REV_Int                                                                                         \
-    ((uint32_t)(1 << 12))                       /**< Set Bit that Combined position 2 and revolution count interrupt */
+    ((uint32_t)(1 << 12)) /**< Set Bit that Combined position 2 and revolution count interrupt */
 #define QEI_INTSET_BITMASK ((uint32_t)(0x1FFF)) /**< QEI Interrupt Set register bit-mask */
 
 /*********************************************************************/ /**
@@ -218,10 +219,11 @@ extern "C"
 #define QEI_INTCLR_TIM_Int ((uint32_t)(1 << 1)) /**< Clear Bit Indicates that a velocity timer overflow occurred */
 #define QEI_INTCLR_VELC_Int                                                                                            \
     ((uint32_t)(1 << 2)) /**< Clear Bit Indicates that capture velocity is less than compare velocity */
-#define QEI_INTCLR_DIR_Int   ((uint32_t)(1 << 3)) /**< Clear Bit Indicates that a change of direction was detected */
-#define QEI_INTCLR_ERR_Int   ((uint32_t)(1 << 4)) /**< Clear Bit Indicates that an encoder phase error was detected */
-#define QEI_INTCLR_ENCLK_Int ((uint32_t)(1 << 5)) /**< Clear Bit Indicates that and encoder clock pulse was detected   \
-                                                   */
+#define QEI_INTCLR_DIR_Int ((uint32_t)(1 << 3)) /**< Clear Bit Indicates that a change of direction was detected */
+#define QEI_INTCLR_ERR_Int ((uint32_t)(1 << 4)) /**< Clear Bit Indicates that an encoder phase error was detected */
+#define QEI_INTCLR_ENCLK_Int                                                                                           \
+    ((uint32_t)(1 << 5)) /**< Clear Bit Indicates that and encoder clock pulse was detected                            \
+                          */
 #define QEI_INTCLR_POS0_Int                                                                                            \
     ((uint32_t)(1 << 6)) /**< Clear Bit Indicates that the position 0 compare value is equal to the                    \
                          current position */
@@ -246,8 +248,9 @@ extern "C"
                                                                          * Macro defines for QEI Interrupt Enable
                                                                          *register
                                                                          **********************************************************************/
-#define QEI_INTEN_INX_Int ((uint32_t)(1 << 0)) /**< Enabled Interrupt Bit Indicates that an index pulse was detected   \
-                                                */
+#define QEI_INTEN_INX_Int                                                                                              \
+    ((uint32_t)(1 << 0)) /**< Enabled Interrupt Bit Indicates that an index pulse was detected                         \
+                          */
 #define QEI_INTEN_TIM_Int                                                                                              \
     ((uint32_t)(1 << 1)) /**< Enabled Interrupt Bit Indicates that a velocity timer overflow occurred */
 #define QEI_INTEN_VELC_Int                                                                                             \

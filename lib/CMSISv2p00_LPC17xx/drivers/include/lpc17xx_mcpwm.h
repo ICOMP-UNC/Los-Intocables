@@ -124,9 +124,9 @@ extern "C"
     ((n <= 2) ? ((uint32_t)(1 << ((n * 8) + 3))) : (0)) /**< Control the dead-time feature for channel n */
 #define MCPWM_CON_DISUP(n)                                                                                             \
     ((n <= 2) ? ((uint32_t)(1 << ((n * 8) + 4)))                                                                       \
-              : (0))                              /**< Enable/Disable update of functional register for channel n */
-#define MCPWM_CON_INVBDC ((uint32_t)(1 << 29))    /**< Control the polarity for all 3 channels */
-#define MCPWM_CON_ACMODE ((uint32_t)(1 << 30))    /**< 3-phase AC mode select */
+              : (0)) /**< Enable/Disable update of functional register for channel n */
+#define MCPWM_CON_INVBDC ((uint32_t)(1 << 29)) /**< Control the polarity for all 3 channels */
+#define MCPWM_CON_ACMODE ((uint32_t)(1 << 30)) /**< 3-phase AC mode select */
 #define MCPWM_CON_DCMODE ((uint32_t)(0x80000000)) /**< 3-phase DC mode select */
 
 /*********************************************************************/ /**
@@ -199,11 +199,11 @@ extern "C"
                                                                          *register
                                                                          **********************************************************************/
 #define MCPWM_CP_A0 ((uint32_t)(1 << 0))                                /**< MCOA0 tracks internal MCOA0 */
-#define MCPWM_CP_B0 ((uint32_t)(1 << 1))                                /**< MCOB0 tracks internal MCOA0 */
-#define MCPWM_CP_A1 ((uint32_t)(1 << 2))                                /**< MCOA1 tracks internal MCOA0 */
-#define MCPWM_CP_B1 ((uint32_t)(1 << 3))                                /**< MCOB1 tracks internal MCOA0 */
-#define MCPWM_CP_A2 ((uint32_t)(1 << 4))                                /**< MCOA2 tracks internal MCOA0 */
-#define MCPWM_CP_B2 ((uint32_t)(1 << 5))                                /**< MCOB2 tracks internal MCOA0 */
+#define MCPWM_CP_B0 ((uint32_t)(1 << 1)) /**< MCOB0 tracks internal MCOA0 */
+#define MCPWM_CP_A1 ((uint32_t)(1 << 2)) /**< MCOA1 tracks internal MCOA0 */
+#define MCPWM_CP_B1 ((uint32_t)(1 << 3)) /**< MCOB1 tracks internal MCOA0 */
+#define MCPWM_CP_A2 ((uint32_t)(1 << 4)) /**< MCOA2 tracks internal MCOA0 */
+#define MCPWM_CP_B2 ((uint32_t)(1 << 5)) /**< MCOB2 tracks internal MCOA0 */
 
 /*********************************************************************/ /**
                                                                          * Macro defines for MCPWM Capture clear address

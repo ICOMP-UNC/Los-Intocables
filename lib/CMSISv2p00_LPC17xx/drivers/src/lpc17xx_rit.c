@@ -57,10 +57,10 @@
 
 /******************************************************************************/ /*
                                                                                   * @brief 		Initial for RIT
-                                                                                  * 					- Turn on power and
-                                                                                  *clock
-                                                                                  * 					- Setup default register
-                                                                                  *values
+                                                                                  * 					- Turn on power
+                                                                                  *and clock
+                                                                                  * 					- Setup default
+                                                                                  *register values
                                                                                   * @param[in]	RITx is RIT peripheral
                                                                                   *selected, should be: LPC_RIT
                                                                                   * @return 		None
@@ -78,10 +78,10 @@ void RIT_Init(LPC_RIT_TypeDef* RITx)
 }
 /******************************************************************************/ /*
                                                                                   * @brief 		DeInitial for RIT
-                                                                                  * 					- Turn off power and
-                                                                                  *clock
-                                                                                  * 					- ReSetup default register
-                                                                                  *values
+                                                                                  * 					- Turn off power
+                                                                                  *and clock
+                                                                                  * 					- ReSetup
+                                                                                  *default register values
                                                                                   * @param[in]	RITx is RIT peripheral
                                                                                   *selected, should be: LPC_RIT
                                                                                   * @return 		None
@@ -136,8 +136,8 @@ void RIT_TimerConfig(LPC_RIT_TypeDef* RITx, uint32_t time_interval)
                                                                                   *selected, should be: LPC_RIT
                                                                                   * @param[in]	NewState 	New State of
                                                                                   *this function -ENABLE: Enable Timer
-                                                                                  * 					-DISABLE: Disable
-                                                                                  *Timer
+                                                                                  * 					-DISABLE:
+                                                                                  *Disable Timer
                                                                                   * @return 		None
                                                                                   *******************************************************************************/
 void RIT_Cmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState)
@@ -189,8 +189,8 @@ void RIT_TimerDebugCmd(LPC_RIT_TypeDef* RITx, FunctionalState NewState)
                                                                                   *flag is set or not
                                                                                   * @param[in]	RITx is RIT peripheral
                                                                                   *selected, should be: LPC_RIT
-                                                                                  * @return 		Current interrupt status,
-                                                                                  *could be: SET/RESET
+                                                                                  * @return 		Current interrupt
+                                                                                  *status, could be: SET/RESET
                                                                                   *******************************************************************************/
 IntStatus RIT_GetIntStatus(LPC_RIT_TypeDef* RITx)
 {

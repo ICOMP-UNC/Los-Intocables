@@ -174,16 +174,16 @@ extern "C"
 /** YEAR register mask */
 #define RTC_YEAR_MASK (0x00000FFF)
 
-#define RTC_SECOND_MAX     59   /*!< Maximum value of second */
-#define RTC_MINUTE_MAX     59   /*!< Maximum value of minute*/
-#define RTC_HOUR_MAX       23   /*!< Maximum value of hour*/
-#define RTC_MONTH_MIN      1    /*!< Minimum value of month*/
-#define RTC_MONTH_MAX      12   /*!< Maximum value of month*/
-#define RTC_DAYOFMONTH_MIN 1    /*!< Minimum value of day of month*/
-#define RTC_DAYOFMONTH_MAX 31   /*!< Maximum value of day of month*/
-#define RTC_DAYOFWEEK_MAX  6    /*!< Maximum value of day of week*/
-#define RTC_DAYOFYEAR_MIN  1    /*!< Minimum value of day of year*/
-#define RTC_DAYOFYEAR_MAX  366  /*!< Maximum value of day of year*/
+#define RTC_SECOND_MAX     59 /*!< Maximum value of second */
+#define RTC_MINUTE_MAX     59 /*!< Maximum value of minute*/
+#define RTC_HOUR_MAX       23 /*!< Maximum value of hour*/
+#define RTC_MONTH_MIN      1 /*!< Minimum value of month*/
+#define RTC_MONTH_MAX      12 /*!< Maximum value of month*/
+#define RTC_DAYOFMONTH_MIN 1 /*!< Minimum value of day of month*/
+#define RTC_DAYOFMONTH_MAX 31 /*!< Maximum value of day of month*/
+#define RTC_DAYOFWEEK_MAX  6 /*!< Maximum value of day of week*/
+#define RTC_DAYOFYEAR_MIN  1 /*!< Minimum value of day of year*/
+#define RTC_DAYOFYEAR_MAX  366 /*!< Maximum value of day of year*/
 #define RTC_YEAR_MAX       4095 /*!< Maximum value of year*/
 
 /**********************************************************************

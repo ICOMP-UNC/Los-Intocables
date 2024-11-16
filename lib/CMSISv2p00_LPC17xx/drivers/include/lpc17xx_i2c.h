@@ -58,10 +58,10 @@ extern "C"
                                                                        * I2C Control Set register description
                                                                        *********************************************************************/
 #define I2C_I2CONSET_AA   ((0x04))                                    /*!< Assert acknowledge flag */
-#define I2C_I2CONSET_SI   ((0x08))                                    /*!< I2C interrupt flag */
-#define I2C_I2CONSET_STO  ((0x10))                                    /*!< STOP flag */
-#define I2C_I2CONSET_STA  ((0x20))                                    /*!< START flag */
-#define I2C_I2CONSET_I2EN ((0x40))                                    /*!< I2C interface enable */
+#define I2C_I2CONSET_SI   ((0x08)) /*!< I2C interrupt flag */
+#define I2C_I2CONSET_STO  ((0x10)) /*!< STOP flag */
+#define I2C_I2CONSET_STA  ((0x20)) /*!< START flag */
+#define I2C_I2CONSET_I2EN ((0x40)) /*!< I2C interface enable */
 
 /*******************************************************************/ /**
                                                                        * I2C Control Clear register description
@@ -205,9 +205,9 @@ extern "C"
                                                                         * I2C Monitor mode control register description
                                                                         *********************************************************************/
 #define I2C_I2MMCTRL_MM_ENA    ((1 << 0))                              /**< Monitor mode enable */
-#define I2C_I2MMCTRL_ENA_SCL   ((1 << 1))                              /**< SCL output enable */
-#define I2C_I2MMCTRL_MATCH_ALL ((1 << 2))                              /**< Select interrupt register match */
-#define I2C_I2MMCTRL_BITMASK   ((0x07))                                /**< Mask for I2MMCTRL register */
+#define I2C_I2MMCTRL_ENA_SCL   ((1 << 1)) /**< SCL output enable */
+#define I2C_I2MMCTRL_MATCH_ALL ((1 << 2)) /**< Select interrupt register match */
+#define I2C_I2MMCTRL_BITMASK   ((0x07)) /**< Mask for I2MMCTRL register */
 
 /********************************************************************/ /**
                                                                         * I2C Data buffer register description
@@ -243,15 +243,15 @@ extern "C"
 #define I2C_I2SCLL_BITMASK ((0xFFFF))
 
 /* I2C status values */
-#define I2C_SETUP_STATUS_ARBF   (1 << 8)  /**< Arbitration false */
-#define I2C_SETUP_STATUS_NOACKF (1 << 9)  /**< No ACK returned */
+#define I2C_SETUP_STATUS_ARBF   (1 << 8) /**< Arbitration false */
+#define I2C_SETUP_STATUS_NOACKF (1 << 9) /**< No ACK returned */
 #define I2C_SETUP_STATUS_DONE   (1 << 10) /**< Status DONE */
 
 /*********************************************************************/ /**
                                                                          * I2C monitor control configuration defines
                                                                          **********************************************************************/
 #define I2C_MONITOR_CFG_SCL_OUTPUT I2C_I2MMCTRL_ENA_SCL                 /**< SCL output enable */
-#define I2C_MONITOR_CFG_MATCHALL   I2C_I2MMCTRL_MATCH_ALL               /**< Select interrupt register match */
+#define I2C_MONITOR_CFG_MATCHALL   I2C_I2MMCTRL_MATCH_ALL /**< Select interrupt register match */
 
 /* ---------------- CHECK PARAMETER DEFINITIONS ---------------------------- */
 /* Macros check I2C slave address */

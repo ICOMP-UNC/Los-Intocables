@@ -57,10 +57,10 @@ extern "C"
                                                                          *!< Macros define for PORT Selection
                                                                          ***********************************************************************/
 #define PINSEL_PORT_0 ((0))                                             /**< PORT 0*/
-#define PINSEL_PORT_1 ((1))                                             /**< PORT 1*/
-#define PINSEL_PORT_2 ((2))                                             /**< PORT 2*/
-#define PINSEL_PORT_3 ((3))                                             /**< PORT 3*/
-#define PINSEL_PORT_4 ((4))                                             /**< PORT 4*/
+#define PINSEL_PORT_1 ((1)) /**< PORT 1*/
+#define PINSEL_PORT_2 ((2)) /**< PORT 2*/
+#define PINSEL_PORT_3 ((3)) /**< PORT 3*/
+#define PINSEL_PORT_4 ((4)) /**< PORT 4*/
 
 /***********************************************************************
  * Macros define for Pin Function selection
@@ -73,16 +73,16 @@ extern "C"
 /***********************************************************************
  * Macros define for Pin Number of Port
  **********************************************************************/
-#define PINSEL_PIN_0  ((0))  /**< Pin 0 */
-#define PINSEL_PIN_1  ((1))  /**< Pin 1 */
-#define PINSEL_PIN_2  ((2))  /**< Pin 2 */
-#define PINSEL_PIN_3  ((3))  /**< Pin 3 */
-#define PINSEL_PIN_4  ((4))  /**< Pin 4 */
-#define PINSEL_PIN_5  ((5))  /**< Pin 5 */
-#define PINSEL_PIN_6  ((6))  /**< Pin 6 */
-#define PINSEL_PIN_7  ((7))  /**< Pin 7 */
-#define PINSEL_PIN_8  ((8))  /**< Pin 8 */
-#define PINSEL_PIN_9  ((9))  /**< Pin 9 */
+#define PINSEL_PIN_0  ((0)) /**< Pin 0 */
+#define PINSEL_PIN_1  ((1)) /**< Pin 1 */
+#define PINSEL_PIN_2  ((2)) /**< Pin 2 */
+#define PINSEL_PIN_3  ((3)) /**< Pin 3 */
+#define PINSEL_PIN_4  ((4)) /**< Pin 4 */
+#define PINSEL_PIN_5  ((5)) /**< Pin 5 */
+#define PINSEL_PIN_6  ((6)) /**< Pin 6 */
+#define PINSEL_PIN_7  ((7)) /**< Pin 7 */
+#define PINSEL_PIN_8  ((8)) /**< Pin 8 */
+#define PINSEL_PIN_9  ((9)) /**< Pin 9 */
 #define PINSEL_PIN_10 ((10)) /**< Pin 10 */
 #define PINSEL_PIN_11 ((11)) /**< Pin 11 */
 #define PINSEL_PIN_12 ((12)) /**< Pin 12 */

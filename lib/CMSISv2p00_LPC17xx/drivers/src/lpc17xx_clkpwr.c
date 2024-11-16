@@ -268,8 +268,8 @@ void CLKPWR_ConfigPPWR(uint32_t PPType, FunctionalState NewState)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enter Sleep mode with co-operated
-                                                                         *instruction by the Cortex-M3.
+                                                                         * @brief 		Enter Sleep mode with
+                                                                         *co-operated instruction by the Cortex-M3.
                                                                          * @param[in]	None
                                                                          * @return		None
                                                                          **********************************************************************/

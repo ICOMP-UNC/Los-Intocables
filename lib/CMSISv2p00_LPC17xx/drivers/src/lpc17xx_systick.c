@@ -150,8 +150,8 @@ void SYSTICK_Cmd(FunctionalState NewState)
 /*********************************************************************/ /**
                                                                          * @brief 		Enable/disable System Tick
                                                                          *interrupt
-                                                                         * @param[in]	NewState	System Tick interrupt
-                                                                         *status, should be:
+                                                                         * @param[in]	NewState	System Tick
+                                                                         *interrupt status, should be:
                                                                          * 					- ENABLE
                                                                          * 					- DISABLE
                                                                          * @return 		None

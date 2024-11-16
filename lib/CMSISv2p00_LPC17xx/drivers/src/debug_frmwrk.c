@@ -266,8 +266,8 @@ void UARTPutHex32(LPC_UART_TypeDef* UARTx, uint32_t hexnum)
 //}
 
 /*********************************************************************/ /**
-                                                                         * @brief		Initialize Debug frame work through
-                                                                         *initializing UART port
+                                                                         * @brief		Initialize Debug frame work
+                                                                         *through initializing UART port
                                                                          * @param[in]	None
                                                                          * @return		None
                                                                          **********************************************************************/

@@ -57,8 +57,8 @@ static GPIO_HalfWord_TypeDef* FIO_HalfWordGetPointer(uint8_t portNum);
 static GPIO_Byte_TypeDef* FIO_ByteGetPointer(uint8_t portNum);
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get pointer to GPIO peripheral due
-                                                                         *to GPIO port
+                                                                         * @brief		Get pointer to GPIO peripheral
+                                                                         *due to GPIO port
                                                                          * @param[in]	portNum		Port Number value,
                                                                          *should be in range from 0 to 4.
                                                                          * @return		Pointer to GPIO peripheral
@@ -141,12 +141,12 @@ static GPIO_Byte_TypeDef* FIO_ByteGetPointer(uint8_t portNum)
                                                                          * @brief		Set Direction for GPIO port.
                                                                          * @param[in]	portNum		Port Number value,
                                                                          *should be in range from 0 to 4
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits to set direction, in range from 0 to
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits to set direction, in range from 0 to
                                                                          *0xFFFFFFFF. example: value 0x5 to set
                                                                          *direction for bit 0 and bit 1.
-                                                                         * @param[in]	dir			Direction value, should
-                                                                         *be:
+                                                                         * @param[in]	dir			Direction value,
+                                                                         *should be:
                                                                          * 							- 0: Input.
                                                                          * 							- 1: Output.
                                                                          * @return		None
@@ -175,12 +175,12 @@ void GPIO_SetDir(uint8_t portNum, uint32_t bitValue, uint8_t dir)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set Value for bits that have output
-                                                                         *direction on GPIO port.
+                                                                         * @brief		Set Value for bits that have
+                                                                         *output direction on GPIO port.
                                                                          * @param[in]	portNum		Port number value,
                                                                          *should be in range from 0 to 4
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits on GPIO to set, in range from 0 to
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits on GPIO to set, in range from 0 to
                                                                          *0xFFFFFFFF. example: value 0x5 to set bit 0
                                                                          *and bit 1.
                                                                          * @return		None
@@ -207,8 +207,8 @@ void GPIO_SetValue(uint8_t portNum, uint32_t bitValue)
                                                                          *output direction on GPIO port.
                                                                          * @param[in]	portNum		Port number value,
                                                                          *should be in range from 0 to 4
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits on GPIO to clear, in range from 0 to
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits on GPIO to clear, in range from 0 to
                                                                          *0xFFFFFFFF. example: value 0x5 to clear bit 0
                                                                          *and bit 1.
                                                                          * @return		None
@@ -231,8 +231,8 @@ void GPIO_ClearValue(uint8_t portNum, uint32_t bitValue)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Read Current state on port pin that
-                                                                         *have input direction of GPIO
+                                                                         * @brief		Read Current state on port pin
+                                                                         *that have input direction of GPIO
                                                                          * @param[in]	portNum		Port number to read
                                                                          *value, in range from 0 to 4
                                                                          * @return		Current value of GPIO port.
@@ -258,11 +258,11 @@ uint32_t GPIO_ReadValue(uint8_t portNum)
                                                                          *for P0.0-P0.30, P2.0-P2.13)
                                                                          * @param[in]	portNum		Port number to read
                                                                          *value, should be: 0 or 2
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits on GPIO to enable, in range from 0 to
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits on GPIO to enable, in range from 0 to
                                                                          *0xFFFFFFFF.
-                                                                         * @param[in]	edgeState	state of edge, should
-                                                                         *be:
+                                                                         * @param[in]	edgeState	state of edge,
+                                                                         *should be:
                                                                          * 							- 0: Rising edge
                                                                          * 							- 1: Falling edge
                                                                          * @return		None
@@ -288,17 +288,17 @@ void GPIO_IntCmd(uint8_t portNum, uint32_t bitValue, uint8_t edgeState)
                                                                          *used for P0.0-P0.30, P2.0-P2.13)
                                                                          * @param[in]	portNum		Port number to read
                                                                          *value, should be: 0 or 2
-                                                                         * @param[in]	pinNum		Pin number, should be:
-                                                                         *0..30(with port 0) and 0..13 (with port 2)
-                                                                         * @param[in]	edgeState	state of edge, should
-                                                                         *be:
+                                                                         * @param[in]	pinNum		Pin number, should
+                                                                         *be: 0..30(with port 0) and 0..13 (with port 2)
+                                                                         * @param[in]	edgeState	state of edge,
+                                                                         *should be:
                                                                          * 							- 0: Rising edge
                                                                          * 							- 1: Falling edge
                                                                          * @return		Bool	could be:
-                                                                         * 						- ENABLE: Interrupt has been
-                                                                         *generated due to a rising edge on P0.0
-                                                                         * 						- DISABLE: A rising edge has not
-                                                                         *been detected on P0.0
+                                                                         * 						- ENABLE: Interrupt has
+                                                                         *been generated due to a rising edge on P0.0
+                                                                         * 						- DISABLE: A rising edge
+                                                                         *has not been detected on P0.0
                                                                          **********************************************************************/
 FunctionalState GPIO_GetIntStatus(uint8_t portNum, uint32_t pinNum, uint8_t edgeState)
 {
@@ -316,12 +316,12 @@ FunctionalState GPIO_GetIntStatus(uint8_t portNum, uint32_t pinNum, uint8_t edge
             ;
 }
 /*********************************************************************/ /**
-                                                                         * @brief		Clear GPIO interrupt (just used for
-                                                                         *P0.0-P0.30, P2.0-P2.13)
+                                                                         * @brief		Clear GPIO interrupt (just used
+                                                                         *for P0.0-P0.30, P2.0-P2.13)
                                                                          * @param[in]	portNum		Port number to read
                                                                          *value, should be: 0 or 2
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits on GPIO to enable, in range from 0 to
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits on GPIO to enable, in range from 0 to
                                                                          *0xFFFFFFFF.
                                                                          * @return		None
                                                                          **********************************************************************/
@@ -398,10 +398,11 @@ void FIO_ClearInt(uint8_t portNum, uint32_t bitValue)
 /*********************************************************************/ /**
                                                                          * @brief		Set mask value for bits in FIO
                                                                          *port
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set, in range from 0 to 0xFFFFFFFF.
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set, in range from 0 to
+                                                                         *0xFFFFFFFF.
                                                                          * @param[in]	maskValue	Mask value contains
                                                                          *state value for each bit:
                                                                          * 							- 0: not mask.
@@ -443,15 +444,15 @@ void FIO_SetMask(uint8_t portNum, uint32_t bitValue, uint8_t maskValue)
 /*********************************************************************/ /**
                                                                          * @brief		Set direction for FIO port in
                                                                          *halfword accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	halfwordNum	HalfWord part
                                                                          *number, should be 0 (lower) or 1(upper)
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set direction, in range from 0 to
-                                                                         *0xFFFF.
-                                                                         * @param[in]	dir			Direction value, should
-                                                                         *be:
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set direction, in range from 0
+                                                                         *to 0xFFFF.
+                                                                         * @param[in]	dir			Direction value,
+                                                                         *should be:
                                                                          * 							- 0: Input.
                                                                          * 							- 1: Output.
                                                                          * @return		None
@@ -497,14 +498,14 @@ void FIO_HalfWordSetDir(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue,
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set mask value for bits in FIO port
-                                                                         *in halfword accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @brief		Set mask value for bits in FIO
+                                                                         *port in halfword accessible style
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	halfwordNum	HalfWord part
                                                                          *number, should be 0 (lower) or 1(upper)
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set, in range from 0 to 0xFFFF.
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set, in range from 0 to 0xFFFF.
                                                                          * @param[in]	maskValue	Mask value contains
                                                                          *state value for each bit:
                                                                          * 					- 0: not mask.
@@ -560,14 +561,14 @@ void FIO_HalfWordSetMask(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValue
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set bits for FIO port in halfword
-                                                                         *accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @brief		Set bits for FIO port in
+                                                                         *halfword accessible style
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	halfwordNum	HalfWord part
                                                                          *number, should be 0 (lower) or 1(upper)
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set, in range from 0 to 0xFFFF.
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set, in range from 0 to 0xFFFF.
                                                                          * @return		None
                                                                          *
                                                                          * Note:
@@ -596,14 +597,15 @@ void FIO_HalfWordSetValue(uint8_t portNum, uint8_t halfwordNum, uint16_t bitValu
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Clear bits for FIO port in halfword
-                                                                         *accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @brief		Clear bits for FIO port in
+                                                                         *halfword accessible style
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	halfwordNum	HalfWord part
                                                                          *number, should be 0 (lower) or 1(upper)
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to clear, in range from 0 to 0xFFFF.
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to clear, in range from 0 to
+                                                                         *0xFFFF.
                                                                          * @return		None
                                                                          *
                                                                          * Note:
@@ -632,11 +634,11 @@ void FIO_HalfWordClearValue(uint8_t portNum, uint8_t halfwordNum, uint16_t bitVa
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Read Current state on port pin that
-                                                                         *have input direction of GPIO in halfword
+                                                                         * @brief		Read Current state on port pin
+                                                                         *that have input direction of GPIO in halfword
                                                                          *accessible style.
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	halfwordNum	HalfWord part
                                                                          *number, should be 0 (lower) or 1(upper)
                                                                          * @return		Current value of FIO port pin of
@@ -666,17 +668,17 @@ uint16_t FIO_HalfWordReadValue(uint8_t portNum, uint8_t halfwordNum)
 /* FIO Byte accessible ------------------------------------------------------------ */
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set direction for FIO port in byte
-                                                                         *accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @brief		Set direction for FIO port in
+                                                                         *byte accessible style
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	byteNum		Byte part number,
                                                                          *should be in range from 0 to 3
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set direction, in range from 0 to
-                                                                         *0xFF.
-                                                                         * @param[in]	dir			Direction value, should
-                                                                         *be:
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set direction, in range from 0
+                                                                         *to 0xFF.
+                                                                         * @param[in]	dir			Direction value,
+                                                                         *should be:
                                                                          * 							- 0: Input.
                                                                          * 							- 1: Output.
                                                                          * @return		None
@@ -710,14 +712,15 @@ void FIO_ByteSetDir(uint8_t portNum, uint8_t byteNum, uint8_t bitValue, uint8_t 
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set mask value for bits in FIO port
-                                                                         *in byte accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @brief		Set mask value for bits in FIO
+                                                                         *port in byte accessible style
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	byteNum		Byte part number,
                                                                          *should be in range from 0 to 3
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set mask, in range from 0 to 0xFF.
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set mask, in range from 0 to
+                                                                         *0xFF.
                                                                          * @param[in]	maskValue	Mask value contains
                                                                          *state value for each bit:
                                                                          * 							- 0: not mask.
@@ -763,12 +766,12 @@ void FIO_ByteSetMask(uint8_t portNum, uint8_t byteNum, uint8_t bitValue, uint8_t
 /*********************************************************************/ /**
                                                                          * @brief		Set bits for FIO port in byte
                                                                          *accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	byteNum		Byte part number,
                                                                          *should be in range from 0 to 3
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to set, in range from 0 to 0xFF.
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to set, in range from 0 to 0xFF.
                                                                          * @return		None
                                                                          *
                                                                          * Note:
@@ -793,12 +796,12 @@ void FIO_ByteSetValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue)
 /*********************************************************************/ /**
                                                                          * @brief		Clear bits for FIO port in byte
                                                                          *accessible style
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	byteNum		Byte part number,
                                                                          *should be in range from 0 to 3
-                                                                         * @param[in]	bitValue	Value that contains all
-                                                                         *bits in to clear, in range from 0 to 0xFF.
+                                                                         * @param[in]	bitValue	Value that contains
+                                                                         *all bits in to clear, in range from 0 to 0xFF.
                                                                          * @return		None
                                                                          *
                                                                          * Note:
@@ -821,11 +824,11 @@ void FIO_ByteClearValue(uint8_t portNum, uint8_t byteNum, uint8_t bitValue)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Read Current state on port pin that
-                                                                         *have input direction of GPIO in byte
+                                                                         * @brief		Read Current state on port pin
+                                                                         *that have input direction of GPIO in byte
                                                                          *accessible style.
-                                                                         * @param[in]	portNum		Port number, in range
-                                                                         *from 0 to 4
+                                                                         * @param[in]	portNum		Port number, in
+                                                                         *range from 0 to 4
                                                                          * @param[in]	byteNum		Byte part number,
                                                                          *should be in range from 0 to 3
                                                                          * @return		Current value of FIO port pin of

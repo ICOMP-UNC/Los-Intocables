@@ -74,21 +74,22 @@ typedef union
  */
 
 /*********************************************************************/ /**
-                                                                         * @brief		Resets value for each type of QEI
-                                                                         *value, such as velocity, counter, position,
-                                                                         *etc..
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @brief		Resets value for each type of
+                                                                         *QEI value, such as velocity, counter,
+                                                                         *position, etc..
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulResetType		QEI Reset Type,
                                                                          *should be one of the following:
-                                                                         * 								- QEI_RESET_POS: Reset
-                                                                         *Position Counter
-                                                                         * 								- QEI_RESET_POSOnIDX: Reset
-                                                                         *Position Counter on Index signal
-                                                                         * 								- QEI_RESET_VEL: Reset
-                                                                         *Velocity
-                                                                         * 								- QEI_RESET_IDX: Reset Index
-                                                                         *Counter
+                                                                         * 								- QEI_RESET_POS:
+                                                                         *Reset Position Counter
+                                                                         * 								-
+                                                                         *QEI_RESET_POSOnIDX: Reset Position Counter on
+                                                                         *Index signal
+                                                                         * 								- QEI_RESET_VEL:
+                                                                         *Reset Velocity
+                                                                         * 								- QEI_RESET_IDX:
+                                                                         *Reset Index Counter
                                                                          * @return		None
                                                                          **********************************************************************/
 void QEI_Reset(LPC_QEI_TypeDef* QEIx, uint32_t ulResetType)
@@ -103,8 +104,8 @@ void QEI_Reset(LPC_QEI_TypeDef* QEIx, uint32_t ulResetType)
                                                                          * @brief		Initializes the QEI peripheral
                                                                          *according to the specified parameters in the
                                                                          *QEI_ConfigStruct.
-                                                                         * @param[in]	QEIx				QEI peripheral,
-                                                                         *should be LPC_QEI
+                                                                         * @param[in]	QEIx				QEI
+                                                                         *peripheral, should be LPC_QEI
                                                                          * @param[in]	QEI_ConfigStruct	Pointer to a
                                                                          *QEI_CFG_Type structure that contains the
                                                                          *configuration information for the specified
@@ -146,10 +147,11 @@ void QEI_Init(LPC_QEI_TypeDef* QEIx, QEI_CFG_Type* QEI_ConfigStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the QEI peripheral
-                                                                         *registers to their default reset values.
-                                                                         * @param[in]	QEIx	QEI peripheral, should be
-                                                                         *LPC_QEI
+                                                                         * @brief		De-initializes the QEI
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
+                                                                         * @param[in]	QEIx	QEI peripheral, should
+                                                                         *be LPC_QEI
                                                                          * @return 		None
                                                                          **********************************************************************/
 void QEI_DeInit(LPC_QEI_TypeDef* QEIx)
@@ -161,8 +163,9 @@ void QEI_DeInit(LPC_QEI_TypeDef* QEIx)
 }
 
 /*****************************************************************************/ /**
-                                                                                 * @brief		Fills each QIE_InitStruct
-                                                                                 *member with its default value:
+                                                                                 * @brief		Fills each
+                                                                                 *QIE_InitStruct member with its default
+                                                                                 *value:
                                                                                  * 				- DirectionInvert =
                                                                                  *QEI_DIRINV_NONE
                                                                                  * 				- SignalMode =
@@ -171,9 +174,9 @@ void QEI_DeInit(LPC_QEI_TypeDef* QEIx)
                                                                                  *QEI_CAPMODE_4X
                                                                                  * 				- InvertIndex =
                                                                                  *QEI_INVINX_NONE
-                                                                                 * @param[in]	QIE_InitStruct Pointer to
-                                                                                 *a QEI_CFG_Type structure which will be
-                                                                                 *initialized.
+                                                                                 * @param[in]	QIE_InitStruct Pointer
+                                                                                 *to a QEI_CFG_Type structure which will
+                                                                                 *be initialized.
                                                                                  * @return		None
                                                                                  *******************************************************************************/
 void QEI_ConfigStructInit(QEI_CFG_Type* QIE_InitStruct)
@@ -187,12 +190,12 @@ void QEI_ConfigStructInit(QEI_CFG_Type* QIE_InitStruct)
 /*********************************************************************/ /**
                                                                          * @brief		Check whether if specified flag
                                                                          *status is set or not
-                                                                         * @param[in]	QEIx		QEI peripheral, should be
-                                                                         *LPC_QEI
+                                                                         * @param[in]	QEIx		QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulFlagType	Status Flag Type,
                                                                          *should be one of the following:
-                                                                         * 							- QEI_STATUS_DIR: Direction
-                                                                         *Status
+                                                                         * 							- QEI_STATUS_DIR:
+                                                                         *Direction Status
                                                                          * @return		New Status of this status flag
                                                                          *(SET or RESET)
                                                                          **********************************************************************/
@@ -204,10 +207,10 @@ FlagStatus QEI_GetStatus(LPC_QEI_TypeDef* QEIx, uint32_t ulFlagType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get current position value in QEI
-                                                                         *peripheral
-                                                                         * @param[in]	QEIx	QEI peripheral, should be
-                                                                         *LPC_QEI
+                                                                         * @brief		Get current position value in
+                                                                         *QEI peripheral
+                                                                         * @param[in]	QEIx	QEI peripheral, should
+                                                                         *be LPC_QEI
                                                                          * @return		Current position value of QEI
                                                                          *peripheral
                                                                          **********************************************************************/
@@ -220,10 +223,10 @@ uint32_t QEI_GetPosition(LPC_QEI_TypeDef* QEIx)
 /*********************************************************************/ /**
                                                                          * @brief		Set max position value for QEI
                                                                          *peripheral
-                                                                         * @param[in]	QEIx		QEI peripheral, should be
-                                                                         *LPC_QEI
-                                                                         * @param[in]	ulMaxPos	Max position value to
-                                                                         *set
+                                                                         * @param[in]	QEIx		QEI peripheral,
+                                                                         *should be LPC_QEI
+                                                                         * @param[in]	ulMaxPos	Max position value
+                                                                         *to set
                                                                          * @return		None
                                                                          **********************************************************************/
 void QEI_SetMaxPosition(LPC_QEI_TypeDef* QEIx, uint32_t ulMaxPos)
@@ -233,20 +236,20 @@ void QEI_SetMaxPosition(LPC_QEI_TypeDef* QEIx, uint32_t ulMaxPos)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set position compare value for QEI
-                                                                         *peripheral
-                                                                         * @param[in]	QEIx		QEI peripheral, should be
-                                                                         *LPC_QEI
+                                                                         * @brief		Set position compare value for
+                                                                         *QEI peripheral
+                                                                         * @param[in]	QEIx		QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	bPosCompCh	Compare Position
                                                                          *channel, should be:
-                                                                         * 							- QEI_COMPPOS_CH_0: QEI compare
-                                                                         *position channel 0
-                                                                         * 							- QEI_COMPPOS_CH_1: QEI compare
-                                                                         *position channel 1
-                                                                         * 							- QEI_COMPPOS_CH_2: QEI compare
-                                                                         *position channel 2
-                                                                         * @param[in]	ulPosComp	Compare Position value
-                                                                         *to set
+                                                                         * 							- QEI_COMPPOS_CH_0:
+                                                                         *QEI compare position channel 0
+                                                                         * 							- QEI_COMPPOS_CH_1:
+                                                                         *QEI compare position channel 1
+                                                                         * 							- QEI_COMPPOS_CH_2:
+                                                                         *QEI compare position channel 2
+                                                                         * @param[in]	ulPosComp	Compare Position
+                                                                         *value to set
                                                                          * @return		None
                                                                          **********************************************************************/
 void QEI_SetPositionComp(LPC_QEI_TypeDef* QEIx, uint8_t bPosCompCh, uint32_t ulPosComp)
@@ -262,8 +265,8 @@ void QEI_SetPositionComp(LPC_QEI_TypeDef* QEIx, uint8_t bPosCompCh, uint32_t ulP
 /*********************************************************************/ /**
                                                                          * @brief		Get current index counter of QEI
                                                                          *peripheral
-                                                                         * @param[in]	QEIx		QEI peripheral, should be
-                                                                         *LPC_QEI
+                                                                         * @param[in]	QEIx		QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @return		Current value of QEI index
                                                                          *counter
                                                                          **********************************************************************/
@@ -274,10 +277,10 @@ uint32_t QEI_GetIndex(LPC_QEI_TypeDef* QEIx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set value for index compare in QEI
-                                                                         *peripheral
-                                                                         * @param[in]	QEIx		QEI peripheral, should be
-                                                                         *LPC_QEI
+                                                                         * @brief		Set value for index compare in
+                                                                         *QEI peripheral
+                                                                         * @param[in]	QEIx		QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulIndexComp		Compare Index
                                                                          *Value to set
                                                                          * @return		None
@@ -291,13 +294,13 @@ void QEI_SetIndexComp(LPC_QEI_TypeDef* QEIx, uint32_t ulIndexComp)
 /*********************************************************************/ /**
                                                                          * @brief		Set timer reload value for QEI
                                                                          *peripheral. When the velocity timer is
-                                                                         * 				over-flow, the value that set for
-                                                                         *Timer Reload register will be loaded into the
-                                                                         *velocity timer for next period. The calculated
-                                                                         *velocity in RPM therefore will be affect by
-                                                                         *this value.
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * 				over-flow, the value that set
+                                                                         *for Timer Reload register will be loaded into
+                                                                         *the velocity timer for next period. The
+                                                                         *calculated velocity in RPM therefore will be
+                                                                         *affect by this value.
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	QEIReloadStruct	QEI reload
                                                                          *structure
                                                                          * @return		None
@@ -324,8 +327,8 @@ void QEI_SetTimerReload(LPC_QEI_TypeDef* QEIx, QEI_RELOADCFG_Type* QEIReloadStru
 /*********************************************************************/ /**
                                                                          * @brief		Get current timer counter in QEI
                                                                          *peripheral
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @return		Current timer counter in QEI
                                                                          *peripheral
                                                                          **********************************************************************/
@@ -336,10 +339,10 @@ uint32_t QEI_GetTimer(LPC_QEI_TypeDef* QEIx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get current velocity pulse counter
-                                                                         *in current time period
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @brief		Get current velocity pulse
+                                                                         *counter in current time period
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @return		Current velocity pulse counter
                                                                          *value
                                                                          **********************************************************************/
@@ -353,10 +356,10 @@ uint32_t QEI_GetVelocity(LPC_QEI_TypeDef* QEIx)
                                                                          * @brief		Get the most recently measured
                                                                          *velocity of the QEI. When the Velocity timer
                                                                          *in QEI is over-flow, the current velocity
-                                                                         * 				value will be loaded into Velocity
-                                                                         *Capture register.
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * 				value will be loaded into
+                                                                         *Velocity Capture register.
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @return		The most recently measured
                                                                          *velocity value
                                                                          **********************************************************************/
@@ -367,10 +370,10 @@ uint32_t QEI_GetVelocityCap(LPC_QEI_TypeDef* QEIx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set Velocity Compare value for QEI
-                                                                         *peripheral
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @brief		Set Velocity Compare value for
+                                                                         *QEI peripheral
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulVelComp		Compare Velocity
                                                                          *value to set
                                                                          * @return		None
@@ -382,10 +385,10 @@ void QEI_SetVelocityComp(LPC_QEI_TypeDef* QEIx, uint32_t ulVelComp)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Set value of sampling count for the
-                                                                         *digital filter in QEI peripheral
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @brief		Set value of sampling count for
+                                                                         *the digital filter in QEI peripheral
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulSamplingPulse	Value of
                                                                          *sampling count to set
                                                                          * @return		None
@@ -429,51 +432,53 @@ FlagStatus QEI_GetIntStatus(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enable/Disable specified interrupt
-                                                                         *in QEI peripheral
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @brief		Enable/Disable specified
+                                                                         *interrupt in QEI peripheral
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulIntType		Interrupt Flag
                                                                          *Status type, should be:
-                                                                         * 								- QEI_INTFLAG_INX_Int: index
-                                                                         *pulse was detected interrupt
-                                                                         *								- QEI_INTFLAG_TIM_Int:
-                                                                         *Velocity timer over flow interrupt
-                                                                         *								- QEI_INTFLAG_VELC_Int:
-                                                                         *Capture velocity is less than compare
+                                                                         * 								-
+                                                                         *QEI_INTFLAG_INX_Int: index pulse was detected
                                                                          *interrupt
-                                                                         * 								- QEI_INTFLAG_DIR_Int: Change
-                                                                         *of direction interrupt
-                                                                         *  							- QEI_INTFLAG_ERR_Int: An
-                                                                         *encoder phase error interrupt
-                                                                         * 								- QEI_INTFLAG_ENCLK_Int: An
-                                                                         *encoder clock pulse was detected interrupt
-                                                                         *								- QEI_INTFLAG_POS0_Int:
-                                                                         *position 0 compare value is equal to the
-                                                                         *														current position
+                                                                         *								-
+                                                                         *QEI_INTFLAG_TIM_Int: Velocity timer over flow
                                                                          *interrupt
-                                                                         *								- QEI_INTFLAG_POS1_Int:
-                                                                         *position 1 compare value is equal to the
-                                                                         *														current position
+                                                                         *								-
+                                                                         *QEI_INTFLAG_VELC_Int: Capture velocity is less
+                                                                         *than compare interrupt
+                                                                         * 								-
+                                                                         *QEI_INTFLAG_DIR_Int: Change of direction
                                                                          *interrupt
-                                                                         *								- QEI_INTFLAG_POS2_Int:
-                                                                         *position 2 compare value is equal to the
-                                                                         *														current position
+                                                                         *  							-
+                                                                         *QEI_INTFLAG_ERR_Int: An encoder phase error
                                                                          *interrupt
-                                                                         *								- QEI_INTFLAG_REV_Int: Index
-                                                                         *compare value is equal to the current index
-                                                                         *count interrupt
-                                                                         *								- QEI_INTFLAG_POS0REV_Int:
-                                                                         *Combined position 0 and revolution count
-                                                                         *interrupt
-                                                                         *								- QEI_INTFLAG_POS1REV_Int:
-                                                                         *Combined position 1 and revolution count
-                                                                         *interrupt
-                                                                         *								- QEI_INTFLAG_POS2REV_Int:
-                                                                         *Combined position 2 and revolution count
-                                                                         *interrupt
-                                                                         * @param[in]	NewState		New function state,
-                                                                         *should be:
+                                                                         * 								-
+                                                                         *QEI_INTFLAG_ENCLK_Int: An encoder clock pulse
+                                                                         *was detected interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_POS0_Int: position 0 compare value
+                                                                         *is equal to the current position interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_POS1_Int: position 1 compare value
+                                                                         *is equal to the current position interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_POS2_Int: position 2 compare value
+                                                                         *is equal to the current position interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_REV_Int: Index compare value is
+                                                                         *equal to the current index count interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_POS0REV_Int: Combined position 0
+                                                                         *and revolution count interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_POS1REV_Int: Combined position 1
+                                                                         *and revolution count interrupt
+                                                                         *								-
+                                                                         *QEI_INTFLAG_POS2REV_Int: Combined position 2
+                                                                         *and revolution count interrupt
+                                                                         * @param[in]	NewState		New function
+                                                                         *state, should be:
                                                                          *								- DISABLE
                                                                          *								- ENABLE
                                                                          * @return		None
@@ -557,17 +562,17 @@ void QEI_IntClear(LPC_QEI_TypeDef* QEIx, uint32_t ulIntType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Calculates the actual velocity in
-                                                                         *RPM passed via velocity capture value and
+                                                                         * @brief		Calculates the actual velocity
+                                                                         *in RPM passed via velocity capture value and
                                                                          *Pulse Per Round (of the encoder) value
                                                                          * 				parameter input.
-                                                                         * @param[in]	QEIx			QEI peripheral, should
-                                                                         *be LPC_QEI
+                                                                         * @param[in]	QEIx			QEI peripheral,
+                                                                         *should be LPC_QEI
                                                                          * @param[in]	ulVelCapValue	Velocity capture
                                                                          *input value that can be got from
                                                                          *QEI_GetVelocityCap() function
-                                                                         * @param[in]	ulPPR			Pulse per round of
-                                                                         *encoder
+                                                                         * @param[in]	ulPPR			Pulse per round
+                                                                         *of encoder
                                                                          * @return		The actual value of velocity in
                                                                          *RPM (Round per minute)
                                                                          **********************************************************************/
