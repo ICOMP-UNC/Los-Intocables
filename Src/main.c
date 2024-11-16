@@ -1,4 +1,3 @@
-
 #ifdef __USE_CMSIS
 #include "LPC17xx.h"
 #endif
@@ -16,9 +15,9 @@
 #include "stdio.h"
 #include "system_LPC17xx.h" /* Handler del sistema de LPC1769 */
 
-#define PIN_ADC0_CH0     ((uint32_t)(1 << 23)) // P0.23 Pin ADC canal 0
-#define PIN_ADC0_CH1     ((uint32_t)(1 << 24)) // P0.24 Pin ADC canal 1
-#define PIN_ADC0_CH2     ((uint32_t)(1 << 25)) // P2.10 Pin ADC canal 2
+#define PIN_ADC0_CH0     ((uint32_t)(1 << 23)) // P0.23 Pin ADC canal 0 - Sensor temperatura
+#define PIN_ADC0_CH1     ((uint32_t)(1 << 24)) // P0.24 Pin ADC canal 1 - Sensor de luz
+#define PIN_ADC0_CH2     ((uint32_t)(1 << 25)) // P2.10 Pin ADC canal 2 - Sensor monoxido de carbono
 #define PIN_PWM1         ((uint32_t)(1 << 18)) // P1.18 Pin PWM
 #define PIN_DAC          ((uint32_t)(1 << 26)) // P0.26 Pin DAC
 #define PIN_LED_VERDE    ((uint32_t)(1 << 4))  // P0.04 Pin led verde
@@ -26,59 +25,208 @@
 #define PIN_LED_UART     ((uint32_t)(1 << 6))  // P0.06 Pin led UART
 #define PIN_BOTON_PUERTA ((uint32_t)(1 << 13)) // P2.13 Pin puerta
 #define PIN_SALIDA_UART  ((uint32_t)(1 << 2))  // P0.02 Pin salida UART
-#define PIN_DIR_MPAP     ((uint32_t)(1 << 7))  // P0.07 Pin dir motor
+#define PIN_DIR_MPAP     ((uint32_t)(1 << 7))  // P0.07 Pin control de direccion motor paso a paso
 
 // Definiciones de tiempos:
-#define VALOR_PRESCALER   100    // Valor de prescaler - 100 uS
-#define MATCH0_TIM0       10000  // Valor del match0 - 10000 - 1S
-#define VAL_SYSTICK       100    // Valor del systick - 100 mS
-#define VAL_TIEMPO_DAC    250000 // Valor del tiempo de salida del DAC - 10mS
-#define VAL_PRESCALER_PWM 1      // Valor de prescales del PWM - 1us
-#define VAL_PERIODO_PWM   2000   // Valor del periodo 2 ms
-#define VAL_DUTYCICLE_PWM 1000   // Valor del duty cicle 1 ms
+#define VALOR_PRESCALER 100    // Valor de prescaler - 100 uS
+#define MATCH0_TIM0     10000  // Valor del match0 - 10000 - 1S
+#define VAL_SYSTICK     100    // Valor del systick - 100 mS
+#define VAL_TIEMPO_DAC  250000 // Valor del tiempo de salida del DAC - 10mS
 
 // Estados posibles:
-#define ON       1
-#define OFF      0
-#define ABRIR    1
-#define CERRAR   0
-#define PWM1_MR0 0
-#define PWM1_MR1 1
+#define ON      1
+#define OFF     0
+#define ENABLE  1
+#define DISABLE 0
+#define OPEN    1
+#define CLOSE   0
+
+// Tipos de flanco
+#define FALLING_EDGE 1
+#define RISING_EDGE  0
+
+// Tipos de salida
+#define OUTPUT 1
+#define INPUT  0
 
 // Definiciones de frecuencia:
-#define FREQ_ADC     100000 // Frecuencia ADC - 100 kHz
-#define UART_BAUDIOS 9600   // Baudios UART - 9600 bps
+#define FREQ_ADC     100000   // Frecuencia ADC - 100 kHz
+#define FREQ_DAC     25000000 // Frecuencia por defecto del DAC 25MHz
+#define UART_BAUDIOS 9600     // Baudios UART - 9600 bps
 
 // Variables globales:
-volatile uint8_t Datos[4];         // Buffer de datos - Estado
-                                   // puerta/Temperatura/luz/concentracion de gas
-volatile uint16_t Conversiones[3]; // Buffer de datos recien convertidos
-volatile uint16_t Valor_DAC = 0;   // Variable del valor del DAC
-volatile uint8_t Count_PWM = 0;    // Contador de pulsos
+uint8_t Data[4]; // Buffer de datos - Estado
+                 // puerta/Temperatura/luz/concentracion de gas
 
 // Definicion de funciones:
 void ToggleStatusDoor(void);
-void DriverDoor(uint8_t opcion);
-void LedRed(uint8_t estado);
-void LedGreen(uint8_t estado);
+void DriverDoor(uint8_t estado);
+void LedRed();
+void LedGreen();
 void BlinkLed(void);
 void CleanData(void);
 void EnableFan(void);
 void DisableFan(void);
+void Config_GPIO(void);
 void Config_SYSTICK(void);
 void Config_TIMER0(void);
+void Config_ADC(void);
+void Config_DAC(void);
 void Config_PWM(void);
+void Config_UART(void);
 void Config_GPDMA(void);
+void Config_NVIC(void);
+
+void ToggleStatusDoor()
+{ // Alternamos el estado de la puerta
+
+    if (Data[0] == OPEN)
+    {
+        Data[0] = CLOSE;
+    }
+    else
+    {
+        Data[0] = OPEN;
+    }
+}
+
+void DriverDoor(uint8_t estado)
+{
+    // implementar el pwm
+}
+
+void LedRed(void)
+{
+    // Maneja el estado del led rojo
+    GPIO_SetValue(PINSEL_PORT_0, PINSEL_PIN_5);
+}
+
+void LedGreen(void)
+{
+    // Maneja el estado del led verde
+    GPIO_SetValue(PINSEL_PORT_0, PINSEL_PIN_4);
+}
+
+void Config_GPIO()
+{
+
+    PINSEL_CFG_Type cfg_pin;
+
+    // Configuracion led verde
+    cfg_pin.Portnum = PINSEL_PORT_0;
+    cfg_pin.Pinnum = PINSEL_PIN_4;
+    cfg_pin.Funcnum = PINSEL_FUNC_0;
+    cfg_pin.Pinmode = PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain = PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Configuracion led rojo
+    cfg_pin.Portnum = PINSEL_PORT_0;
+    cfg_pin.Pinnum = PINSEL_PIN_5;
+    cfg_pin.Funcnum = PINSEL_FUNC_0;
+    cfg_pin.Pinmode = PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain = PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Configuracion led transmision UART0
+    cfg_pin.Portnum = PINSEL_PORT_0;
+    cfg_pin.Pinnum = PINSEL_PIN_6;
+    cfg_pin.Funcnum = PINSEL_FUNC_0;
+    cfg_pin.Pinmode = PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain = PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Configuracion pin de direccion del motor paso a paso abrir/cerrar
+    cfg_pin.Portnum = PINSEL_PORT_0;
+    cfg_pin.Pinnum = PINSEL_PIN_7;
+    cfg_pin.Funcnum = PINSEL_FUNC_0;
+    cfg_pin.Pinmode = PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain = PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Seteamos los pines como salida
+    GPIO_SetDir(PINSEL_PORT_0, PIN_LED_VERDE | PIN_LED_ROJO | PIN_LED_UART | PIN_DIR_MPAP, OUTPUT);
+
+    // Configuracion del boton para la puerta
+    cfg_pin.Portnum = PINSEL_PORT_2;
+    cfg_pin.Pinnum = PINSEL_PIN_13;
+    cfg_pin.Funcnum = PINSEL_FUNC_0;
+    cfg_pin.Pinmode = PINSEL_PINMODE_PULLDOWN;
+    cfg_pin.OpenDrain = PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Seteamos el pin como entarda
+    GPIO_SetDir(PINSEL_PORT_0, PIN_BOTON_PUERTA, INPUT);
+
+    // Habilitamos la interrupcion por flanco ascendente
+    GPIO_IntCmd(PINSEL_PORT_0, PIN_BOTON_PUERTA, RISING_EDGE);
+}
+
+void Config_DAC()
+{
+
+    PINSEL_CFG_Type cfg_pin;
+    DAC_CONVERTER_CFG_Type cfg_dac;
+
+    uint32_t timeout;
+
+    // Configuracion del pin como salida  DAC al ventilador
+    cfg_pin.Portnum = PINSEL_PORT_0;
+    cfg_pin.Pinnum = PINSEL_PIN_26;
+    cfg_pin.Funcnum = PINSEL_FUNC_2;
+    cfg_pin.Pinmode = PINSEL_PINMODE_TRISTATE; // no pull-up no pull-down
+    cfg_pin.OpenDrain = PINSEL_PINMODE_NORMAL;
+    PINSEL_ConfigPin(&cfg_pin);
+
+    // Configuracion general del DAC
+    cfg_dac.DBLBUF_ENA = DISABLE;
+    cfg_dac.CNT_ENA = ENABLE;
+    cfg_dac.DMA_ENA = ENABLE;
+    DAC_ConfigDAConverterControl(LPC_DAC, &cfg_dac);
+
+    // Configuramos la salida del DAC en 350uA
+    DAC_SetBias(LPC_DAC, DAC_MAX_CURRENT_350uA);
+
+    // Configuramos el tiempo de actualizacion del DAC en 10ms
+    timeout = (uint32_t)((1 / FREQ_DAC) * VAL_TIEMPO_DAC);
+    DAC_SetDMATimeOut(LPC_DAC, timeout);
+
+    // Inicializamos el DAC
+    DAC_Init(LPC_DAC);
+}
+
+void EINT3_IRQHandler()
+{
+
+    if (GPIO_GetIntStatus(PINSEL_PORT_2, PINSEL_PIN_13, RISING_EDGE))
+    { // Verificamos la bandera para el boton de la puerta
+
+        GPIO_ClearInt(PINSEL_PORT_2, PINSEL_PIN_13); // Bajamos la bandera
+        ToggleStatusDoor();                          // Alternamos el valor del estado de la puerta
+
+        if (Data[0] == OPEN)
+        { // Si el estado esta en alto, abrimos la puerta
+
+            DriverDoor(OPEN);
+            LedRed();
+            LedGreen();
+        }
+        else
+        { // Si el estado esta en bajo, cerramos la puerta
+            DriverDoor(CLOSE);
+            LedRed();
+            LedGreen();
+        }
+    }
+}
 
 int main(void)
 {
 
     SystemInit();
 
-    Config_SYSTICK();
-    Config_TIMER0();
-    Config_PWM();
-    Config_GPDMA();
+    Config_GPIO();
+    Config_DAC();
 
     while (TRUE)
     {
@@ -86,192 +234,4 @@ int main(void)
     }
 
     return 0;
-}
-
-/**
- * @brief Configuración del ADC.
- *
- * Esta función inicializa y habilita los canales del ADC para la adquisición de
- * datos analógicos, además de habilitar las interrupciones correspondientes.
- */
-void Config_ADC(void)
-{
-    ADC_Init(LPC_ADC, FREQ_ADC); /**< Inicialización del ADC con una frecuencia especificada */
-
-    // Habilitar canales ADC
-    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_0, ENABLE);
-    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_1, ENABLE);
-    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_2, ENABLE);
-
-    // Configurar interrupciones de los canales
-    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_0, ENABLE);
-    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_1, ENABLE);
-    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_2, ENABLE);
-}
-
-/**
- * @brief Configuración de UART.
- *
- * Inicializa la UART con los parámetros de configuración especificados,
- * habilitando el modo FIFO y las interrupciones para transmisión.
- */
-void Config_UART(void)
-{
-    UART_CFG_Type uart; /**< Estructura para configuración de UART */
-
-    // Configuración de parámetros básicos
-    uart.Baud_rate = UART_BAUDIOS;
-    uart.Databits = UART_DATABIT_8;
-    uart.Parity = UART_PARITY_NONE;
-    uart.Stopbits = UART_STOPBIT_1;
-
-    UART_Init(LPC_UART2, &uart); /**< Inicialización de UART2 */
-
-    UART_FIFO_CFG_Type fifo; /**< Configuración del FIFO */
-
-    // Configuración del FIFO
-    fifo.FIFO_DMAMode = ENABLE;
-    fifo.FIFO_Level = UART_FIFO_TRGLEV2;
-    fifo.FIFO_ResetTxBuf = ENABLE;
-
-    UART_FIFOConfig(LPC_UART2, &fifo);
-
-    // Habilitar transmisión e interrupciones
-    UART_TxCmd(LPC_UART2, ENABLE);
-    UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
-}
-
-void Config_GPDMA(void)
-{
-
-    GPDMA_Channel_CFG_Type ChannelCfg0; // Estructura para canal 0
-    GPDMA_Channel_CFG_Type ChannelCfg1; // Estructura para canal 1
-
-    GPDMA_LLI_Type ListADC; // Estructura para lista del ADC
-
-    // Configuración de la Lista de Transferencias:
-    ListADC.DstAddr = (uint16_t)&Conversiones[0];
-    ListADC.SrcAddr = GPDMA_CONN_ADC;
-    ListADC.NextLLI = 0;
-    ListADC.Control = (3 << 0) | (1 << 18) | (1 << 21) | (1 << 27);
-
-    // Inicialización del GPDMA:
-    GPDMA_Init();
-
-    // Configuración de Canales de GPDMA:
-    ChannelCfg0.ChannelNum = 0;
-    ChannelCfg0.TransferType = GPDMA_TRANSFERTYPE_P2M;
-    ChannelCfg0.TransferSize = 0;
-    ChannelCfg0.SrcConn = GPDMA_CONN_ADC;
-    ChannelCfg0.DstMemAddr = (uint32_t)&Conversiones[0];
-    ChannelCfg0.DMALLI = (uint32_t)&ListADC;
-
-    ChannelCfg1.ChannelNum = 1;
-    ChannelCfg1.TransferType = GPDMA_TRANSFERTYPE_M2P;
-    ChannelCfg1.TransferSize = 1;
-    ChannelCfg1.SrcMemAddr = (uint32_t)&Valor_DAC;
-    ChannelCfg1.DstConn = GPDMA_CONN_DAC;
-    ChannelCfg1.DMALLI = 0;
-
-    // Carga de canales de GPDMA:
-    GPDMA_Setup(&ChannelCfg0);
-    GPDMA_Setup(&ChannelCfg1);
-
-    // Hablititacion de canales de GPDMA:
-    GPDMA_ChannelCmd(0, ENABLE);
-    GPDMA_ChannelCmd(1, ENABLE);
-}
-
-void Config_PWM(void)
-{
-    PWM_TIMERCFG_Type PWMCfg;
-    PWM_MATCHCFG_Type match0;
-    PINSEL_CFG_Type PinCgf;
-
-    // Cofiguracion pin PWM:
-    PinCgf.Portnum = PINSEL_PORT_1;
-    PinCgf.Pinnum = PINSEL_PIN_18;
-    PinCgf.Funcnum = PINSEL_FUNC_2;
-    PinCgf.Pinmode = PINSEL_PINMODE_PULLDOWN;
-    PinCgf.OpenDrain = PINSEL_PINMODE_NORMAL;
-
-    PINSEL_ConfigPin(&PinCgf);
-
-    // Configuracion PWM:
-    PWMCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
-    PWMCfg.PrescaleValue = VAL_PRESCALER_PWM;
-
-    PWM_Init(LPC_PWM1, PWM_MODE_TIMER, &PWMCfg);
-
-    PWM_MatchUpdate(LPC_PWM1, PWM1_MR0, VAL_PERIODO_PWM, PWM_MATCH_UPDATE_NOW);
-    PWM_MatchUpdate(LPC_PWM1, PWM1_MR1, VAL_DUTYCICLE_PWM, PWM_MATCH_UPDATE_NOW);
-
-    match0.MatchChannel = 0;
-    match0.IntOnMatch = ENABLE;
-    match0.ResetOnMatch = ENABLE;
-
-    PWM_ConfigMatch(LPC_PWM1, &match0);
-
-    PWM_ChannelConfig(LPC_PWM1, 1, PWM_CHANNEL_SINGLE_EDGE);
-
-    PWM_ChannelCmd(LPC_PWM1, 1, ENABLE);
-}
-
-void PWM1_IRQHandler(void)
-{
-
-    Count_PWM++;
-
-    if (Count_PWM == 100)
-    {
-        PWM_Cmd(LPC_PWM1, DISABLE);
-        Count_PWM = 0;
-    }
-
-    PWM_ClearIntPending(LPC_PWM1, PWM_INTSTAT_MR0);
-}
-
-void Config_SYSTICK()
-{
-    SYSTICK_InternalInit(VAL_SYSTICK);
-    SYSTICK_IntCmd(ENABLE);
-    SYSTICK_Cmd(ENABLE);
-}
-
-void Config_TIMER0()
-{
-    TIM_TIMERCFG_Type timerConfig;
-
-    timerConfig.PrescaleOption = TIM_PRESCALE_USVAL;
-    timerConfig.PrescaleValue = VALOR_PRESCALER;
-    TIM_Init(LPC_TIM0, TIM_TIMER_MODE, &timerConfig);
-
-    TIM_MATCHCFG_Type matchConfig;
-    matchConfig.MatchChannel = 0;
-    matchConfig.IntOnMatch = ENABLE;
-    matchConfig.ResetOnMatch = ENABLE;
-    matchConfig.StopOnMatch = DISABLE;
-    matchConfig.ExtMatchOutputType = TIM_EXTMATCH_NOTHING;
-    matchConfig.MatchValue = MATCH0_TIM0;
-
-    TIM_ConfigMatch(LPC_TIM0, &matchConfig);
-    TIM_Cmd(LPC_TIM0, ENABLE);
-}
-
-void SysTick_Handler(void)
-{
-    // Mandamos datos por UART:
-    UART_Send(LPC_UART2, &Datos, 4, NONE_BLOCKING);
-
-    // Limpiamos la bandera del Systick:
-    SYSTICK_ClearCounterFlag();
-}
-
-void TIMER0_IRQHandler(void)
-{
-    // Iniciamos las conversiones dec ADC:
-    ADC_StartCmd(LPC_ADC, ADC_START_NOW);
-
-    // Limpiamos bandera del timer:
-    TIM_ClearIntPending(LPC_TIM0, TIM_MR0_INT);
 }
