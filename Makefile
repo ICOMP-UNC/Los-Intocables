@@ -4,15 +4,23 @@
 
 # We define the source files that will be compiled and linked into the final binary.
 # Add all the source files here, ending with \ to continue on the next line.
-SRCS =	newlib_stubs.c \
-		system_LPC17xx.c \
-		main.c
+SRCS =	system_LPC17xx.c \
+		main.c \
+		lpc17xx_gpio.c \
+		lpc17xx_pinsel.c \
+		lpc17xx_systick.c \
+		lpc17xx_timer.c \
+		lpc17xx_pwm.c \
+		lpc17xx_adc.c \
+		lpc17xx_dac.c \
+		lpc17xx_gpdma.c \
+		lpc17xx_uart.c
  
 	 
 # Define the name of the project
 # This will be the name of the final binary file
 
-PROJ_NAME=gates-of-survival
+PROJ_NAME=Proyecto_Domotica
 
 # You should not need to change anything below this line =D
 
@@ -58,7 +66,7 @@ BUILD_DIR=$(ROOT)/build
 # Create the build directory if it doesn't exist
 $(shell mkdir -p $(BUILD_DIR))
 
-vpath %.c Src
+vpath %.c src
 vpath %.c $(ROOT)/lib/CMSISv2p00_LPC17xx/src 
 vpath %.c $(ROOT)/lib/CMSISv2p00_LPC17xx/drivers/src
 
