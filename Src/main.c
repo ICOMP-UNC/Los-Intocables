@@ -65,13 +65,9 @@ void BlinkLed(void);
 void CleanData(void);
 void EnableFan(void);
 void DisableFan(void);
-void Config_GPIO(void);
 void Config_SYSTICK(void);
-void Config_TIMER0(void);
-void Config_ADC(void);
-void Config_DAC(void);
+void Config_TIMER0(void);;
 void Config_PWM(void);
-void Config_UART(void);
 void Config_GPDMA(void);
 
 int main(void)
@@ -79,13 +75,9 @@ int main(void)
 
     SystemInit();
 
-    Config_GPIO();
     Config_SYSTICK();
     Config_TIMER0();
-    Config_ADC();
-    Config_DAC();
     Config_PWM();
-    Config_UART();
     Config_GPDMA();
 
     while (TRUE)
