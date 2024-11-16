@@ -226,13 +226,7 @@ int main(void)
     SystemInit();
 
     Config_GPIO();
-    Config_SYSTICK();
-    Config_TIMER0();
-    Config_ADC();
     Config_DAC();
-    Config_PWM();
-    Config_UART();
-    Config_GPDMA();
 
     while (TRUE)
     {
