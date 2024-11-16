@@ -3,19 +3,19 @@
 # Plan del Proyecto
 
 ## Descripción del proyecto de alto nivel
-Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la **placa LPC1769 de NXP** para el monitoreo y control de un entorno mediante el uso de varios sensores: **LM35** para temperatura, **HW-201** como sensor de distancia infrarrojo y un **sensor LDR** para luz. Los datos recopilados de estos sensores se procesarán para controlar un **LED** mediante el **DAC** y salidas **GPIO**, simulando la apertura y cierre de puertas. El sistema integrará módulos esenciales como **GPIO**, **TIMER**, **SYSTICK**, **ADC**, **DAC**, **DMA**, y **UART** para lograr un funcionamiento eficiente y en tiempo real.
+Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la **placa LPC1769 de NXP** para el monitoreo y control de un entorno mediante el uso de varios sensores: **LM35** para temperatura, **MQ-2** como sensor concentracion de gases combustibles y un **sensor LDR** para luz. Los datos recopilados de estos sensores por el **ADC**, se procesarán para controlar un **LED** mediante el **DAC**, un motor paso a paso mediante un **PWM** y salidas **GPIO**, simulando la apertura y cierre de un sistema de ventilacion y purificacion. El sistema integrará módulos esenciales como **GPIO**, **TIMER**, **SYSTICK**, **ADC**, **DAC**, **DMA**, **PWM** y **UART** para lograr un funcionamiento eficiente y en tiempo real.
 
 ## Objetivos y criterios de éxito
 
 ### Objetivos del proyecto
-1. Desarrollar un sistema que permita la lectura de datos de los sensores (temperatura, distancia y luz) y su procesamiento.
+1. Desarrollar un sistema que permita la lectura de datos de los sensores (temperatura, gases y luz) y su procesamiento.
 2. Controlar un LED en función de la información obtenida de los sensores, simulando la apertura y cierre de puertas.
-3. Implementar la adquisición de datos a través del **ADC** y su salida a un **DAC**.
+3. Implementar la adquisición de datos a través del **ADC** y sus salidas a un **DAC** y un **PWM**.
 4. Optimizar la comunicación entre los módulos utilizando **DMA** y asegurar un manejo adecuado de interrupciones con el **TIMER** y **SYSTICK**.
 5. Establecer una comunicación UART para la transmisión de datos o estado del sistema.
 
 ### Criterios de éxito
-1. El sistema debe ser capaz de adquirir datos en tiempo real de los sensores y procesarlos para controlar el LED y las salidas GPIO.
+1. El sistema debe ser capaz de adquirir datos en tiempo real de los sensores y procesarlos para controlar el LED, las salidas GPIO y el motor paso a paso.
 2. La respuesta del sistema al cambio en las condiciones de los sensores debe ser rápida y efectiva.
 3. El uso de **DMA** debe demostrar una carga reducida en el procesador, manteniendo la eficiencia del sistema.
 4. El código debe estar bien documentado y seguir las buenas prácticas de programación, asegurando su mantenibilidad.
@@ -35,8 +35,8 @@ Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la 
 |                               | Implementación de función de configuración de DMA                                           | CGR-X               | 1 día      | 05/11/2024      | 06/11/2024    |
 |                               | Implementación de función de configuración de PWM                                           | CGR-X               | 1 día      | 06/11/2024      | 07/11/2024    |
 |                               | Implementación de función de interrupción del Systick                                        | CGR-X               | 1 día      | 06/11/2024      | 07/11/2024    |
-| **Fase 4: Integración y pruebas** | Pruebas unitarias y de integración de todos los módulos                                   | Equipo completo     | 3 días     | 09/11/2024      | 12/11/2024    |
-| **Fase 5: Entrega**          | Documentación final del proyecto y presentación                                              | Equipo completo     | 1 día      | 13/11/2024      | 13/11/2024    |
+| **Fase 4: Integración y pruebas** | Pruebas unitarias y de integración de todos los módulos                                   | Equipo completo     | 6 días     | 09/11/2024      | 15/11/2024    |
+| **Fase 5: Entrega**          | Documentación final del proyecto y presentación                                              | Equipo completo     | 1 día      | 16/11/2024      | 15/11/2024    |
 
 ### Asignación de roles
 - **Integrante 2 (Marian1911):** Diseño de diagrama de flujo, implementación de función de configuración del DAC y función de configuración de GPIO.
