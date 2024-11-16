@@ -6,6 +6,7 @@
 # Add all the source files here, ending with \ to continue on the next line.
 SRCS =	newlib_stubs.c \
 		system_LPC17xx.c \
+		startup_LPC17xx.c\
 		main.c \
 		lpc17xx_gpio.c \
 		lpc17xx_pinsel.c \
