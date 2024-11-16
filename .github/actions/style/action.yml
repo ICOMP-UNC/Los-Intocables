@@ -39,4 +39,3 @@ runs:
       with:
         name: Clang-format errors!!!
         path: ${{ inputs.path }}/clang_format_errors.txt
-        retention-days: 1
