@@ -88,6 +88,59 @@ int main(void)
     return 0;
 }
 
+/**
+ * @brief Configuración del ADC.
+ *
+ * Esta función inicializa y habilita los canales del ADC para la adquisición de
+ * datos analógicos, además de habilitar las interrupciones correspondientes.
+ */
+void Config_ADC(void)
+{
+    ADC_Init(LPC_ADC, FREQ_ADC); /**< Inicialización del ADC con una frecuencia especificada */
+
+    // Habilitar canales ADC
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_0, ENABLE);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_1, ENABLE);
+    ADC_ChannelCmd(LPC_ADC, ADC_CHANNEL_2, ENABLE);
+
+    // Configurar interrupciones de los canales
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_0, ENABLE);
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_1, ENABLE);
+    ADC_IntConfig(LPC_ADC, ADC_CHANNEL_2, ENABLE);
+}
+
+/**
+ * @brief Configuración de UART.
+ *
+ * Inicializa la UART con los parámetros de configuración especificados,
+ * habilitando el modo FIFO y las interrupciones para transmisión.
+ */
+void Config_UART(void)
+{
+    UART_CFG_Type uart; /**< Estructura para configuración de UART */
+
+    // Configuración de parámetros básicos
+    uart.Baud_rate = UART_BAUDIOS;
+    uart.Databits = UART_DATABIT_8;
+    uart.Parity = UART_PARITY_NONE;
+    uart.Stopbits = UART_STOPBIT_1;
+
+    UART_Init(LPC_UART2, &uart); /**< Inicialización de UART2 */
+
+    UART_FIFO_CFG_Type fifo; /**< Configuración del FIFO */
+
+    // Configuración del FIFO
+    fifo.FIFO_DMAMode = ENABLE;
+    fifo.FIFO_Level = UART_FIFO_TRGLEV2;
+    fifo.FIFO_ResetTxBuf = ENABLE;
+
+    UART_FIFOConfig(LPC_UART2, &fifo);
+
+    // Habilitar transmisión e interrupciones
+    UART_TxCmd(LPC_UART2, ENABLE);
+    UART_IntConfig(LPC_UART2, UART_INTCFG_THRE, ENABLE);
+}
+
 void Config_GPDMA(void)
 {
 
