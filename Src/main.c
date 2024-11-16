@@ -66,7 +66,7 @@ void CleanData(void);
 void EnableFan(void);
 void DisableFan(void);
 void Config_SYSTICK(void);
-void Config_TIMER0(void);;
+void Config_TIMER0(void);
 void Config_PWM(void);
 void Config_GPDMA(void);
 
