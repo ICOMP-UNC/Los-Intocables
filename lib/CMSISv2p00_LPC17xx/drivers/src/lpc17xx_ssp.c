@@ -58,8 +58,8 @@ static void setSSPclock(LPC_SSP_TypeDef* SSPx, uint32_t target_clock);
 
 /*********************************************************************/ /**
                                                                          * @brief 		Setup clock rate for SSP device
-                                                                         * @param[in] 	SSPx	SSP peripheral definition,
-                                                                         *should be:
+                                                                         * @param[in] 	SSPx	SSP peripheral
+                                                                         *definition, should be:
                                                                          * 						- LPC_SSP0: SSP0
                                                                          *peripheral
                                                                          * 						- LPC_SSP1: SSP1
@@ -178,8 +178,9 @@ void SSP_Init(LPC_SSP_TypeDef* SSPx, SSP_CFG_Type* SSP_ConfigStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the SSPx peripheral
-                                                                         *registers to their default reset values.
+                                                                         * @brief		De-initializes the SSPx
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
                                                                          * @param[in]	SSPx	SSP peripheral selected,
                                                                          *should be:
                                                                          * 				 		- LPC_SSP0: SSP0
@@ -229,8 +230,9 @@ uint8_t SSP_GetDataSize(LPC_SSP_TypeDef* SSPx)
 }
 
 /*****************************************************************************/ /**
-                                                                                 * @brief		Fills each SSP_InitStruct
-                                                                                 *member with its default value:
+                                                                                 * @brief		Fills each
+                                                                                 *SSP_InitStruct member with its default
+                                                                                 *value:
                                                                                  * 				- CPHA = SSP_CPHA_FIRST
                                                                                  * 				- CPOL = SSP_CPOL_HI
                                                                                  * 				- ClockRate = 1000000
@@ -239,9 +241,9 @@ uint8_t SSP_GetDataSize(LPC_SSP_TypeDef* SSPx)
                                                                                  * 				- Mode = SSP_MASTER_MODE
                                                                                  * 				- FrameFormat =
                                                                                  *SSP_FRAME_SSP
-                                                                                 * @param[in]	SSP_InitStruct Pointer to
-                                                                                 *a SSP_CFG_Type structure which will be
-                                                                                 *initialized.
+                                                                                 * @param[in]	SSP_InitStruct Pointer
+                                                                                 *to a SSP_CFG_Type structure which will
+                                                                                 *be initialized.
                                                                                  * @return		None
                                                                                  *******************************************************************************/
 void SSP_ConfigStructInit(SSP_CFG_Type* SSP_InitStruct)
@@ -255,8 +257,8 @@ void SSP_ConfigStructInit(SSP_CFG_Type* SSP_InitStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enable or disable SSP peripheral's
-                                                                         *operation
+                                                                         * @brief		Enable or disable SSP
+                                                                         *peripheral's operation
                                                                          * @param[in]	SSPx	SSP peripheral, should
                                                                          *be:
                                                                          * 				- LPC_SSP0: SSP0 peripheral
@@ -289,12 +291,12 @@ void SSP_Cmd(LPC_SSP_TypeDef* SSPx, FunctionalState NewState)
                                                                          *peripheral
                                                                          * 						- LPC_SSP1: SSP1
                                                                          *peripheral
-                                                                         * @param[in]	NewState	New State of Loop Back
-                                                                         *mode, should be:
-                                                                         * 							- ENABLE: Enable this
-                                                                         *function
-                                                                         * 							- DISABLE: Disable this
-                                                                         *function
+                                                                         * @param[in]	NewState	New State of Loop
+                                                                         *Back mode, should be:
+                                                                         * 							- ENABLE: Enable
+                                                                         *this function
+                                                                         * 							- DISABLE: Disable
+                                                                         *this function
                                                                          * @return 		None
                                                                          **********************************************************************/
 void SSP_LoopBackCmd(LPC_SSP_TypeDef* SSPx, FunctionalState NewState)
@@ -323,13 +325,13 @@ void SSP_LoopBackCmd(LPC_SSP_TypeDef* SSPx, FunctionalState NewState)
                                                                          *peripheral
                                                                          * @param[in]	NewState	New State of Slave
                                                                          *Output function, should be:
-                                                                         * 							- ENABLE: Slave Output in
-                                                                         *normal operation
-                                                                         * 							- DISABLE: Slave Output is
-                                                                         *disabled. This blocks SSP controller from
-                                                                         *driving the transmit data line (MISO) Note:
-                                                                         *This function is available when SSP peripheral
-                                                                         *in Slave mode
+                                                                         * 							- ENABLE: Slave
+                                                                         *Output in normal operation
+                                                                         * 							- DISABLE: Slave
+                                                                         *Output is disabled. This blocks SSP controller
+                                                                         *from driving the transmit data line (MISO)
+                                                                         *Note: This function is available when SSP
+                                                                         *peripheral in Slave mode
                                                                          * @return 		None
                                                                          **********************************************************************/
 void SSP_SlaveOutputCmd(LPC_SSP_TypeDef* SSPx, FunctionalState NewState)
@@ -348,17 +350,17 @@ void SSP_SlaveOutputCmd(LPC_SSP_TypeDef* SSPx, FunctionalState NewState)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Transmit a single data through SSPx
-                                                                         *peripheral
+                                                                         * @brief		Transmit a single data through
+                                                                         *SSPx peripheral
                                                                          * @param[in]	SSPx	SSP peripheral selected,
                                                                          *should be:
                                                                          * 						- LPC_SSP0: SSP0
                                                                          *peripheral
                                                                          * 						- LPC_SSP1: SSP1
                                                                          *peripheral
-                                                                         * @param[in]	Data	Data to transmit (must be
-                                                                         *16 or 8-bit long, this depend on SSP data bit
-                                                                         *number configured)
+                                                                         * @param[in]	Data	Data to transmit (must
+                                                                         *be 16 or 8-bit long, this depend on SSP data
+                                                                         *bit number configured)
                                                                          * @return 		none
                                                                          **********************************************************************/
 void SSP_SendData(LPC_SSP_TypeDef* SSPx, uint16_t Data)
@@ -388,8 +390,8 @@ uint16_t SSP_ReceiveData(LPC_SSP_TypeDef* SSPx)
 
 /*********************************************************************/ /**
                                                                          * @brief 		SSP Read write data function
-                                                                         * @param[in]	SSPx 	Pointer to SSP peripheral,
-                                                                         *should be
+                                                                         * @param[in]	SSPx 	Pointer to SSP
+                                                                         *peripheral, should be
                                                                          * 						- LPC_SSP0: SSP0
                                                                          *peripheral
                                                                          * 						- LPC_SSP1: SSP1
@@ -400,10 +402,10 @@ uint16_t SSP_ReceiveData(LPC_SSP_TypeDef* SSPx)
                                                                          *configuration.
                                                                          * @param[in]	xfType	Transfer type, should
                                                                          *be:
-                                                                         * 						- SSP_TRANSFER_POLLING: Polling
-                                                                         *mode
-                                                                         * 						- SSP_TRANSFER_INTERRUPT:
-                                                                         *Interrupt mode
+                                                                         * 						- SSP_TRANSFER_POLLING:
+                                                                         *Polling mode
+                                                                         * 						-
+                                                                         *SSP_TRANSFER_INTERRUPT: Interrupt mode
                                                                          * @return 		Actual Data length has been
                                                                          *transferred in polling mode. In interrupt
                                                                          *mode, always return (0) Return (-1) if error.
@@ -640,20 +642,20 @@ int32_t SSP_ReadWrite(LPC_SSP_TypeDef* SSPx, SSP_DATA_SETUP_Type* dataCfg, SSP_T
                                                                          *peripheral
                                                                          * 						- LPC_SSP1: SSP1
                                                                          *peripheral
-                                                                         * @param[in]	FlagType	Type of flag to check
-                                                                         *status, should be one of following:
-                                                                         *							- SSP_STAT_TXFIFO_EMPTY: TX FIFO
-                                                                         *is empty
-                                                                         *							- SSP_STAT_TXFIFO_NOTFULL: TX
-                                                                         *FIFO is not full
-                                                                         *							- SSP_STAT_RXFIFO_NOTEMPTY: RX
-                                                                         *FIFO is not empty
-                                                                         *							- SSP_STAT_RXFIFO_FULL: RX FIFO
-                                                                         *is full
-                                                                         *							- SSP_STAT_BUSY: SSP peripheral
-                                                                         *is busy
-                                                                         * @return		New State of specified SSP status
-                                                                         *flag
+                                                                         * @param[in]	FlagType	Type of flag to
+                                                                         *check status, should be one of following:
+                                                                         *							-
+                                                                         *SSP_STAT_TXFIFO_EMPTY: TX FIFO is empty
+                                                                         *							-
+                                                                         *SSP_STAT_TXFIFO_NOTFULL: TX FIFO is not full
+                                                                         *							-
+                                                                         *SSP_STAT_RXFIFO_NOTEMPTY: RX FIFO is not empty
+                                                                         *							-
+                                                                         *SSP_STAT_RXFIFO_FULL: RX FIFO is full
+                                                                         *							- SSP_STAT_BUSY: SSP
+                                                                         *peripheral is busy
+                                                                         * @return		New State of specified SSP
+                                                                         *status flag
                                                                          **********************************************************************/
 FlagStatus SSP_GetStatus(LPC_SSP_TypeDef* SSPx, uint32_t FlagType)
 {
@@ -674,20 +676,20 @@ FlagStatus SSP_GetStatus(LPC_SSP_TypeDef* SSPx, uint32_t FlagType)
                                                                          *peripheral
                                                                          * @param[in]	IntType	Interrupt type in SSP
                                                                          *peripheral, should be:
-                                                                         * 				- SSP_INTCFG_ROR: Receive Overrun
-                                                                         *interrupt
-                                                                         * 				- SSP_INTCFG_RT: Receive Time out
-                                                                         *interrupt
-                                                                         * 				- SSP_INTCFG_RX: RX FIFO is at least
-                                                                         *half full interrupt
-                                                                         * 				- SSP_INTCFG_TX: TX FIFO is at least
-                                                                         *half empty interrupt
+                                                                         * 				- SSP_INTCFG_ROR: Receive
+                                                                         *Overrun interrupt
+                                                                         * 				- SSP_INTCFG_RT: Receive Time
+                                                                         *out interrupt
+                                                                         * 				- SSP_INTCFG_RX: RX FIFO is at
+                                                                         *least half full interrupt
+                                                                         * 				- SSP_INTCFG_TX: TX FIFO is at
+                                                                         *least half empty interrupt
                                                                          * @param[in]	NewState New State of specified
                                                                          *interrupt type, should be:
                                                                          * 				- ENABLE: Enable this interrupt
                                                                          *type
-                                                                         * 				- DISABLE: Disable this interrupt
-                                                                         *type
+                                                                         * 				- DISABLE: Disable this
+                                                                         *interrupt type
                                                                          * @return		None
                                                                          * Note: We can enable/disable multi-interrupt
                                                                          *type by OR multi value
@@ -719,12 +721,12 @@ void SSP_IntConfig(LPC_SSP_TypeDef* SSPx, uint32_t IntType, FunctionalState NewS
                                                                          *should be:
                                                                          * 				- SSP_INTSTAT_RAW_ROR: Receive
                                                                          *Overrun interrupt
-                                                                         * 				- SSP_INTSTAT_RAW_RT: Receive Time
-                                                                         *out interrupt
-                                                                         * 				- SSP_INTSTAT_RAW_RX: RX FIFO is at
-                                                                         *least half full interrupt
-                                                                         * 				- SSP_INTSTAT_RAW_TX: TX FIFO is at
-                                                                         *least half empty interrupt
+                                                                         * 				- SSP_INTSTAT_RAW_RT: Receive
+                                                                         *Time out interrupt
+                                                                         * 				- SSP_INTSTAT_RAW_RX: RX FIFO is
+                                                                         *at least half full interrupt
+                                                                         * 				- SSP_INTSTAT_RAW_TX: TX FIFO is
+                                                                         *at least half empty interrupt
                                                                          * @return	New State of specified Raw interrupt
                                                                          *status flag in SSP peripheral Note:
                                                                          *Enabling/Disabling specified interrupt in SSP
@@ -758,8 +760,8 @@ uint32_t SSP_GetRawIntStatusReg(LPC_SSP_TypeDef* SSPx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief	Check whether the specified interrupt
-                                                                         *status flag is set or not
+                                                                         * @brief	Check whether the specified
+                                                                         *interrupt status flag is set or not
                                                                          * @param[in]	SSPx	SSP peripheral selected,
                                                                          *should be:
                                                                          * 						- LPC_SSP0: SSP0
@@ -768,14 +770,14 @@ uint32_t SSP_GetRawIntStatusReg(LPC_SSP_TypeDef* SSPx)
                                                                          *peripheral
                                                                          * @param[in]	IntType	Raw Interrupt Type,
                                                                          *should be:
-                                                                         * 				- SSP_INTSTAT_ROR: Receive Overrun
-                                                                         *interrupt
-                                                                         * 				- SSP_INTSTAT_RT: Receive Time out
-                                                                         *interrupt
-                                                                         * 				- SSP_INTSTAT_RX: RX FIFO is at least
-                                                                         *half full interrupt
-                                                                         * 				- SSP_INTSTAT_TX: TX FIFO is at least
-                                                                         *half empty interrupt
+                                                                         * 				- SSP_INTSTAT_ROR: Receive
+                                                                         *Overrun interrupt
+                                                                         * 				- SSP_INTSTAT_RT: Receive Time
+                                                                         *out interrupt
+                                                                         * 				- SSP_INTSTAT_RX: RX FIFO is at
+                                                                         *least half full interrupt
+                                                                         * 				- SSP_INTSTAT_TX: TX FIFO is at
+                                                                         *least half empty interrupt
                                                                          * @return	New State of specified interrupt
                                                                          *status flag in SSP peripheral Note:
                                                                          *Enabling/Disabling specified interrupt in SSP
@@ -790,8 +792,8 @@ IntStatus SSP_GetIntStatus(LPC_SSP_TypeDef* SSPx, uint32_t IntType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief				Clear specified interrupt
-                                                                         *pending in SSP peripheral
+                                                                         * @brief				Clear specified
+                                                                         *interrupt pending in SSP peripheral
                                                                          * @param[in]	SSPx	SSP peripheral selected,
                                                                          *should be:
                                                                          *  					- LPC_SSP0: SSP0
@@ -800,12 +802,12 @@ IntStatus SSP_GetIntStatus(LPC_SSP_TypeDef* SSPx, uint32_t IntType)
                                                                          *peripheral
                                                                          * @param[in]	IntType	Interrupt pending to
                                                                          *clear, should be:
-                                                                         * 						- SSP_INTCLR_ROR: clears the
-                                                                         *"frame was received when RxFIFO was full"
+                                                                         * 						- SSP_INTCLR_ROR: clears
+                                                                         *the "frame was received when RxFIFO was full"
                                                                          *interrupt.
-                                                                         * 						- SSP_INTCLR_RT: clears the "Rx
-                                                                         *FIFO was not empty and has not been read for a
-                                                                         *timeout period" interrupt.
+                                                                         * 						- SSP_INTCLR_RT: clears
+                                                                         *the "Rx FIFO was not empty and has not been
+                                                                         *read for a timeout period" interrupt.
                                                                          * @return		None
                                                                          **********************************************************************/
 void SSP_ClearIntPending(LPC_SSP_TypeDef* SSPx, uint32_t IntType)
@@ -817,8 +819,8 @@ void SSP_ClearIntPending(LPC_SSP_TypeDef* SSPx, uint32_t IntType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief				Enable/Disable DMA function for
-                                                                         *SSP peripheral
+                                                                         * @brief				Enable/Disable DMA
+                                                                         *function for SSP peripheral
                                                                          * @param[in]	SSPx	SSP peripheral selected,
                                                                          *should be:
                                                                          *  					- LPC_SSP0: SSP0
@@ -826,10 +828,10 @@ void SSP_ClearIntPending(LPC_SSP_TypeDef* SSPx, uint32_t IntType)
                                                                          * 						- LPC_SSP1: SSP1
                                                                          *peripheral
                                                                          * @param[in]	DMAMode	Type of DMA, should be:
-                                                                         * 						- SSP_DMA_TX: DMA for the
-                                                                         *transmit FIFO
-                                                                         * 						- SSP_DMA_RX: DMA for the Receive
-                                                                         *FIFO
+                                                                         * 						- SSP_DMA_TX: DMA for
+                                                                         *the transmit FIFO
+                                                                         * 						- SSP_DMA_RX: DMA for
+                                                                         *the Receive FIFO
                                                                          * @param[in]	NewState	New State of DMA
                                                                          *function on SSP peripheral, should be:
                                                                          * 						- ENALBE: Enable this

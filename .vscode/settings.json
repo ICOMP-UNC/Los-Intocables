@@ -1,4 +1,8 @@
 {
+
+    "files.associations": {
+        "lpc17xx_gpio.h": "c"
+    }
     "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true

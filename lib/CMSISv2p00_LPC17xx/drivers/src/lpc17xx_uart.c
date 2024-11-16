@@ -56,8 +56,8 @@
 static Status uart_set_divisors(LPC_UART_TypeDef* UARTx, uint32_t baudrate);
 
 /*********************************************************************/ /**
-                                                                         * @brief		Determines best dividers to get a
-                                                                         *target clock rate
+                                                                         * @brief		Determines best dividers to get
+                                                                         *a target clock rate
                                                                          * @param[in]	UARTx	Pointer to selected UART
                                                                          *peripheral, should be:
                                                                          * 				- LPC_UART0: UART0 peripheral
@@ -192,8 +192,8 @@ static Status uart_set_divisors(LPC_UART_TypeDef* UARTx, uint32_t baudrate)
                                                                         * @brief		Initializes the UARTx peripheral
                                                                         *according to the specified parameters in the
                                                                         *UART_ConfigStruct.
-                                                                        * @param[in]	UARTx	UART peripheral selected,
-                                                                        *should be:
+                                                                        * @param[in]	UARTx	UART peripheral
+                                                                        *selected, should be:
                                                                         *   			- LPC_UART0: UART0 peripheral
                                                                         * 				- LPC_UART1: UART1 peripheral
                                                                         * 				- LPC_UART2: UART2 peripheral
@@ -262,7 +262,8 @@ void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
         ((LPC_UART1_TypeDef*)UARTx)->TER = UART_TER_TXEN;
         // Wait for current transmit complete
         while (!(((LPC_UART1_TypeDef*)UARTx)->LSR & UART_LSR_THRE))
-            ;
+        {
+        }
         // Disable Tx
         ((LPC_UART1_TypeDef*)UARTx)->TER = 0;
 
@@ -300,7 +301,8 @@ void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
         UARTx->TER = UART_TER_TXEN;
         // Wait for current transmit complete
         while (!(UARTx->LSR & UART_LSR_THRE))
-            ;
+        {
+        }
         // Disable Tx
         UARTx->TER = 0;
 
@@ -383,10 +385,11 @@ void UART_Init(LPC_UART_TypeDef* UARTx, UART_CFG_Type* UART_ConfigStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the UARTx peripheral
-                                                                         *registers to their default reset values.
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be:
+                                                                         * @brief		De-initializes the UARTx
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be:
                                                                          *   			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
@@ -434,8 +437,9 @@ void UART_DeInit(LPC_UART_TypeDef* UARTx)
 }
 
 /*****************************************************************************/ /**
-                                                                                 * @brief		Fills each UART_InitStruct
-                                                                                 *member with its default value:
+                                                                                 * @brief		Fills each
+                                                                                 *UART_InitStruct member with its
+                                                                                 *default value:
                                                                                  * 				- 9600 bps
                                                                                  * 				- 8-bit data
                                                                                  * 				- 1 Stopbit
@@ -455,16 +459,16 @@ void UART_ConfigStructInit(UART_CFG_Type* UART_InitStruct)
 
 /* UART Send/Recieve functions -------------------------------------------------*/
 /*********************************************************************/ /**
-                                                                         * @brief		Transmit a single data through UART
-                                                                         *peripheral
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be:
+                                                                         * @brief		Transmit a single data through
+                                                                         *UART peripheral
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be:
                                                                          *   			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
                                                                          * 				- LPC_UART3: UART3 peripheral
-                                                                         * @param[in]	Data	Data to transmit (must be
-                                                                         *8-bit long)
+                                                                         * @param[in]	Data	Data to transmit (must
+                                                                         *be 8-bit long)
                                                                          * @return 		None
                                                                          **********************************************************************/
 void UART_SendByte(LPC_UART_TypeDef* UARTx, uint8_t Data)
@@ -484,8 +488,8 @@ void UART_SendByte(LPC_UART_TypeDef* UARTx, uint8_t Data)
 /*********************************************************************/ /**
                                                                          * @brief		Receive a single data from UART
                                                                          *peripheral
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be:
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be:
                                                                          *  			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
@@ -751,8 +755,8 @@ void UART_IntConfig(LPC_UART_TypeDef* UARTx, UART_INT_Type UARTIntCfg, Functiona
 /********************************************************************/ /**
                                                                         * @brief 		Get current value of Line Status
                                                                         *register in UART peripheral.
-                                                                        * @param[in]	UARTx	UART peripheral selected,
-                                                                        *should be:
+                                                                        * @param[in]	UARTx	UART peripheral
+                                                                        *selected, should be:
                                                                         *  			- LPC_UART0: UART0 peripheral
                                                                         * 				- LPC_UART1: UART1 peripheral
                                                                         * 				- LPC_UART2: UART2 peripheral
@@ -786,8 +790,8 @@ uint8_t UART_GetLineStatus(LPC_UART_TypeDef* UARTx)
 /********************************************************************/ /**
                                                                         * @brief 		Get Interrupt Identification
                                                                         *value
-                                                                        * @param[in]	UARTx	UART peripheral selected,
-                                                                        *should be:
+                                                                        * @param[in]	UARTx	UART peripheral
+                                                                        *selected, should be:
                                                                         *  			- LPC_UART0: UART0 peripheral
                                                                         * 				- LPC_UART1: UART1 peripheral
                                                                         * 				- LPC_UART2: UART2 peripheral
@@ -804,8 +808,8 @@ uint32_t UART_GetIntId(LPC_UART_TypeDef* UARTx)
 /*********************************************************************/ /**
                                                                          * @brief		Check whether if UART is busy or
                                                                          *not
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be:
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be:
                                                                          *  			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
@@ -826,10 +830,10 @@ FlagStatus UART_CheckBusy(LPC_UART_TypeDef* UARTx)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Configure FIFO function on selected
-                                                                         *UART peripheral
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be:
+                                                                         * @brief		Configure FIFO function on
+                                                                         *selected UART peripheral
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be:
                                                                          *  			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
@@ -906,8 +910,8 @@ void UART_FIFOConfigStructInit(UART_FIFO_CFG_Type* UART_FIFOInitStruct)
 /*********************************************************************/ /**
                                                                          * @brief		Start/Stop Auto Baudrate
                                                                          *activity
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be
                                                                          *   			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
@@ -920,8 +924,8 @@ void UART_FIFOConfigStructInit(UART_FIFO_CFG_Type* UART_FIFOInitStruct)
                                                                          *baudrate activity, should be:
                                                                          * 				- ENABLE: Start this activity
                                                                          *				- DISABLE: Stop this activity
-                                                                         * Note:		Auto-baudrate mode enable bit will
-                                                                         *be cleared once this mode completed.
+                                                                         * Note:		Auto-baudrate mode enable bit
+                                                                         *will be cleared once this mode completed.
                                                                          * @return 		none
                                                                          **********************************************************************/
 void UART_ABCmd(LPC_UART_TypeDef* UARTx, UART_AB_CFG_Type* ABConfigStruct, FunctionalState NewState)
@@ -984,16 +988,16 @@ void UART_ABCmd(LPC_UART_TypeDef* UARTx, UART_AB_CFG_Type* ABConfigStruct, Funct
 
 /*********************************************************************/ /**
                                                                          * @brief		Clear Autobaud Interrupt Pending
-                                                                         * @param[in]	UARTx	UART peripheral selected,
-                                                                         *should be
+                                                                         * @param[in]	UARTx	UART peripheral
+                                                                         *selected, should be
                                                                          *   			- LPC_UART0: UART0 peripheral
                                                                          * 				- LPC_UART1: UART1 peripheral
                                                                          * 				- LPC_UART2: UART2 peripheral
                                                                          * 				- LPC_UART3: UART3 peripheral
                                                                          * @param[in]	ABIntType	type of auto-baud
                                                                          *interrupt, should be:
-                                                                         * 				- UART_AUTOBAUD_INTSTAT_ABEO: End of
-                                                                         *Auto-baud interrupt
+                                                                         * 				- UART_AUTOBAUD_INTSTAT_ABEO:
+                                                                         *End of Auto-baud interrupt
                                                                          * 				- UART_AUTOBAUD_INTSTAT_ABTO:
                                                                          *Auto-baud time out interrupt
                                                                          * @return 		none
@@ -1055,8 +1059,9 @@ void UART_TxCmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
 #ifdef _UART3
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enable or disable inverting serial
-                                                                         *input function of IrDA on UART peripheral.
+                                                                         * @brief		Enable or disable inverting
+                                                                         *serial input function of IrDA on UART
+                                                                         *peripheral.
                                                                          * @param[in]	UARTx UART peripheral selected,
                                                                          *should be LPC_UART3 (only)
                                                                          * @param[in]	NewState New state of inverting
@@ -1082,8 +1087,8 @@ void UART_IrDAInvtInputCmd(LPC_UART_TypeDef* UARTx, FunctionalState NewState)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enable or disable IrDA function on
-                                                                         *UART peripheral.
+                                                                         * @brief		Enable or disable IrDA function
+                                                                         *on UART peripheral.
                                                                          * @param[in]	UARTx UART peripheral selected,
                                                                          *should be LPC_UART3 (only)
                                                                          * @param[in]	NewState New state of IrDA
@@ -1217,8 +1222,8 @@ void UART_FullModemConfigMode(LPC_UART1_TypeDef* UARTx, UART_MODEM_MODE_Type Mod
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get current status of modem status
-                                                                         *register
+                                                                         * @brief		Get current status of modem
+                                                                         *status register
                                                                          * @param[in]	UARTx	LPC_UART1 (only)
                                                                          * @return 		Current value of modem status
                                                                          *register Note:	The return value of this
@@ -1226,12 +1231,12 @@ void UART_FullModemConfigMode(LPC_UART1_TypeDef* UARTx, UART_MODEM_MODE_Type Mod
                                                                          * 			UART_MODEM_STAT_type enumeration to
                                                                          *determine current flag status corresponding to
                                                                          *each modem flag status. Because some flags in
-                                                                         * 			modem status register will be cleared
-                                                                         *after reading, the next reading modem register
-                                                                         *could not be correct. So this function used to
-                                                                         * 			read modem status register in one time
-                                                                         *only, then the return value used to check all
-                                                                         *flags.
+                                                                         * 			modem status register will be
+                                                                         *cleared after reading, the next reading modem
+                                                                         *register could not be correct. So this
+                                                                         *function used to read modem status register in
+                                                                         *one time only, then the return value used to
+                                                                         *check all flags.
                                                                          **********************************************************************/
 uint8_t UART_FullModemGetStatus(LPC_UART1_TypeDef* UARTx)
 {
@@ -1242,9 +1247,9 @@ uint8_t UART_FullModemGetStatus(LPC_UART1_TypeDef* UARTx)
 /* UART RS485 functions --------------------------------------------------------------*/
 
 /*********************************************************************/ /**
-                                                                         * @brief		Configure UART peripheral in RS485
-                                                                         *mode according to the specified parameters in
-                                                                         *the RS485ConfigStruct.
+                                                                         * @brief		Configure UART peripheral in
+                                                                         *RS485 mode according to the specified
+                                                                         *parameters in the RS485ConfigStruct.
                                                                          * @param[in]	UARTx	LPC_UART1 (only)
                                                                          * @param[in]	RS485ConfigStruct Pointer to a
                                                                          *UART1_RS485_CTRLCFG_Type structure that
@@ -1319,12 +1324,12 @@ void UART_RS485Config(LPC_UART1_TypeDef* UARTx, UART1_RS485_CTRLCFG_Type* RS485C
                                                                          * @brief		Enable/Disable receiver in RS485
                                                                          *module in UART1
                                                                          * @param[in]	UARTx	LPC_UART1 (only)
-                                                                         * @param[in]	NewState	New State of command,
-                                                                         *should be:
-                                                                         * 							- ENABLE: Enable this
-                                                                         *function.
-                                                                         * 							- DISABLE: Disable this
-                                                                         *function.
+                                                                         * @param[in]	NewState	New State of
+                                                                         *command, should be:
+                                                                         * 							- ENABLE: Enable
+                                                                         *this function.
+                                                                         * 							- DISABLE: Disable
+                                                                         *this function.
                                                                          * @return		None
                                                                          **********************************************************************/
 void UART_RS485ReceiverCmd(LPC_UART1_TypeDef* UARTx, FunctionalState NewState)
@@ -1362,21 +1367,23 @@ uint32_t UART_RS485Send(LPC_UART1_TypeDef* UARTx, uint8_t* pDatFrm, uint32_t siz
         UARTx->LCR = tmp;
         cnt = UART_Send((LPC_UART_TypeDef*)UARTx, pDatFrm, size, BLOCKING);
         while (!(UARTx->LSR & UART_LSR_TEMT))
-            ;
+        {
+        }
         UARTx->LCR = save;
     }
     else
     {
         cnt = UART_Send((LPC_UART_TypeDef*)UARTx, pDatFrm, size, BLOCKING);
         while (!(UARTx->LSR & UART_LSR_TEMT))
-            ;
+        {
+        }
     }
     return cnt;
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Send Slave address frames on RS485
-                                                                         *bus.
+                                                                         * @brief		Send Slave address frames on
+                                                                         *RS485 bus.
                                                                          * @param[in]	UARTx	LPC_UART1 (only)
                                                                          * @param[in]	SlvAddr Slave Address.
                                                                          * @return		None

@@ -4,7 +4,9 @@
 
 # We define the source files that will be compiled and linked into the final binary.
 # Add all the source files here, ending with \ to continue on the next line.
-SRCS =	system_LPC17xx.c \
+SRCS =	newlib_stubs.c \
+		system_LPC17xx.c \
+		startup_LPC17xx.c\
 		main.c \
 		lpc17xx_gpio.c \
 		lpc17xx_pinsel.c \
@@ -66,7 +68,7 @@ BUILD_DIR=$(ROOT)/build
 # Create the build directory if it doesn't exist
 $(shell mkdir -p $(BUILD_DIR))
 
-vpath %.c src
+vpath %.c Src
 vpath %.c $(ROOT)/lib/CMSISv2p00_LPC17xx/src 
 vpath %.c $(ROOT)/lib/CMSISv2p00_LPC17xx/drivers/src
 

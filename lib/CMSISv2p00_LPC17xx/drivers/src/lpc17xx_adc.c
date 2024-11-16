@@ -117,8 +117,8 @@ void ADC_DeInit(LPC_ADC_TypeDef* ADCx)
 /*********************************************************************/ /**
                                                                          * @brief 		Get Result conversion from A/D
                                                                          *data register
-                                                                         * @param[in]	channel number which want to read
-                                                                         *back the result
+                                                                         * @param[in]	channel number which want to
+                                                                         *read back the result
                                                                          * @return 		Result of conversion
                                                                          *********************************************************************/
 uint32_t ADC_GetData(uint32_t channel)
@@ -183,8 +183,8 @@ void ADC_BurstCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
                                                                          *should be: LPC_ADC
                                                                          * @param[in]	NewState
                                                                          * 				-	1: AD converter is optional
-                                                                         * 				-	0: AD Converter is in power down
-                                                                         *mode
+                                                                         * 				-	0: AD Converter is in power
+                                                                         *down mode
                                                                          * @return 		None
                                                                          **********************************************************************/
 void ADC_PowerdownCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
@@ -202,9 +202,9 @@ void ADC_PowerdownCmd(LPC_ADC_TypeDef* ADCx, FunctionalState NewState)
                                                                          * @brief 		Set Edge start configuration
                                                                          * @param[in]	ADCx pointer to LPC_ADC_TypeDef,
                                                                          *should be: LPC_ADC
-                                                                         * @param[in]	EdgeOption is ADC_START_ON_RISING
-                                                                         *and ADC_START_ON_FALLING 0:ADC_START_ON_RISING
-                                                                         * 					1:ADC_START_ON_FALLING
+                                                                         * @param[in]	EdgeOption is
+                                                                         *ADC_START_ON_RISING and ADC_START_ON_FALLING
+                                                                         *0:ADC_START_ON_RISING 1:ADC_START_ON_FALLING
                                                                          * @return 		None
                                                                          **********************************************************************/
 void ADC_EdgeStartConfig(LPC_ADC_TypeDef* ADCx, uint8_t EdgeOption)
@@ -225,12 +225,15 @@ void ADC_EdgeStartConfig(LPC_ADC_TypeDef* ADCx, uint8_t EdgeOption)
                                                                          *should be: LPC_ADC
                                                                          * @param[in]	IntType: type of interrupt,
                                                                          *should be:
-                                                                         * 				- ADC_ADINTEN0: Interrupt channel
+                                                                         * 				- ADC_ADINTEN0: Interrupt
+                                                                         *channel
                                                                          *0
-                                                                         * 				- ADC_ADINTEN1: Interrupt channel
+                                                                         * 				- ADC_ADINTEN1: Interrupt
+                                                                         *channel
                                                                          *1
                                                                          * 				...
-                                                                         * 				- ADC_ADINTEN7: Interrupt channel
+                                                                         * 				- ADC_ADINTEN7: Interrupt
+                                                                         *channel
                                                                          *7
                                                                          * 				- ADC_ADGINTEN: Individual
                                                                          *channel/global flag done generate an interrupt

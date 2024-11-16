@@ -19,7 +19,7 @@ runs:
           {
               cat $DOX_CONF_FILE
               echo "OUTPUT_DIRECTORY = ${{ inputs.path }}/doc"
-              echo "INPUT" = ${{ inputs.path }}/src ${{ inputs.path }}/include
+              echo "INPUT" = ${{ inputs.path }}/Src 
           } > $DOX_CONF_FILE
 
           # Generate documentation

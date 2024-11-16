@@ -77,7 +77,8 @@ void SYSTICK_InternalInit(uint32_t time)
     if (time > maxtime)
         // Error loop
         while (1)
-            ;
+        {
+        }
     else
     {
         // Select CPU clock is System Tick clock source
@@ -112,7 +113,8 @@ void SYSTICK_ExternalInit(uint32_t freq, uint32_t time)
     if (time > maxtime)
         // Error Loop
         while (1)
-            ;
+        {
+        }
     else
     {
         // Select external clock is System Tick clock source
@@ -150,8 +152,8 @@ void SYSTICK_Cmd(FunctionalState NewState)
 /*********************************************************************/ /**
                                                                          * @brief 		Enable/disable System Tick
                                                                          *interrupt
-                                                                         * @param[in]	NewState	System Tick interrupt
-                                                                         *status, should be:
+                                                                         * @param[in]	NewState	System Tick
+                                                                         *interrupt status, should be:
                                                                          * 					- ENABLE
                                                                          * 					- DISABLE
                                                                          * @return 		None

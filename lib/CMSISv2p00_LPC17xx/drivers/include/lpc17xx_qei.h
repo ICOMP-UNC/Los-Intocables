@@ -150,9 +150,10 @@ extern "C"
                                                                          * Macro defines for QEI Interrupt Status
                                                                          *register
                                                                          **********************************************************************/
-#define QEI_INTSTAT_INX_Int  ((uint32_t)(1 << 0))  /**< Indicates that an index pulse was detected */
-#define QEI_INTSTAT_TIM_Int  ((uint32_t)(1 << 1))  /**< Indicates that a velocity timer overflow occurred */
-#define QEI_INTSTAT_VELC_Int ((uint32_t)(1 << 2))  /**< Indicates that capture velocity is less than compare velocity  \
+#define QEI_INTSTAT_INX_Int ((uint32_t)(1 << 0)) /**< Indicates that an index pulse was detected */
+#define QEI_INTSTAT_TIM_Int ((uint32_t)(1 << 1)) /**< Indicates that a velocity timer overflow occurred */
+#define QEI_INTSTAT_VELC_Int                                                                                           \
+    ((uint32_t)(1 << 2))                           /**< Indicates that capture velocity is less than compare velocity  \
                                                     */
 #define QEI_INTSTAT_DIR_Int   ((uint32_t)(1 << 3)) /**< Indicates that a change of direction was detected */
 #define QEI_INTSTAT_ERR_Int   ((uint32_t)(1 << 4)) /**< Indicates that an encoder phase error was detected */
@@ -218,10 +219,11 @@ extern "C"
 #define QEI_INTCLR_TIM_Int ((uint32_t)(1 << 1)) /**< Clear Bit Indicates that a velocity timer overflow occurred */
 #define QEI_INTCLR_VELC_Int                                                                                            \
     ((uint32_t)(1 << 2)) /**< Clear Bit Indicates that capture velocity is less than compare velocity */
-#define QEI_INTCLR_DIR_Int   ((uint32_t)(1 << 3)) /**< Clear Bit Indicates that a change of direction was detected */
-#define QEI_INTCLR_ERR_Int   ((uint32_t)(1 << 4)) /**< Clear Bit Indicates that an encoder phase error was detected */
-#define QEI_INTCLR_ENCLK_Int ((uint32_t)(1 << 5)) /**< Clear Bit Indicates that and encoder clock pulse was detected   \
-                                                   */
+#define QEI_INTCLR_DIR_Int ((uint32_t)(1 << 3)) /**< Clear Bit Indicates that a change of direction was detected */
+#define QEI_INTCLR_ERR_Int ((uint32_t)(1 << 4)) /**< Clear Bit Indicates that an encoder phase error was detected */
+#define QEI_INTCLR_ENCLK_Int                                                                                           \
+    ((uint32_t)(1 << 5)) /**< Clear Bit Indicates that and encoder clock pulse was detected                            \
+                          */
 #define QEI_INTCLR_POS0_Int                                                                                            \
     ((uint32_t)(1 << 6)) /**< Clear Bit Indicates that the position 0 compare value is equal to the                    \
                          current position */
@@ -246,8 +248,9 @@ extern "C"
                                                                          * Macro defines for QEI Interrupt Enable
                                                                          *register
                                                                          **********************************************************************/
-#define QEI_INTEN_INX_Int ((uint32_t)(1 << 0)) /**< Enabled Interrupt Bit Indicates that an index pulse was detected   \
-                                                */
+#define QEI_INTEN_INX_Int                                                                                              \
+    ((uint32_t)(1 << 0)) /**< Enabled Interrupt Bit Indicates that an index pulse was detected                         \
+                          */
 #define QEI_INTEN_TIM_Int                                                                                              \
     ((uint32_t)(1 << 1)) /**< Enabled Interrupt Bit Indicates that a velocity timer overflow occurred */
 #define QEI_INTEN_VELC_Int                                                                                             \

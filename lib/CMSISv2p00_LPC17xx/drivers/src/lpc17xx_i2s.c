@@ -256,8 +256,8 @@ void I2S_Start(LPC_I2S_TypeDef* I2Sx)
                                                                         * @brief		I2S Send data
                                                                         * @param[in]	I2Sx I2S peripheral selected,
                                                                         *should be: LPC_I2S
-                                                                        * @param[in]	BufferData pointer to uint32_t is
-                                                                        *the data will be send
+                                                                        * @param[in]	BufferData pointer to uint32_t
+                                                                        *is the data will be send
                                                                         * @return 		none
                                                                         *********************************************************************/
 void I2S_Send(LPC_I2S_TypeDef* I2Sx, uint32_t BufferData)
@@ -476,8 +476,8 @@ Status I2S_FreqConfig(LPC_I2S_TypeDef* I2Sx, uint32_t Freq, uint8_t TRMode)
                                                                         * @param[in]	I2Sx I2S peripheral selected,
                                                                         *should be: LPC_I2S
                                                                         * @param[in]	bitrate value will be set
-                                                                        * 				bitrate value should be in range:
-                                                                        *0 .. 63
+                                                                        * 				bitrate value should be in
+                                                                        *range: 0 .. 63
                                                                         * @param[in]	TRMode is transmit/receive mode,
                                                                         *should be:
                                                                         * 				- I2S_TX_MODE = 0: transmit mode

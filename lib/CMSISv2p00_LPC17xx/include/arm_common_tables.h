@@ -7,8 +7,8 @@
  * Project: 	    CMSIS DSP Library
  * Title:	    arm_common_tables.h
  *
- * Description:	This file has extern declaration for common tables like
- * Bitreverse, reciprocal etc which are used across different functions
+ * Description:	This file has extern declaration for common tables like Bitreverse, reciprocal etc which are used across
+ * different functions
  *
  * Target Processor: Cortex-M4/Cortex-M3
  *

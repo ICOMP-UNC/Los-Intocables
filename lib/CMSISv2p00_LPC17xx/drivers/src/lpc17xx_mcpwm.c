@@ -84,8 +84,8 @@ void MCPWM_Init(LPC_MCPWM_TypeDef* MCPWMx)
                                                                          * @brief		Configures each channel in MCPWM
                                                                          *peripheral according to the specified
                                                                          *parameters in the MCPWM_CHANNEL_CFG_Type.
-                                                                         * @param[in]	MCPWMx 			Motor Control PWM
-                                                                         *peripheral selected should be: LPC_MCPWM
+                                                                         * @param[in]	MCPWMx 			Motor Control
+                                                                         *PWM peripheral selected should be: LPC_MCPWM
                                                                          * @param[in]	channelNum		Channel number,
                                                                          *should be: 0..2.
                                                                          * @param[in]	channelSetup	Pointer to a
@@ -163,11 +163,11 @@ void MCPWM_ConfigChannel(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_C
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Write to MCPWM shadow registers -
-                                                                         *Update the value for period and pulse width in
-                                                                         *MCPWM peripheral.
-                                                                         * @param[in]	MCPWMx 			Motor Control PWM
-                                                                         *peripheral selected Should be: LPC_MCPWM
+                                                                         * @brief		Write to MCPWM shadow registers
+                                                                         *- Update the value for period and pulse width
+                                                                         *in MCPWM peripheral.
+                                                                         * @param[in]	MCPWMx 			Motor Control
+                                                                         *PWM peripheral selected Should be: LPC_MCPWM
                                                                          * @param[in]	channelNum		Channel Number,
                                                                          *should be: 0..2.
                                                                          * @param[in]	channelSetup	Pointer to a
@@ -199,10 +199,10 @@ void MCPWM_WriteToShadow(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channelNum, MCPWM_C
 /*********************************************************************/ /**
                                                                          * @brief		Configures capture function in
                                                                          *MCPWM peripheral
-                                                                         * @param[in]	MCPWMx 			Motor Control PWM
-                                                                         *peripheral selected Should be: LPC_MCPWM
-                                                                         * @param[in]	channelNum		MCI (Motor Control
-                                                                         *Input pin) number Should be: 0..2
+                                                                         * @param[in]	MCPWMx 			Motor Control
+                                                                         *PWM peripheral selected Should be: LPC_MCPWM
+                                                                         * @param[in]	channelNum		MCI (Motor
+                                                                         *Control Input pin) number Should be: 0..2
                                                                          * @param[in]	captureConfig	Pointer to a
                                                                          *MCPWM_CAPTURE_CFG_Type structure that contains
                                                                          *the configuration information for the
@@ -294,23 +294,23 @@ uint32_t MCPWM_GetCapture(LPC_MCPWM_TypeDef* MCPWMx, uint32_t captureChannel)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Configures Count control in MCPWM
-                                                                         *peripheral
+                                                                         * @brief		Configures Count control in
+                                                                         *MCPWM peripheral
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected Should be: LPC_MCPWM
                                                                          * @param[in]	channelNum	Channel number,
                                                                          *should be: 0..2
                                                                          * @param[in]	countMode	Count mode, should
                                                                          *be:
-                                                                         * 							- ENABLE: Enables count
-                                                                         *mode.
-                                                                         * 							- DISABLE: Disable count mode,
-                                                                         *the channel is in timer mode.
+                                                                         * 							- ENABLE: Enables
+                                                                         *count mode.
+                                                                         * 							- DISABLE: Disable
+                                                                         *count mode, the channel is in timer mode.
                                                                          * @param[in]	countConfig	Pointer to a
                                                                          *MCPWM_COUNT_CFG_Type structure that contains
                                                                          *the configuration information for the
-                                                                         *                    		specified MCPWM count
-                                                                         *control.
+                                                                         *                    		specified MCPWM
+                                                                         *count control.
                                                                          * @return		None
                                                                          **********************************************************************/
 void MCPWM_CountConfig(LPC_MCPWM_TypeDef* MCPWMx,
@@ -348,28 +348,28 @@ void MCPWM_CountConfig(LPC_MCPWM_TypeDef* MCPWMx,
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Start MCPWM activity for each MCPWM
-                                                                         *channel
+                                                                         * @brief		Start MCPWM activity for each
+                                                                         *MCPWM channel
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected Should be: LPC_MCPWM
-                                                                         * @param[in]	channel0	State of this command
-                                                                         *on channel 0:
-                                                                         * 							- ENABLE: 'Start' command will
-                                                                         *effect on channel 0
-                                                                         * 							- DISABLE: 'Start' command will
-                                                                         *not effect on channel 0
-                                                                         * @param[in]	channel1	State of this command
-                                                                         *on channel 1:
-                                                                         * 							- ENABLE: 'Start' command will
-                                                                         *effect on channel 1
-                                                                         * 							- DISABLE: 'Start' command will
-                                                                         *not effect on channel 1
-                                                                         * @param[in]	channel2	State of this command
-                                                                         *on channel 2:
-                                                                         * 							- ENABLE: 'Start' command will
-                                                                         *effect on channel 2
-                                                                         * 							- DISABLE: 'Start' command will
-                                                                         *not effect on channel 2
+                                                                         * @param[in]	channel0	State of this
+                                                                         *command on channel 0:
+                                                                         * 							- ENABLE: 'Start'
+                                                                         *command will effect on channel 0
+                                                                         * 							- DISABLE: 'Start'
+                                                                         *command will not effect on channel 0
+                                                                         * @param[in]	channel1	State of this
+                                                                         *command on channel 1:
+                                                                         * 							- ENABLE: 'Start'
+                                                                         *command will effect on channel 1
+                                                                         * 							- DISABLE: 'Start'
+                                                                         *command will not effect on channel 1
+                                                                         * @param[in]	channel2	State of this
+                                                                         *command on channel 2:
+                                                                         * 							- ENABLE: 'Start'
+                                                                         *command will effect on channel 2
+                                                                         * 							- DISABLE: 'Start'
+                                                                         *command will not effect on channel 2
                                                                          * @return		None
                                                                          **********************************************************************/
 void MCPWM_Start(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1, uint32_t channel2)
@@ -380,28 +380,28 @@ void MCPWM_Start(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Stop MCPWM activity for each MCPWM
-                                                                         *channel
+                                                                         * @brief		Stop MCPWM activity for each
+                                                                         *MCPWM channel
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected Should be: LPC_MCPWM
-                                                                         * @param[in]	channel0	State of this command
-                                                                         *on channel 0:
-                                                                         * 							- ENABLE: 'Stop' command will
-                                                                         *effect on channel 0
-                                                                         * 							- DISABLE: 'Stop' command will
-                                                                         *not effect on channel 0
-                                                                         * @param[in]	channel1	State of this command
-                                                                         *on channel 1:
-                                                                         * 							- ENABLE: 'Stop' command will
-                                                                         *effect on channel 1
-                                                                         * 							- DISABLE: 'Stop' command will
-                                                                         *not effect on channel 1
-                                                                         * @param[in]	channel2	State of this command
-                                                                         *on channel 2:
-                                                                         * 							- ENABLE: 'Stop' command will
-                                                                         *effect on channel 2
-                                                                         * 							- DISABLE: 'Stop' command will
-                                                                         *not effect on channel 2
+                                                                         * @param[in]	channel0	State of this
+                                                                         *command on channel 0:
+                                                                         * 							- ENABLE: 'Stop'
+                                                                         *command will effect on channel 0
+                                                                         * 							- DISABLE: 'Stop'
+                                                                         *command will not effect on channel 0
+                                                                         * @param[in]	channel1	State of this
+                                                                         *command on channel 1:
+                                                                         * 							- ENABLE: 'Stop'
+                                                                         *command will effect on channel 1
+                                                                         * 							- DISABLE: 'Stop'
+                                                                         *command will not effect on channel 1
+                                                                         * @param[in]	channel2	State of this
+                                                                         *command on channel 2:
+                                                                         * 							- ENABLE: 'Stop'
+                                                                         *command will effect on channel 2
+                                                                         * 							- DISABLE: 'Stop'
+                                                                         *command will not effect on channel 2
                                                                          * @return		None
                                                                          **********************************************************************/
 void MCPWM_Stop(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1, uint32_t channel2)
@@ -412,12 +412,12 @@ void MCPWM_Stop(LPC_MCPWM_TypeDef* MCPWMx, uint32_t channel0, uint32_t channel1,
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enables/Disables 3-phase AC motor
-                                                                         *mode on MCPWM peripheral
+                                                                         * @brief		Enables/Disables 3-phase AC
+                                                                         *motor mode on MCPWM peripheral
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected Should be: LPC_MCPWM
-                                                                         * @param[in]	acMode		State of this command,
-                                                                         *should be:
+                                                                         * @param[in]	acMode		State of this
+                                                                         *command, should be:
                                                                          * 							- ENABLE.
                                                                          * 							- DISABLE.
                                                                          * @return		None
@@ -483,32 +483,41 @@ void MCPWM_DCMode(LPC_MCPWM_TypeDef* MCPWMx, uint32_t dcMode, uint32_t outputInv
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Configures the specified interrupt
-                                                                         *in MCPWM peripheral
+                                                                         * @brief		Configures the specified
+                                                                         *interrupt in MCPWM peripheral
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected Should be: LPC_MCPWM
-                                                                         * @param[in]	ulIntType	Interrupt type, should
-                                                                         *be:
-                                                                         * 							- MCPWM_INTFLAG_LIM0: Limit
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_MAT0: Match
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_CAP0: Capture
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_LIM1: Limit
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_MAT1: Match
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_CAP1: Capture
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_LIM2: Limit
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_MAT2: Match
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_CAP2: Capture
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_ABORT: Fast
-                                                                         *abort interrupt
+                                                                         * @param[in]	ulIntType	Interrupt type,
+                                                                         *should be:
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM0: Limit interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT0: Match interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP0: Capture interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM1: Limit interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT1: Match interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP1: Capture interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM2: Limit interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT2: Match interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP2: Capture interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_ABORT: Fast abort interrupt
                                                                          * @param[in]	NewState	New State of this
                                                                          *command, should be:
                                                                          * 							- ENABLE.
@@ -531,32 +540,41 @@ void MCPWM_IntConfig(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType, FunctionalSt
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Sets/Forces the specified interrupt
-                                                                         *for MCPWM peripheral
+                                                                         * @brief		Sets/Forces the specified
+                                                                         *interrupt for MCPWM peripheral
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected Should be LPC_MCPWM
-                                                                         * @param[in]	ulIntType	Interrupt type, should
-                                                                         *be:
-                                                                         * 							- MCPWM_INTFLAG_LIM0: Limit
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_MAT0: Match
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_CAP0: Capture
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_LIM1: Limit
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_MAT1: Match
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_CAP1: Capture
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_LIM2: Limit
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_MAT2: Match
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_CAP2: Capture
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_ABORT: Fast
-                                                                         *abort interrupt
+                                                                         * @param[in]	ulIntType	Interrupt type,
+                                                                         *should be:
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM0: Limit interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT0: Match interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP0: Capture interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM1: Limit interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT1: Match interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP1: Capture interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM2: Limit interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT2: Match interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP2: Capture interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_ABORT: Fast abort interrupt
                                                                          * @return		None
                                                                          * Note: all these ulIntType values above can be
                                                                          *ORed together for using as input parameter.
@@ -571,28 +589,37 @@ void MCPWM_IntSet(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
                                                                          *pending for MCPWM peripheral
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected, should be: LPC_MCPWM
-                                                                         * @param[in]	ulIntType	Interrupt type, should
-                                                                         *be:
-                                                                         * 							- MCPWM_INTFLAG_LIM0: Limit
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_MAT0: Match
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_CAP0: Capture
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_LIM1: Limit
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_MAT1: Match
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_CAP1: Capture
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_LIM2: Limit
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_MAT2: Match
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_CAP2: Capture
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_ABORT: Fast
-                                                                         *abort interrupt
+                                                                         * @param[in]	ulIntType	Interrupt type,
+                                                                         *should be:
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM0: Limit interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT0: Match interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP0: Capture interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM1: Limit interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT1: Match interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP1: Capture interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM2: Limit interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT2: Match interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP2: Capture interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_ABORT: Fast abort interrupt
                                                                          * @return		None
                                                                          * Note: all these ulIntType values above can be
                                                                          *ORed together for using as input parameter.
@@ -607,28 +634,37 @@ void MCPWM_IntClear(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)
                                                                          *interrupt in MCPWM is set or not
                                                                          * @param[in]	MCPWMx 		Motor Control PWM
                                                                          *peripheral selected, should be: LPC_MCPWM
-                                                                         * @param[in]	ulIntType	Interrupt type, should
-                                                                         *be:
-                                                                         * 							- MCPWM_INTFLAG_LIM0: Limit
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_MAT0: Match
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_CAP0: Capture
-                                                                         *interrupt for channel (0)
-                                                                         * 							- MCPWM_INTFLAG_LIM1: Limit
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_MAT1: Match
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_CAP1: Capture
-                                                                         *interrupt for channel (1)
-                                                                         * 							- MCPWM_INTFLAG_LIM2: Limit
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_MAT2: Match
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_CAP2: Capture
-                                                                         *interrupt for channel (2)
-                                                                         * 							- MCPWM_INTFLAG_ABORT: Fast
-                                                                         *abort interrupt
+                                                                         * @param[in]	ulIntType	Interrupt type,
+                                                                         *should be:
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM0: Limit interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT0: Match interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP0: Capture interrupt for
+                                                                         *channel (0)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM1: Limit interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT1: Match interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP1: Capture interrupt for
+                                                                         *channel (1)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_LIM2: Limit interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_MAT2: Match interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_CAP2: Capture interrupt for
+                                                                         *channel (2)
+                                                                         * 							-
+                                                                         *MCPWM_INTFLAG_ABORT: Fast abort interrupt
                                                                          * @return		None
                                                                          **********************************************************************/
 FlagStatus MCPWM_GetIntStatus(LPC_MCPWM_TypeDef* MCPWMx, uint32_t ulIntType)

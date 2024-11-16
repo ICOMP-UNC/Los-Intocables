@@ -100,13 +100,17 @@ void EXTI_Config(EXTI_InitTypeDef* EXTICfg)
                                                                          * @brief 		Set mode for EXTI pin
                                                                          * @param[in]	EXTILine	 external interrupt
                                                                          *line, should be:
-                                                                         * 				- EXTI_EINT0: external interrupt line
+                                                                         * 				- EXTI_EINT0: external interrupt
+                                                                         *line
                                                                          *0
-                                                                         * 				- EXTI_EINT1: external interrupt line
+                                                                         * 				- EXTI_EINT1: external interrupt
+                                                                         *line
                                                                          *1
-                                                                         * 				- EXTI_EINT2: external interrupt line
+                                                                         * 				- EXTI_EINT2: external interrupt
+                                                                         *line
                                                                          *2
-                                                                         * 				- EXTI_EINT3: external interrupt line
+                                                                         * 				- EXTI_EINT3: external interrupt
+                                                                         *line
                                                                          *3
                                                                          * @param[in]	mode 	external mode, should
                                                                          *be:
@@ -130,13 +134,17 @@ void EXTI_SetMode(EXTI_LINE_ENUM EXTILine, EXTI_MODE_ENUM mode)
                                                                          * @brief 		Set polarity for EXTI pin
                                                                          * @param[in]	EXTILine	 external interrupt
                                                                          *line, should be:
-                                                                         * 				- EXTI_EINT0: external interrupt line
+                                                                         * 				- EXTI_EINT0: external interrupt
+                                                                         *line
                                                                          *0
-                                                                         * 				- EXTI_EINT1: external interrupt line
+                                                                         * 				- EXTI_EINT1: external interrupt
+                                                                         *line
                                                                          *1
-                                                                         * 				- EXTI_EINT2: external interrupt line
+                                                                         * 				- EXTI_EINT2: external interrupt
+                                                                         *line
                                                                          *2
-                                                                         * 				- EXTI_EINT3: external interrupt line
+                                                                         * 				- EXTI_EINT3: external interrupt
+                                                                         *line
                                                                          *3
                                                                          * @param[in]	polarity	 external polarity
                                                                          *value, should be:
@@ -162,13 +170,17 @@ void EXTI_SetPolarity(EXTI_LINE_ENUM EXTILine, EXTI_POLARITY_ENUM polarity)
                                                                          * @brief 		Clear External interrupt flag
                                                                          * @param[in]	EXTILine	 external interrupt
                                                                          *line, should be:
-                                                                         * 				- EXTI_EINT0: external interrupt line
+                                                                         * 				- EXTI_EINT0: external interrupt
+                                                                         *line
                                                                          *0
-                                                                         * 				- EXTI_EINT1: external interrupt line
+                                                                         * 				- EXTI_EINT1: external interrupt
+                                                                         *line
                                                                          *1
-                                                                         * 				- EXTI_EINT2: external interrupt line
+                                                                         * 				- EXTI_EINT2: external interrupt
+                                                                         *line
                                                                          *2
-                                                                         * 				- EXTI_EINT3: external interrupt line
+                                                                         * 				- EXTI_EINT3: external interrupt
+                                                                         *line
                                                                          *3
                                                                          * @return 		None
                                                                          *********************************************************************/

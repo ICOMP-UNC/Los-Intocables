@@ -229,12 +229,12 @@ static void setEmacAddr(uint8_t abStationAddr[])
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Calculates CRC code for number of
-                                                                         *bytes in the frame
+                                                                         * @brief		Calculates CRC code for number
+                                                                         *of bytes in the frame
                                                                          * @param[in]	frame_no_fcs	Pointer to the
                                                                          *first byte of the frame
-                                                                         * @param[in]	frame_len		length of the frame
-                                                                         *without the FCS
+                                                                         * @param[in]	frame_len		length of the
+                                                                         *frame without the FCS
                                                                          * @return		the CRC as a 32 bit integer
                                                                          **********************************************************************/
 static int32_t emac_CRCCalc(uint8_t frame_no_fcs[], int32_t frame_len)
@@ -338,7 +338,8 @@ Status EMAC_Init(EMAC_CFG_Type* EMAC_ConfigStruct)
 
     /* A short delay after reset. */
     for (tout = 100; tout; tout--)
-        ;
+    {
+    }
 
     /* Initialize MAC control registers. */
     LPC_EMAC->MAC1 = EMAC_MAC1_PASS_ALL;
@@ -368,7 +369,8 @@ Status EMAC_Init(EMAC_CFG_Type* EMAC_ConfigStruct)
     //	LPC_EMAC->SUPP = EMAC_SUPP_RES_RMII;
 
     for (tout = 100; tout; tout--)
-        ;
+    {
+    }
     LPC_EMAC->SUPP = 0;
 
     /* Put the DP83848C in reset mode */
@@ -420,8 +422,9 @@ Status EMAC_Init(EMAC_CFG_Type* EMAC_ConfigStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		De-initializes the EMAC peripheral
-                                                                         *registers to their default reset values.
+                                                                         * @brief		De-initializes the EMAC
+                                                                         *peripheral registers to their default reset
+                                                                         *values.
                                                                          * @param[in]	None
                                                                          * @return 		None
                                                                          **********************************************************************/
@@ -437,18 +440,18 @@ void EMAC_DeInit(void)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Check specified PHY status in EMAC
-                                                                         *peripheral
+                                                                         * @brief		Check specified PHY status in
+                                                                         *EMAC peripheral
                                                                          * @param[in]	ulPHYState	Specified PHY Status
                                                                          *Type, should be:
-                                                                         * 							- EMAC_PHY_STAT_LINK: Link
-                                                                         *Status
-                                                                         * 							- EMAC_PHY_STAT_SPEED: Speed
-                                                                         *Status
-                                                                         * 							- EMAC_PHY_STAT_DUP: Duplex
-                                                                         *Status
-                                                                         * @return		Status of specified PHY status (0
-                                                                         *or 1).
+                                                                         * 							-
+                                                                         *EMAC_PHY_STAT_LINK: Link Status
+                                                                         * 							-
+                                                                         *EMAC_PHY_STAT_SPEED: Speed Status
+                                                                         * 							- EMAC_PHY_STAT_DUP:
+                                                                         *Duplex Status
+                                                                         * @return		Status of specified PHY status
+                                                                         *(0 or 1).
                                                                          * 				(-1) if error.
                                                                          *
                                                                          * Note:
@@ -501,8 +504,8 @@ int32_t EMAC_CheckPHYStatus(uint32_t ulPHYState)
                                                                          *EMAC_MODE_100M_FULL
                                                                          * 							-
                                                                          *EMAC_MODE_100M_HALF
-                                                                         * @return		Return (0) if no error, otherwise
-                                                                         *return (-1)
+                                                                         * @return		Return (0) if no error,
+                                                                         *otherwise return (-1)
                                                                          **********************************************************************/
 int32_t EMAC_SetPHYMode(uint32_t ulPHYMode)
 {
@@ -572,12 +575,12 @@ int32_t EMAC_SetPHYMode(uint32_t ulPHYMode)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Auto-Configures value for the EMAC
-                                                                         *configuration register to match with current
-                                                                         *PHY mode
+                                                                         * @brief		Auto-Configures value for the
+                                                                         *EMAC configuration register to match with
+                                                                         *current PHY mode
                                                                          * @param[in]	None
-                                                                         * @return		Return (0) if no error, otherwise
-                                                                         *return (-1)
+                                                                         * @return		Return (0) if no error,
+                                                                         *otherwise return (-1)
                                                                          *
                                                                          * Note: The EMAC configuration will be
                                                                          *auto-configured:
@@ -680,8 +683,8 @@ int32_t EMAC_UpdatePHYStatus(void)
                                                                          * @param[in]	dstMAC_addr		Pointer to the
                                                                          *first MAC destination address, should be
                                                                          *6-bytes length, in order LSB to the MSB
-                                                                         * @param[in]	NewState		New State of this
-                                                                         *command, should be:
+                                                                         * @param[in]	NewState		New State of
+                                                                         *this command, should be:
                                                                          *									- ENABLE.
                                                                          *									- DISABLE.
                                                                          * @return		None
@@ -726,33 +729,39 @@ void EMAC_SetHashFilter(uint8_t dstMAC_addr[], FunctionalState NewState)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Enable/Disable Filter mode for each
-                                                                         *specified type EMAC peripheral
-                                                                         * @param[in]	ulFilterMode	Filter mode, should
-                                                                         *be:
-                                                                         * 								- EMAC_RFC_UCAST_EN: all
-                                                                         *frames of unicast types will be accepted
-                                                                         * 								- EMAC_RFC_BCAST_EN:
-                                                                         *broadcast frame will be accepted
-                                                                         * 								- EMAC_RFC_MCAST_EN: all
-                                                                         *frames of multicast types will be accepted
-                                                                         * 								- EMAC_RFC_UCAST_HASH_EN: The
-                                                                         *imperfect hash filter will be applied to
-                                                                         *unicast addresses
-                                                                         * 								- EMAC_RFC_MCAST_HASH_EN: The
-                                                                         *imperfect hash filter will be applied to
-                                                                         *multicast addresses
-                                                                         * 								- EMAC_RFC_PERFECT_EN: the
-                                                                         *destination address will be compared with the
-                                                                         *6 byte station address programmed in the
-                                                                         *station address by the filter
-                                                                         * 								- EMAC_RFC_MAGP_WOL_EN: the
-                                                                         *result of the magic packet filter will
-                                                                         *generate a WoL interrupt when there is a match
-                                                                         * 								- EMAC_RFC_PFILT_WOL_EN: the
-                                                                         *result of the perfect address matching filter
-                                                                         *and the imperfect hash filter will generate a
-                                                                         *WoL interrupt when there is a match
+                                                                         * @brief		Enable/Disable Filter mode for
+                                                                         *each specified type EMAC peripheral
+                                                                         * @param[in]	ulFilterMode	Filter mode,
+                                                                         *should be:
+                                                                         * 								-
+                                                                         *EMAC_RFC_UCAST_EN: all frames of unicast types
+                                                                         *will be accepted
+                                                                         * 								-
+                                                                         *EMAC_RFC_BCAST_EN: broadcast frame will be
+                                                                         *accepted
+                                                                         * 								-
+                                                                         *EMAC_RFC_MCAST_EN: all frames of multicast
+                                                                         *types will be accepted
+                                                                         * 								-
+                                                                         *EMAC_RFC_UCAST_HASH_EN: The imperfect hash
+                                                                         *filter will be applied to unicast addresses
+                                                                         * 								-
+                                                                         *EMAC_RFC_MCAST_HASH_EN: The imperfect hash
+                                                                         *filter will be applied to multicast addresses
+                                                                         * 								-
+                                                                         *EMAC_RFC_PERFECT_EN: the destination address
+                                                                         *will be compared with the 6 byte station
+                                                                         *address programmed in the station address by
+                                                                         *the filter
+                                                                         * 								-
+                                                                         *EMAC_RFC_MAGP_WOL_EN: the result of the magic
+                                                                         *packet filter will generate a WoL interrupt
+                                                                         *when there is a match
+                                                                         * 								-
+                                                                         *EMAC_RFC_PFILT_WOL_EN: the result of the
+                                                                         *perfect address matching filter and the
+                                                                         *imperfect hash filter will generate a WoL
+                                                                         *interrupt when there is a match
                                                                          * @param[in]	NewState	New State of this
                                                                          *command, should be:
                                                                          * 								- ENABLE
@@ -777,24 +786,27 @@ void EMAC_SetFilterMode(uint32_t ulFilterMode, FunctionalState NewState)
                                                                          *clear this status if it is set
                                                                          * @param[in]	ulWoLMode	WoL Filter mode,
                                                                          *should be:
-                                                                         * 								- EMAC_WOL_UCAST: unicast
-                                                                         *frames caused WoL
-                                                                         * 								- EMAC_WOL_UCAST: broadcast
-                                                                         *frame caused WoL
-                                                                         * 								- EMAC_WOL_MCAST: multicast
-                                                                         *frame caused WoL
-                                                                         * 								- EMAC_WOL_UCAST_HASH:
-                                                                         *unicast frame that passes the imperfect hash
+                                                                         * 								-
+                                                                         *EMAC_WOL_UCAST: unicast frames caused WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_UCAST: broadcast frame caused WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_MCAST: multicast frame caused WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_UCAST_HASH: unicast frame that passes
+                                                                         *the imperfect hash filter caused WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_MCAST_HASH: multicast frame that
+                                                                         *passes the imperfect hash filter caused WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_PERFECT:perfect address matching
                                                                          *filter caused WoL
-                                                                         * 								- EMAC_WOL_MCAST_HASH:
-                                                                         *multicast frame that passes the imperfect hash
-                                                                         *filter caused WoL
-                                                                         * 								- EMAC_WOL_PERFECT:perfect
-                                                                         *address matching filter caused WoL
-                                                                         * 								- EMAC_WOL_RX_FILTER: the
-                                                                         *receive filter caused WoL
-                                                                         * 								- EMAC_WOL_MAG_PACKET: the
-                                                                         *magic packet filter caused WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_RX_FILTER: the receive filter caused
+                                                                         *WoL
+                                                                         * 								-
+                                                                         *EMAC_WOL_MAG_PACKET: the magic packet filter
+                                                                         *caused WoL
                                                                          * @return		SET/RESET
                                                                          **********************************************************************/
 FlagStatus EMAC_GetWoLStatus(uint32_t ulWoLMode)
@@ -811,8 +823,8 @@ FlagStatus EMAC_GetWoLStatus(uint32_t ulWoLMode)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Write data to Tx packet data buffer
-                                                                         *at current index due to TxProduceIndex
+                                                                         * @brief		Write data to Tx packet data
+                                                                         *buffer at current index due to TxProduceIndex
                                                                          * @param[in]	pDataStruct		Pointer to a
                                                                          *EMAC_PACKETBUF_Type structure data that
                                                                          *contain specified information about Packet
@@ -863,30 +875,30 @@ void EMAC_ReadPacketBuffer(EMAC_PACKETBUF_Type* pDataStruct)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief 		Enable/Disable interrupt for each
-                                                                         *type in EMAC
-                                                                         * @param[in]	ulIntType	Interrupt Type, should
-                                                                         *be:
-                                                                         * 							- EMAC_INT_RX_OVERRUN: Receive
-                                                                         *Overrun
-                                                                         * 							- EMAC_INT_RX_ERR: Receive
-                                                                         *Error
-                                                                         * 							- EMAC_INT_RX_FIN: Receive
-                                                                         *Descriptor Finish
-                                                                         * 							- EMAC_INT_RX_DONE: Receive
-                                                                         *Done
-                                                                         * 							- EMAC_INT_TX_UNDERRUN:
-                                                                         *Transmit Under-run
-                                                                         * 							- EMAC_INT_TX_ERR: Transmit
-                                                                         *Error
-                                                                         * 							- EMAC_INT_TX_FIN: Transmit
-                                                                         *descriptor finish
-                                                                         * 							- EMAC_INT_TX_DONE: Transmit
-                                                                         *Done
-                                                                         * 							- EMAC_INT_SOFT_INT: Software
-                                                                         *interrupt
-                                                                         * 							- EMAC_INT_WAKEUP: Wakeup
-                                                                         *interrupt
+                                                                         * @brief 		Enable/Disable interrupt for
+                                                                         *each type in EMAC
+                                                                         * @param[in]	ulIntType	Interrupt Type,
+                                                                         *should be:
+                                                                         * 							-
+                                                                         *EMAC_INT_RX_OVERRUN: Receive Overrun
+                                                                         * 							- EMAC_INT_RX_ERR:
+                                                                         *Receive Error
+                                                                         * 							- EMAC_INT_RX_FIN:
+                                                                         *Receive Descriptor Finish
+                                                                         * 							- EMAC_INT_RX_DONE:
+                                                                         *Receive Done
+                                                                         * 							-
+                                                                         *EMAC_INT_TX_UNDERRUN: Transmit Under-run
+                                                                         * 							- EMAC_INT_TX_ERR:
+                                                                         *Transmit Error
+                                                                         * 							- EMAC_INT_TX_FIN:
+                                                                         *Transmit descriptor finish
+                                                                         * 							- EMAC_INT_TX_DONE:
+                                                                         *Transmit Done
+                                                                         * 							- EMAC_INT_SOFT_INT:
+                                                                         *Software interrupt
+                                                                         * 							- EMAC_INT_WAKEUP:
+                                                                         *Wakeup interrupt
                                                                          * @param[in]	NewState	New State of this
                                                                          *function, should be:
                                                                          * 							- ENABLE.
@@ -910,28 +922,28 @@ void EMAC_IntCmd(uint32_t ulIntType, FunctionalState NewState)
                                                                          *interrupt flag is set or not for each
                                                                          *interrupt type in EMAC and clear interrupt
                                                                          *pending if it is set.
-                                                                         * @param[in]	ulIntType	Interrupt Type, should
-                                                                         *be:
-                                                                         * 							- EMAC_INT_RX_OVERRUN: Receive
-                                                                         *Overrun
-                                                                         * 							- EMAC_INT_RX_ERR: Receive
-                                                                         *Error
-                                                                         * 							- EMAC_INT_RX_FIN: Receive
-                                                                         *Descriptor Finish
-                                                                         * 							- EMAC_INT_RX_DONE: Receive
-                                                                         *Done
-                                                                         * 							- EMAC_INT_TX_UNDERRUN:
-                                                                         *Transmit Under-run
-                                                                         * 							- EMAC_INT_TX_ERR: Transmit
-                                                                         *Error
-                                                                         * 							- EMAC_INT_TX_FIN: Transmit
-                                                                         *descriptor finish
-                                                                         * 							- EMAC_INT_TX_DONE: Transmit
-                                                                         *Done
-                                                                         * 							- EMAC_INT_SOFT_INT: Software
-                                                                         *interrupt
-                                                                         * 							- EMAC_INT_WAKEUP: Wakeup
-                                                                         *interrupt
+                                                                         * @param[in]	ulIntType	Interrupt Type,
+                                                                         *should be:
+                                                                         * 							-
+                                                                         *EMAC_INT_RX_OVERRUN: Receive Overrun
+                                                                         * 							- EMAC_INT_RX_ERR:
+                                                                         *Receive Error
+                                                                         * 							- EMAC_INT_RX_FIN:
+                                                                         *Receive Descriptor Finish
+                                                                         * 							- EMAC_INT_RX_DONE:
+                                                                         *Receive Done
+                                                                         * 							-
+                                                                         *EMAC_INT_TX_UNDERRUN: Transmit Under-run
+                                                                         * 							- EMAC_INT_TX_ERR:
+                                                                         *Transmit Error
+                                                                         * 							- EMAC_INT_TX_FIN:
+                                                                         *Transmit descriptor finish
+                                                                         * 							- EMAC_INT_TX_DONE:
+                                                                         *Transmit Done
+                                                                         * 							- EMAC_INT_SOFT_INT:
+                                                                         *Software interrupt
+                                                                         * 							- EMAC_INT_WAKEUP:
+                                                                         *Wakeup interrupt
                                                                          * @return		New state of specified interrupt
                                                                          *(SET or RESET)
                                                                          **********************************************************************/
@@ -1005,40 +1017,42 @@ Bool EMAC_CheckTransmitIndex(void)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get current status value of receive
-                                                                         *data (due to RxConsumeIndex)
+                                                                         * @brief		Get current status value of
+                                                                         *receive data (due to RxConsumeIndex)
                                                                          * @param[in]	ulRxStatType	Received Status
                                                                          *type, should be one of following:
-                                                                         * 							- EMAC_RINFO_CTRL_FRAME:
-                                                                         *Control Frame
-                                                                         * 							- EMAC_RINFO_VLAN: VLAN
-                                                                         *Frame
-                                                                         * 							- EMAC_RINFO_FAIL_FILT: RX
-                                                                         *Filter Failed
-                                                                         * 							- EMAC_RINFO_MCAST: Multicast
-                                                                         *Frame
-                                                                         * 							- EMAC_RINFO_BCAST: Broadcast
-                                                                         *Frame
-                                                                         * 							- EMAC_RINFO_CRC_ERR: CRC Error
-                                                                         *in Frame
-                                                                         * 							- EMAC_RINFO_SYM_ERR: Symbol
-                                                                         *Error from PHY
-                                                                         * 							- EMAC_RINFO_LEN_ERR: Length
-                                                                         *Error
-                                                                         * 							- EMAC_RINFO_RANGE_ERR: Range
-                                                                         *error(exceeded max size)
-                                                                         * 							- EMAC_RINFO_ALIGN_ERR:
-                                                                         *Alignment error
-                                                                         * 							- EMAC_RINFO_OVERRUN: Receive
-                                                                         *overrun
-                                                                         * 							- EMAC_RINFO_NO_DESCR: No new
-                                                                         *Descriptor available
-                                                                         * 							- EMAC_RINFO_LAST_FLAG: last
-                                                                         *Fragment in Frame
-                                                                         * 							- EMAC_RINFO_ERR: Error
-                                                                         *Occurred (OR of all error)
-                                                                         * @return		Current value of receive data (due
-                                                                         *to RxConsumeIndex)
+                                                                         * 							-
+                                                                         *EMAC_RINFO_CTRL_FRAME: Control Frame
+                                                                         * 							- EMAC_RINFO_VLAN:
+                                                                         *VLAN Frame
+                                                                         * 							-
+                                                                         *EMAC_RINFO_FAIL_FILT: RX Filter Failed
+                                                                         * 							- EMAC_RINFO_MCAST:
+                                                                         *Multicast Frame
+                                                                         * 							- EMAC_RINFO_BCAST:
+                                                                         *Broadcast Frame
+                                                                         * 							-
+                                                                         *EMAC_RINFO_CRC_ERR: CRC Error in Frame
+                                                                         * 							-
+                                                                         *EMAC_RINFO_SYM_ERR: Symbol Error from PHY
+                                                                         * 							-
+                                                                         *EMAC_RINFO_LEN_ERR: Length Error
+                                                                         * 							-
+                                                                         *EMAC_RINFO_RANGE_ERR: Range error(exceeded max
+                                                                         *size)
+                                                                         * 							-
+                                                                         *EMAC_RINFO_ALIGN_ERR: Alignment error
+                                                                         * 							-
+                                                                         *EMAC_RINFO_OVERRUN: Receive overrun
+                                                                         * 							-
+                                                                         *EMAC_RINFO_NO_DESCR: No new Descriptor
+                                                                         *available
+                                                                         * 							-
+                                                                         *EMAC_RINFO_LAST_FLAG: last Fragment in Frame
+                                                                         * 							- EMAC_RINFO_ERR:
+                                                                         *Error Occurred (OR of all error)
+                                                                         * @return		Current value of receive data
+                                                                         *(due to RxConsumeIndex)
                                                                          **********************************************************************/
 FlagStatus EMAC_CheckReceiveDataStatus(uint32_t ulRxStatType)
 {
@@ -1048,8 +1062,9 @@ FlagStatus EMAC_CheckReceiveDataStatus(uint32_t ulRxStatType)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Get size of current Received data
-                                                                         *in received buffer (due to RxConsumeIndex)
+                                                                         * @brief		Get size of current Received
+                                                                         *data in received buffer (due to
+                                                                         *RxConsumeIndex)
                                                                          * @param[in]	None
                                                                          * @return		Size of received data
                                                                          **********************************************************************/
@@ -1061,11 +1076,10 @@ uint32_t EMAC_GetReceiveDataSize(void)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Increase the RxConsumeIndex (after
-                                                                         *reading the Receive buffer to release the
-                                                                         *Receive buffer) and wrap-around the index if
-                                                                         * 				it reaches the maximum Receive
-                                                                         *Number
+                                                                         * @brief		Increase the RxConsumeIndex
+                                                                         *(after reading the Receive buffer to release
+                                                                         *the Receive buffer) and wrap-around the index
+                                                                         *if it reaches the maximum Receive Number
                                                                          * @param[in]	None
                                                                          * @return		None
                                                                          **********************************************************************/
@@ -1081,10 +1095,10 @@ void EMAC_UpdateRxConsumeIndex(void)
 }
 
 /*********************************************************************/ /**
-                                                                         * @brief		Increase the TxProduceIndex (after
-                                                                         *writting to the Transmit buffer to enable the
-                                                                         *Transmit buffer) and wrap-around the index if
-                                                                         * 				it reaches the maximum Transmit
+                                                                         * @brief		Increase the TxProduceIndex
+                                                                         *(after writting to the Transmit buffer to
+                                                                         *enable the Transmit buffer) and wrap-around
+                                                                         *the index if it reaches the maximum Transmit
                                                                          *Number
                                                                          * @param[in]	None
                                                                          * @return		None
