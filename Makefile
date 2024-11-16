@@ -66,7 +66,7 @@ BUILD_DIR=$(ROOT)/build
 # Create the build directory if it doesn't exist
 $(shell mkdir -p $(BUILD_DIR))
 
-vpath %.c src
+vpath %.c Src
 vpath %.c $(ROOT)/lib/CMSISv2p00_LPC17xx/src 
 vpath %.c $(ROOT)/lib/CMSISv2p00_LPC17xx/drivers/src
 
