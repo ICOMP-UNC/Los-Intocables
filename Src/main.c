@@ -525,7 +525,7 @@ void Motor_Activate(uint8_t action)
  * Verifica si las mediciones de temperatura y concentración de gas se encuentran dentro de los
  * límites de seguridad. Si no es así, activa las advertencias correspondientes para abrir o cerrar la puerta.
  */
-void Check_Measures()
+void Check_Measures(void)
 {
     if (Data[2] > MAX_GAS_CONCENTRATION)
     {
