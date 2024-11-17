@@ -24,11 +24,11 @@
 // Definicionde de pines:
 #define LED_CONTROL_1                                                          \
   ((uint32_t)(1 << 0))               // P2.00 LED 1 PARA CONTROL DE SYSTICK
-#define PIN_PWM ((uint32_t)(1 << 1)) // P2.01 LED 2 PARA CONTROL DE TIMER
-#define LED_CONTROL_3 ((uint32_t)(1 << 2)) // P2.02 LED 3 PARA CONTROL DE ADC
-#define LED_CONTROL_4 ((uint32_t)(1 << 3)) // P2.03 LED 4 PARA CONTROL DE DAC
+#define PIN_PWM ((uint32_t)(1 << 1)) // P2.01 SALIDA PWM CANAL 2
+#define LED_CONTROL_3 ((uint32_t)(1 << 2)) // P2.02 LED 3 PARA CONTROL DEL TIMER 0
+#define LED_CONTROL_4 ((uint32_t)(1 << 3)) // P2.03 LED 4 PARA CONTROL DEL UART2
 #define LED_CONTROL_5                                                          \
-  ((uint32_t)(1 << 4)) // P2.04 LED 5 PARA CONTROL DE INTERRUPCION EXTERNA
+  ((uint32_t)(1 << 4)) // P2.04 LED 5 PARA CONTROL DE LA VENTILACION
 #define PIN_BOTON ((uint32_t)(1 << 13))     // P2.10 BOTON
 #define PIN_ADC_C0 ((uint32_t)(1 << 23))    // P0.23 ADC CANAL 0
 #define PIN_ADC_C1 ((uint32_t)(1 << 24))    // P0.24 ADC CANAL 1
@@ -53,16 +53,17 @@
 // Definiciones UART:
 #define UART_BAUDIOS 9600
 
-// Definiciones varias:
+// Definiciones PWM:
+#define PWM_PRESC 100 // PWM valor de prescaler
+#define PWM_MATCH_0_VALUE 10 // PWM valor del match 0
+#define PWM_MATCH_2_VALUE 5 // PWM valor del match 2
+#define PWM_PULSE_QUANTITY 49 // PWM catidad de ciclos
+
+// Definiciones de estados:
 #define ON 1    // Estado del led - prender
 #define OFF 0   // Estado del led - apagar
 #define OPEN 1  // Accion de puerta - Abrir
 #define CLOSE 0 // Accion de puerta - Cerrar
-
-// Definiciones PWM:
-#define PWM_PRESC 100
-#define PWM_MATCH_1 20
-#define PWM_MATCH_2 10
 
 // Definiciones de mediciones de alerta
 #define MAX_GAS_CONCENTRATION 50
@@ -77,7 +78,9 @@
 volatile uint32_t DAC_Value = 0; // Valor que va a ser transferido por el DAC
 volatile uint32_t
     ADC_Results[3]; // Valores obtenidos de las convversiones del ADC
-volatile uint8_t Data[4] = {} ;
+volatile uint8_t Data[4];
+volatile uint8_t PWM_count = 0;
+GPDMA_LLI_Type ADCList;
 
 // Declaracion de banderas:
 volatile uint8_t DOOR_Flag = 0;
@@ -85,10 +88,8 @@ volatile uint8_t SYSTICK_Flag = 0;
 volatile uint8_t TIMER0_Flag = 0;
 volatile uint8_t ADC_Flag = 0;
 volatile uint8_t UART_Flag = 0;
-volatile uint8_t PWM_count = 0;
 volatile uint8_t WARNING_Open_Flag = 0;
 volatile uint8_t WARNING_Close_Flag = 0;
-GPDMA_LLI_Type ADCList;
 
 // Declaracion de funciones:
 void Config_GPIO();
@@ -330,8 +331,8 @@ void Config_PWM(void) {
   PWM_ChannelCmd(LPC_PWM1, 2, ENABLE);
 
   PWM_ChannelConfig(LPC_PWM1, 2, PWM_CHANNEL_SINGLE_EDGE);
-  PWM_MatchUpdate(LPC_PWM1, 0, PWM_MATCH_1, PWM_MATCH_UPDATE_NOW);
-  PWM_MatchUpdate(LPC_PWM1, 2, PWM_MATCH_2, PWM_MATCH_UPDATE_NOW);
+  PWM_MatchUpdate(LPC_PWM1, 0, PWM_MATCH_0_VALUE, PWM_MATCH_UPDATE_NOW);
+  PWM_MatchUpdate(LPC_PWM1, 2, PWM_MATCH_2_VALUE, PWM_MATCH_UPDATE_NOW);
   PWM_ResetCounter(LPC_PWM1);
   PWM_CounterCmd(LPC_PWM1, ENABLE);
   NVIC_EnableIRQ(PWM1_IRQn);
@@ -381,20 +382,41 @@ void Led_Control(uint8_t estado, uint32_t PIN_led) {
 // Funcion de motor:
 void Motor_Activate(uint8_t action) {
   if (action == OPEN && WARNING_Close_Flag == 0) {
+    GPIO_SetValue(PINSEL_PORT_2,
+                 PIN_DIRRECCION); // Agregar pin de salida de dirreccion.
     Config_PWM();
     Led_Control(ON, LED_CONTROL_5);
     DOOR_Flag = !DOOR_Flag;
-    GPIO_SetValue(PINSEL_PORT_2,
-                 PIN_DIRRECCION); // Agregar pin de salida de dirreccion.
   } else if (action == CLOSE && WARNING_Open_Flag == 0) {
+    GPIO_ClearValue(PINSEL_PORT_2,
+                    PIN_DIRRECCION); // Agregar pin de salida de dirreccion.
     Config_PWM();
     Led_Control(OFF, LED_CONTROL_5);
     DOOR_Flag = !DOOR_Flag;
-    GPIO_ClearValue(PINSEL_PORT_2,
-                    PIN_DIRRECCION); // Agregar pin de salida de dirreccion.
   }
 }
 
+// Funcion chequeo de mamidas obtenidas:
+void Check_Measures(){
+  if(Data[2] > MAX_GAS_CONCENTRATION){
+    WARNING_Close_Flag = SAFE;
+    WARNING_Open_Flag = WARNING;
+  }
+  else if(Data[0] < MIN_TEMPERATURE){
+    WARNING_Close_Flag = WARNING;
+    WARNING_Open_Flag = SAFE;
+  }
+  else if(Data[0] > MAX_TEMPERATURE){
+    WARNING_Close_Flag = SAFE;
+    WARNING_Open_Flag = WARNING;
+  }
+  else{
+    WARNING_Close_Flag = SAFE;
+    WARNING_Open_Flag = SAFE;
+  }
+}
+
+// Handlers de interrupciones:
 void EINT3_IRQHandler(void) {
 
   // Comprobacion del puerto
@@ -485,7 +507,7 @@ void UART2_IRQHandler(void) {
 void PWM1_IRQHandler(void) {
   if (PWM_GetIntStatus(LPC_PWM1, PWM_INTSTAT_MR0) == SET) {
     PWM_count++;
-    if (PWM_count == 49) {
+    if (PWM_count == PWM_PULSE_QUANTITY) {
       PWM_count = 0;
       PWM_MATCHCFG_Type PwmMatch0;
       PwmMatch0.IntOnMatch = ENABLE;
@@ -496,23 +518,4 @@ void PWM1_IRQHandler(void) {
     }
   }
   PWM_ClearIntPending(LPC_PWM1, PWM_INTSTAT_MR0);
-}
-
-void Check_Measures(){
-  if(Data[2] > MAX_GAS_CONCENTRATION){
-    WARNING_Close_Flag = SAFE;
-    WARNING_Open_Flag = WARNING;
-  }
-  else if(Data[0] < MIN_TEMPERATURE){
-    WARNING_Close_Flag = WARNING;
-    WARNING_Open_Flag = SAFE;
-  }
-  else if(Data[0] > MAX_TEMPERATURE){
-    WARNING_Close_Flag = SAFE;
-    WARNING_Open_Flag = WARNING;
-  }
-  else{
-    WARNING_Close_Flag = SAFE;
-    WARNING_Open_Flag = SAFE;
-  }
 }
