@@ -201,36 +201,6 @@ void Config_EINT(void) {
   NVIC_EnableIRQ(EINT3_IRQn);
 }
 
-void Config_SYSTICK(void) {
-
-  SYSTICK_InternalInit(SYSTICK_TIME);
-  SYSTICK_IntCmd(ENABLE);
-}
-
-void Config_TIMER0(void) {
-
-  // Configuracion TIMER0:
-  TIM_TIMERCFG_Type TIM0;
-
-  TIM0.PrescaleOption = TIM_PRESCALE_USVAL;
-  TIM0.PrescaleValue = TIMER0_PRESCALE_VALUE;
-  TIM_Init(LPC_TIM0, TIM_TIMER_MODE, &TIM0);
-
-  // Configuracion del match0:
-  TIM_MATCHCFG_Type Match0;
-
-  Match0.MatchChannel = 0;
-  Match0.IntOnMatch = ENABLE;
-  Match0.ResetOnMatch = ENABLE;
-  Match0.ExtMatchOutputType = TIM_EXTMATCH_NOTHING;
-  Match0.StopOnMatch = DISABLE;
-  Match0.MatchValue = TIMER0_MATCH0_VALUE;
-  TIM_ConfigMatch(LPC_TIM0, &Match0);
-
-  // Habilitacion de la interrupciones externas por parte del TIMER 0:
-  NVIC_EnableIRQ(TIMER0_IRQn);
-}
-
 void Config_ADC(void) {
 
   // Configuracion pinsel del adc:
