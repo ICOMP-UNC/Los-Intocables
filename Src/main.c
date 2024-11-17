@@ -59,6 +59,20 @@
 #define OPEN 1  // Accion de puerta - Abrir
 #define CLOSE 0 // Accion de puerta - Cerrar
 
+// Definiciones PWM:
+#define PWM_PRESC 100
+#define PWM_MATCH_1 20
+#define PWM_MATCH_2 10
+
+// Definiciones de mediciones de alerta
+#define MAX_GAS_CONCENTRATION 50
+#define MAX_TEMPERATURE 50
+#define MIN_TEMPERATURE 5
+
+// Definiciones de alerta:
+#define WARNING 1
+#define SAFE 0
+
 // Declaracion de variables:
 volatile uint32_t DAC_Value = 0; // Valor que va a ser transferido por el DAC
 volatile uint32_t
@@ -169,7 +183,7 @@ void Config_EINT(void) {
   GPIO_SetDir(PINSEL_PORT_0, PIN_BOTON, GPIO_DIR_INPUT);
 
   // Habilitamos la interrupcion por flanco ascendente
-  GPIO_IntCmd(PINSEL_PORT_0, PIN_BOTON, 1);
+  GPIO_IntCmd(PINSEL_PORT_0, PIN_BOTON, ENABLE);
 
   // Inicializacion de las interrupciones externas:
   EXTI_Init();
@@ -326,7 +340,7 @@ void Config_PWM(void) {
   // Inicializacion PWM:
   PWM_TIMERCFG_Type PwmCfg;
   PwmCfg.PrescaleOption = PWM_TIMER_PRESCALE_USVAL;
-  PwmCfg.PrescaleValue = 100;
+  PwmCfg.PrescaleValue = PWM_PRESC;
   PWM_Init(LPC_PWM1, PWM_MODE_TIMER, (void *)&PwmCfg);
 
   // Configuracion de matchs:
@@ -346,8 +360,8 @@ void Config_PWM(void) {
   PWM_ChannelCmd(LPC_PWM1, 2, ENABLE);
 
   PWM_ChannelConfig(LPC_PWM1, 2, PWM_CHANNEL_SINGLE_EDGE);
-  PWM_MatchUpdate(LPC_PWM1, 0, 20, PWM_MATCH_UPDATE_NOW);
-  PWM_MatchUpdate(LPC_PWM1, 2, 10, PWM_MATCH_UPDATE_NOW);
+  PWM_MatchUpdate(LPC_PWM1, 0, PWM_MATCH_1, PWM_MATCH_UPDATE_NOW);
+  PWM_MatchUpdate(LPC_PWM1, 2, PWM_MATCH_2, PWM_MATCH_UPDATE_NOW);
   PWM_ResetCounter(LPC_PWM1);
   PWM_CounterCmd(LPC_PWM1, ENABLE);
   NVIC_EnableIRQ(PWM1_IRQn);
@@ -459,14 +473,14 @@ void TIMER0_IRQHandler(void) {
   }
   //Ajuste del valor de la temperatura
 
-  Data[3]=DOOR_Flag;
+  Data[3] = DOOR_Flag;
 
   Check_Measures();
 
-  if(WARNING_Close_Flag == 1){
+  if(WARNING_Close_Flag == WARNING){
     Motor_Activate(CLOSE);
   }
-  if(WARNING_Open_Flag == 1){
+  if(WARNING_Open_Flag == WARNING){
     Motor_Activate(OPEN);
   }
 
@@ -515,20 +529,20 @@ void PWM1_IRQHandler(void) {
 }
 
 void Check_Measures(){
-  if(Data[2] > 50){
-    WARNING_Close_Flag = 0;
-    WARNING_Open_Flag = 1;
+  if(Data[2] > MAX_GAS_CONCENTRATION){
+    WARNING_Close_Flag = SAFE;
+    WARNING_Open_Flag = WARNING;
   }
-  else if(Data[0] < 5){
-    WARNING_Close_Flag = 1;
-    WARNING_Open_Flag = 0;
+  else if(Data[0] < MIN_TEMPERATURE){
+    WARNING_Close_Flag = WARNING;
+    WARNING_Open_Flag = SAFE;
   }
-  else if(Data[0] > 50){
-    WARNING_Close_Flag = 0;
-    WARNING_Open_Flag = 1;
+  else if(Data[0] > MAX_TEMPERATURE){
+    WARNING_Close_Flag = SAFE;
+    WARNING_Open_Flag = WARNING;
   }
   else{
-    WARNING_Close_Flag = 0;
-    WARNING_Open_Flag = 0;
+    WARNING_Close_Flag = SAFE;
+    WARNING_Open_Flag = SAFE;
   }
 }
