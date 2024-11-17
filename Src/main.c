@@ -1,3 +1,10 @@
+/** 
+ * @file main.c
+ * @brief 
+ * @authors Verstraete, Enzo - Campos Mariano - Testa Lisandro - Madrid Santiago
+ * @date 2024-11-17
+*/
+
 #ifdef __USE_CMSIS
 #include "LPC17xx.h"
 #endif
