@@ -19,7 +19,7 @@ En esta guia se van a detallar los pasos para realizar el armado a nivel de harw
 Para esta parte lo que se va a hacer es armar el circuito, preferiblemente en una protoboard primero para corroborar su correcttor funcionamiento.
 A continuacion se detalla el circuito esquematico, con el cual se va a guiar par el armado del hardware:
 
-imagen esquematico.
+![Circuito esqumatico](/images/Circuito_Esquematico.png)
 
 ## Instalacion de firmware:
 Suponiendo que ya haya realizado en correcto armado de hardware se pasara a realizar la instalacion del programa.
