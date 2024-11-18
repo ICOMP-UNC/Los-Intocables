@@ -43,3 +43,7 @@ Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la 
 - **Integrante 3 (LisandroTesta1):** Implementación de función de configuración del módulo ADC y función de configuración de UART.
 - **Integrante 4 (Santi-Madrid):** Implementación de función de configuración de timer, Systick y función de interrupción del timer.
 - **Integrante 1 (CGR-X):** Implementación de función de configuración de DMA, función de interrupción del Systick y funcion de configuracion de PWM.
+
+# Resultados
+La exposicion del trabajo donde se muestra el correcto funcionamiento del sistema completo y una breve descripcion y explicacion, se encuentra en el link a continuacion:
+[Video de culminacion del proyecto](https://www.youtube.com/watch?v=5t60uCoHwm4)
