@@ -47,3 +47,5 @@ Este proyecto tiene como objetivo desarrollar un sistema embebido utilizando la 
 # Resultados
 La exposicion del trabajo donde se muestra el correcto funcionamiento del sistema completo y una breve descripcion y explicacion, se encuentra en el link a continuacion:
 [Video de culminacion del proyecto](https://www.youtube.com/watch?v=5t60uCoHwm4)
+Tambien se adjuntan fotos del circuito armado:
+![Circuito aramdo](/images/Circuito_Armado.JPEG)
