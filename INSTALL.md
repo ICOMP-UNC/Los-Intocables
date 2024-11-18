@@ -46,8 +46,8 @@ Este proyecto esta diseñado especificamente diseño para utilizar con la placa 
 El sistema ya tiene su configuracion por defecto que esta diseñada para trabajar en condiciones **normales**, pero pueden ajustarse los limites desde el codigo suponiendo que la habitacion que usted controle requiera parametros mas especificos.
 Los parametros son:
 
-**MAX_GAS_CONCENTRATION** -> maxima concentracion de gas en porcentaje.
-**MAX_TEMPERATURE** -> maxima temperatura permitida en grados centigrados.
-**MIN_TEMPERATURE** -> minima temperatura permitida en grados centigrados.
+1. **MAX_GAS_CONCENTRATION** -> maxima concentracion de gas en porcentaje.
+2. **MAX_TEMPERATURE** -> maxima temperatura permitida en grados centigrados.
+3. **MIN_TEMPERATURE** -> minima temperatura permitida en grados centigrados.
 
 Controlando estos valores se controla el comportamiento de acuerdo a las temperaturas y concentraciones que se deseen limitar.
