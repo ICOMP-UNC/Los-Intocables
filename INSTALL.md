@@ -38,3 +38,16 @@ Al apretar el boton de Debug LinkServer nos va saltar una pantalla que muestra l
 
 ### Paso 5:
 Una vez terminado el proceso de carga nos va a aparecer para debugear el programa, si no queresmos debugear el mismo se va a dar play al programa, frenar al debug y darle al boton de reset de la placa. Una vez hecho esto el programa ya va a estar corriendo en la placa sin necesidad de seguir conectada a la computadora.
+
+## Compatibilidad:
+Este proyecto esta diseñado especificamente diseño para utilizar con la placa LPC1769 por lo que los desarrolladores del proyecto no se hacen responsables del mal funcionamiento en caso de utilizar una placa diferente. Dicho esto, las librerias estan diseñadas para toda la familia de placas LPC17xx y los datos del datasheet son los mismos para toda la familia de LPC176x, de modo que si se lo instala en ua placa de la familia LPC176x que cuente con todos los modulos utilizados deberia funcionar sin problema alguno.
+
+## Configuracion:
+El sistema ya tiene su configuracion por defecto que esta diseñada para trabajar en condiciones **normales**, pero pueden ajustarse los limites desde el codigo suponiendo que la habitacion que usted controle requiera parametros mas especificos.
+Los parametros son:
+
+**MAX_GAS_CONCENTRATION** -> maxima concentracion de gas en porcentaje.
+**MAX_TEMPERATURE** -> maxima temperatura permitida en grados centigrados.
+**MIN_TEMPERATURE** -> minima temperatura permitida en grados centigrados.
+
+Controlando estos valores se controla el comportamiento de acuerdo a las temperaturas y concentraciones que se deseen limitar.
