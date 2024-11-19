@@ -454,22 +454,22 @@ void Config_GPDMA(void)
     GPDMA_Init();
 
     // Configuración de la lista de enlaces (LLI) para la transferencia de datos:
-    ADCList.SrcAddr = (uint32_t)&(LPC_ADC->ADDR0); // Dirección de origen (registro ADDR0 del ADC)
-    ADCList.DstAddr = (uint32_t)&ADC_Results[0];   // Dirección de destino (buffer de resultados)
-    ADCList.NextLLI = (uint32_t)&ADCList;          // Apuntador al siguiente LLI (autocontinuación)
+    ADCList.SrcAddr = (uint32_t) & (LPC_ADC->ADDR0); // Dirección de origen (registro ADDR0 del ADC)
+    ADCList.DstAddr = (uint32_t)&ADC_Results[0];     // Dirección de destino (buffer de resultados)
+    ADCList.NextLLI = (uint32_t)&ADCList;            // Apuntador al siguiente LLI (autocontinuación)
     ADCList.Control = (3 << 0) | (2 << 18) | (2 << 21) | (1 << 26) | (1 << 27); // Control de transferencia
 
     // Configuración del canal DMA:
     GPDMA_Channel_CFG_Type DMAChannel0;
-    DMAChannel0.ChannelNum = 0;                           // Canal DMA 0
-    DMAChannel0.SrcMemAddr = (uint32_t)&(LPC_ADC->ADDR0); // Dirección de origen del ADC
-    DMAChannel0.DstMemAddr = (uint32_t)&ADC_Results[0];   // Dirección de destino (buffer de resultados)
-    DMAChannel0.TransferSize = 3;                         // Tamaño de la transferencia (3 canales del ADC)
-    DMAChannel0.TransferWidth = 0;                        // Ancho de datos (8 bits por defecto)
-    DMAChannel0.TransferType = GPDMA_TRANSFERTYPE_P2M;    // Tipo de transferencia (periférico a memoria)
-    DMAChannel0.SrcConn = GPDMA_CONN_ADC;                 // Conexión del origen (ADC)
-    DMAChannel0.DstConn = 0;                              // No se usa conexión para el destino
-    DMAChannel0.DMALLI = &ADCList;                        // Apunta a la lista de interrupciones (LLI)
+    DMAChannel0.ChannelNum = 0;                             // Canal DMA 0
+    DMAChannel0.SrcMemAddr = (uint32_t) & (LPC_ADC->ADDR0); // Dirección de origen del ADC
+    DMAChannel0.DstMemAddr = (uint32_t)&ADC_Results[0];     // Dirección de destino (buffer de resultados)
+    DMAChannel0.TransferSize = 3;                           // Tamaño de la transferencia (3 canales del ADC)
+    DMAChannel0.TransferWidth = 0;                          // Ancho de datos (8 bits por defecto)
+    DMAChannel0.TransferType = GPDMA_TRANSFERTYPE_P2M;      // Tipo de transferencia (periférico a memoria)
+    DMAChannel0.SrcConn = GPDMA_CONN_ADC;                   // Conexión del origen (ADC)
+    DMAChannel0.DstConn = 0;                                // No se usa conexión para el destino
+    DMAChannel0.DMALLI = &ADCList;                          // Apunta a la lista de interrupciones (LLI)
 
     // Configura el canal DMA con los parámetros definidos:
     GPDMA_Setup(&DMAChannel0);
