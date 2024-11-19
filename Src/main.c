@@ -1,9 +1,9 @@
 /**
  * @file main.c
  * @brief
- * @authors Verstraete, Enzo - Campos Mariano - Testa Lisandro - Madrid Santiago
+ * @authors Verstraete, Enzo - Campos, Mariano - Testa, Lisandro - Madrid, Santiago
  * @date 2024-11-17
- * \image html Diagrama_ED3_TPF.drawio.png "Diagrama de flujo de todo el sistema(main)"
+ * \image html /images/Diagrama_ED3_TPF.drawio.png "Diagrama de flujo de todo el sistema(main)"
  */
 
 #ifdef __USE_CMSIS
