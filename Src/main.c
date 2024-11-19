@@ -3,7 +3,7 @@
  * @brief
  * @authors Verstraete, Enzo - Campos, Mariano - Testa, Lisandro - Madrid, Santiago
  * @date 2024-11-17
- * \image html Diagrama_ED3_TPF.drawio.png "Diagrama de flujo de todo el sistema(main)"
+ * \image html images/Diagrama_ED3_TPF.drawio.png "Diagrama de flujo de todo el sistema(main)"
  */
 
 #ifdef __USE_CMSIS
@@ -30,70 +30,70 @@
 #include "system_LPC17xx.h"
 
 // Definicionde de pines:
-#define LED_CONTROL_1  ((uint32_t)(1 << 0))  // P2.00 LED 1 PARA CONTROL DE SYSTICK
-#define PIN_PWM        ((uint32_t)(1 << 1))  // P2.01 SALIDA PWM CANAL 2
-#define LED_CONTROL_3  ((uint32_t)(1 << 2))  // P2.02 LED 3 PARA CONTROL DEL TIMER 0
-#define LED_CONTROL_4  ((uint32_t)(1 << 3))  // P2.03 LED 4 PARA CONTROL DEL UART2
-#define LED_CONTROL_5  ((uint32_t)(1 << 4))  // P2.04 LED 5 PARA CONTROL DE LA VENTILACION
-#define PIN_BOTON      ((uint32_t)(1 << 13)) // P2.10 BOTON
-#define PIN_ADC_C0     ((uint32_t)(1 << 23)) // P0.23 ADC CANAL 0
-#define PIN_ADC_C1     ((uint32_t)(1 << 24)) // P0.24 ADC CANAL 1
-#define PIN_ADC_C2     ((uint32_t)(1 << 25)) // P0.25 ADC CANAL 2
-#define PIN_DAC        ((uint32_t)(1 << 26)) // P0.26 DAC
-#define PIN_DIRRECCION ((uint32_t)(1 << 5))  // P2.05 OIN DIRRECCION MOTOR
+#define LED_CONTROL_1  ((uint32_t)(1 << 0))  /**< P2.00 LED 1 PARA CONTROL DE SYSTICK */ 
+#define PIN_PWM        ((uint32_t)(1 << 1))  /**< P2.01 SALIDA PWM CANAL 2 */
+#define LED_CONTROL_3  ((uint32_t)(1 << 2))  /**< P2.02 LED 3 PARA CONTROL DEL TIMER 0 */
+#define LED_CONTROL_4  ((uint32_t)(1 << 3))  /**< P2.03 LED 4 PARA CONTROL DEL UART2 */
+#define LED_CONTROL_5  ((uint32_t)(1 << 4))  /**< P2.04 LED 5 PARA CONTROL DE LA VENTILACION */
+#define PIN_BOTON      ((uint32_t)(1 << 13)) /**< P2.10 BOTON */
+#define PIN_ADC_C0     ((uint32_t)(1 << 23)) /**< P0.23 ADC CANAL 0 */
+#define PIN_ADC_C1     ((uint32_t)(1 << 24)) /**< P0.24 ADC CANAL 1 */
+#define PIN_ADC_C2     ((uint32_t)(1 << 25)) /**< P0.25 ADC CANAL 2 */
+#define PIN_DAC        ((uint32_t)(1 << 26)) /**< P0.26 DAC */
+#define PIN_DIRRECCION ((uint32_t)(1 << 5))  /**< P2.05 OIN DIRRECCION MOTOR */
 
 // Definiciones Systick:
-#define SYSTICK_TIME 100 // Tiempo del Systick en ms
+#define SYSTICK_TIME 100 /**< Tiempo del Systick en ms */
 
 // Definiciones Timer:
-#define TIMER0_PRESCALE_VALUE 100   // Valor del prescaler del timer en us
-#define TIMER0_MATCH0_VALUE   20000 // Valor del match 0 del timer en cantidad de veces
+#define TIMER0_PRESCALE_VALUE 100   /**< Valor del prescaler del timer en us */
+#define TIMER0_MATCH0_VALUE   20000 /**< Valor del match 0 del timer en cantidad de veces */
 
 // Definiciones ADC:
-#define ADC_FREQ 200000 // Valor de la frecuencia de conversion del ADC en Hz
+#define ADC_FREQ 200000 /**< Valor de la frecuencia de conversion del ADC en Hz */
 
 // Definiciones DAC:
-#define DAC_FREQ 25000000 // Valor de la frecuencia de conversion del DAC en Hz
+#define DAC_FREQ 25000000 /**< Valor de la frecuencia de conversion del DAC en Hz */
 
 // Definiciones UART:
 #define UART_BAUDIOS 9600
 
 // Definiciones PWM:
-#define PWM_PRESC          100 // PWM valor de prescaler
-#define PWM_MATCH_0_VALUE  10  // PWM valor del match 0
-#define PWM_MATCH_2_VALUE  5   // PWM valor del match 2
-#define PWM_PULSE_QUANTITY 49  // PWM catidad de ciclos
+#define PWM_PRESC          100 /**< PWM valor de prescaler */
+#define PWM_MATCH_0_VALUE  10  /**< PWM valor del match 0 */
+#define PWM_MATCH_2_VALUE  5   /**< PWM valor del match 2 */
+#define PWM_PULSE_QUANTITY 49  /**< PWM catidad de ciclos */
 
 // Definiciones de estados:
-#define ON    1 // Estado del led - prender
-#define OFF   0 // Estado del led - apagar
-#define OPEN  1 // Accion de puerta - Abrir
-#define CLOSE 0 // Accion de puerta - Cerrar
+#define ON    1 /**< Estado del led - prender */
+#define OFF   0 /**< Estado del led - apagar */
+#define OPEN  1 /**< Accion de puerta - Abrir */
+#define CLOSE 0 /**< Accion de puerta - Cerrar */
 
 // Definiciones de mediciones de alerta
-#define MAX_GAS_CONCENTRATION 50
-#define MAX_TEMPERATURE       50
-#define MIN_TEMPERATURE       5
+#define MAX_GAS_CONCENTRATION 50 /**< Limite de concentracion de gas */
+#define MAX_TEMPERATURE       50 /**< Limite de temperatura */
+#define MIN_TEMPERATURE       5  /**< Minimo de temperatura */
 
 // Definiciones de alerta:
-#define WARNING 1
-#define SAFE    0
+#define WARNING 1 /**< Estado de advertencia */
+#define SAFE    0 /**< Estado seguro */
 
 // Declaracion de variables:
-volatile uint32_t DAC_Value = 0;  // Valor que va a ser transferido por el DAC
-volatile uint32_t ADC_Results[3]; // Valores obtenidos de las convversiones del ADC
-volatile uint8_t Data[4];
-volatile uint8_t PWM_count = 0;
-GPDMA_LLI_Type ADCList; // Declaracion lista del GPDMA
+volatile uint32_t DAC_Value = 0;  /**< Valor que va a ser transferido por el DAC */
+volatile uint32_t ADC_Results[3]; /**< Valores obtenidos de las convversiones del ADC */
+volatile uint8_t Data[4];         /**< Arreglo para almacenar datos a enviar por UART */
+volatile uint8_t PWM_count = 0;   /**< Contador de pulsos de PWM */
+GPDMA_LLI_Type ADCList;           /**< Declaracion lista del GPDMA */
 
 // Declaracion de banderas:
-volatile uint8_t DOOR_Flag = 0;    // Babndera de la ventilacion
-volatile uint8_t SYSTICK_Flag = 0; // Bandera del SYSTICK
-volatile uint8_t TIMER0_Flag = 0;  // Bandera del TIMER 0
-volatile uint8_t ADC_Flag = 0;     // Bandera del ADC
-volatile uint8_t UART_Flag = 0;    // Bandera del UART2
-volatile uint8_t WARNING_Open_Flag = 0;
-volatile uint8_t WARNING_Close_Flag = 0;
+volatile uint8_t DOOR_Flag = 0;    /**< Bandera de la ventilacion */
+volatile uint8_t SYSTICK_Flag = 0; /**< Bandera del SYSTICK */
+volatile uint8_t TIMER0_Flag = 0;  /**< Bandera del TIMER 0 */
+volatile uint8_t ADC_Flag = 0;     /**< Bandera del ADC */
+volatile uint8_t UART_Flag = 0;    /**< Bandera del UART2 */
+volatile uint8_t WARNING_Open_Flag = 0; /**< Bandera de apertura de ventilacion */
+volatile uint8_t WARNING_Close_Flag = 0; /**< Bandera de cierre de ventilacion */
 
 // Declaración de funciones de configuración de los periféricos y control
 void Config_GPIO();                                 // Configuración de GPIO
