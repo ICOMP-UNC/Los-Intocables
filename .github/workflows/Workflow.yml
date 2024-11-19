@@ -11,11 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
-        with:
-          release: "13.3.Rel1" # <-- The compiler release to use
-
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -27,6 +22,11 @@ jobs:
           packages: doxygen gcovr lcov cppcheck graphviz clang-format
           version: 1.0
 
+      - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
+        uses: actions/setup-arm-toolchain@v1
+        with:
+          gcc-version: '13.3.rel1' # Especificar la versión deseada del compilador
+
       - name: Run style check
         uses: ./.github/actions/style
 
@@ -35,3 +35,4 @@ jobs:
 
       - name: Build project
         uses: ./.github/actions/build
+
