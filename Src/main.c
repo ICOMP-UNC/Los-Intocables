@@ -137,7 +137,9 @@ int main(void)
     Config_GPDMA();
 
     // Bucle principal: ejecuta el sistema de forma continua
-    while (TRUE);
+    while (TRUE)
+    {
+    }
 
     return 0;
 }
