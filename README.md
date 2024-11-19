@@ -50,4 +50,6 @@ La exposicion del trabajo donde se muestra el correcto funcionamiento del sistem
 
 Tambien se adjuntan fotos del circuito armado:
 
-![Circuito armado](/images/Circuito_Armado_3.JPEG).
+![Circuito armado - vista arriba](/images/Circuito_Armado_3_1.png).
+
+![Circuito armado - vista costado](/images/Circuito_Armado_7_1.png).
