@@ -30,7 +30,7 @@
 #include "system_LPC17xx.h"
 
 // Definicionde de pines:
-#define LED_CONTROL_1  ((uint32_t)(1 << 0))  /**< P2.00 LED 1 PARA CONTROL DE SYSTICK */ 
+#define LED_CONTROL_1  ((uint32_t)(1 << 0))  /**< P2.00 LED 1 PARA CONTROL DE SYSTICK */
 #define PIN_PWM        ((uint32_t)(1 << 1))  /**< P2.01 SALIDA PWM CANAL 2 */
 #define LED_CONTROL_3  ((uint32_t)(1 << 2))  /**< P2.02 LED 3 PARA CONTROL DEL TIMER 0 */
 #define LED_CONTROL_4  ((uint32_t)(1 << 3))  /**< P2.03 LED 4 PARA CONTROL DEL UART2 */
@@ -87,12 +87,12 @@ volatile uint8_t PWM_count = 0;   /**< Contador de pulsos de PWM */
 GPDMA_LLI_Type ADCList;           /**< Declaracion lista del GPDMA */
 
 // Declaracion de banderas:
-volatile uint8_t DOOR_Flag = 0;    /**< Bandera de la ventilacion */
-volatile uint8_t SYSTICK_Flag = 0; /**< Bandera del SYSTICK */
-volatile uint8_t TIMER0_Flag = 0;  /**< Bandera del TIMER 0 */
-volatile uint8_t ADC_Flag = 0;     /**< Bandera del ADC */
-volatile uint8_t UART_Flag = 0;    /**< Bandera del UART2 */
-volatile uint8_t WARNING_Open_Flag = 0; /**< Bandera de apertura de ventilacion */
+volatile uint8_t DOOR_Flag = 0;          /**< Bandera de la ventilacion */
+volatile uint8_t SYSTICK_Flag = 0;       /**< Bandera del SYSTICK */
+volatile uint8_t TIMER0_Flag = 0;        /**< Bandera del TIMER 0 */
+volatile uint8_t ADC_Flag = 0;           /**< Bandera del ADC */
+volatile uint8_t UART_Flag = 0;          /**< Bandera del UART2 */
+volatile uint8_t WARNING_Open_Flag = 0;  /**< Bandera de apertura de ventilacion */
 volatile uint8_t WARNING_Close_Flag = 0; /**< Bandera de cierre de ventilacion */
 
 // Declaración de funciones de configuración de los periféricos y control
@@ -137,8 +137,7 @@ int main(void)
     Config_GPDMA();
 
     // Bucle principal: ejecuta el sistema de forma continua
-    while (TRUE)
-        ;
+    while (TRUE);
 
     return 0;
 }
@@ -453,22 +452,22 @@ void Config_GPDMA(void)
     GPDMA_Init();
 
     // Configuración de la lista de enlaces (LLI) para la transferencia de datos:
-    ADCList.SrcAddr = (uint32_t) & (LPC_ADC->ADDR0); // Dirección de origen (registro ADDR0 del ADC)
-    ADCList.DstAddr = (uint32_t)&ADC_Results[0];     // Dirección de destino (buffer de resultados)
-    ADCList.NextLLI = (uint32_t)&ADCList;            // Apuntador al siguiente LLI (autocontinuación)
+    ADCList.SrcAddr = (uint32_t)&(LPC_ADC->ADDR0); // Dirección de origen (registro ADDR0 del ADC)
+    ADCList.DstAddr = (uint32_t)&ADC_Results[0];   // Dirección de destino (buffer de resultados)
+    ADCList.NextLLI = (uint32_t)&ADCList;          // Apuntador al siguiente LLI (autocontinuación)
     ADCList.Control = (3 << 0) | (2 << 18) | (2 << 21) | (1 << 26) | (1 << 27); // Control de transferencia
 
     // Configuración del canal DMA:
     GPDMA_Channel_CFG_Type DMAChannel0;
-    DMAChannel0.ChannelNum = 0;                             // Canal DMA 0
-    DMAChannel0.SrcMemAddr = (uint32_t) & (LPC_ADC->ADDR0); // Dirección de origen del ADC
-    DMAChannel0.DstMemAddr = (uint32_t)&ADC_Results[0];     // Dirección de destino (buffer de resultados)
-    DMAChannel0.TransferSize = 3;                           // Tamaño de la transferencia (3 canales del ADC)
-    DMAChannel0.TransferWidth = 0;                          // Ancho de datos (8 bits por defecto)
-    DMAChannel0.TransferType = GPDMA_TRANSFERTYPE_P2M;      // Tipo de transferencia (periférico a memoria)
-    DMAChannel0.SrcConn = GPDMA_CONN_ADC;                   // Conexión del origen (ADC)
-    DMAChannel0.DstConn = 0;                                // No se usa conexión para el destino
-    DMAChannel0.DMALLI = &ADCList;                          // Apunta a la lista de interrupciones (LLI)
+    DMAChannel0.ChannelNum = 0;                           // Canal DMA 0
+    DMAChannel0.SrcMemAddr = (uint32_t)&(LPC_ADC->ADDR0); // Dirección de origen del ADC
+    DMAChannel0.DstMemAddr = (uint32_t)&ADC_Results[0];   // Dirección de destino (buffer de resultados)
+    DMAChannel0.TransferSize = 3;                         // Tamaño de la transferencia (3 canales del ADC)
+    DMAChannel0.TransferWidth = 0;                        // Ancho de datos (8 bits por defecto)
+    DMAChannel0.TransferType = GPDMA_TRANSFERTYPE_P2M;    // Tipo de transferencia (periférico a memoria)
+    DMAChannel0.SrcConn = GPDMA_CONN_ADC;                 // Conexión del origen (ADC)
+    DMAChannel0.DstConn = 0;                              // No se usa conexión para el destino
+    DMAChannel0.DMALLI = &ADCList;                        // Apunta a la lista de interrupciones (LLI)
 
     // Configura el canal DMA con los parámetros definidos:
     GPDMA_Setup(&DMAChannel0);
