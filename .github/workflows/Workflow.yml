@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
-        uses: shymega/setup-arm-none-eabi@v1
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
         with:
           release: "13.3.Rel1" # <-- The compiler release to use
 
