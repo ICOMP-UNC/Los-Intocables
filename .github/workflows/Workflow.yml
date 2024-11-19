@@ -23,9 +23,9 @@ jobs:
           version: 1.0
 
       - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
-        uses: actions/setup-arm-toolchain@v1
+        uses: shymega/setup-arm-none-eabi@v1
         with:
-          gcc-version: '13.3.rel1' # Especificar la versión deseada del compilador
+          version: '13.3' # Versión del compilador ARM GCC
 
       - name: Run style check
         uses: ./.github/actions/style
@@ -35,4 +35,3 @@ jobs:
 
       - name: Build project
         uses: ./.github/actions/build
-
