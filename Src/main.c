@@ -604,13 +604,9 @@ void EINT3_IRQHandler(void)
  */
 void SysTick_Handler(void)
 {
-    uint32_t adc_result_temp;
-
-    // Se extrae el resultado del ADC para el canal 0, desplazando 4 bits a la derecha:
-    adc_result_temp = (ADC_Results[0] & 0xFFF0) >> 4;
 
     // Se calcula el valor a enviar al DAC:
-    DAC_Value = (uint32_t)((adc_result_temp) / 4);
+    DAC_Value = (100 - Data[1]) * 10;
 
     // Envío del valor calculado al DAC:
     DAC_UpdateValue(LPC_DAC, DAC_Value);
