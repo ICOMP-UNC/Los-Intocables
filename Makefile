@@ -17,8 +17,8 @@ SRCS =	newlib_stubs.c \
 		lpc17xx_dac.c \
 		lpc17xx_gpdma.c \
 		lpc17xx_uart.c \
-		lpc17xx_nvic.C \
-		lpc17xx_exti.C
+		lpc17xx_nvic.c \
+		lpc17xx_exti.c
  
 	 
 # Define the name of the project
