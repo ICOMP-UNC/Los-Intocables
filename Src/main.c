@@ -56,7 +56,7 @@
 #define DAC_FREQ 25000000 /**< Valor de la frecuencia de conversion del DAC en Hz */
 
 // Definiciones UART:
-#define UART_BAUDIOS 9600
+#define UART_BAUDIOS 9600 /**< Valor de la velocidad de transmision de UART en BAUDIOS */
 
 // Definiciones PWM:
 #define PWM_PRESC          100 /**< PWM valor de prescaler */
@@ -109,7 +109,11 @@ void Led_Control(uint8_t estado, uint32_t PIN_led); // Función para controlar l
 void Motor_Activate(uint8_t action);                // Función para activar el motor (abrir/cerrar puerta)
 void Check_Measures();                              // Función para verificar las mediciones y condiciones de alerta
 
-// Función principal: configuración inicial y ejecución continua
+/**
+ * @brief Funcion principal.
+ *
+ * Llama a la configuracion de perifericos y ejecucion continua.
+ */
 int main(void)
 {
     SystemInit(); // Inicialización del sistema (frecuencia del reloj y demás configuraciones)
